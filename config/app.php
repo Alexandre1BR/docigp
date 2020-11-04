@@ -18,9 +18,9 @@ return [
 
     'long_name' => env('APP_NAME_LONG'),
 
-    'year_round_change' =>env('YEAR_ROUND_CHANGE'),
+    'year_round_change' => env('YEAR_ROUND_CHANGE'),
 
-    'month_round_change' =>env('MONTH_ROUND_CHANGE'),
+    'month_round_change' => env('MONTH_ROUND_CHANGE'),
 
     /*
     |--------------------------------------------------------------------------
@@ -204,7 +204,9 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\HorizonServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        App\Providers\ViewComposerServiceProvider::class
+        App\Providers\ViewComposerServiceProvider::class,
+        Barryvdh\DomPDF\ServiceProvider::class,
+        Chumper\Zipper\ZipperServiceProvider::class
     ],
 
     /*
@@ -253,6 +255,7 @@ return [
         'Str' => Illuminate\Support\Str::class,
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
-        'View' => Illuminate\Support\Facades\View::class
+        'View' => Illuminate\Support\Facades\View::class,
+        'Zipper' => Chumper\Zipper\Zipper::class
     ]
 ];
