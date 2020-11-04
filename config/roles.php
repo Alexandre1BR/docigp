@@ -23,6 +23,8 @@ return [
                 //Tem que conter todas as habilidades
                 '*' => 'PODE FAZER TUDO',
 
+                'annual-reports:view' => 'Gerar relatório',
+
                 'assign:chief' => 'Atribuir perfil de Chefe',
                 'assign:manager' => 'Atribuir perfil de Gestor',
                 'assign:advisor' => 'Atribuir perfil de Assessor',
@@ -143,6 +145,8 @@ return [
             'group' => Constants::ROLE_ACI,
 
             'abilities' => [
+                'annual-reports:view',
+
                 'assign:assistant',
                 'assign:manager',
                 'assign:employee',
