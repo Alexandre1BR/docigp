@@ -105,6 +105,13 @@ function make_pdf_filename($baseName)
     return Str::slug($baseName . ' ' . now()->format('Y m d H i')) . '.pdf';
 }
 
+function make_filename($baseName, $extension)
+{
+    return Str::slug($baseName . ' ' . now()->format('Y m d H i')) .
+        '.' .
+        $extension;
+}
+
 function extract_info_from_mailgun_webhook($data)
 {
     return [
@@ -254,8 +261,9 @@ function to_reais($number)
     return 'R$ ' . number_format($number, 2, ',', '.');
 }
 
-function trunc_value_with_two_digits($number){
-    return intval($number * 100)/100;
+function trunc_value_with_two_digits($number)
+{
+    return intval($number * 100) / 100;
 }
 
 function get_current_department_id()
