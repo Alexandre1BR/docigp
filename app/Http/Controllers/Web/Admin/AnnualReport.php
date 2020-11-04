@@ -13,15 +13,24 @@ class AnnualReport extends Controller
 {
     public function index()
     {
-        $zipPath = public_path(make_filename('report', 'zip'));
+        $year = '2019';
+
+        set_time_limit(0);
+
+        $zipFolderPath = public_path('temp-zip/');
+
+        if (\File::exists($zipFolderPath)) {
+            \File::deleteDirectory($zipFolderPath);
+        }
+
+        $zipPath =
+            $zipFolderPath . make_filename('relatorio-anual-' . $year, 'zip');
 
         $zipper = app(Zipper::class)->make($zipPath);
 
-        $folderPath = public_path('temp/');
+        $folderPath = public_path('temp-pdf/');
 
-        foreach (Congressman::all() as $congressman) {
-            set_time_limit(0);
-
+        foreach (Congressman::limit(1)->get() as $congressman) {
             app(PDF::class)
                 ->initialize(
                     view('admin.annual-report.index')
@@ -30,7 +39,17 @@ class AnnualReport extends Controller
                                 AnnualReportService::class
                             )->getMainTable('2019', $congressman)
                         )
-                        ->render()
+                        ->with(
+                            'logoBlob',
+                            base64_encode(
+                                file_get_contents(
+                                    public_path('img/logo-alerj.png')
+                                )
+                            )
+                        )
+                        ->render(),
+                    'A4',
+                    'landscape'
                 )
                 ->save($folderPath . make_pdf_filename($congressman->name));
         }
@@ -42,7 +61,6 @@ class AnnualReport extends Controller
         if (\File::exists($folderPath)) {
             \File::deleteDirectory($folderPath);
         }
-        Storage::delete($zipPath);
 
         return response()->download($zipPath);
     }

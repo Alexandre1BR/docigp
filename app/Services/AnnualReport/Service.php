@@ -110,7 +110,14 @@ class Service
                             )
                             ->first()
                     ) {
-                        $row->push($congressmanBudget->percentage);
+                        $row->push(
+                            number_format(
+                                $congressmanBudget->percentage,
+                                2,
+                                '.',
+                                ''
+                            )
+                        );
 
                         //Calcula crédito
                         Entry::where(
@@ -140,11 +147,13 @@ class Service
                                 $this->refundTotal += abs($item->value);
                             });
                     } else {
-                        $row->push('0.00');
+                        $row->push(number_format(0, 2, '.', ''));
                     }
+                } else {
+                    $row->push(number_format(0, 2, '.', ''));
                 }
             } else {
-                $row->push('0.00');
+                $row->push(number_format(0, 2, '.', ''));
             }
         }
         $row->push('');
@@ -195,25 +204,22 @@ class Service
 
                             $total += abs($entries->soma);
 
-                            $soma = number_format(
-                                abs($entries->soma),
-                                2,
-                                '.',
-                                ''
-                            );
+                            $soma = to_reais(abs($entries->soma));
 
                             $row->push($soma);
                         } else {
-                            $row->push('0.00');
+                            $row->push(to_reais(0));
                         }
+                    } else {
+                        $row->push(to_reais(0));
                     }
                 } else {
-                    $row->push('0.00');
+                    $row->push(to_reais(0));
                 }
             }
 
             $this->spentTotal += $total;
-            $row->push(number_format($total, 2, '.', ''));
+            $row->push(to_reais($total));
 
             $table->push($row);
         }
@@ -266,13 +272,15 @@ class Service
 
                         $total = abs($entries->first()->soma);
 
-                        $row->push(number_format($total, 2, '.', ''));
+                        $row->push(to_reais($total));
                     } else {
-                        $row->push('0.00');
+                        $row->push(to_reais(0));
                     }
+                } else {
+                    $row->push(to_reais(0));
                 }
             } else {
-                $row->push('0.00');
+                $row->push(to_reais(0));
             }
         }
         $row->push('');
@@ -314,10 +322,12 @@ class Service
             'year' => $year,
             'mainTable' => $table,
             'totalsTable' => [
-                'creditTotal' => $this->creditTotal,
-                'refundTotal' => $this->refundTotal,
-                'spentTotal' => $this->spentTotal,
-                'spentAndRefundTotal' => $this->spentTotal + $this->refundTotal,
+                'creditTotal' => to_reais($this->creditTotal),
+                'refundTotal' => to_reais($this->refundTotal),
+                'spentTotal' => to_reais($this->spentTotal),
+                'spentAndRefundTotal' => to_reais(
+                    $this->spentTotal + $this->refundTotal
+                ),
                 'situation' =>
                     $this->creditTotal == $this->refundTotal + $this->spentTotal
                         ? 'REGULAR'

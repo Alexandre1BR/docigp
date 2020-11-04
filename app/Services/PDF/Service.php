@@ -8,8 +8,12 @@ class Service
 {
     protected $pdf;
 
-    public function initialize($html, $paperSize = 'A4', $extraOptions = [])
-    {
+    public function initialize(
+        $html,
+        $paperSize = 'A4',
+        $orientation = 'portrait',
+        $extraOptions = []
+    ) {
         $this->pdf = PDF::setOptions(
             array_merge(
                 [
@@ -17,7 +21,7 @@ class Service
                 ],
                 $extraOptions
             )
-        )->setPaper($paperSize);
+        )->setPaper($paperSize, $orientation);
 
         $this->pdf->getDomPDF()->set_base_path(realpath(public_path('css')));
 
