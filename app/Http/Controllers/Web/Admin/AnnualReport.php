@@ -7,13 +7,19 @@ use App\Http\Controllers\Controller;
 use App\Services\PDF\Service as PDF;
 use Chumper\Zipper\Zipper;
 use App\Services\AnnualReport\Service as AnnualReportService;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class AnnualReport extends Controller
 {
     public function index()
     {
-        $year = '2019';
+        return view('admin.annual-reports.index');
+    }
+
+    public function generate(Request $request)
+    {
+        $year = $request->get('year');
 
         set_time_limit(0);
 
@@ -33,7 +39,7 @@ class AnnualReport extends Controller
         foreach (Congressman::limit(1)->get() as $congressman) {
             app(PDF::class)
                 ->initialize(
-                    view('admin.annual-report.index')
+                    view('admin.annual-reports.pdf')
                         ->with(
                             $parameters = app(
                                 AnnualReportService::class

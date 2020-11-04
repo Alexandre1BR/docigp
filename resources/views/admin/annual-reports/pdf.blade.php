@@ -93,8 +93,8 @@
 <h2>
     DEPUTADO(A): {{$congressman->name}}
 </h2>
-    @include('admin.annual-report.partials.table')
-    @include('admin.annual-report.partials.totals-table')
+    @include('admin.annual-reports.partials.table')
+    @include('admin.annual-reports.partials.totals-table')
 <footer>
     <p>Informações retiradas do sistema informatizado de prestações de contas da DOCIGP situado no endereço docigp.alerj.rj.gov.br – impressão realizada em {{now()->format('d/m/Y')}}.</p>
 </footer>

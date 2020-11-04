@@ -106,10 +106,10 @@
                                             </div>
                                             @endCan
 
-                                        @can('annualReports')
+                                        @can('annual-reports:view')
                                         <div class="col-sm-12 col-md-6 col-lg-4">
                                             @include('partials.tile', [
-                                            'route' => route('annualReports.index'),
+                                            'route' => route('annual-reports.index'),
                                             'title' => 'Relatório Anual',
                                             'color' => 'orange',
                                             'icon' => 'fas fa-chart-bar fa-5x',
