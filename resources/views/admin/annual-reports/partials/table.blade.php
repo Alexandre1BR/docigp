@@ -60,7 +60,7 @@
                 <tr>
                     @forEach($row as $key2 => $column)
                         @if($key2 > 0)
-                            <td>R$ 80.000,00</td>
+                            <td>{{$column}}</td>
                         @else
                             <td class="primeira-coluna">{{$column}}</td>
                         @endif
