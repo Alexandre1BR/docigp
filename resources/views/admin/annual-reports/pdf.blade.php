@@ -45,7 +45,7 @@
         }
 
         .tabela_docigp {
-            font-size: 60%;
+            font-size: 50%;
         }
 
         /*Tabela2*/
@@ -53,9 +53,9 @@
             width: 70%;
             text-align: center;
             margin: auto;
-            margin-top: 50px;
+            margin-top: 25px;
             display: block;
-            font-size: 90%;
+            font-size: 75%;
         }
 
 
