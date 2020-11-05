@@ -343,8 +343,8 @@ class Service
             'III' => 'Manut. Gab.',
             'IV' => 'Custeio Gab.',
             'V' => 'Alimentação',
-            'VI.a' => 'Locomoção',
-            'VI.b' => 'Loc. veículos',
+            'VI.a' => 'Loc. veículos',
+            'VI.b' => 'Locomoção',
             'VII' => 'Combustíveis',
             'VIII' => 'Divulgação',
             'IX' => 'Cursos',
@@ -368,15 +368,27 @@ class Service
                     $abbreviations,
                     $allResponse,
                     $roman,
-                    $i
+                    $i,
+                    $parent
                 ) {
-                    $costCenterArrayResponse = [
-                        'abbreviation' =>
-                            $abbreviations[$costCenter->code] ?? '',
-                        'number' => $i,
-                        'roman' => $costCenter->code,
-                        'ids' => collect($costCenter->id)
-                    ];
+                    //Se for locomoção, pega VI e VI.b
+                    if ($costCenter->code == 'VI.b') {
+                        $costCenterArrayResponse = [
+                            'abbreviation' =>
+                                $abbreviations[$costCenter->code] ?? '',
+                            'number' => $i,
+                            'roman' => $costCenter->code,
+                            'ids' => collect([$costCenter->id, $parent->id])
+                        ];
+                    } else {
+                        $costCenterArrayResponse = [
+                            'abbreviation' =>
+                                $abbreviations[$costCenter->code] ?? '',
+                            'number' => $i,
+                            'roman' => $costCenter->code,
+                            'ids' => collect($costCenter->id)
+                        ];
+                    }
 
                     $allResponse->push($costCenterArrayResponse);
                 });
