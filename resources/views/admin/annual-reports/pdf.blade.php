@@ -27,37 +27,35 @@
         h2{color:#000000; margin-bottom:0; font-weight: normal;}
         p{margin-top:0;}
 
-
         /*Head*/
-        #head{text-align:left; margin-bottom:5em; width: 80%;margin: auto; clear: both; display: block; text-align: center;}
-        #head img{margin:1em 0; width:7cm; }
-        #head .line{font-size:1.2em; text-align: center; color: #555555;}
+        #head{text-align:left; margin-bottom:5em; width: 95%;margin: auto; clear: both; display: block; text-align: center;}
+        #head img{margin: 0; width:5cm; float: left;}
+        #head .line{font-size:0.7em; text-align: center; color: #555555;}
 
         /*Tabela*/
-        #tabela { width: 100%; margin-top: 50px;
-        }
+        #tabela { width: 100%; margin-top: 30px;}
 
-        #tabela caption{ background: #0d2954; color: #ffffff; padding-top: 10px; padding-bottom: 10px;
-        }
-
-        #tabela h1 {
+        #head h1 {
             text-align: center;
+            font-size: 1.1em;
         }
-        #tabela h2 {
+        #head h2 {
             text-align: center;
+            font-size: 1.3em;
         }
 
         .tabela_docigp {
-            margin-top: 30px;
+            font-size: 60%;
         }
 
         /*Tabela2*/
         #tabela2 {
-            width: 50%;
+            width: 70%;
             text-align: center;
             margin: auto;
             margin-top: 50px;
             display: block;
+            font-size: 90%;
         }
 
 
@@ -73,8 +71,9 @@
             width: 100%;
             text-align: center;
             margin: auto;
-            margin-top: 50px;
+            margin-top: 30px;
             display: block;
+            font-size: 85%;
         }
 
     </style>
@@ -85,14 +84,14 @@
     <img alt="Logo Alerj" src="data:image/png;base64,{{$logoBlob}}" />
     <p class="line">SUBDIRETORIA-GERAL DE CONTROLE INTERNO / DOCIGP<br>
         SUBDIRETORIA-GERAL DE INFORMÁTICA / SISTEMA INFORMATIZADO DE PRESTAÇÃO DE CONTAS </p>
-</div>
 
-<h1>
-    TERMO DE QUITAÇÃO – PRESTAÇÃO DE CONTAS ANUAL DOCIGP – EXERCÍCIO {{$year}}
-</h1>
-<h2>
-    DEPUTADO(A): {{$congressman->name}}
-</h2>
+    <h1>
+        TERMO DE QUITAÇÃO – PRESTAÇÃO DE CONTAS ANUAL DOCIGP – EXERCÍCIO {{$year}}
+    </h1>
+    <h2>
+        DEPUTADO(A): {{$congressman->name}}
+    </h2>
+</div>
     @include('admin.annual-reports.partials.table')
     @include('admin.annual-reports.partials.totals-table')
 <footer>

@@ -1,12 +1,21 @@
 <div id="tabela">
     <style>
+
+        .barra-titulo-tabela {
+            text-align: center;
+            background: #0d2954;
+            color: #ffffff;
+            padding-top: 3px;
+            padding-bottom: 3px;
+            margin-left: 0px ;
+            border:1px solid #0d2954;
+        }
         .tabela_docigp {
             border:1px solid #C0C0C0;
             border-collapse:collapse;
-            padding:5px;
-            width: 95%;
+            padding:0px;
+            width: 100%;
             margin: auto;
-            margin-top: 30px;
         }
 
         .tabela_docigp th {
@@ -22,7 +31,7 @@
             border:1px solid #C0C0C0;
             padding:5px;
         }
-        .tabela_docigp td:first-child {
+        .primeira-coluna {
             text-align: right;
             padding-right: 15px;
             font-weight: bold;
@@ -33,8 +42,8 @@
 
     </style>
 
+    <div class="barra-titulo-tabela">DEPESAS POR CENTRO DE CUSTO</div>
     <table class="tabela_docigp">
-        <caption>DEPESAS POR CENTRO DE CUSTO</caption>
 
         <thead>
         <tr>
@@ -49,12 +58,18 @@
         @foreach($mainTable as $key => $row)
             @if($key > 0)
                 <tr>
-                    @forEach($row as $column)
-                        <td>{{$column}}</td>
+                    @forEach($row as $key2 => $column)
+                        @if($key2 > 0)
+                            <td>R$ 80.000,00</td>
+                        @else
+                            <td class="primeira-coluna">{{$column}}</td>
+                        @endif
                     @endForEach
                 </tr>
-            @endIf
+        @endIf
         @endForEach
+
+
 
         <tbody>
     </table>
