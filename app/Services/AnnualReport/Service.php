@@ -97,8 +97,6 @@ class Service
                     ->first();
 
                 if ($congressmanLegislature) {
-                    //                    dd($congressmanLegislature);
-
                     if (
                         $congressmanBudget = CongressmanBudget::where(
                             'budget_id',
@@ -181,8 +179,6 @@ class Service
                         ->first();
 
                     if ($congressmanLegislature) {
-                        //                    dd($congressmanLegislature);
-
                         if (
                             $congressmanBudget = CongressmanBudget::where(
                                 'budget_id',
@@ -199,6 +195,7 @@ class Service
                                     'congressman_budget_id',
                                     $congressmanBudget->id
                                 )
+                                ->whereNotNull('published_at')
                                 ->whereIn('cost_center_id', $costCenter['ids'])
                                 ->first();
 
@@ -265,10 +262,12 @@ class Service
                             }
                         });
 
-                        $entries->where(
-                            'congressman_budget_id',
-                            $congressmanBudget->id
-                        );
+                        $entries
+                            ->where(
+                                'congressman_budget_id',
+                                $congressmanBudget->id
+                            )
+                            ->whereNotNull('published_at');
 
                         $total = abs($entries->first()->soma);
 

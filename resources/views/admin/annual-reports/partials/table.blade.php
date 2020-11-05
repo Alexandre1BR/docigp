@@ -42,7 +42,7 @@
 
     </style>
 
-    <div class="barra-titulo-tabela">DEPESAS POR CENTRO DE CUSTO</div>
+    <div class="barra-titulo-tabela">DESPESAS POR CENTRO DE CUSTO</div>
     <table class="tabela_docigp">
 
         <thead>
@@ -60,7 +60,7 @@
                 <tr>
                     @forEach($row as $key2 => $column)
                         @if($key2 > 0)
-                            <td>R$ 6.140.128,06</td>
+                            <td>{{$column}}</td>
                         @else
                             <td class="primeira-coluna" width="(100/x)%">{{$column}}</td>
                         @endif
