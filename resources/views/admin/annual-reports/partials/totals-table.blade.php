@@ -16,6 +16,7 @@
         .tabela_docigp2 td {
             border:1px solid #C0C0C0;
             padding:5px;
+            text-align: center;
         }
     </style>
 
