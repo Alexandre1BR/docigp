@@ -86,7 +86,8 @@
         SUBDIRETORIA-GERAL DE INFORMÁTICA / SISTEMA INFORMATIZADO DE PRESTAÇÃO DE CONTAS </p>
 
     <h1>
-        TERMO DE QUITAÇÃO – PRESTAÇÃO DE CONTAS ANUAL DOCIGP – EXERCÍCIO {{$year}}
+        PRESTAÇÃO DE CONTAS ANUAL DOCIGP – EXERCÍCIO {{$year}}<br/>
+        Relatório após verificação e aprovação pela Subdiretoria-Geral de Controle Interno
     </h1>
     <h2>
         DEPUTADO(A): {{$congressman->name}}
@@ -95,7 +96,7 @@
     @include('admin.annual-reports.partials.table')
     @include('admin.annual-reports.partials.totals-table')
 <footer>
-    <p>Informações retiradas do sistema informatizado de prestações de contas da DOCIGP situado no endereço docigp.alerj.rj.gov.br – impressão realizada em {{now()->format('d/m/Y - H:i:s')}}.</p>
+    <p>Sistema informatizado de prestações de contas da DOCIGP - endereço: docigp.alerj.rj.gov.br - impressão realizada em {{now()->format('d/m/Y - H:i:s')}}.</p>
 </footer>
 
 </body>
