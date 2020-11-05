@@ -328,7 +328,8 @@ class Service
                     $this->spentTotal + $this->refundTotal
                 ),
                 'situation' =>
-                    $this->creditTotal == $this->refundTotal + $this->spentTotal
+                    to_reais($this->creditTotal) ==
+                    to_reais($this->refundTotal + $this->spentTotal)
                         ? 'REGULAR'
                         : 'IRREGULAR'
             ]

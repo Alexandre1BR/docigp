@@ -73,7 +73,7 @@
             margin: auto;
             margin-top: 30px;
             display: block;
-            font-size: 85%;
+            font-size: 75%;
         }
 
     </style>
@@ -95,7 +95,7 @@
     @include('admin.annual-reports.partials.table')
     @include('admin.annual-reports.partials.totals-table')
 <footer>
-    <p>Informações retiradas do sistema informatizado de prestações de contas da DOCIGP situado no endereço docigp.alerj.rj.gov.br – impressão realizada em {{now()->format('d/m/Y')}}.</p>
+    <p>Informações retiradas do sistema informatizado de prestações de contas da DOCIGP situado no endereço docigp.alerj.rj.gov.br – impressão realizada em {{now()->format('d/m/Y - H:i:s')}}.</p>
 </footer>
 
 </body>
