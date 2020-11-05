@@ -60,9 +60,9 @@
                 <tr>
                     @forEach($row as $key2 => $column)
                         @if($key2 > 0)
-                            <td>{{$column}}</td>
+                            <td width="(100/x)%">{{$column}}</td>
                         @else
-                            <td class="primeira-coluna" width="(100/x)%">{{$column}}</td>
+                            <td class="primeira-coluna">{{$column}}</td>
                         @endif
                     @endForEach
                 </tr>
