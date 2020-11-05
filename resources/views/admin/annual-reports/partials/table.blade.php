@@ -62,7 +62,7 @@
                         @if($key2 > 0)
                             <td>{{$column}}</td>
                         @else
-                            <td class="primeira-coluna">{{$column}}</td>
+                            <td class="primeira-coluna" width="(100/x)%">{{$column}}</td>
                         @endif
                     @endForEach
                 </tr>
