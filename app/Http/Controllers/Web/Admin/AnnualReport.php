@@ -13,7 +13,9 @@ class AnnualReport extends Controller
     public function index()
     {
         return view('admin.annual-reports.index')->with([
-            'congressmen' => Congressman::withoutGlobalScopes()->get()
+            'congressmen' => Congressman::withoutGlobalScopes()
+                ->orderBy('name', 'asc')
+                ->get()
         ]);
     }
 

@@ -42,7 +42,7 @@
 
     </style>
 
-    <div class="barra-titulo-tabela">DEPESAS POR CENTRO DE CUSTO</div>
+    <div class="barra-titulo-tabela">DESPESAS POR CENTRO DE CUSTO</div>
     <table class="tabela_docigp">
 
         <thead>

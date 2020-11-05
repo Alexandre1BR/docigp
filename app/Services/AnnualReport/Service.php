@@ -179,8 +179,6 @@ class Service
                         ->first();
 
                     if ($congressmanLegislature) {
-                        //                    dd($congressmanLegislature);
-
                         if (
                             $congressmanBudget = CongressmanBudget::where(
                                 'budget_id',
@@ -253,9 +251,7 @@ class Service
                             )
                             ->first()
                     ) {
-                        $entries = Entry::selectRaw(
-                            'sum(value) as soma'
-                        )->whereNotNull('published_at');
+                        $entries = Entry::selectRaw('sum(value) as soma');
 
                         $entries->orWhere(function ($query) {
                             foreach ($this->costCentersRows as $costCenter) {
@@ -266,10 +262,12 @@ class Service
                             }
                         });
 
-                        $entries->where(
-                            'congressman_budget_id',
-                            $congressmanBudget->id
-                        );
+                        $entries
+                            ->where(
+                                'congressman_budget_id',
+                                $congressmanBudget->id
+                            )
+                            ->whereNotNull('published_at');
 
                         $total = abs($entries->first()->soma);
 
