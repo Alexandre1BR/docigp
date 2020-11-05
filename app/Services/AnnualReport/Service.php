@@ -371,24 +371,13 @@ class Service
                     $i,
                     $parent
                 ) {
-                    //Se for locomoção, pega VI e VI.b
-                    if ($costCenter->code == 'VI.b') {
-                        $costCenterArrayResponse = [
-                            'abbreviation' =>
-                                $abbreviations[$costCenter->code] ?? '',
-                            'number' => $i,
-                            'roman' => $costCenter->code,
-                            'ids' => collect([$costCenter->id, $parent->id])
-                        ];
-                    } else {
-                        $costCenterArrayResponse = [
-                            'abbreviation' =>
-                                $abbreviations[$costCenter->code] ?? '',
-                            'number' => $i,
-                            'roman' => $costCenter->code,
-                            'ids' => collect($costCenter->id)
-                        ];
-                    }
+                    $costCenterArrayResponse = [
+                        'abbreviation' =>
+                            $abbreviations[$costCenter->code] ?? '',
+                        'number' => $i,
+                        'roman' => $costCenter->code,
+                        'ids' => collect($costCenter->id)
+                    ];
 
                     $allResponse->push($costCenterArrayResponse);
                 });
