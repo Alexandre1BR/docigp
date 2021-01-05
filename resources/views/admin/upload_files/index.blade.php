@@ -9,13 +9,6 @@
                 </div>
 
                 <div class="col-md-9">
-{{--                    @include(--}}
-{{--                        '.layouts.partials.search-form',--}}
-{{--                        [--}}
-{{--                            'routeSearch' => 'upload_files.index',--}}
-{{--                            'routeCreate' => 'upload_files.create',--}}
-{{--                        ]--}}
-{{--                    )--}}
                 </div>
             </div>
         </div>
