@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\AnnualReport;
+namespace App\Services\AnnualReport\Congressman;
 
 use App\Data\Models\Budget;
 use App\Data\Models\Congressman;
