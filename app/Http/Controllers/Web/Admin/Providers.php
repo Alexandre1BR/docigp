@@ -38,8 +38,10 @@ class Providers extends Controller
 
     public function show($id)
     {
+        $provider = app(ProvidersRepository::class)->findById($id);
+        $provider->setRelation('entries', $provider->entries()->paginate(10));
         return $this->view('admin.providers.form')->with([
-            'provider' => app(ProvidersRepository::class)->findById($id),
+            'provider' => $provider
         ]);
     }
 

@@ -4,11 +4,7 @@
         PRESTAÇÃO DE CONTAS ANUAL DOCIGP – EXERCÍCIO {{$year}}<br/>
         Relatório após verificação e aprovação pela Subdiretoria-Geral de Controle Interno
     </h1>
-    <h2>
-        DEPUTADO(A): {{$congressman->name}}
-    </h2>
 @endsection
 @section('content')
     @include('admin.annual-reports.partials.table')
-    @include('admin.annual-reports.partials.totals-table')
 @endsection

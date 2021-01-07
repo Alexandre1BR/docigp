@@ -84,7 +84,73 @@
                         </div>
                     </div>
                 </div>
+
+                @if($provider->entries->count() > 0)
+                <div class="row">
+                    <div class="form-group col-md-8">
+                        <table id="providersTable" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                            <tr>
+                                <th>
+                                    Deputado
+                                </th>
+                                <th>
+                                    Mês / Ano do orçamento
+                                </th>
+                                <th>
+                                    Data do Lançamento
+                                </th>
+                                <th>
+                                    Objetivo
+                                </th>
+                                <th>
+                                    Meio
+                                </th>
+                                <th>
+                                    Documento
+                                </th>
+                                <th>
+                                    Centro de Custo
+                                </th>
+                                <th>
+                                    Valor
+                                </th>
+                            </tr>
+                            @foreach($provider->entries as $entry)
+                                <tr>
+                                    <td>
+                                        {{$entry->congressman->nickname}}
+                                    </td>
+                                    <td>
+                                        {{$entry->congressmanBudget->budget->date->year}} /
+                                        {{$entry->congressmanBudget->budget->date->month}}
+                                    </td>
+                                    <td>
+                                        {{$entry->date}}
+                                    </td>
+                                    <td>
+                                        {{$entry->object}}
+                                    </td>
+                                    <td>
+                                        {{$entry->entryType->name}}
+                                    </td>
+                                    <td>
+                                        {{$entry->document_number}}
+                                    </td>
+                                    <td>
+                                        {{$entry->costCenter->name}}
+                                    </td>
+                                    <td>
+                                        R$ {{$entry->value}}
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </table>
+                        {{$provider->entries->links()}}
+
+                    </div>
+                </div>
             </div>
+            @endif
         </form>
     </div>
 @endsection

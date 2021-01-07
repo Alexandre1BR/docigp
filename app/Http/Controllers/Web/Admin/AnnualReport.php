@@ -4,8 +4,9 @@ namespace App\Http\Controllers\Web\Admin;
 
 use App\Data\Models\Congressman;
 use App\Http\Controllers\Controller;
+use App\Services\AnnualReport\General\Service as AnnualReportGeneralService;
 use App\Services\PDF\Service as PDF;
-use App\Services\AnnualReport\Service as AnnualReportService;
+use App\Services\AnnualReport\Congressman\Service as AnnualReportCongressmanService;
 use Illuminate\Http\Request;
 
 class AnnualReport extends Controller
@@ -33,7 +34,7 @@ class AnnualReport extends Controller
                 view('admin.annual-reports.pdf')
                     ->with(
                         $parameters = app(
-                            AnnualReportService::class
+                            AnnualReportCongressmanService::class
                         )->getMainTable($year, $congressman)
                     )
                     ->with(
@@ -47,5 +48,32 @@ class AnnualReport extends Controller
                 'landscape'
             )
             ->download(make_pdf_filename($congressman->name));
+    }
+
+    public function generateGeneral(Request $request)
+    {
+        $year = $request->get('year');
+
+//        return view('admin.annual-reports.general')->with(
+//            'logoBlob',
+//            base64_encode(
+//                file_get_contents(public_path('img/logo-alerj.png'))
+//            )
+//        )->with('year',$year);
+        return app(PDF::class)
+            ->initialize(
+                view('admin.annual-reports.general')->with(
+                    'logoBlob',
+                    base64_encode(
+                        file_get_contents(public_path('img/logo-alerj.png'))
+                    ))->with($parameters = app(
+                        AnnualReportGeneralService::class
+                    )->getMainTable($year)
+                )->with('year',$year)
+                    ->render(),
+                'A4',
+                'landscape'
+            )->download(make_pdf_filename('Relatorio Anual de Todos os Centro de Custo'));
+
     }
 }

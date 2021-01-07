@@ -133,6 +133,11 @@ class Entry extends Model
         return $this->belongsTo(CostCenter::class);
     }
 
+    public function entryType()
+    {
+        return $this->belongsTo(EntryType::class);
+    }
+
     public function updateTransport()
     {
         if ($this->updatingTransport) {
