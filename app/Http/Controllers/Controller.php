@@ -23,6 +23,8 @@ class Controller extends BaseController
 
     public function view($name)
     {
-        return view($name)->with('search', request('search'));
+        return view($name)
+            ->with('search', request('search'))
+            ->with('query', request()->get('query'));
     }
 }

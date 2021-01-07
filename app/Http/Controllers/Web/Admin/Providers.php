@@ -25,7 +25,7 @@ class Providers extends Controller
         formMode(Constants::FORM_MODE_CREATE);
 
         return $this->view('admin.providers.form')->with([
-            'provider' => app(ProvidersRepository::class)->new(),
+            'provider' => app(ProvidersRepository::class)->new()
         ]);
     }
 

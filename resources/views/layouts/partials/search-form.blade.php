@@ -37,7 +37,14 @@
                         </div>
                     @endif
                 </div>
+
             </div>
+        </div>
+
+        <div class="row d-flex justify-content-end">
+            @if(isset($customFields))
+                {!! $customFields !!}
+            @endIf
         </div>
     </div>
 </form>
