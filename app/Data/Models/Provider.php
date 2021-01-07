@@ -31,4 +31,9 @@ class Provider extends Model
 
         return parent::save();
     }
+
+    public function entries()
+    {
+        return $this->hasMany(Entry::class)->orderBy('date','desc');
+    }
 }
