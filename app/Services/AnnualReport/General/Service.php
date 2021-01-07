@@ -9,6 +9,7 @@ use App\Data\Models\CongressmanLegislature;
 use App\Data\Models\CostCenter;
 use App\Data\Models\Entry;
 use App\Data\Models\Legislature;
+use App\Data\Repositories\CostCenters as CostCentersRepository;
 use App\Support\Constants;
 use Carbon\CarbonPeriod;
 use HnhDigital\LaravelNumberConverter\Facade as NumConvert;
@@ -49,7 +50,9 @@ class Service
             $year . '-12-01'
         );
 
-        $this->costCentersRows = $this->costCenterTable();
+        $this->costCentersRows = app(
+            CostCentersRepository::class
+        )->costCenterLimitsTable();
     }
 
     public function fillFirstRow($table)
@@ -160,7 +163,6 @@ class Service
 
     public function fillInsideRows($table)
     {
-
         foreach ($this->costCentersRows as $costCenter) {
             $row = collect([]);
             $total = 0;
@@ -170,14 +172,15 @@ class Service
                 $budget = Budget::where('date', $month)->first();
 
                 if ($budget) {
-
                     $entries = Entry::selectRaw('sum(entries.value) as soma')
-//                        ->join('congressman_legislatures','congressman_legislatures.')
-                        ->join('congressman_budgets','congressman_budgets.id','=','entries.congressman_budget_id')
-                        ->where(
-                            'congressman_budgets.budget_id',
-                            $budget->id
+                        //                        ->join('congressman_legislatures','congressman_legislatures.')
+                        ->join(
+                            'congressman_budgets',
+                            'congressman_budgets.id',
+                            '=',
+                            'entries.congressman_budget_id'
                         )
+                        ->where('congressman_budgets.budget_id', $budget->id)
                         ->whereNotNull('entries.published_at')
                         ->whereIn('cost_center_id', $costCenter['ids'])
                         ->first();
@@ -187,11 +190,9 @@ class Service
                     $soma = to_reais(abs($entries->soma));
 
                     $row->push($soma);
-
                 } else {
                     $row->push(to_reais(0));
                 }
-
             }
 
             $this->spentTotal += $total;
@@ -276,14 +277,12 @@ class Service
 
         $table = $this->fillFirstRow($table);
 
-
-
         //Gerar linhas do meio
         $table = $this->fillInsideRows($table);
         //Fim das linhas do meio
 
         //Gerar última linha
-//        $table = $this->fillTotalsRow($table);
+        //        $table = $this->fillTotalsRow($table);
         //Fim da última linha
 
         //        dump('creditTotal');
@@ -293,10 +292,10 @@ class Service
         //        dump('spentTotal');
         //        dump($this->spentTotal);
 
-//        dd($table);
+        //        dd($table);
 
         return [
-//            'congressman' => $this->congressman,
+            //            'congressman' => $this->congressman,
             'year' => $year,
             'mainTable' => $table,
             'totalsTable' => [
@@ -313,77 +312,5 @@ class Service
                         : 'IRREGULAR'
             ]
         ];
-    }
-
-    public function costCenterTable()
-    {
-        $abbreviations = [
-            'I' => 'Passagens',
-            'II' => 'Serv. Postais',
-            'III' => 'Manut. Gab.',
-            'IV' => 'Custeio Gab.',
-            'V' => 'Alimentação',
-            'VI.a' => 'Loc. veículos',
-            'VI.b' => 'Locomoção',
-            'VII' => 'Combustíveis',
-            'VIII' => 'Divulgação',
-            'IX' => 'Cursos',
-            'X' => 'Diárias',
-            'XI' => 'Tarifas'
-        ];
-
-        $allResponse = collect();
-
-        $i = 1;
-        while (
-            $parent = CostCenter::where(
-                'code',
-                $roman = NumConvert::roman($i)
-            )->first()
-        ) {
-            if ($i == 6) {
-                $costCenters = CostCenter::where('parent_code', $roman)->get();
-
-                $costCenters->each(function ($costCenter) use (
-                    $abbreviations,
-                    $allResponse,
-                    $roman,
-                    $i,
-                    $parent
-                ) {
-                    $costCenterArrayResponse = [
-                        'abbreviation' =>
-                            $abbreviations[$costCenter->code] ?? '',
-                        'number' => $i,
-                        'roman' => $costCenter->code,
-                        'ids' => collect($costCenter->id)
-                    ];
-
-                    $allResponse->push($costCenterArrayResponse);
-                });
-            } else {
-                $costCenterIds = CostCenter::where('code', $roman)
-                    ->orWhere('parent_code', $roman)
-                    ->get()
-                    ->map(function ($item) {
-                        return $item->id;
-                    });
-
-                $collection = collect($costCenterIds);
-
-                $costCenterArrayResponse = [
-                    'abbreviation' => $abbreviations[$roman] ?? '',
-                    'number' => $i,
-                    'roman' => $roman,
-                    'ids' => $collection
-                ];
-
-                $allResponse->push($costCenterArrayResponse);
-            }
-
-            $i++;
-        }
-
-        return $allResponse;
     }
 }

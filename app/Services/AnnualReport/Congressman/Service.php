@@ -10,6 +10,7 @@ use App\Data\Models\CostCenter;
 use App\Data\Models\Entry;
 use App\Data\Models\Legislature;
 use App\Support\Constants;
+use App\Data\Repositories\CostCenters as CostCentersRepository;
 use Carbon\CarbonPeriod;
 use HnhDigital\LaravelNumberConverter\Facade as NumConvert;
 
@@ -51,7 +52,9 @@ class Service
             $year . '-12-01'
         );
 
-        $this->costCentersRows = $this->costCenterTable();
+        $this->costCentersRows = app(
+            CostCentersRepository::class
+        )->costCenterLimitsTable();
     }
 
     public function fillFirstRow($table)
