@@ -27,9 +27,6 @@ abstract class Repository
 
     protected $customQueries;
 
-    
-
-
     protected function processCustomQueries($query)
     {
         $this->customQueries &&
@@ -279,7 +276,9 @@ abstract class Repository
 
     protected function getQueryFilter()
     {
-        $queryFilter = json_decode(request()->get('query'), true);
+        $queryFilter = is_array(request()->get('query'))
+            ? request()->get('query')
+            : json_decode(request()->get('query'), true);
 
         $queryFilter['search'] = request()->get('search');
 

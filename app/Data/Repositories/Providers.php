@@ -15,4 +15,18 @@ class Providers extends Repository
     {
         return $this->findByCpfCnpj('30.449.862/0001-67');
     }
+
+    /**
+     * Filter Checkboxes
+     *
+     * @param $query
+     * @param array $filter
+     * @return mixed
+     */
+    protected function filterCheckboxes($query, array $filter)
+    {
+        if (isset($filter['blocked_checkbox'])) {
+            $query->where('is_blocked', true);
+        }
+    }
 }
