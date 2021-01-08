@@ -83,14 +83,26 @@ class CostCenters extends Repository
         $allResponse = collect();
 
         $i = 1;
+        $roman = 'I';
         while (
-            $parent = CostCenter::where(
-                'code',
-                $roman = NumConvert::roman($i)
-            )->first()
+            $parent = Cache::remember('cost-center-' . $i, 60, function () use (
+                $i,
+                &$roman
+            ) {
+                return CostCenter::where(
+                    'code',
+                    $roman = NumConvert::roman($i)
+                )->first();
+            })
         ) {
             if ($i == 6) {
-                $costCenters = CostCenter::where('parent_code', $roman)->get();
+                $costCenters = Cache::remember(
+                    'cost-center-parent-' . $i,
+                    60,
+                    function () use ($roman) {
+                        return CostCenter::where('parent_code', $roman)->get();
+                    }
+                );
 
                 $costCenters->each(function ($costCenter) use (
                     $abbreviations,
@@ -114,17 +126,26 @@ class CostCenters extends Repository
             } else {
                 $limit = 0;
 
-                $costCenterIds = CostCenter::where('code', $roman)
-                    ->orWhere('parent_code', $roman)
-                    ->get()
-                    ->each(function ($item) use (&$limit, $congressmanBudget) {
-                        $limit += $item->limit ?? 0;
-                    })
-                    ->map(function ($item) {
-                        return $item->id;
-                    });
+                $costCenterIds = Cache::remember(
+                    'cost-center-parent-' . $i,
+                    60,
+                    function () use ($roman, $congressmanBudget, &$limit) {
+                        return CostCenter::where('code', $roman)
+                            ->orWhere('parent_code', $roman)
+                            ->get()
+                            ->each(function ($item) use (
+                                &$limit,
+                                $congressmanBudget
+                            ) {
+                                $limit += $item->limit ?? 0;
+                            })
+                            ->map(function ($item) {
+                                return $item->id;
+                            });
+                    }
+                );
 
-                $collection = collect($costCenterIds);
+                $costCenterIds = $collection = collect($costCenterIds);
 
                 $costCenterArrayResponse = [
                     'abbreviation' => $abbreviations[$roman] ?? '',

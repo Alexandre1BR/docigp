@@ -38,11 +38,18 @@ class CongressmanBudgets extends Repository
         return app(CostCenters::class)
             ->costCenterLimitsTable()
             ->map(function ($item) use ($congressmanBudget) {
-                $item['limit_value'] = abs(
-                    round(
-                        $congressmanBudget['budget']['value'] * $item['limit']
-                    ) / 100
-                );
+                // Se o limit for 0, considera como não há limite
+                // limit_value == -1 significa que não há limite
+                if (empty($item['limit'])) {
+                    $item['limit_value'] = -1;
+                } else {
+                    $item['limit_value'] = abs(
+                        round(
+                            $congressmanBudget['budget']['value'] *
+                                $item['limit']
+                        ) / 100
+                    );
+                }
 
                 return $item;
             });
@@ -66,11 +73,11 @@ class CongressmanBudgets extends Repository
 
             $sum = round(abs($sum) * 100) / 100;
 
-            if ($sum > $costCenter['limit_value']) {
-                info($costCenter['roman']);
-                info($sum);
-                info($costCenter['limit_value']);
-                //                dd('Centro de custo ' . $costCenter['roman'] . ' rodou');
+            //limit_value == -1 significa que não há limite
+            if (
+                $costCenter['limit_value'] != -1 &&
+                $sum > $costCenter['limit_value']
+            ) {
                 $pendencies[] =
                     'limite ultrapassado em ' . $costCenter['roman'];
             }
