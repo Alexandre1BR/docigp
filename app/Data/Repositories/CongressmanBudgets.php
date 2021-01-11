@@ -33,55 +33,9 @@ class CongressmanBudgets extends Repository
         );
     }
 
-    public function buildCostCentersLimitsTable($congressmanBudget)
-    {
-        return app(CostCenters::class)
-            ->costCenterLimitsTable()
-            ->map(function ($item) use ($congressmanBudget) {
-                // Se o limit for 0, considera como não há limite
-                // limit_value == -1 significa que não há limite
-                if (empty($item['limit'])) {
-                    $item['limit_value'] = -1;
-                } else {
-                    $item['limit_value'] = abs(
-                        round(
-                            $congressmanBudget['budget']['value'] *
-                                $item['limit']
-                        ) / 100
-                    );
-                }
-
-                return $item;
-            });
-    }
-
     protected function buildPendenciesArray($congressmanBudget)
     {
         $pendencies = [];
-
-        $this->buildCostCentersLimitsTable($congressmanBudget)->each(function (
-            $costCenter
-        ) use (&$pendencies, $congressmanBudget) {
-            $entries = Entry::selectRaw('sum(value) as soma');
-
-            $sum = $entries
-                ->where('congressman_budget_id', $congressmanBudget['id'])
-                ->where(function ($query) use ($costCenter) {
-                    $query->orWhereIn('cost_center_id', $costCenter['ids']);
-                })
-                ->first()->soma;
-
-            $sum = round(abs($sum) * 100) / 100;
-
-            //limit_value == -1 significa que não há limite
-            if (
-                $costCenter['limit_value'] != -1 &&
-                $sum > $costCenter['limit_value']
-            ) {
-                $pendencies[] =
-                    'limite ultrapassado em ' . $costCenter['roman'];
-            }
-        });
 
         if ((float) $congressmanBudget['percentage'] === 0.0) {
             $pendencies[] = 'definir percentual';

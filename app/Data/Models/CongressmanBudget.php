@@ -10,9 +10,14 @@ use App\Data\Traits\ModelActionable;
 use App\Data\Repositories\CostCenters;
 use App\Data\Repositories\CongressmanBudgets;
 use App\Data\Scopes\Congressman as CongressmanScope;
+use App\Data\Traits\Selectable;
 
 class CongressmanBudget extends Model
 {
+    use Selectable {
+        getSelectColumnsRaw as protected getSelectColumnsRawOverloaded;
+    }
+
     use ModelActionable, MarkAsUnread;
 
     /**
@@ -290,6 +295,28 @@ class CongressmanBudget extends Model
             $deposit->value = $this->value;
             $deposit->save();
         }
+    }
+
+    public function buildCostCentersLimitsTable()
+    {
+        return app(CostCenters::class)->costCenterLimitsTable();
+    }
+
+    public function getSelectColumnsRaw()
+    {
+        $selectColumns = $this->getSelectColumnsRawOverloaded();
+
+        $this->buildCostCentersLimitsTable()->each(function ($costCenter) use (
+            $selectColumns
+        ) {
+            $selectColumns[] =
+                '(select Abs(sum(e.value)) from entries e where e.congressman_budget_id = congressman_budgets.id and e.cost_center_id in (' .
+                implode(', ', $costCenter['ids']->toArray()) .
+                ')) as sum_' .
+                preg_replace('/[^\w\s]/', '_', $costCenter['roman']);
+        });
+
+        return $selectColumns;
     }
 
     public function getHasRefundAttribute()
