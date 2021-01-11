@@ -295,8 +295,16 @@ class CongressmanBudget extends Model
     public function getHasRefundAttribute()
     {
         $found = false;
-        $this->entries->each(function (Entry $entry) use (&$found) {
-            $found = $found || $entry->costCenter->code == 4;
+
+        $costCenterId = \Cache::remember('cost-center-code-4', 60, function () {
+            return Costcenter::where('code', 4)->first()->id;
+        });
+
+        $this->entries->each(function (Entry $entry) use (
+            &$found,
+            $costCenterId
+        ) {
+            $found = $found || $entry->cost_center_id == $costCenterId;
         });
 
         return $found;
