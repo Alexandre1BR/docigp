@@ -63,11 +63,9 @@ class CostCenters extends Repository
         );
     }
 
-    public function costCenterLimitsTable($congressmanBudget = null)
+    public function costCenterLimitsTable()
     {
-        return Cache::remember('cost-center-limits-table', 60, function () use (
-            $congressmanBudget
-        ) {
+        return Cache::remember('cost-center-limits-table', 180, function () {
             $abbreviations = [
                 'I' => 'Passagens',
                 'II' => 'Serv. Postais',
@@ -104,8 +102,7 @@ class CostCenters extends Repository
                         $allResponse,
                         $roman,
                         $i,
-                        $parent,
-                        $congressmanBudget
+                        $parent
                     ) {
                         $costCenterArrayResponse = [
                             'abbreviation' =>
@@ -124,10 +121,7 @@ class CostCenters extends Repository
                     $costCenterIds = CostCenter::where('code', $roman)
                         ->orWhere('parent_code', $roman)
                         ->get()
-                        ->each(function ($item) use (
-                            &$limit,
-                            $congressmanBudget
-                        ) {
+                        ->each(function ($item) use (&$limit) {
                             $limit += $item->limit ?? 0;
                         })
                         ->map(function ($item) {
