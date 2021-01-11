@@ -49,8 +49,8 @@ class CongressmanBudget extends Model
         '(select count(*) from entries e where e.congressman_budget_id = congressman_budgets.id and e.analysed_at is null) > 0 as missing_analysis',
         '(select count(*) from entries e where e.congressman_budget_id = congressman_budgets.id and e.verified_at is null) > 0 as missing_verification',
         '(select count(*) from entries e where e.congressman_budget_id = congressman_budgets.id and e.entry_type_id = ' .
-        Constants::ENTRY_TYPE_ALERJ_DEPOSIT_ID .
-        ') > 0 as has_deposit',
+            Constants::ENTRY_TYPE_ALERJ_DEPOSIT_ID .
+            ') > 0 as has_deposit',
         '(select count(*) from entries e where e.congressman_budget_id = congressman_budgets.id :published-at-filter: :not-transport-or-credit-filter:) as entries_count',
         '(select sum(value) from entries e where e.congressman_budget_id = congressman_budgets.id and value > 0) as sum_credit',
         '(select sum(value) from entries e where e.congressman_budget_id = congressman_budgets.id and value < 0) as sum_debit'
@@ -307,13 +307,13 @@ class CongressmanBudget extends Model
         $selectColumns = $this->getSelectColumnsRawOverloaded();
 
         $this->buildCostCentersLimitsTable()->each(function ($costCenter) use (
-            $selectColumns
+            &$selectColumns
         ) {
             $selectColumns[] =
                 '(select Abs(sum(e.value)) from entries e where e.congressman_budget_id = congressman_budgets.id and e.cost_center_id in (' .
                 implode(', ', $costCenter['ids']->toArray()) .
                 ')) as sum_' .
-                preg_replace('/[^\w\s]/', '_', $costCenter['roman']);
+                lower(preg_replace('/[^\w\s]/', '_', $costCenter['roman']));
         });
 
         return $selectColumns;
