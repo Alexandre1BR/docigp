@@ -65,102 +65,92 @@ class CostCenters extends Repository
 
     public function costCenterLimitsTable($congressmanBudget = null)
     {
-        $abbreviations = [
-            'I' => 'Passagens',
-            'II' => 'Serv. Postais',
-            'III' => 'Manut. Gab.',
-            'IV' => 'Custeio Gab.',
-            'V' => 'Alimentação',
-            'VI.a' => 'Loc. veículos',
-            'VI.b' => 'Locomoção',
-            'VII' => 'Combustíveis',
-            'VIII' => 'Divulgação',
-            'IX' => 'Cursos',
-            'X' => 'Diárias',
-            'XI' => 'Tarifas'
-        ];
+        return Cache::remember('cost-center-limits-table', 60, function () use (
+            $congressmanBudget
+        ) {
+            $abbreviations = [
+                'I' => 'Passagens',
+                'II' => 'Serv. Postais',
+                'III' => 'Manut. Gab.',
+                'IV' => 'Custeio Gab.',
+                'V' => 'Alimentação',
+                'VI.a' => 'Loc. veículos',
+                'VI.b' => 'Locomoção',
+                'VII' => 'Combustíveis',
+                'VIII' => 'Divulgação',
+                'IX' => 'Cursos',
+                'X' => 'Diárias',
+                'XI' => 'Tarifas'
+            ];
 
-        $allResponse = collect();
+            $allResponse = collect();
 
-        $i = 1;
-        $roman = 'I';
-        while (
-            $parent = Cache::remember('cost-center-' . $i, 60, function () use (
-                $i,
-                &$roman
-            ) {
-                return CostCenter::where(
+            $i = 1;
+            $roman = 'I';
+            while (
+                $parent = CostCenter::where(
                     'code',
                     $roman = NumConvert::roman($i)
-                )->first();
-            })
-        ) {
-            if ($i == 6) {
-                $costCenters = Cache::remember(
-                    'cost-center-parent-' . $i,
-                    60,
-                    function () use ($roman) {
-                        return CostCenter::where('parent_code', $roman)->get();
-                    }
-                );
+                )->first()
+            ) {
+                if ($i == 6) {
+                    $costCenters = CostCenter::where(
+                        'parent_code',
+                        $roman
+                    )->get();
 
-                $costCenters->each(function ($costCenter) use (
-                    $abbreviations,
-                    $allResponse,
-                    $roman,
-                    $i,
-                    $parent,
-                    $congressmanBudget
-                ) {
+                    $costCenters->each(function ($costCenter) use (
+                        $abbreviations,
+                        $allResponse,
+                        $roman,
+                        $i,
+                        $parent,
+                        $congressmanBudget
+                    ) {
+                        $costCenterArrayResponse = [
+                            'abbreviation' =>
+                                $abbreviations[$costCenter->code] ?? '',
+                            'number' => $i,
+                            'limit' => $costCenter->limit ?? null,
+                            'roman' => $costCenter->code,
+                            'ids' => collect($costCenter->id)
+                        ];
+
+                        $allResponse->push($costCenterArrayResponse);
+                    });
+                } else {
+                    $limit = 0;
+
+                    $costCenterIds = CostCenter::where('code', $roman)
+                        ->orWhere('parent_code', $roman)
+                        ->get()
+                        ->each(function ($item) use (
+                            &$limit,
+                            $congressmanBudget
+                        ) {
+                            $limit += $item->limit ?? 0;
+                        })
+                        ->map(function ($item) {
+                            return $item->id;
+                        });
+
+                    $costCenterIds = $collection = collect($costCenterIds);
+
                     $costCenterArrayResponse = [
-                        'abbreviation' =>
-                            $abbreviations[$costCenter->code] ?? '',
+                        'abbreviation' => $abbreviations[$roman] ?? '',
                         'number' => $i,
-                        'limit' => $costCenter->limit ?? null,
-                        'roman' => $costCenter->code,
-                        'ids' => collect($costCenter->id)
+                        'limit' => $limit == 0 ? null : $limit,
+                        'roman' => $roman,
+                        'ids' => $collection
                     ];
 
                     $allResponse->push($costCenterArrayResponse);
-                });
-            } else {
-                $limit = 0;
+                }
 
-                $costCenterIds = Cache::remember(
-                    'cost-center-parent-' . $i,
-                    60,
-                    function () use ($roman, $congressmanBudget, &$limit) {
-                        return CostCenter::where('code', $roman)
-                            ->orWhere('parent_code', $roman)
-                            ->get()
-                            ->each(function ($item) use (
-                                &$limit,
-                                $congressmanBudget
-                            ) {
-                                $limit += $item->limit ?? 0;
-                            })
-                            ->map(function ($item) {
-                                return $item->id;
-                            });
-                    }
-                );
-
-                $costCenterIds = $collection = collect($costCenterIds);
-
-                $costCenterArrayResponse = [
-                    'abbreviation' => $abbreviations[$roman] ?? '',
-                    'number' => $i,
-                    'limit' => $limit == 0 ? null : $limit,
-                    'roman' => $roman,
-                    'ids' => $collection
-                ];
-
-                $allResponse->push($costCenterArrayResponse);
+                $i++;
             }
 
-            $i++;
-        }
-
-        return $allResponse;
+            return $allResponse;
+        });
     }
 }
