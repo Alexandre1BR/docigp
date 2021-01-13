@@ -9,13 +9,15 @@
                 </div>
 
                 <div class="col-md-9">
-                    @include(
-                        'layouts.partials.search-form',
-                        [
-                            'routeSearch' => 'cost-centers.index',
-                            'routeCreate' => 'cost-centers.create',
-                        ]
-                    )
+                    <form action="{{ route('cost-centers.index') }}" id="searchForm">
+                        @include(
+                            'layouts.partials.search-form',
+                            [
+                                'routeSearch' => 'cost-centers.index',
+                                'routeCreate' => 'cost-centers.create',
+                            ]
+                        )
+                    </form>
                 </div>
             </div>
         </div>

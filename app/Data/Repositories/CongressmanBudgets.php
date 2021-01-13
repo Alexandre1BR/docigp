@@ -2,6 +2,7 @@
 
 namespace App\Data\Repositories;
 
+use App\Data\Models\Entry;
 use Carbon\Carbon;
 use App\Data\Models\Congressman;
 use App\Data\Models\CongressmanBudget;
@@ -32,9 +33,45 @@ class CongressmanBudgets extends Repository
         );
     }
 
+    protected function buildLimitPendencies($congressmanBudget)
+    {
+        $baseValue = $congressmanBudget['budget']['value'];
+
+        $returnArray = [];
+
+        app(CostCenters::class)
+            ->costCenterLimitsTable()
+            ->each(function ($item) use (
+                $baseValue,
+                $congressmanBudget,
+                &$returnArray
+            ) {
+                if (
+                    !empty($item['limit']) &&
+                    abs(
+                        $congressmanBudget[
+                            'sum_' .
+                                lower(
+                                    preg_replace(
+                                        '/[^\w\s]/',
+                                        '_',
+                                        $item['roman']
+                                    )
+                                )
+                        ]
+                    ) >
+                        $item['limit'] * abs(round($baseValue) / 100)
+                ) {
+                    $returnArray[] = 'limite excedido em ' . $item['roman'];
+                }
+            });
+
+        return $returnArray;
+    }
+
     protected function buildPendenciesArray($congressmanBudget)
     {
-        $pendencies = [];
+        $pendencies = $this->buildLimitPendencies($congressmanBudget);
 
         if ((float) $congressmanBudget['percentage'] === 0.0) {
             $pendencies[] = 'definir percentual';

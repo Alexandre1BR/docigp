@@ -5,6 +5,7 @@ namespace App\Data\Repositories;
 use App\Support\Constants;
 use App\Data\Models\CostCenter;
 use Cache;
+use HnhDigital\LaravelNumberConverter\Facade as NumConvert;
 
 class CostCenters extends Repository
 {
@@ -60,5 +61,90 @@ class CostCenters extends Repository
                 ];
             }
         );
+    }
+
+    public function costCenterLimitsTable()
+    {
+        return Cache::remember('cost-center-limits-table', 180, function () {
+            $abbreviations = [
+                'I' => 'Passagens',
+                'II' => 'Serv. Postais',
+                'III' => 'Manut. Gab.',
+                'IV' => 'Custeio Gab.',
+                'V' => 'Alimentação',
+                'VI.a' => 'Loc. veículos',
+                'VI.b' => 'Locomoção',
+                'VII' => 'Combustíveis',
+                'VIII' => 'Divulgação',
+                'IX' => 'Cursos',
+                'X' => 'Diárias',
+                'XI' => 'Tarifas'
+            ];
+
+            $allResponse = collect();
+
+            $i = 1;
+            $roman = 'I';
+            while (
+                $parent = CostCenter::where(
+                    'code',
+                    $roman = NumConvert::roman($i)
+                )->first()
+            ) {
+                if ($i == 6) {
+                    $costCenters = CostCenter::where(
+                        'parent_code',
+                        $roman
+                    )->get();
+
+                    $costCenters->each(function ($costCenter) use (
+                        $abbreviations,
+                        $allResponse,
+                        $roman,
+                        $i,
+                        $parent
+                    ) {
+                        $costCenterArrayResponse = [
+                            'abbreviation' =>
+                                $abbreviations[$costCenter->code] ?? '',
+                            'number' => $i,
+                            'limit' => $costCenter->limit ?? null,
+                            'roman' => $costCenter->code,
+                            'ids' => collect($costCenter->id)
+                        ];
+
+                        $allResponse->push($costCenterArrayResponse);
+                    });
+                } else {
+                    $limit = 0;
+
+                    $costCenterIds = CostCenter::where('code', $roman)
+                        ->orWhere('parent_code', $roman)
+                        ->get()
+                        ->each(function ($item) use (&$limit) {
+                            $limit += $item->limit ?? 0;
+                        })
+                        ->map(function ($item) {
+                            return $item->id;
+                        });
+
+                    $costCenterIds = $collection = collect($costCenterIds);
+
+                    $costCenterArrayResponse = [
+                        'abbreviation' => $abbreviations[$roman] ?? '',
+                        'number' => $i,
+                        'limit' => $limit == 0 ? null : $limit,
+                        'roman' => $roman,
+                        'ids' => $collection
+                    ];
+
+                    $allResponse->push($costCenterArrayResponse);
+                }
+
+                $i++;
+            }
+
+            return $allResponse;
+        });
     }
 }

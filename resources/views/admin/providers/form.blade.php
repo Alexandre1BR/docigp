@@ -100,7 +100,7 @@
                                     Data do Lançamento
                                 </th>
                                 <th>
-                                    Objetivo
+                                    Objeto
                                 </th>
                                 <th>
                                     Meio

@@ -10,9 +10,14 @@ use App\Data\Traits\ModelActionable;
 use App\Data\Repositories\CostCenters;
 use App\Data\Repositories\CongressmanBudgets;
 use App\Data\Scopes\Congressman as CongressmanScope;
+use App\Data\Traits\Selectable;
 
 class CongressmanBudget extends Model
 {
+    use Selectable {
+        getSelectColumnsRaw as protected getSelectColumnsRawOverloaded;
+    }
+
     use ModelActionable, MarkAsUnread;
 
     /**
@@ -44,8 +49,8 @@ class CongressmanBudget extends Model
         '(select count(*) from entries e where e.congressman_budget_id = congressman_budgets.id and e.analysed_at is null) > 0 as missing_analysis',
         '(select count(*) from entries e where e.congressman_budget_id = congressman_budgets.id and e.verified_at is null) > 0 as missing_verification',
         '(select count(*) from entries e where e.congressman_budget_id = congressman_budgets.id and e.entry_type_id = ' .
-        Constants::ENTRY_TYPE_ALERJ_DEPOSIT_ID .
-        ') > 0 as has_deposit',
+            Constants::ENTRY_TYPE_ALERJ_DEPOSIT_ID .
+            ') > 0 as has_deposit',
         '(select count(*) from entries e where e.congressman_budget_id = congressman_budgets.id :published-at-filter: :not-transport-or-credit-filter:) as entries_count',
         '(select sum(value) from entries e where e.congressman_budget_id = congressman_budgets.id and value > 0) as sum_credit',
         '(select sum(value) from entries e where e.congressman_budget_id = congressman_budgets.id and value < 0) as sum_debit'
@@ -292,11 +297,41 @@ class CongressmanBudget extends Model
         }
     }
 
+    public function buildCostCentersLimitsTable()
+    {
+        return app(CostCenters::class)->costCenterLimitsTable();
+    }
+
+    public function getSelectColumnsRaw()
+    {
+        $selectColumns = $this->getSelectColumnsRawOverloaded();
+
+        $this->buildCostCentersLimitsTable()->each(function ($costCenter) use (
+            &$selectColumns
+        ) {
+            $selectColumns[] =
+                '(select Abs(sum(e.value)) from entries e where e.congressman_budget_id = congressman_budgets.id and e.cost_center_id in (' .
+                implode(', ', $costCenter['ids']->toArray()) .
+                ')) as sum_' .
+                lower(preg_replace('/[^\w\s]/', '_', $costCenter['roman']));
+        });
+
+        return $selectColumns;
+    }
+
     public function getHasRefundAttribute()
     {
         $found = false;
-        $this->entries->each(function (Entry $entry) use (&$found) {
-            $found = $found || $entry->costCenter->code == 4;
+
+        $costCenterId = \Cache::remember('cost-center-code-4', 60, function () {
+            return Costcenter::where('code', 4)->first()->id;
+        });
+
+        $this->entries->each(function (Entry $entry) use (
+            &$found,
+            $costCenterId
+        ) {
+            $found = $found || $entry->cost_center_id == $costCenterId;
         });
 
         return $found;
