@@ -26,6 +26,10 @@ class Service
     public $costCentersRows;
     public $congressman;
 
+    public $months = ['JAN','FEV','MAR','ABR','MAI',
+                    'JUN','JUL','AGO','SET','OUT',
+                    'NOV','DEZ'];
+
     public function init($year = '2019')
     {
         $this->spentTotal = 0;
@@ -62,100 +66,14 @@ class Service
         $row->push('');
 
         //Meses
-        $row->push('JAN');
-        $row->push('FEV');
-        $row->push('MAR');
-        $row->push('ABR');
-        $row->push('MAI');
-        $row->push('JUN');
-        $row->push('JUL');
-        $row->push('AGO');
-        $row->push('SET');
-        $row->push('OUT');
-        $row->push('NOV');
-        $row->push('DEZ');
+        foreach($this->months as $month) {
+            $row->push($month);
+        }
+
+
 
         $row->push('TOTAL');
 
-        $table->push($row);
-
-        return $table;
-    }
-
-    public function fillPercentageRow($table)
-    {
-        $row = collect([]);
-        $row->push('Solicitado(%)');
-        foreach ($this->period as $month) {
-            $budget = Budget::where('date', $month)->first();
-
-            if ($budget) {
-                $congressmanLegislature = CongressmanLegislature::where(
-                    'congressman_id',
-                    $this->congressman->id
-                )
-                    ->where('legislature_id', $this->legislature->id)
-                    ->first();
-
-                if ($congressmanLegislature) {
-                    if (
-                        $congressmanBudget = CongressmanBudget::where(
-                            'budget_id',
-                            $budget->id
-                        )
-                            ->where(
-                                'congressman_legislature_id',
-                                $congressmanLegislature->id
-                            )
-                            ->first()
-                    ) {
-                        $row->push(
-                            number_format(
-                                $congressmanBudget->percentage,
-                                2,
-                                '.',
-                                ''
-                            )
-                        );
-
-                        //Calcula crédito
-                        Entry::where(
-                            'cost_center_id',
-                            $this->creditCostCenter->id
-                        )
-                            ->where(
-                                'congressman_budget_id',
-                                $congressmanBudget->id
-                            )
-                            ->get()
-                            ->each(function ($item) {
-                                $this->creditTotal += abs($item->value);
-                            });
-
-                        //Calcula devolução
-                        Entry::where(
-                            'cost_center_id',
-                            $this->refundCostCenter->id
-                        )
-                            ->where(
-                                'congressman_budget_id',
-                                $congressmanBudget->id
-                            )
-                            ->get()
-                            ->each(function ($item) {
-                                $this->refundTotal += abs($item->value);
-                            });
-                    } else {
-                        $row->push(number_format(0, 2, '.', ''));
-                    }
-                } else {
-                    $row->push(number_format(0, 2, '.', ''));
-                }
-            } else {
-                $row->push(number_format(0, 2, '.', ''));
-            }
-        }
-        $row->push('');
         $table->push($row);
 
         return $table;
@@ -187,6 +105,8 @@ class Service
 
                     $total += abs($entries->soma);
 
+
+
                     $soma = to_reais(abs($entries->soma));
 
                     $row->push($soma);
@@ -204,66 +124,27 @@ class Service
         return $table;
     }
 
-    public function fillTotalsRow($table)
-    {
-        $row = collect([]);
-        $row->push('TOTAL');
-        foreach ($this->period as $month) {
-            $budget = Budget::where('date', $month)->first();
-
-            if ($budget) {
-                $congressmanLegislature = CongressmanLegislature::where(
-                    'congressman_id',
-                    $this->congressman->id
-                )
-                    ->where('legislature_id', $this->legislature->id)
-                    ->first();
-
-                if ($congressmanLegislature) {
-                    if (
-                        $congressmanBudget = CongressmanBudget::where(
-                            'budget_id',
-                            $budget->id
-                        )
-                            ->where(
-                                'congressman_legislature_id',
-                                $congressmanLegislature->id
-                            )
-                            ->first()
-                    ) {
-                        $entries = Entry::selectRaw('sum(value) as soma');
-
-                        $entries->orWhere(function ($query) {
-                            foreach ($this->costCentersRows as $costCenter) {
-                                $query->orWhereIn(
-                                    'cost_center_id',
-                                    $costCenter['ids']
-                                );
-                            }
-                        });
-
-                        $entries
-                            ->where(
-                                'congressman_budget_id',
-                                $congressmanBudget->id
-                            )
-                            ->whereNotNull('published_at');
-
-                        $total = abs($entries->first()->soma);
-
-                        $row->push(to_reais($total));
-                    } else {
-                        $row->push(to_reais(0));
+        public function fillTotalsRow($table)
+        {
+            $row = collect([]);
+            $row->push('ACUMULADO');
+            for ($i = 1; $i <= 12; $i++){
+                $totalPerMonth = 0;
+                foreach ($table as $item) {
+                    if(!in_array($item[$i],$this->months)){
+                        $totalPerMonth +=without_reais($item[$i]);
                     }
-                } else {
-                    $row->push(to_reais(0));
                 }
-            } else {
-                $row->push(to_reais(0));
+                $row->push(to_reais($totalPerMonth));
+
             }
-        }
-        $row->push('');
+
+//            dd('fim');
+
+
+        $row->push(to_reais($this->spentTotal));
         $table->push($row);
+
 
         return $table;
     }
@@ -282,7 +163,7 @@ class Service
         //Fim das linhas do meio
 
         //Gerar última linha
-        //        $table = $this->fillTotalsRow($table);
+        $table = $this->fillTotalsRow($table);
         //Fim da última linha
 
         //        dump('creditTotal');

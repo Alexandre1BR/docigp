@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>HTML PDF API - Example page</title>
+    <title>ALERJ - Relatórios</title>
     <style type="text/css">
         /*Embeaded font :-)*/
         @font-face {
