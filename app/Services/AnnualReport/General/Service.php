@@ -26,9 +26,20 @@ class Service
     public $costCentersRows;
     public $congressman;
 
-    public $months = ['JAN','FEV','MAR','ABR','MAI',
-                    'JUN','JUL','AGO','SET','OUT',
-                    'NOV','DEZ'];
+    public $months = [
+        'JAN',
+        'FEV',
+        'MAR',
+        'ABR',
+        'MAI',
+        'JUN',
+        'JUL',
+        'AGO',
+        'SET',
+        'OUT',
+        'NOV',
+        'DEZ',
+    ];
 
     public function init($year = '2019')
     {
@@ -66,11 +77,9 @@ class Service
         $row->push('');
 
         //Meses
-        foreach($this->months as $month) {
+        foreach ($this->months as $month) {
             $row->push($month);
         }
-
-
 
         $row->push('TOTAL');
 
@@ -91,7 +100,6 @@ class Service
 
                 if ($budget) {
                     $entries = Entry::selectRaw('sum(entries.value) as soma')
-                        //                        ->join('congressman_legislatures','congressman_legislatures.')
                         ->join(
                             'congressman_budgets',
                             'congressman_budgets.id',
@@ -99,53 +107,16 @@ class Service
                             'entries.congressman_budget_id'
                         )
                         ->where('congressman_budgets.budget_id', $budget->id)
+                        ->whereNotNull('congressman_budgets.published_at')
                         ->whereNotNull('entries.published_at')
                         ->whereIn('cost_center_id', $costCenter['ids'])
                         ->first();
 
                     $total += abs($entries->soma);
 
-
-
                     $soma = to_reais(abs($entries->soma));
 
                     $row->push($soma);
-
-                    //Crédito
-                    Entry::selectRaw('sum(entries.value) as soma')
-                        //                        ->join('congressman_legislatures','congressman_legislatures.')
-                        ->join(
-                            'congressman_budgets',
-                            'congressman_budgets.id',
-                            '=',
-                            'entries.congressman_budget_id'
-                        )
-                        ->where('congressman_budgets.budget_id', $budget->id)
-                        ->whereNotNull('entries.published_at')
-                        ->where('cost_center_id', '=',$this->creditCostCenter->id)
-                        ->get()
-                        ->each(function ($item) {
-//                            dd('oi');
-                            $this->creditTotal += abs($item->soma);
-                        });
-                    //devolução
-                    Entry::selectRaw('sum(entries.value) as soma')
-                        //                        ->join('congressman_legislatures','congressman_legislatures.')
-                        ->join(
-                            'congressman_budgets',
-                            'congressman_budgets.id',
-                            '=',
-                            'entries.congressman_budget_id'
-                        )
-                        ->where('congressman_budgets.budget_id', $budget->id)
-                        ->whereNotNull('entries.published_at')
-                        ->where('cost_center_id', '=',$this->refundCostCenter->id)
-                        ->get()
-                        ->each(function ($item) {
-//                            dd('oi');
-                            $this->refundTotal += abs($item->soma);
-                        });
-
                 } else {
                     $row->push(to_reais(0));
                 }
@@ -160,35 +131,67 @@ class Service
         return $table;
     }
 
-        public function fillTotalsRow($table)
-        {
-            $row = collect([]);
-            $row->push('TOTAL');
-            for ($i = 1; $i <= 12; $i++){
-                $totalPerMonth = 0;
-                foreach ($table as $item) {
-                    if(!in_array($item[$i],$this->months)){
-                        $totalPerMonth +=without_reais($item[$i]);
-                    }
+    public function fillTotalsRow($table)
+    {
+        $row = collect([]);
+        $row->push('TOTAL');
+        for ($i = 1; $i <= 12; $i++) {
+            $totalPerMonth = 0;
+            foreach ($table as $item) {
+                if (!in_array($item[$i], $this->months)) {
+                    $totalPerMonth += without_reais($item[$i]);
                 }
-                $row->push(to_reais($totalPerMonth));
-
             }
-
-//            dd('fim');
-
+            $row->push(to_reais($totalPerMonth));
+        }
 
         $row->push(to_reais($this->spentTotal));
         $table->push($row);
 
-
         return $table;
+    }
+
+    public function calculateTotals($table)
+    {
+        foreach ($this->period as $month) {
+            $budget = Budget::where('date', $month)->first();
+
+            if ($budget) {
+                //Crédito
+                Entry::selectRaw('sum(entries.value) as soma')
+                    ->join(
+                        'congressman_budgets',
+                        'congressman_budgets.id',
+                        '=',
+                        'entries.congressman_budget_id'
+                    )
+                    ->where('congressman_budgets.budget_id', $budget->id)
+                    ->where('cost_center_id', '=', $this->creditCostCenter->id)
+                    ->get()
+                    ->each(function ($item) use ($budget) {
+                        $this->creditTotal += abs($item->soma);
+                    });
+
+                //devolução
+                Entry::selectRaw('sum(entries.value) as soma')
+                    ->join(
+                        'congressman_budgets',
+                        'congressman_budgets.id',
+                        '=',
+                        'entries.congressman_budget_id'
+                    )
+                    ->where('congressman_budgets.budget_id', $budget->id)
+                    ->where('cost_center_id', '=', $this->refundCostCenter->id)
+                    ->get()
+                    ->each(function ($item) {
+                        $this->refundTotal += abs($item->soma);
+                    });
+            }
+        }
     }
 
     public function getMainTable($year = '2019')
     {
-        //        $year = '2019';
-
         $this->init($year);
         $table = collect([]);
 
@@ -202,17 +205,9 @@ class Service
         $table = $this->fillTotalsRow($table);
         //Fim da última linha
 
-//                dump('creditTotal');
-//                dump($this->creditTotal);
-//                dump('refundTotal');
-//                dump($this->refundTotal);
-//                dump('spentTotal');
-//                dump($this->spentTotal);
-
-//                dd($table);
+        $this->calculateTotals($table);
 
         return [
-            //            'congressman' => $this->congressman,
             'year' => $year,
             'mainTable' => $table,
             'totalsTable' => [
@@ -226,8 +221,8 @@ class Service
                     to_reais($this->creditTotal) ==
                     to_reais($this->refundTotal + $this->spentTotal)
                         ? 'REGULAR'
-                        : 'IRREGULAR'
-            ]
+                        : 'IRREGULAR',
+            ],
         ];
     }
 }
