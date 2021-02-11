@@ -7,4 +7,5 @@
 @endsection
 @section('content')
     @include('admin.annual-reports.partials.table')
+    @include('admin.annual-reports.partials.totals-table')
 @endsection

@@ -110,6 +110,42 @@ class Service
                     $soma = to_reais(abs($entries->soma));
 
                     $row->push($soma);
+
+                    //Crédito
+                    Entry::selectRaw('sum(entries.value) as soma')
+                        //                        ->join('congressman_legislatures','congressman_legislatures.')
+                        ->join(
+                            'congressman_budgets',
+                            'congressman_budgets.id',
+                            '=',
+                            'entries.congressman_budget_id'
+                        )
+                        ->where('congressman_budgets.budget_id', $budget->id)
+                        ->whereNotNull('entries.published_at')
+                        ->where('cost_center_id', '=',$this->creditCostCenter->id)
+                        ->get()
+                        ->each(function ($item) {
+//                            dd('oi');
+                            $this->creditTotal += abs($item->soma);
+                        });
+                    //devolução
+                    Entry::selectRaw('sum(entries.value) as soma')
+                        //                        ->join('congressman_legislatures','congressman_legislatures.')
+                        ->join(
+                            'congressman_budgets',
+                            'congressman_budgets.id',
+                            '=',
+                            'entries.congressman_budget_id'
+                        )
+                        ->where('congressman_budgets.budget_id', $budget->id)
+                        ->whereNotNull('entries.published_at')
+                        ->where('cost_center_id', '=',$this->refundCostCenter->id)
+                        ->get()
+                        ->each(function ($item) {
+//                            dd('oi');
+                            $this->refundTotal += abs($item->soma);
+                        });
+
                 } else {
                     $row->push(to_reais(0));
                 }
@@ -127,7 +163,7 @@ class Service
         public function fillTotalsRow($table)
         {
             $row = collect([]);
-            $row->push('ACUMULADO');
+            $row->push('TOTAL');
             for ($i = 1; $i <= 12; $i++){
                 $totalPerMonth = 0;
                 foreach ($table as $item) {
@@ -166,14 +202,14 @@ class Service
         $table = $this->fillTotalsRow($table);
         //Fim da última linha
 
-        //        dump('creditTotal');
-        //        dump($this->creditTotal);
-        //        dump('refundTotal');
-        //        dump($this->refundTotal);
-        //        dump('spentTotal');
-        //        dump($this->spentTotal);
+//                dump('creditTotal');
+//                dump($this->creditTotal);
+//                dump('refundTotal');
+//                dump($this->refundTotal);
+//                dump('spentTotal');
+//                dump($this->spentTotal);
 
-        //        dd($table);
+//                dd($table);
 
         return [
             //            'congressman' => $this->congressman,
