@@ -334,8 +334,8 @@ class Service
                     to_reais($this->creditTotal) ==
                     to_reais($this->refundTotal + $this->spentTotal)
                         ? 'REGULAR'
-                        : 'IRREGULAR'
-            ]
+                        : 'IRREGULAR',
+            ],
         ];
     }
 
@@ -353,7 +353,7 @@ class Service
             'VIII' => 'Divulgação',
             'IX' => 'Cursos',
             'X' => 'Diárias',
-            'XI' => 'Tarifas'
+            'XI' => 'Tarifas',
         ];
 
         $allResponse = collect();
@@ -380,7 +380,7 @@ class Service
                             $abbreviations[$costCenter->code] ?? '',
                         'number' => $i,
                         'roman' => $costCenter->code,
-                        'ids' => collect($costCenter->id)
+                        'ids' => collect($costCenter->id),
                     ];
 
                     $allResponse->push($costCenterArrayResponse);
@@ -399,7 +399,7 @@ class Service
                     'abbreviation' => $abbreviations[$roman] ?? '',
                     'number' => $i,
                     'roman' => $roman,
-                    'ids' => $collection
+                    'ids' => $collection,
                 ];
 
                 $allResponse->push($costCenterArrayResponse);

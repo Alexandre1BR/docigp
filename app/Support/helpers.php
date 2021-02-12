@@ -261,6 +261,12 @@ function to_reais($number)
     return 'R$ ' . number_format($number, 2, ',', '.');
 }
 
+function without_reais($number){
+    return str_replace(",",".",
+                str_replace(".","",
+                    str_replace('R$ ',"",$number)));
+}
+
 function trunc_value_with_two_digits($number)
 {
     return intval($number * 100) / 100;

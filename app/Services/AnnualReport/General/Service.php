@@ -26,6 +26,21 @@ class Service
     public $costCentersRows;
     public $congressman;
 
+    public $months = [
+        'JAN',
+        'FEV',
+        'MAR',
+        'ABR',
+        'MAI',
+        'JUN',
+        'JUL',
+        'AGO',
+        'SET',
+        'OUT',
+        'NOV',
+        'DEZ',
+    ];
+
     public function init($year = '2019')
     {
         $this->spentTotal = 0;
@@ -62,100 +77,12 @@ class Service
         $row->push('');
 
         //Meses
-        $row->push('JAN');
-        $row->push('FEV');
-        $row->push('MAR');
-        $row->push('ABR');
-        $row->push('MAI');
-        $row->push('JUN');
-        $row->push('JUL');
-        $row->push('AGO');
-        $row->push('SET');
-        $row->push('OUT');
-        $row->push('NOV');
-        $row->push('DEZ');
+        foreach ($this->months as $month) {
+            $row->push($month);
+        }
 
         $row->push('TOTAL');
 
-        $table->push($row);
-
-        return $table;
-    }
-
-    public function fillPercentageRow($table)
-    {
-        $row = collect([]);
-        $row->push('Solicitado(%)');
-        foreach ($this->period as $month) {
-            $budget = Budget::where('date', $month)->first();
-
-            if ($budget) {
-                $congressmanLegislature = CongressmanLegislature::where(
-                    'congressman_id',
-                    $this->congressman->id
-                )
-                    ->where('legislature_id', $this->legislature->id)
-                    ->first();
-
-                if ($congressmanLegislature) {
-                    if (
-                        $congressmanBudget = CongressmanBudget::where(
-                            'budget_id',
-                            $budget->id
-                        )
-                            ->where(
-                                'congressman_legislature_id',
-                                $congressmanLegislature->id
-                            )
-                            ->first()
-                    ) {
-                        $row->push(
-                            number_format(
-                                $congressmanBudget->percentage,
-                                2,
-                                '.',
-                                ''
-                            )
-                        );
-
-                        //Calcula crédito
-                        Entry::where(
-                            'cost_center_id',
-                            $this->creditCostCenter->id
-                        )
-                            ->where(
-                                'congressman_budget_id',
-                                $congressmanBudget->id
-                            )
-                            ->get()
-                            ->each(function ($item) {
-                                $this->creditTotal += abs($item->value);
-                            });
-
-                        //Calcula devolução
-                        Entry::where(
-                            'cost_center_id',
-                            $this->refundCostCenter->id
-                        )
-                            ->where(
-                                'congressman_budget_id',
-                                $congressmanBudget->id
-                            )
-                            ->get()
-                            ->each(function ($item) {
-                                $this->refundTotal += abs($item->value);
-                            });
-                    } else {
-                        $row->push(number_format(0, 2, '.', ''));
-                    }
-                } else {
-                    $row->push(number_format(0, 2, '.', ''));
-                }
-            } else {
-                $row->push(number_format(0, 2, '.', ''));
-            }
-        }
-        $row->push('');
         $table->push($row);
 
         return $table;
@@ -173,7 +100,6 @@ class Service
 
                 if ($budget) {
                     $entries = Entry::selectRaw('sum(entries.value) as soma')
-                        //                        ->join('congressman_legislatures','congressman_legislatures.')
                         ->join(
                             'congressman_budgets',
                             'congressman_budgets.id',
@@ -181,6 +107,7 @@ class Service
                             'entries.congressman_budget_id'
                         )
                         ->where('congressman_budgets.budget_id', $budget->id)
+                        ->whereNotNull('congressman_budgets.published_at')
                         ->whereNotNull('entries.published_at')
                         ->whereIn('cost_center_id', $costCenter['ids'])
                         ->first();
@@ -208,70 +135,63 @@ class Service
     {
         $row = collect([]);
         $row->push('TOTAL');
-        foreach ($this->period as $month) {
-            $budget = Budget::where('date', $month)->first();
-
-            if ($budget) {
-                $congressmanLegislature = CongressmanLegislature::where(
-                    'congressman_id',
-                    $this->congressman->id
-                )
-                    ->where('legislature_id', $this->legislature->id)
-                    ->first();
-
-                if ($congressmanLegislature) {
-                    if (
-                        $congressmanBudget = CongressmanBudget::where(
-                            'budget_id',
-                            $budget->id
-                        )
-                            ->where(
-                                'congressman_legislature_id',
-                                $congressmanLegislature->id
-                            )
-                            ->first()
-                    ) {
-                        $entries = Entry::selectRaw('sum(value) as soma');
-
-                        $entries->orWhere(function ($query) {
-                            foreach ($this->costCentersRows as $costCenter) {
-                                $query->orWhereIn(
-                                    'cost_center_id',
-                                    $costCenter['ids']
-                                );
-                            }
-                        });
-
-                        $entries
-                            ->where(
-                                'congressman_budget_id',
-                                $congressmanBudget->id
-                            )
-                            ->whereNotNull('published_at');
-
-                        $total = abs($entries->first()->soma);
-
-                        $row->push(to_reais($total));
-                    } else {
-                        $row->push(to_reais(0));
-                    }
-                } else {
-                    $row->push(to_reais(0));
+        for ($i = 1; $i <= 12; $i++) {
+            $totalPerMonth = 0;
+            foreach ($table as $item) {
+                if (!in_array($item[$i], $this->months)) {
+                    $totalPerMonth += without_reais($item[$i]);
                 }
-            } else {
-                $row->push(to_reais(0));
             }
+            $row->push(to_reais($totalPerMonth));
         }
-        $row->push('');
+
+        $row->push(to_reais($this->spentTotal));
         $table->push($row);
 
         return $table;
     }
 
+    public function calculateTotals($table)
+    {
+        foreach ($this->period as $month) {
+            $budget = Budget::where('date', $month)->first();
+
+            if ($budget) {
+                //Crédito
+                Entry::selectRaw('sum(entries.value) as soma')
+                    ->join(
+                        'congressman_budgets',
+                        'congressman_budgets.id',
+                        '=',
+                        'entries.congressman_budget_id'
+                    )
+                    ->where('congressman_budgets.budget_id', $budget->id)
+                    ->where('cost_center_id', '=', $this->creditCostCenter->id)
+                    ->get()
+                    ->each(function ($item) use ($budget) {
+                        $this->creditTotal += abs($item->soma);
+                    });
+
+                //devolução
+                Entry::selectRaw('sum(entries.value) as soma')
+                    ->join(
+                        'congressman_budgets',
+                        'congressman_budgets.id',
+                        '=',
+                        'entries.congressman_budget_id'
+                    )
+                    ->where('congressman_budgets.budget_id', $budget->id)
+                    ->where('cost_center_id', '=', $this->refundCostCenter->id)
+                    ->get()
+                    ->each(function ($item) {
+                        $this->refundTotal += abs($item->soma);
+                    });
+            }
+        }
+    }
+
     public function getMainTable($year = '2019')
     {
-        //        $year = '2019';
-
         $this->init($year);
         $table = collect([]);
 
@@ -282,20 +202,12 @@ class Service
         //Fim das linhas do meio
 
         //Gerar última linha
-        //        $table = $this->fillTotalsRow($table);
+        $table = $this->fillTotalsRow($table);
         //Fim da última linha
 
-        //        dump('creditTotal');
-        //        dump($this->creditTotal);
-        //        dump('refundTotal');
-        //        dump($this->refundTotal);
-        //        dump('spentTotal');
-        //        dump($this->spentTotal);
-
-        //        dd($table);
+        $this->calculateTotals($table);
 
         return [
-            //            'congressman' => $this->congressman,
             'year' => $year,
             'mainTable' => $table,
             'totalsTable' => [
@@ -309,8 +221,8 @@ class Service
                     to_reais($this->creditTotal) ==
                     to_reais($this->refundTotal + $this->spentTotal)
                         ? 'REGULAR'
-                        : 'IRREGULAR'
-            ]
+                        : 'IRREGULAR',
+            ],
         ];
     }
 }
