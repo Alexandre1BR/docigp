@@ -142,8 +142,8 @@ return [
     'events' => [
         'throttle' => [
             'allow' => env('EVENTS_THROTTLE_ALLOW', 1),
-            'every' => env('EVENTS_THROTTLE_EVERY', 15)
-        ]
+            'every' => env('EVENTS_THROTTLE_EVERY', 15),
+        ],
     ],
 
     /**
@@ -151,7 +151,7 @@ return [
      */
 
     'remote_request' => [
-        'timeout' => env('REMOTE_REQUEST_TIMEOUT', 20)
+        'timeout' => env('REMOTE_REQUEST_TIMEOUT', 20),
     ],
 
     /*
@@ -195,6 +195,9 @@ return [
         /*
          * Package Service Providers...
          */
+
+        Bugsnag\BugsnagLaravel\BugsnagServiceProvider::class,
+
         /*
          * Application Service Providers...
          */
@@ -206,7 +209,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\ViewComposerServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
-        Chumper\Zipper\ZipperServiceProvider::class
+        Chumper\Zipper\ZipperServiceProvider::class,
     ],
 
     /*
@@ -256,6 +259,6 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-        'Zipper' => Chumper\Zipper\Zipper::class
-    ]
+        'Zipper' => Chumper\Zipper\Zipper::class,
+    ],
 ];
