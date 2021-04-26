@@ -4,7 +4,6 @@ use Monolog\Handler\StreamHandler;
 use Monolog\Handler\SyslogUdpHandler;
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Default Log Channel
@@ -36,8 +35,13 @@ return [
     'channels' => [
         'stack' => [
             'driver' => 'stack',
-            'channels' => ['daily'],
+            'channels' => ['daily', 'bugsnag'],
             'ignore_exceptions' => false,
+        ],
+
+        // Create a bugsnag logging channel:
+        'bugsnag' => [
+            'driver' => 'bugsnag',
         ],
 
         'single' => [
@@ -90,5 +94,4 @@ return [
             'level' => 'debug',
         ],
     ],
-
 ];
