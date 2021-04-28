@@ -9,6 +9,7 @@
 - [Composer](https://getcomposer.org/)
 - [Redis](https://redis.io/topics/quickstart)
 - [PostgreSQL](https://www.postgresql.org/)
+- [Pusher](https://pusher.com/)
 
 ### Instalação 
 
@@ -21,16 +22,33 @@
 - Entrar na `<pasta-aonde-o-site-foi-instalado>`
 - Copiar o arquivo `.env.example` para `.env`
 - Editar o arquivo `.env` e configurar todos dados do sistema
-- Ainda no arquivo `.env`, alterar a variável `APP_ENV` para o ambiente correto (testing, staging, production)
+- Ainda no arquivo `.env`, alterar a variável `APP_ENV` para o ambiente correto (local, testing, staging, production)
 - Ainda no arquivo `.env`, configurar banco de dados
+- Ainda no arquivo `.env`, configurar o Pusher (criar uma conta, se necessário)
+- Ainda no arquivo `.env`, configurar o serviço de e-mail (Outlook, Mailtrap, ou MAIL_DRIVER=log)
 - Executar o comando `composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev` para instalar todas as dependências da aplicação
 - Banco de dados
     - Caso **não** haja backup: executar o comando `php artisan migrate` para **criar** a estrutura do banco de dados
     - Caso haja backup: restaurar o banco e executar o comando `php artisan migrate` para **atualizar** a estrutura do banco de dados
-- Linkar a pasta storage
+- Linkar a pasta storage `php artisan storage:link`
+- Executar o comando `php artisan key:generate`
+- Criar o primeiro usuário administrador
 ```
-php artisan storage:link
+php artisan docigp:users:create admin@alerj.rj.gov.br Admin
+php artisan docigp:sync:roles
+php artisan docigp:role:assign administrator admin@alerj.rj.gov.br
 ```
+- Resetar a senha para o usuário administrador criado
+- Executar os seguintes comandos para sincronizar o banco de dados
+```
+php artisan docigp:sync:parties 
+php artisan docigp:sync:congressmen
+php artisan docigp:sync:departments
+php artisan docigp:sync:roles
+php artisan docigp:budget:generate
+```
+
+#### Guia de instalação
 
 ### Atualizando a aplicação
 

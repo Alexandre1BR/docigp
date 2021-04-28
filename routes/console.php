@@ -40,7 +40,7 @@ Artisan::command('docigp:budget:generate {baseDate?} {congressmanName?}', functi
     $this->info('Generating budgets...');
 
     app(Budgets::class)->generate($baseDate, $congressmanName);
-})->describe('Sync congressmen data');
+})->describe('Generate budgets');
 
 Artisan::command('docigp:role:assign {role} {email}', function ($role, $email) {
     if (!($user = app(Users::class)->findByEmail($email))) {
