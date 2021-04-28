@@ -40,7 +40,7 @@ Artisan::command('docigp:budget:generate {baseDate?} {congressmanName?}', functi
     $this->info('Generating budgets...');
 
     app(Budgets::class)->generate($baseDate, $congressmanName);
-})->describe('Generate budgets');
+})->describe('Generate budgets {baseDate?} {congressmanName?}');
 
 Artisan::command('docigp:role:assign {role} {email}', function ($role, $email) {
     if (!($user = app(Users::class)->findByEmail($email))) {
@@ -50,7 +50,7 @@ Artisan::command('docigp:role:assign {role} {email}', function ($role, $email) {
     $user->assign($role);
 
     $this->info("{$user->name} is now '{$role}'");
-})->describe('Add role to user');
+})->describe('Add role to user {role} {email}');
 
 Artisan::command('docigp:role:retract {role} {email}', function (
     $role,
@@ -63,7 +63,7 @@ Artisan::command('docigp:role:retract {role} {email}', function (
     $user->retract($role);
 
     $this->info("{$user->name} is not '{$role}' anymore");
-})->describe('Remove role from user');
+})->describe('Remove role from user {role} {email}');
 
 Artisan::command('docigp:users:create {email} {name}', function (
     $email,
@@ -79,19 +79,19 @@ Artisan::command('docigp:users:create {email} {name}', function (
     );
 
     $this->info("User {$user->email} created");
-})->describe('Create user');
+})->describe('Create user {email} {name}');
 
 Artisan::command('docigp:users:reset-password {email}', function ($email) {
     Password::sendResetLink(['email' => $email]);
 
     $this->info("Password reset for {$email} was sent");
-})->describe('Create user');
+})->describe('Reset password for user {email}');
 
 Artisan::command('queue:clear {name?}', function ($name = null) {
     Redis::connection()->del($name = $name ?? 'default');
 
     $this->info("Queue '{$name}' was cleared");
-})->describe('Create user');
+})->describe('Clear queue {name?}');
 
 Artisan::command('docigp:entries:update-transport', function () {
     CongressmanBudget::disableGlobalScopes();
