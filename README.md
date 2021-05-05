@@ -4,7 +4,7 @@
 
 ## Regulamentos (regras de negócio)
 
-- Atos 641/2019, 645/2019, 647/2019, 648/2019
+- Atos 641/2019, 645/2019, 647/2019, 648/2019, 664/2021
 - https://alerj.sharepoint.com/:f:/s/arquivos/EpLENmE3SStMr0zuiI530dsBmqIi8-KPeQvszRgYti1a3Q?e=9cte95
 
 ## Características da aplicação
