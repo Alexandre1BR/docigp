@@ -19,7 +19,7 @@ class EntryDocument extends Model
         'analysed_at',
         'analysed_by_id',
         'published_at',
-        'published_by_id'
+        'published_by_id',
     ];
 
     protected $selectColumns = ['entry_documents.*'];
@@ -90,8 +90,7 @@ class EntryDocument extends Model
     {
         //dd(blank($this->congressmanBudget->entry->closed_at));
 
-        return blank($this->verified_at) &&
-            blank($this->entry->congressmanBudget->closed_at);
+        return blank($this->verified_at) && blank($this->entry->congressmanBudget->closed_at);
     }
 
     public function isVerifiable()

@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\EntryCommentDelete;
 use App\Http\Requests\EntryCommentStore;
 use App\Data\Repositories\EntryComments as EntryCommentsRepository;
+use App\Http\Requests\EntryCommentUpdate;
 
 class EntryComments extends Controller
 {
@@ -46,7 +48,7 @@ class EntryComments extends Controller
     }
 
     public function update(
-        EntryCommentStore $request,
+        EntryCommentUpdate $request,
         $congressmanId,
         $congressmanBudgetId,
         $entryId,
@@ -58,8 +60,8 @@ class EntryComments extends Controller
             ->update($entryCommentId);
     }
 
-
     public function delete(
+        EntryCommentDelete $request,
         $congressmanId,
         $congressmanBudgetId,
         $entryId,

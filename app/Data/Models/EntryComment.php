@@ -11,12 +11,7 @@ class EntryComment extends Model
 {
     use ModelActionable, MarkAsUnread;
 
-    protected $fillable = [
-        'entry_id',
-        'text',
-        'created_by_id',
-        'updated_by_id'
-    ];
+    protected $fillable = ['entry_id', 'text', 'created_by_id', 'updated_by_id'];
 
     protected $selectColumns = ['entry_comments.*'];
 
@@ -28,7 +23,7 @@ class EntryComment extends Model
 
     protected $joins = [];
 
-    protected $appends = ['formatted_created_at'];
+    protected $appends = ['formatted_created_at', 'creator_role_id'];
 
     public static function boot()
     {
@@ -40,6 +35,11 @@ class EntryComment extends Model
     public function getFormattedCreatedAtAttribute()
     {
         return Carbon::parse($this->created_at)->format('d/m/Y');
+    }
+
+    public function getCreatorRoleIdAttribute()
+    {
+        return $this->user->roles->first()->id;
     }
 
     public function entry()

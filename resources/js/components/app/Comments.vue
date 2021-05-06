@@ -8,9 +8,7 @@
         @set-per-page="perPage = $event"
         :collapsedLabel="selected.name"
         :is-selected="selected.id !== null"
-        :subTitle="
-            entries.selected.object + ' - ' + entries.selected.value_formatted
-        "
+        :subTitle="entries.selected.object + ' - ' + entries.selected.value_formatted"
         v-if="environment.user != null"
     >
         <template slot="buttons">
@@ -35,10 +33,7 @@
                 v-for="comment in entryComments.data.rows"
                 :class="{
                     'cursor-pointer': true,
-                    'bg-primary-lighter text-white': isCurrent(
-                        comment,
-                        selected,
-                    ),
+                    'bg-primary-lighter text-white': isCurrent(comment, selected),
                 }"
             >
                 <td class="align-middle">
@@ -51,19 +46,27 @@
 
                 <td class="align-middle text-left">
                     {{ comment.formatted_created_at }}
+                    {{ environment.user.roles[0].id === comment.creator_role_id }}
                 </td>
 
                 <td class="align-middle text-right">
                     <button
-                        :disabled="!can('entry-comments:delete')"
+                        :disabled="
+                            !can('entry-comments:delete') ||
+                            environment.user.roles[0].id !== comment.creator_role_id
+                        "
                         class="btn btn-sm btn-micro btn-primary"
                         @click="editComment(comment)"
                         title="editar comentário"
                     >
                         <i class="fa fa-edit"></i>
                     </button>
+
                     <button
-                        :disabled="!can('entry-comments:delete')"
+                        :disabled="
+                            !can('entry-comments:delete') ||
+                            environment.user.roles[0].id !== comment.creator_role_id
+                        "
                         class="btn btn-sm btn-micro btn-danger"
                         @click="trash(comment)"
                         title="Deletar Comentário"
@@ -122,7 +125,7 @@ export default {
             this.$swal({
                 title: 'Deseja realmente DELETAR este comentário?',
                 icon: 'warning',
-            }).then(result => {
+            }).then((result) => {
                 if (result.value) {
                     this.$store.dispatch('entryComments/delete', comment)
                 }
