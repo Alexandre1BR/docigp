@@ -39,14 +39,11 @@ return [
                 'congressman:update' => 'Deputados: alterar',
                 'congressman:see-unread' => 'Deputados: ver statis de não-lido',
 
-                'congressman-budgets:buttons' =>
-                    'Orçamento de Deputado: mostra todos os botões',
+                'congressman-budgets:buttons' => 'Orçamento de Deputado: mostra todos os botões',
                 'congressman-budgets:show' => 'Orçamento de Deputado: ver',
                 'congressman-budgets:store' => 'Orçamento de Deputado: criar',
-                'congressman-budgets:update' =>
-                    'Orçamento de Deputado: alterar',
-                'congressman-budgets:percentage' =>
-                    'Orçamento de Deputado: percentual',
+                'congressman-budgets:update' => 'Orçamento de Deputado: alterar',
+                'congressman-budgets:percentage' => 'Orçamento de Deputado: percentual',
 
                 'entries:buttons' => 'Lançamentos: mostra todos os botões',
                 'entries:show' => 'Lançamentos: ver',
@@ -55,12 +52,10 @@ return [
                 'entries:update' => 'Lançamentos: alterar',
                 'entries:publish' => 'Lançamentos: publicar',
                 'entries:delete' => 'Lançamentos: deletar',
-                'entries:control-update' =>
-                    'Lançamentos: alterar lançamento de controle',
+                'entries:control-update' => 'Lançamentos: alterar lançamento de controle',
                 'entries:analyse' => 'Lançamentos: analisar',
 
-                'entry-documents:buttons' =>
-                    'Documentos: mostra todos os botões',
+                'entry-documents:buttons' => 'Documentos: mostra todos os botões',
                 'entry-documents:show' => 'Documentos: ver',
                 'entry-documents:store' => 'Documentos: criar',
                 'entry-documents:publish' => 'Documentos: publicar',
@@ -69,6 +64,7 @@ return [
                 'entry-documents:delete' => 'Documentos: deletar',
 
                 'entry-comments:store' => 'Comentários: criar',
+                'entry-comments:update' => 'Comentários: alterar',
                 'entry-comments:show' => 'Comentários: ver',
                 'entry-comments:delete' => 'Documentos: deletar',
 
@@ -77,17 +73,12 @@ return [
                 'assign:publisher' => 'Atribuir perfil de Publicador',
                 'assign:viewer' => 'Atribuir perfil de Visualizador',
 
-                'congressman-budgets:publish' =>
-                    'Orçamento de Deputado: publicar',
-                'congressman-budgets:deposit' =>
-                    'Orçamento de Deputado: depositar',
-                'congressman-budgets:refund' =>
-                    'Orçamento de Deputado: devolver',
-                'congressman-budgets:analyse' =>
-                    'Orçamento de Deputado: analisar',
+                'congressman-budgets:publish' => 'Orçamento de Deputado: publicar',
+                'congressman-budgets:deposit' => 'Orçamento de Deputado: depositar',
+                'congressman-budgets:refund' => 'Orçamento de Deputado: devolver',
+                'congressman-budgets:analyse' => 'Orçamento de Deputado: analisar',
                 'congressman-budgets:close' => 'Orçamento de Deputado: fechar',
-                'congressman-budgets:reopen' =>
-                    'Orçamento de Deputado: reabrir',
+                'congressman-budgets:reopen' => 'Orçamento de Deputado: reabrir',
 
                 'assign:financial' => 'Atribuir perfil de Financeiro',
 
@@ -101,8 +92,8 @@ return [
 
                 'cost-centers:show' => 'Centros de custo: ver',
                 'cost-centers:store' => 'Centros de custo: criar',
-                'cost-centers:update' => 'Centros de custo: alterar'
-            ]
+                'cost-centers:update' => 'Centros de custo: alterar',
+            ],
         ],
 
         [
@@ -135,10 +126,11 @@ return [
                 'entry-documents:delete',
                 'entry-documents:verify',
 
-                'entry-comments:store' => 'Comentários: criar',
-                'entry-comments:show' => 'Comentários: ver',
-                'entry-comments:delete' => 'Documentos: deletar'
-            ]
+                'entry-comments:store',
+                'entry-comments:show',
+                'entry-comments:delete',
+                'entry-comments:update',
+            ],
         ],
 
         [
@@ -168,22 +160,23 @@ return [
                 'entries:analyse',
                 'entries:publish',
 
-                'providers:show' => 'Fornecedores: ver',
-                'providers:store' => 'Fornecedores: criar',
-                'providers:update' => 'Fornecedores: alterar',
+                'providers:show',
+                'providers:store',
+                'providers:update',
 
                 'entry-documents:buttons',
                 'entry-documents:show',
                 'entry-documents:analyse',
 
-                'entry-comments:store' => 'Comentários: criar',
-                'entry-comments:show' => 'Comentários: ver',
-                'entry-comments:delete' => 'Documentos: deletar',
+                'entry-comments:store',
+                'entry-comments:show',
+                'entry-comments:delete',
+                'entry-comments:update',
 
-                'cost-centers:show' => 'Centros de custo: ver',
-                'cost-centers:store' => 'Centros de custo: criar',
-                'cost-centers:update' => 'Centros de custo: alterar'
-            ]
+                'cost-centers:show',
+                'cost-centers:store',
+                'cost-centers:update',
+            ],
         ],
 
         [
@@ -198,67 +191,67 @@ return [
 
                 'entries:show',
 
-                'entry-documents:show'
-            ]
-        ]
+                'entry-documents:show',
+            ],
+        ],
     ],
 
     'roles' => [
         [
             'title' => 'Administrador',
-            'name' => Constants::ROLE_ADMINISTRATOR
+            'name' => Constants::ROLE_ADMINISTRATOR,
         ],
         [
             'title' => 'Deputado',
-            'name' => Constants::ROLE_CONGRESSMAN
+            'name' => Constants::ROLE_CONGRESSMAN,
         ],
         [
             'title' => 'Chefe',
-            'name' => 'chief'
+            'name' => 'chief',
         ],
         [
             'title' => 'Gestor',
-            'name' => 'manager'
+            'name' => 'manager',
         ],
         [
             'title' => 'Assessor',
-            'name' => 'advisor'
+            'name' => 'advisor',
         ],
         [
             'title' => 'Operador',
-            'name' => 'operator'
+            'name' => 'operator',
         ],
         [
             'title' => 'Verificador',
-            'name' => 'verifier'
+            'name' => 'verifier',
         ],
         [
             'title' => 'ACI',
-            'name' => Constants::ROLE_ACI
+            'name' => Constants::ROLE_ACI,
         ],
         [
             'title' => 'Assistente',
-            'name' => 'assistant'
+            'name' => 'assistant',
         ],
         [
             'title' => 'Gestor',
-            'name' => 'manager'
+            'name' => 'manager',
         ],
         [
             'title' => 'Funcionário',
-            'name' => 'employee'
+            'name' => 'employee',
         ],
         [
             'title' => 'Publicador',
-            'name' => 'publisher'
+            'name' => 'publisher',
         ],
         [
             'title' => 'Visualizador',
-            'name' => 'viewer'
+            'name' => 'viewer',
         ],
         [
             'title' => 'Financeiro',
-            'name' => 'financial'
-        ]
-    ]
+            'name' => 'financial',
+        ],
+    ],
 ];

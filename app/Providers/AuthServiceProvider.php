@@ -38,30 +38,30 @@ class AuthServiceProvider extends ServiceProvider
             return $congressman->department->id == $user->department->id;
         });
 
-        Gate::define('congressman-budgets:update:model', function (
-            $user,
-            $congressmanBudget
-        ) {
+        Gate::define('congressman-budgets:update:model', function ($user, $congressmanBudget) {
             return blank($user->department_id) ||
-                $congressmanBudget->congressman->department_id ==
-                    $user->department_id;
+                $congressmanBudget->congressman->department_id == $user->department_id;
         });
 
         Gate::define('entries:update:model', function ($user, $entry) {
-            return Gate::allows(
-                'congressman-budgets:update:model',
-                $entry->congressmanBudget
-            );
+            return Gate::allows('congressman-budgets:update:model', $entry->congressmanBudget);
         });
 
-        Gate::define('entry-documents:update:model', function (
-            $user,
-            $entryDocument
-        ) {
+        Gate::define('entry-documents:update:model', function ($user, $entryDocument) {
             return Gate::allows(
                 'congressman-budgets:update:model',
                 $entryDocument->entry->congressmanBudget
             );
+        });
+
+        Gate::define('entry-comments:update:model', function ($user, $entryComment) {
+            //Se a pessoa está no mesmo departamento que o criador do comentário
+            return $entryComment->user->roles->first()->id == $user->roles->first()->id;
+        });
+
+        Gate::define('entry-comments:delete:model', function ($user, $entryComment) {
+            //Se a pessoa está no mesmo departamento que o criador do comentário
+            return $entryComment->user->roles->first()->id == $user->roles->first()->id;
         });
     }
 }
