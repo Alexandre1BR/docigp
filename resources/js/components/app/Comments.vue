@@ -46,14 +46,13 @@
 
                 <td class="align-middle text-left">
                     {{ comment.formatted_created_at }}
-                    {{ environment.user.roles[0].id === comment.creator_role_id }}
                 </td>
 
                 <td class="align-middle text-right">
                     <button
                         :disabled="
                             !can('entry-comments:delete') ||
-                            environment.user.roles[0].id !== comment.creator_role_id
+                                environment.user.roles[0].id !== comment.creator_role_id
                         "
                         class="btn btn-sm btn-micro btn-primary"
                         @click="editComment(comment)"
@@ -65,7 +64,7 @@
                     <button
                         :disabled="
                             !can('entry-comments:delete') ||
-                            environment.user.roles[0].id !== comment.creator_role_id
+                                environment.user.roles[0].id !== comment.creator_role_id
                         "
                         class="btn btn-sm btn-micro btn-danger"
                         @click="trash(comment)"
@@ -125,7 +124,7 @@ export default {
             this.$swal({
                 title: 'Deseja realmente DELETAR este comentário?',
                 icon: 'warning',
-            }).then((result) => {
+            }).then(result => {
                 if (result.value) {
                     this.$store.dispatch('entryComments/delete', comment)
                 }
