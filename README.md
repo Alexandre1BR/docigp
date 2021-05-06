@@ -141,6 +141,10 @@ php artisan docigp:sync:roles
         - Criar / Apagar
         - Verificar
         - Publicar
+    - Comentários
+        - Criar (do deputado)
+        - Apagar (do deputado)
+        - Editar (do deputado)
     - Mês
         - Fechar
         - Porcentagem
@@ -154,6 +158,10 @@ php artisan docigp:sync:roles
         - Criar / Editar
     - Documentos
         - Analisar
+    - Comentários
+      - Criar (da ACI)
+      - Apagar (da ACI)
+      - Editar (da ACI)
     - Mês
         - Reabrir
         - Analisar
