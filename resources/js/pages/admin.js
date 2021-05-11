@@ -11,10 +11,7 @@ if (document.getElementById(appName) !== null) {
 
         router,
 
-        data: {
-            name: null,
-            selected: null,
-        },
+        data: {},
 
         methods: {
             ...mapActions('environment', ['load', 'selectEntity', 'selectLanguage']),
