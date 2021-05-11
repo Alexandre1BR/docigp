@@ -11,19 +11,18 @@ if (document.getElementById(appName) !== null) {
 
         router,
 
-        data: {},
+        data: {
+            name: null,
+            selected: null,
+        },
 
         methods: {
-            ...mapActions('environment', [
-                'load',
-                'selectEntity',
-                'selectLanguage',
-            ]),
+            ...mapActions('environment', ['load', 'selectEntity', 'selectLanguage']),
         },
 
         computed: {
             ...mapState({
-                environment: state => state.environment,
+                environment: (state) => state.environment,
             }),
         },
     })

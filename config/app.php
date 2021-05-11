@@ -22,6 +22,8 @@ return [
 
     'month_round_change' => env('MONTH_ROUND_CHANGE'),
 
+    'default_joined_checkbox' => env('DEFAULT_JOINED_CHECKBOX', true),
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment

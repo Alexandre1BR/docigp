@@ -12,26 +12,21 @@ class Service
         return coollect([
             'app' => [
                 'name' => config('app.name'),
-                'key' => auth()->user()
-                    ? auth()->user()->client_key
-                    : config('app.client_key'),
+                'key' => auth()->user() ? auth()->user()->client_key : config('app.client_key'),
                 'id' => auth()->user() ? auth()->user()->email : csrf_token(),
                 'version' => Version::format('compact'),
             ],
 
+            'env' => ['default_joined_checkbox' => config('app.default_joined_checkbox')],
+
             'form' => [
-                'mode' => session(
-                    Constants::SESSION_FORM_MODE,
-                    Constants::FORM_MODE_SHOW
-                ),
+                'mode' => session(Constants::SESSION_FORM_MODE, Constants::FORM_MODE_SHOW),
             ],
 
             'token' => csrf_token(),
 
             'captcha_enabled' =>
-                app()->environment() == 'local' && env('DISABLE_CAPTCHA')
-                    ? false
-                    : true,
+                app()->environment() == 'local' && env('DISABLE_CAPTCHA') ? false : true,
 
             'captcha_siteKey' => config('services.recaptcha.siteKey'),
 
@@ -75,10 +70,7 @@ class Service
                 'key' => config('broadcasting.connections.pusher.key'),
 
                 'options' => [
-                    'cluster' => config(
-                        'broadcasting.connections.pusher.options.cluster',
-                        'us2'
-                    ),
+                    'cluster' => config('broadcasting.connections.pusher.options.cluster', 'us2'),
                     'encrypted' => config(
                         'broadcasting.connections.pusher.options.encrypted',
                         false
@@ -87,14 +79,8 @@ class Service
                         'broadcasting.connections.pusher.options.backend_host',
                         '127.0.0.1'
                     ),
-                    'port' => config(
-                        'broadcasting.connections.pusher.options.port',
-                        '6001'
-                    ),
-                    'scheme' => config(
-                        'broadcasting.connections.pusher.options.scheme',
-                        'http'
-                    ),
+                    'port' => config('broadcasting.connections.pusher.options.port', '6001'),
+                    'scheme' => config('broadcasting.connections.pusher.options.scheme', 'http'),
                 ],
             ],
         ]);
