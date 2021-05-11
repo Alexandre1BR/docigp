@@ -32,16 +32,12 @@ class CongressmanBudget extends Model
         'published_by_id',
         'published_at',
         'closed_by_id',
-        'closed_at'
+        'closed_at',
     ];
 
     protected $appends = ['has_refund'];
 
-    protected $with = [
-        'budget',
-        'congressmanLegislature',
-        'congressmanLegislature.congressman'
-    ];
+    protected $with = ['budget', 'congressmanLegislature', 'congressmanLegislature.congressman'];
 
     protected $selectColumns = ['congressman_budgets.*'];
 
@@ -49,17 +45,17 @@ class CongressmanBudget extends Model
         '(select count(*) from entries e where e.congressman_budget_id = congressman_budgets.id and e.analysed_at is null) > 0 as missing_analysis',
         '(select count(*) from entries e where e.congressman_budget_id = congressman_budgets.id and e.verified_at is null) > 0 as missing_verification',
         '(select count(*) from entries e where e.congressman_budget_id = congressman_budgets.id and e.entry_type_id = ' .
-            Constants::ENTRY_TYPE_ALERJ_DEPOSIT_ID .
-            ') > 0 as has_deposit',
+        Constants::ENTRY_TYPE_ALERJ_DEPOSIT_ID .
+        ') > 0 as has_deposit',
         '(select count(*) from entries e where e.congressman_budget_id = congressman_budgets.id :published-at-filter: :not-transport-or-credit-filter:) as entries_count',
         '(select sum(value) from entries e where e.congressman_budget_id = congressman_budgets.id and value > 0) as sum_credit',
-        '(select sum(value) from entries e where e.congressman_budget_id = congressman_budgets.id and value < 0) as sum_debit'
+        '(select sum(value) from entries e where e.congressman_budget_id = congressman_budgets.id and value < 0) as sum_debit',
     ];
 
     protected $orderBy = ['budgets.date' => 'desc'];
 
     protected $joins = [
-        'budgets' => ['budgets.id', '=', 'congressman_budgets.budget_id']
+        'budgets' => ['budgets.id', '=', 'congressman_budgets.budget_id'],
     ];
 
     public static function boot()
@@ -81,16 +77,14 @@ class CongressmanBudget extends Model
     {
         $fromPrevious = $type == 'from_previous';
 
-        $this->{'transport_' .
-            $type .
-            '_entry_id'} = ($entry2 = Entry::updateOrCreate(
+        $this->{'transport_' . $type . '_entry_id'} = ($entry2 = Entry::updateOrCreate(
             [
                 'congressman_budget_id' => $this->id,
                 'cost_center_id' => app(CostCenters::class)->findByCode(
                     $fromPrevious
                         ? Constants::COST_CENTER_TRANSPORT_TO_NEXT_ID
                         : Constants::COST_CENTER_TRANSPORT_FROM_PREVIOUS_ID
-                )->id
+                )->id,
             ],
             [
                 'to' => $this->congressman->name,
@@ -98,13 +92,9 @@ class CongressmanBudget extends Model
                 'entry_type_id' => Constants::ENTRY_TYPE_TRANSPORT_ID,
                 'object' =>
                     'Transporte de saldo ' .
-                    ($fromPrevious
-                        ? 'do período anterior'
-                        : 'para o próximo período'),
-                'date' => $fromPrevious
-                    ? $date->startOfMonth()
-                    : $date->endOfMonth(),
-                'value' => $balance
+                    ($fromPrevious ? 'do período anterior' : 'para o próximo período'),
+                'date' => $fromPrevious ? $date->startOfMonth() : $date->endOfMonth(),
+                'value' => $balance,
             ]
         ))->id;
 
@@ -158,8 +148,7 @@ class CongressmanBudget extends Model
 
     protected function percentageChanged()
     {
-        return blank($this->value) ||
-            ($this->isDirty('percentage') && !$this->isDirty('value'));
+        return blank($this->value) || ($this->isDirty('percentage') && !$this->isDirty('value'));
     }
 
     /**
@@ -204,9 +193,7 @@ class CongressmanBudget extends Model
     {
         return $this->entries()
             ->selectRaw('sum(value) as balance')
-            ->whereNotIn('cost_center_id', [
-                Constants::COST_CENTER_TRANSPORT_FROM_PREVIOUS_ID
-            ]) // débito
+            ->whereNotIn('cost_center_id', [Constants::COST_CENTER_TRANSPORT_FROM_PREVIOUS_ID]) // débito
             ->first()->balance ?? 0;
     }
 
@@ -234,7 +221,7 @@ class CongressmanBudget extends Model
             'cost_center_id' => Constants::COST_CENTER_CREDIT_ID,
             'entry_type_id' => Constants::ENTRY_TYPE_ALERJ_DEPOSIT_ID,
             'date' => $this->budget->date->startOfMonth() ?? now(),
-            'value' => $this->value
+            'value' => $this->value,
         ]);
     }
 
@@ -306,9 +293,7 @@ class CongressmanBudget extends Model
     {
         $selectColumns = $this->getSelectColumnsRawOverloaded();
 
-        $this->buildCostCentersLimitsTable()->each(function ($costCenter) use (
-            &$selectColumns
-        ) {
+        $this->buildCostCentersLimitsTable()->each(function ($costCenter) use (&$selectColumns) {
             $selectColumns[] =
                 '(select Abs(sum(e.value)) from entries e where e.congressman_budget_id = congressman_budgets.id and e.cost_center_id in (' .
                 implode(', ', $costCenter['ids']->toArray()) .
@@ -324,13 +309,10 @@ class CongressmanBudget extends Model
         $found = false;
 
         $costCenterId = \Cache::remember('cost-center-code-4', 60, function () {
-            return Costcenter::where('code', 4)->first()->id;
+            return CostCenter::where('code', 4)->first()->id;
         });
 
-        $this->entries->each(function (Entry $entry) use (
-            &$found,
-            $costCenterId
-        ) {
+        $this->entries->each(function (Entry $entry) use (&$found, $costCenterId) {
             $found = $found || $entry->cost_center_id == $costCenterId;
         });
 
