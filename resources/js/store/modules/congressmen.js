@@ -31,7 +31,7 @@ let state = merge_objects(
                     withPendency: false,
                     withoutPendency: false,
                     unread: false,
-                    joined: true,
+                    joined: laravel.env.default_joined_checkbox,
                     notJoined: false,
                 },
 
@@ -79,7 +79,7 @@ let actions = merge_objects(actionsMixin, {
             subscribePublicChannel(
                 'congressmen.' + payload.id,
                 '.App\\Events\\' + 'CongressmanBudgetsChanged',
-                event => {
+                (event) => {
                     context.dispatch('congressmanBudgets/load', payload, {
                         root: true,
                     })
@@ -89,8 +89,7 @@ let actions = merge_objects(actionsMixin, {
     },
 
     selectCongressman(context, payload) {
-        const performLoad =
-            !context.state.selected || context.state.selected.id != payload.id
+        const performLoad = !context.state.selected || context.state.selected.id != payload.id
 
         context.dispatch('congressmen/select', payload, { root: true })
 
@@ -99,29 +98,13 @@ let actions = merge_objects(actionsMixin, {
                 root: true,
             })
 
-            context.commit(
-                'congressmanBudgets/mutateSetSelected',
-                { id: null },
-                { root: true },
-            )
+            context.commit('congressmanBudgets/mutateSetSelected', { id: null }, { root: true })
 
-            context.commit(
-                'entries/mutateSetSelected',
-                { id: null },
-                { root: true },
-            )
+            context.commit('entries/mutateSetSelected', { id: null }, { root: true })
 
-            context.commit(
-                'entryDocuments/mutateSetSelected',
-                { id: null },
-                { root: true },
-            )
+            context.commit('entryDocuments/mutateSetSelected', { id: null }, { root: true })
 
-            context.commit(
-                'entryComments/mutateSetSelected',
-                { id: null },
-                { root: true },
-            )
+            context.commit('entryComments/mutateSetSelected', { id: null }, { root: true })
         }
     },
 
