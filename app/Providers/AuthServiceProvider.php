@@ -55,13 +55,24 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         Gate::define('entry-comments:update:model', function ($user, $entryComment) {
-            //Se a pessoa está no mesmo departamento que o criador do comentário
-            return $entryComment->user->roles->first()->id == $user->roles->first()->id;
+            //Se a pessoa está no mesmo departamento que o criador do comentário.
+            //Caso o usuário não tenha mais departamento, a ACI tem poder de alterar.
+
+            return $user->can('entry-comments:update') &&
+                $user->can(
+                    'entry-comments:update:' .
+                        ($entryComment->creatorIsCongressman ? 'congressman' : 'not-congressman')
+                );
         });
 
         Gate::define('entry-comments:delete:model', function ($user, $entryComment) {
-            //Se a pessoa está no mesmo departamento que o criador do comentário
-            return $entryComment->user->roles->first()->id == $user->roles->first()->id;
+            //Se a pessoa está no mesmo departamento que o criador do comentário.
+            //Caso o usuário não tenha mais departamento, a ACI tem poder de alterar.
+            return $user->can('entry-comments:delete') &&
+                $user->can(
+                    'entry-comments:delete:' .
+                        ($entryComment->creatorIsCongressman ? 'congressman' : 'not-congressman')
+                );
         });
     }
 }

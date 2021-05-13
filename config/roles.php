@@ -64,9 +64,16 @@ return [
                 'entry-documents:delete' => 'Documentos: deletar',
 
                 'entry-comments:store' => 'Comentários: criar',
-                'entry-comments:update' => 'Comentários: alterar',
                 'entry-comments:show' => 'Comentários: ver',
+                'entry-comments:update' => 'Comentários: alterar',
                 'entry-comments:delete' => 'Documentos: deletar',
+                'entry-comments:update:congressman' =>
+                    'Comentários: alterar : criados por deputado',
+                'entry-comments:delete:congressman' => 'Documentos: deletar : criados por deputado',
+                'entry-comments:update:not-congressman' =>
+                    'Comentários: alterar : não criados por deputado',
+                'entry-comments:delete:not-congressman' =>
+                    'Documentos: deletar : não criados por deputado',
 
                 'assign:assistant' => 'Atribuir perfil de Assistente',
                 'assign:employee' => 'Atribuir perfil de Funcionário',
@@ -130,6 +137,8 @@ return [
                 'entry-comments:show',
                 'entry-comments:delete',
                 'entry-comments:update',
+                'entry-comments:update:congressman',
+                'entry-comments:delete:congressman',
             ],
         ],
 
@@ -172,6 +181,8 @@ return [
                 'entry-comments:show',
                 'entry-comments:delete',
                 'entry-comments:update',
+                'entry-comments:update:not-congressman',
+                'entry-comments:delete:not-congressman',
 
                 'cost-centers:show',
                 'cost-centers:store',

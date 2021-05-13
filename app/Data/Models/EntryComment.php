@@ -23,7 +23,7 @@ class EntryComment extends Model
 
     protected $joins = [];
 
-    protected $appends = ['formatted_created_at', 'creator_role_id'];
+    protected $appends = ['formatted_created_at', 'creator_is_congressman'];
 
     public static function boot()
     {
@@ -37,9 +37,9 @@ class EntryComment extends Model
         return Carbon::parse($this->created_at)->format('d/m/Y');
     }
 
-    public function getCreatorRoleIdAttribute()
+    public function getCreatorIsCongressmanAttribute()
     {
-        return $this->user->roles->first()->id;
+        return !!$this->user->congressman_id;
     }
 
     public function entry()
