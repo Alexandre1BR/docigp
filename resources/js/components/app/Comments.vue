@@ -8,7 +8,9 @@
         @set-per-page="perPage = $event"
         :collapsedLabel="selected.name"
         :is-selected="selected.id !== null"
-        :subTitle="entries.selected.object + ' - ' + entries.selected.value_formatted"
+        :subTitle="
+            entries.selected.object + ' - ' + entries.selected.value_formatted
+        "
         v-if="environment.user != null"
     >
         <template slot="buttons">
@@ -33,7 +35,10 @@
                 v-for="comment in entryComments.data.rows"
                 :class="{
                     'cursor-pointer': true,
-                    'bg-primary-lighter text-white': isCurrent(comment, selected),
+                    'bg-primary-lighter text-white': isCurrent(
+                        comment,
+                        selected,
+                    ),
                 }"
             >
                 <td class="align-middle">
@@ -51,12 +56,17 @@
                 <td class="align-middle text-right">
                     <button
                         :disabled="
-                            !can('entry-comments:delete') ||
-                                environment.user.roles[0].id !== comment.creator_role_id
+                            !can('entry-comments:update') ||
+                            !can(
+                                'entry-comments:update:' +
+                                    (comment.creator_is_congressman
+                                        ? 'congressman'
+                                        : 'not-congressman'),
+                            )
                         "
                         class="btn btn-sm btn-micro btn-primary"
                         @click="editComment(comment)"
-                        title="editar comentário"
+                        title="Editar comentário"
                     >
                         <i class="fa fa-edit"></i>
                     </button>
@@ -64,7 +74,12 @@
                     <button
                         :disabled="
                             !can('entry-comments:delete') ||
-                                environment.user.roles[0].id !== comment.creator_role_id
+                            !can(
+                                'entry-comments:delete:' +
+                                    (comment.creator_is_congressman
+                                        ? 'congressman'
+                                        : 'not-congressman'),
+                            )
                         "
                         class="btn btn-sm btn-micro btn-danger"
                         @click="trash(comment)"
@@ -90,8 +105,7 @@ import congressmanBudgets from '../../views/mixins/congressmanBudgets'
 const service = {
     name: 'entryComments',
 
-    uri:
-        'congressmen/{congressmen.selected.id}/budgets/{congressmanBudgets.selected.id}/entries/{entries.selected.id}/comments',
+    uri: 'congressmen/{congressmen.selected.id}/budgets/{congressmanBudgets.selected.id}/entries/{entries.selected.id}/comments',
 }
 
 export default {
@@ -112,7 +126,11 @@ export default {
     },
 
     methods: {
-        ...mapActions(service.name, ['selectEntryComment']),
+        ...mapActions(service.name, [
+            'clearForm',
+            'clearErrors',
+            'selectEntryComment',
+        ]),
 
         getTableColumns() {
             let columns = ['Comentário', 'Autor', 'Criado em', '']
@@ -124,7 +142,7 @@ export default {
             this.$swal({
                 title: 'Deseja realmente DELETAR este comentário?',
                 icon: 'warning',
-            }).then(result => {
+            }).then((result) => {
                 if (result.value) {
                     this.$store.dispatch('entryComments/delete', comment)
                 }
@@ -136,6 +154,10 @@ export default {
         },
 
         createComment() {
+            if (filled(this.form.id)) {
+                this.clearForm()
+            }
+
             this.showModal = true
         },
     },

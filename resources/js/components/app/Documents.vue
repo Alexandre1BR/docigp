@@ -16,7 +16,7 @@
             <button
                 v-if="
                     can('entry-documents:buttons') ||
-                        can('entry-documents:store')
+                    can('entry-documents:store')
                 "
                 :disabled="
                     !can('entry-documents:store') || congressmanBudgetsClosedAt
@@ -242,8 +242,7 @@ import congressmanBudgets from '../../views/mixins/congressmanBudgets'
 const service = {
     name: 'entryDocuments',
 
-    uri:
-        'congressmen/{congressmen.selected.id}/budgets/{congressmanBudgets.selected.id}/entries/{entries.selected.id}/documents',
+    uri: 'congressmen/{congressmen.selected.id}/budgets/{congressmanBudgets.selected.id}/entries/{entries.selected.id}/documents',
 }
 
 export default {
@@ -270,7 +269,11 @@ export default {
     },
 
     methods: {
-        ...mapActions(service.name, ['selectEntryDocument']),
+        ...mapActions(service.name, [
+            'clearForm',
+            'clearErrors',
+            'selectEntryDocument',
+        ]),
 
         getTableColumns() {
             let columns = ['Nome do arquivo']
@@ -304,7 +307,7 @@ export default {
             this.$swal({
                 title: 'Deseja realmente DELETAR este documento?',
                 icon: 'warning',
-            }).then(result => {
+            }).then((result) => {
                 if (result.value) {
                     this.$store.dispatch('entryDocuments/delete', document)
                 }
@@ -313,10 +316,9 @@ export default {
 
         verify(entry) {
             this.$swal({
-                title:
-                    'Confirma a marcação deste lançamento como "VERIFICADO"?',
+                title: 'Confirma a marcação deste lançamento como "VERIFICADO"?',
                 icon: 'warning',
-            }).then(result => {
+            }).then((result) => {
                 if (result.value) {
                     this.$store.dispatch('entryDocuments/verify', entry)
                 }
@@ -325,10 +327,9 @@ export default {
 
         unverify(entry) {
             this.$swal({
-                title:
-                    'O status de "VERIFICADO" será removido deste lançamento, confirma?',
+                title: 'O status de "VERIFICADO" será removido deste lançamento, confirma?',
                 icon: 'warning',
-            }).then(result => {
+            }).then((result) => {
                 if (result.value) {
                     this.$store.dispatch('entryDocuments/unverify', entry)
                 }
@@ -339,7 +340,7 @@ export default {
             this.$swal({
                 title: 'Este documento foi ANALISADO?',
                 icon: 'warning',
-            }).then(result => {
+            }).then((result) => {
                 if (result.value) {
                     this.$store.dispatch('entryDocuments/analyse', document)
                 }
@@ -350,7 +351,7 @@ export default {
             this.$swal({
                 title: 'Deseja remover o status "ANALISADO" deste lançamento?',
                 icon: 'warning',
-            }).then(result => {
+            }).then((result) => {
                 if (result.value) {
                     this.$store.dispatch('entryDocuments/unanalyse', document)
                 }
@@ -361,7 +362,7 @@ export default {
             this.$swal({
                 title: 'Confirma a PUBLICAÇÃO deste documento?',
                 icon: 'warning',
-            }).then(result => {
+            }).then((result) => {
                 if (result.value) {
                     this.$store.dispatch('entryDocuments/publish', document)
                 }
@@ -372,7 +373,7 @@ export default {
             this.$swal({
                 title: 'Confirma a DESPUBLICAÇÃO deste documento?',
                 icon: 'warning',
-            }).then(result => {
+            }).then((result) => {
                 if (result.value) {
                     this.$store.dispatch('entryDocuments/unpublish', document)
                 }
@@ -380,6 +381,10 @@ export default {
         },
 
         createDocument() {
+            if (filled(this.form.id)) {
+                this.clearForm()
+            }
+
             this.showModal = true
         },
     },
