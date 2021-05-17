@@ -54,6 +54,7 @@
                     'cursor-pointer': true,
                     'bg-primary-lighter text-white': isCurrent(entry, selected),
                 }"
+                :dusk="'budget'"
             >
                 <td class="align-middle">{{ entry.date_formatted }}</td>
 
@@ -180,6 +181,7 @@
                             icon="fa fa-check"
                             store="entries"
                             method="verify"
+                            dusk="verify_entry_button"
                         >
                         </app-action-button>
 
@@ -213,6 +215,7 @@
                             icon="fa fa-check"
                             store="entries"
                             method="analyse"
+                            dusk="analize_entry_button"
                         >
                         </app-action-button>
 
