@@ -174,6 +174,7 @@
                             icon="fa fa-ban"
                             store="congressmanBudgets"
                             method="close"
+                            dusk="close_budget_button"
                         >
                     </app-action-button>
 
@@ -207,6 +208,7 @@
                             store="congressmanBudgets"
                             method="analyse"
                             :spinner-config="{'color': 'black'}"
+                            dusk="analize_budget_button"
                         >
                     </app-action-button>
 
@@ -240,6 +242,7 @@
                             icon="fa fa-check"
                             store="congressmanBudgets"
                             method="publish"
+                            dusk="publish_budget_button"
                         >
                     </app-action-button>
 
