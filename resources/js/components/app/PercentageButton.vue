@@ -1,10 +1,11 @@
 <template>
-    
+
         <button
             :disabled="disabled"
             :class="classes"
             :title="title"
             @click="editPercentage(model)"
+            :dusk="dusk"
         >
             <pulse-loader
                 v-if="loading"
@@ -13,9 +14,9 @@
             >
             </pulse-loader>
             <span v-else :class="icon"> {{label}}</span>
-            
+
         </button>
-    
+
 </template>
 
 <script>
@@ -30,7 +31,8 @@ export default {
         'model',
         'store',
         'method',
-        
+        'dusk'
+
     ],
 
     data() {
@@ -82,19 +84,19 @@ export default {
                                 }).catch(error => {
                                 var title = ''
                             switch (error.response.status) {
-                                case 404: 
+                                case 404:
                                     title = 'Pagina não encontrada'
                                     break
-                                case 401: 
+                                case 401:
                                     title = 'Ação não autorizada'
                                     break
-                                case 422: 
+                                case 422:
                                     title = 'Verifique as informações'
-                                    break    
-                                case 403: 
+                                    break
+                                case 403:
                                     title = 'Ação não autorizada'
                                     break
-                                case 500: 
+                                case 500:
                                     title = 'Erro interno - Administradores já foram contactados'
                                     break
                                 default:

@@ -1,4 +1,4 @@
-<template> 
+<template>
     <app-table-panel
         :title="'Orçamento mensal (' + pagination.total + ')'"
         titleCollapsed="Orçamento"
@@ -157,7 +157,8 @@
                             icon="fa fa-edit"
                             store="congressmanBudgets"
                             method="editPercentage"
-                        > 
+                            dusk="percentageButton"
+                        >
                     </app-percentage-button>
 
                     <app-action-button
@@ -173,7 +174,7 @@
                             icon="fa fa-ban"
                             store="congressmanBudgets"
                             method="close"
-                        > 
+                        >
                     </app-action-button>
 
                     <app-action-button
@@ -189,7 +190,7 @@
                             icon="fa fa-check"
                             store="congressmanBudgets"
                             method="reopen"
-                        > 
+                        >
                     </app-action-button>
 
                     <app-action-button
@@ -206,7 +207,7 @@
                             store="congressmanBudgets"
                             method="analyse"
                             :spinner-config="{'color': 'black'}"
-                        > 
+                        >
                     </app-action-button>
 
                     <app-action-button
@@ -223,7 +224,7 @@
                             store="congressmanBudgets"
                             method="unanalyse"
                             :spinner-config="{'color': 'black'}"
-                        > 
+                        >
                     </app-action-button>
 
                     <app-action-button
@@ -239,7 +240,7 @@
                             icon="fa fa-check"
                             store="congressmanBudgets"
                             method="publish"
-                        > 
+                        >
                     </app-action-button>
 
                     <app-action-button
@@ -255,7 +256,7 @@
                             icon="fa fa-ban"
                             store="congressmanBudgets"
                             method="unpublish"
-                        > 
+                        >
                     </app-action-button>
                 </td>
             </tr>
@@ -350,7 +351,7 @@ export default {
 
         makeDate(congressmanBudget) {
             return congressmanBudget.year + ' / ' + congressmanBudget.month
-        },        
+        },
 
         deposit(congressmanBudget) {
             this.$swal({

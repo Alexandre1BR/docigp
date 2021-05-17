@@ -36,6 +36,7 @@
                 class="btn btn-primary btn-sm pull-right"
                 @click="createEntry()"
                 title="Novo lançamento"
+                dusk="newentry"
             >
                 <i class="fa fa-plus"></i>
             </button>
