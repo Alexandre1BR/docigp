@@ -42,6 +42,7 @@
             :readonly="readonly"
             dir="rtl"
             ref="money"
+            dusk="dusk_value"
         ></money>
 
         <small
