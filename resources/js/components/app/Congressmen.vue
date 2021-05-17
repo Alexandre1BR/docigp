@@ -49,6 +49,7 @@
                     'cursor-pointer': true,
                     'bg-primary-lighter text-white': isCurrent(congressman, selected),
                 }"
+                :dusk="'congressman-' + congressman.id"
             >
                 <td v-if="can('congressman:see-unread')" class="align-middle text-center">
                     <span class="text-danger">

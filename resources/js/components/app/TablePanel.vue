@@ -66,6 +66,7 @@
                                     :value="filterText"
                                     @input="$emit('input-filter-text', $event)"
                                     placeholder="filtrar"
+                                    dusk="filter_input"
                                 />
                             </div>
 
