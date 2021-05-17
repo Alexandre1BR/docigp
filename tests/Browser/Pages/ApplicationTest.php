@@ -18,11 +18,11 @@ use Tests\DuskTestCase;
 
 
 
-class AplicationTest extends DuskTestCase
+class ApplicationTest extends DuskTestCase
 {
     private static $administrator;
     private static $randomCongressman;
-    private static $newentriesRaw;
+    private static $newEntriesRaw;
     private static $provider;
     private static $randomProvider;
     private static $randomEntryType;
@@ -49,12 +49,12 @@ class AplicationTest extends DuskTestCase
         ->randomElement()
         ->toArray();
 
-        static::$newentriesRaw = factory(
+        static::$newEntriesRaw = factory(
             Entry::class
         )->raw();
 
-        static::$randomProvider = Provider::find(static::$newentriesRaw['provider_id']);
-        static::$randomEntryType = EntryType::find(static::$newentriesRaw['entry_type_id']);
+        static::$randomProvider = Provider::find(static::$newEntriesRaw['provider_id']);
+        static::$randomEntryType = EntryType::find(static::$newEntriesRaw['entry_type_id']);
 
         static::$provider = factory(
             Provider::class
@@ -66,18 +66,18 @@ class AplicationTest extends DuskTestCase
 
     }
 
-    public function documentNumber($newentriesRaw){
-        static::$document = $newentriesRaw['document_number'];
+    public function documentNumber($newEntriesRaw){
+        static::$document = $newEntriesRaw['document_number'];
             if (is_null( static::$document)) {
                 return "0000";
             } else {
-                return $newentriesRaw['document_number'];
+                return $newEntriesRaw['document_number'];
             }
     }
 
-    public function id_to_name($case,$newentriesRaw){
-        $entry_type_id = $newentriesRaw['entry_type_id'];
-        $cost_type_id = $newentriesRaw['cost_center_id'];
+    public function id_to_name($case,$newEntriesRaw){
+        $entry_type_id = $newEntriesRaw['entry_type_id'];
+        $cost_type_id = $newEntriesRaw['cost_center_id'];
         if ($case = 'entry_type_id'){
             $entry_type_name = DB::table('entry_types')->where('id','=', $entry_type_id )->first();
             return $entry_type_name->name;
@@ -93,16 +93,16 @@ class AplicationTest extends DuskTestCase
         $this->init();
         $administrator = static::$administrator;
         $randomCongressman = static::$randomCongressman;
-        $newentriesRaw = static::$newentriesRaw;
-        $document = $this->documentNumber($newentriesRaw);
+        $newEntriesRaw = static::$newEntriesRaw;
+        $document = $this->documentNumber($newEntriesRaw);
         $provider = static::$provider;
         $randomProvider1 = static::$randomProvider;
         $randomEntryType1 = static::$randomEntryType;
         $randomEntry = static::$randomEntry;
         $newEntryDocument = static::$newEntryDocument;
         $rand = rand(1,100);
-        $entry_type_name = $this->id_to_name('entry_type_id',$newentriesRaw);
-        $cost_center_name = $this->id_to_name('cost_type_id',$newentriesRaw);
+        $entry_type_name = $this->id_to_name('entry_type_id',$newEntriesRaw);
+        $cost_center_name = $this->id_to_name('cost_type_id',$newEntriesRaw);
 
 
 
@@ -111,7 +111,7 @@ class AplicationTest extends DuskTestCase
             $document,
             $administrator,
             $randomCongressman,
-            $newentriesRaw,
+            $newEntriesRaw,
             $provider,
             $randomProvider1,
             $randomEntryType1,
@@ -126,7 +126,6 @@ class AplicationTest extends DuskTestCase
                 ->loginAs($administrator['id'])
                 ->visit('admin/entries#/')
                 ->assertSee('Prestação de Contas')
-                ->select('@custom-select', 250)
                 ->type('@filter_input',$randomCongressman['name'])
                 ->pause(1000)
                 ->press('@congressman-'.$randomCongressman['id'])
@@ -143,14 +142,15 @@ class AplicationTest extends DuskTestCase
                 ->screenshot('Entry')
                 ->click('@newentry')
                 ->screenshot('EntryForm')
-                ->type('#date', $newentriesRaw['date'])
-                ->type('@dusk-value',$newentriesRaw['value'])
+                ->type('#date', $newEntriesRaw['date'])
+                ->type('@dusk-value',$newEntriesRaw['value'])
                 ->click('.vs__selected-options');
             $inside_user
-                ->elements('ul.dropdown-menu li a')[0]->click();
+                ->elements('ul.dropdown-me
+                nu li a')[0]->click();
             $inside_user
                 ->type('#document_number',$document)
-                ->type('#object',$newentriesRaw['object'])
+                ->type('#object',$newEntriesRaw['object'])
                 ->type('#provider_cpf_cnpj',$provider['cpf_cnpj'])
                 ->type('#to',$provider['name'])
                 ->script('$("div[id=\'cost_center_id\']").children().children()[0].setAttribute(\'class\', \'vs__selected-options1\')');

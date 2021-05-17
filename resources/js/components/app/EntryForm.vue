@@ -16,11 +16,12 @@
                         ></app-input>
                     </div>
 
-                    <div class="col-6">
+                    <div class="col-6" >
                         <app-input
                             name="value"
                             type="money"
                             label="Valor pago"
+                            dusk="dusk_value"
                             v-model="form.fields.value_abs"
                             :readonly="!can('entries:update')"
                             :required="true"
@@ -153,7 +154,7 @@ const __cpfCnpj = {
 export default {
     mixins: [crud, entries, permissions],
 
-    props: ['show', 'refund'],
+    props: ['show', 'refund','dusk'],
 
     data() {
         return {

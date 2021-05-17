@@ -9,7 +9,8 @@ use App\Data\Repositories\Users as UsersRepository;
 use App\Support\Constants;
 
 $factory->define(EntryModel::class, function () {
-    return [
+    EntryModel::disableGlobalScopes();
+    $array =  [
         'date' => faker()->dateTimeBetween(
             $startDate = \Carbon\Carbon::now()->startOfMonth(),
             $endDate = \Carbon\Carbon::now()->endOfMonth(),
@@ -60,4 +61,6 @@ $factory->define(EntryModel::class, function () {
         'created_by_id' => app(UsersRepository::class)->randomElement()->id,
         'updated_by_id' => app(UsersRepository::class)->randomElement()->id,
     ];
+    return $array;
+    EntryModel::enableGlobalScopes();
 });
