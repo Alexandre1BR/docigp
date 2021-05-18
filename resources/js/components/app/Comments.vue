@@ -20,6 +20,7 @@
                 class="btn btn-primary btn-sm pull-right"
                 @click="createComment()"
                 title="Novo Comentário"
+                dusk="newEntryComment"
             >
                 <i class="fa fa-plus"></i>
             </button>
@@ -32,6 +33,7 @@
         >
             <tr
                 @click="selectEntryComment(comment)"
+                dusk="editComment"
                 v-for="comment in entryComments.data.rows"
                 :class="{
                     'cursor-pointer': true,

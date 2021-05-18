@@ -15,7 +15,6 @@ use App\Support\Constants;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 
-
 class ApplicationTest extends DuskTestCase
 {
     private static $administrator;
@@ -61,16 +60,16 @@ class ApplicationTest extends DuskTestCase
         static::$newEntryDocument = factory(
             File::class
         )->raw();
-
     }
 
-    public function documentNumber($newEntriesRaw){
+    public function documentNumber($newEntriesRaw)
+    {
         static::$document = $newEntriesRaw['document_number'];
-            if (is_null( static::$document)) {
-                return "0000";
-            } else {
-                return $newEntriesRaw['document_number'];
-            }
+        if (is_null(static::$document)) {
+            return "0000";
+        } else {
+            return $newEntriesRaw['document_number'];
+        }
     }
 
 
@@ -84,7 +83,7 @@ class ApplicationTest extends DuskTestCase
         $document = $this->documentNumber($newEntriesRaw);
         $provider = static::$provider;
         $newEntryDocument = static::$newEntryDocument;
-        $rand = rand(1,100);
+        $rand = rand(1, 100);
 
 
 
@@ -98,13 +97,12 @@ class ApplicationTest extends DuskTestCase
             $provider,
             $newEntryDocument,
             $rand
-
         ) {
             $inside_user
                 ->loginAs($administrator['id'])
                 ->visit('admin/entries#/')
                 ->assertSee('Prestação de Contas')
-                ->type('@filter_input',$randomCongressman['name'])
+                ->type('@filter_input', $randomCongressman['name'])
                 ->pause(1000)
                 ->press('@congressman-'.$randomCongressman['id'])
                 ->waitForText('Orçamento mensal')
@@ -115,20 +113,20 @@ class ApplicationTest extends DuskTestCase
                 ->type('@input-percentage', $rand)
                 ->script('$("button[class=\'swal2-confirm swal2-styled\']").click()');
             $inside_user
-                ->waitForText('Lançamentos',10)
+                ->waitForText('Lançamentos', 10)
                 ->screenshot('Entry')
                 ->click('@newentry')
                 ->screenshot('EntryForm')
                 ->type('#date', $newEntriesRaw['date']->format('d/m/Y'))
-                ->type('@dusk_value',$newEntriesRaw['value'])
+                ->type('@dusk_value', $newEntriesRaw['value'])
                 ->click('.vs__selected-options');
             $inside_user
                 ->elements('ul.dropdown-menu li a')[1]->click();
             $inside_user
-                ->type('#document_number',$document)
-                ->type('#object',$newEntriesRaw['object'])
-                ->type('#provider_cpf_cnpj',$provider['cpf_cnpj'])
-                ->type('#to',$provider['name'])
+                ->type('#document_number', $document)
+                ->type('#object', $newEntriesRaw['object'])
+                ->type('#provider_cpf_cnpj', $provider['cpf_cnpj'])
+                ->type('#to', $provider['name'])
                 ->script('$("div[id=\'cost_center_id\']").children().children()[0].setAttribute(\'class\', \'vs__selected-options1\')');
             $inside_user
                 ->click('.vs__selected-options1');
@@ -143,17 +141,19 @@ class ApplicationTest extends DuskTestCase
                 ->waitForText('Documentos')
                 ->screenshot('Documents')
                 ->click('@newEntryDocument')
-                ->attach('#dropzone', '/img/logo-alerj-docigp.png') ## nao funciona... pq? ##
+                ->waitForText('Novo documento')
+                ->attach('input.dz-hidden-input', 'public/img/logo-alerj-docigp.png')
+                ->pause(5000)
                 ->screenshot('document_dropped')
-                ->press('Gravar')
+                ->press('Fechar')
                 ->waitForText('Comentários')
                 ->screenshot('Comment')
                 ->click('@newEntryComment')
-                ->type('#text','teste')
+                ->type('#text', 'teste')
                 ->screenshot('testInsert-17')
                 ->press('Gravar')
                 ->click('@editComment')
-                ->type('#text','teste-'.$rand)
+                ->type('#text', 'teste-'.$rand)
                 ->press('Gravar')
                 ->assertSee('teste-'.$rand)
                 ->screenshot('Comment-Edited')
@@ -200,7 +200,6 @@ class ApplicationTest extends DuskTestCase
                 ->waitforText('Prestação de Contas')
                 ->assertSee($randomCongressman['name'])
                 ->screenshot('ApplicationFlow-Success');
-
         });
     }
 }
