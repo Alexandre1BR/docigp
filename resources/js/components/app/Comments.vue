@@ -33,6 +33,7 @@
         >
             <tr
                 @click="selectEntryComment(comment)"
+                dusk="editComment"
                 v-for="comment in entryComments.data.rows"
                 :class="{
                     'cursor-pointer': true,
