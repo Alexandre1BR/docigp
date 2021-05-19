@@ -1,5 +1,4 @@
 <?php
-
 namespace Tests\Browser\Pages;
 
 use App\Data\Models\User;
@@ -26,7 +25,6 @@ class LegislaturesTest extends DuskTestCase
 
     public function init()
     {
-        $faker = app(Faker::class);
         static::$anoLegislatura = only_numbers(app(Faker::class)->year);
         static::$numeroLegislatura = only_numbers(
             app(Faker::class)->numberBetween(0, 1000)

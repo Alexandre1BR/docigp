@@ -117,7 +117,7 @@ class CostCentersTest extends DuskTestCase
         ) {
             $browser
                 ->loginAs($administrator['id'])
-                ->visit('admin/entry-types/' . $randomCostsCenter1['id'] . '#/')
+                ->visit('admin/cost-centers/' . $randomCostsCenter1['id'] . '#/')
                 ->click('#vue-editButton')
                 ->type('#name', '*' . $nomeA . '*')
                 ->screenshot('asdasd')
