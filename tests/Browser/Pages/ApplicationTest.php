@@ -4,7 +4,6 @@
 namespace Tests\Browser\Pages;
 
 use App\Data\Models\Entry;
-use App\Data\Models\EntryDocument;
 use App\Data\Models\EntryType;
 use App\Data\Models\File;
 use App\Data\Models\Provider;
@@ -82,12 +81,7 @@ class ApplicationTest extends DuskTestCase
         $newEntriesRaw = static::$newEntriesRaw;
         $document = $this->documentNumber($newEntriesRaw);
         $provider = static::$provider;
-        $newEntryDocument = static::$newEntryDocument;
         $rand = rand(1, 100);
-
-
-
-
 
         $this->browse(function (Browser $inside_user, Browser $outside_user) use (
             $document,
@@ -164,53 +158,58 @@ class ApplicationTest extends DuskTestCase
                 ->click('@deletComment')
                 ->script('$("button[class=\'swal2-confirm swal2-styled\']").click()');
             $inside_user
-                ->screenshot('Comment-Deleted')
+                ->screenshot('8-Comment-Deleted')
                 ->pause(2000)
                 ->press('@verify_document')
-                ->screenshot('8-verify_document')
+                ->screenshot('9-verify_document')
                 ->script('$("button[class=\'swal2-confirm swal2-styled\']").click()');
             $inside_user
                 ->pause(2000)
                 ->press('@analize_document')
-                ->screenshot('9-analize_document')
+                ->screenshot('10-analize_document')
                 ->script('$("button[class=\'swal2-confirm swal2-styled\']").click()');
             $inside_user
                 ->pause(2000)
                 ->press('@verify_entry_button')
-                ->screenshot('10-verify_entry_button')
+                ->screenshot('11-verify_entry_button')
                 ->script('$("button[class=\'swal2-confirm swal2-styled\']").click()');
             $inside_user
                 ->waitUntilMissing('Salvo com sucesso')
                 ->pause(2000)
                 ->press('@analize_entry_button')
-                ->screenshot('11-analize_entry_button')
+                ->screenshot('12-analize_entry_button')
                 ->script('$("button[class=\'swal2-confirm swal2-styled\']").click()');
             $inside_user
                 ->waitUntilMissing('Salvo com sucesso')
                 ->pause(2000)
                 ->press('@close_budget_button')
-                ->screenshot('12-close_budget_button')
+                ->screenshot('13-close_budget_button')
                 ->script('$("button[class=\'swal2-confirm swal2-styled\']").click()');
             $inside_user
                 ->waitUntilMissing('Salvo com sucesso')
                 ->pause(2000)
                 ->press('@analize_budget_button')
-                ->screenshot('13-analize_budget_button')
+                ->screenshot('14-analize_budget_button')
                 ->script('$("button[class=\'swal2-confirm swal2-styled\']").click()');
             $inside_user
                 ->waitUntilMissing('Salvo com sucesso')
                 ->pause(2000)
                 ->press('@publish_budget_button')
-                ->screenshot('14-publish_budget_button')
+                ->screenshot('15-publish_budget_button')
                 ->script('$("button[class=\'swal2-confirm swal2-styled\']").click()');
             $inside_user
                 ->waitUntilMissing('Salvo com sucesso')
                 ->pause(2000);
             $outside_user
-                ->visit('/')
+                ->logout()
+                ->visit('/transparencia#/')
                 ->waitforText('Prestação de Contas')
-                ->assertSee($randomCongressman['name'])
-                ->screenshot('15-ApplicationFlow-Success');
+                ->type('@filter_input', $randomCongressman['name'])
+                ->waitFor('@congressman-'.$randomCongressman['id'])
+                ->assertSee($randomCongressman['nickname'])
+                ->waitForText('Aderiu?')
+                ->assertSee('sim')
+                ->screenshot('16-ApplicationFlow-Success');
         });
     }
 }
