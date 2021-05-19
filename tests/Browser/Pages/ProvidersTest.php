@@ -83,7 +83,7 @@ class ProvidersTest extends DuskTestCase
         ) {
             $browser
                 ->loginAs($administrator['id'])
-                ->visit('admin/entry-types/' . $randomProviders1['id'] . '#/')
+                ->visit('admin/providers/' . $randomProviders1['id'] . '#/')
                 ->click('#vue-editButton')
                 ->type('#name', '*' . $provider['name'] . '*')
                 ->press('Gravar')

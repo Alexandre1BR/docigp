@@ -1,17 +1,20 @@
 <?php
 
+
 namespace Tests\Browser\Pages;
+
 
 use App\Data\Models\User;
 use App\Data\Repositories\Users;
 use App\Support\Constants;
-use Laravel\Dusk\Browser;
-use Tests\DuskTestCase;
 use Faker\Generator as Faker;
+use Laravel\Dusk\Browser;
 use Silber\Bouncer\Database\Role as BouncerRole;
+use Tests\DuskTestCase;
 
 class UsersTest extends DuskTestCase
 {
+
     private static $usersRaw;
     private static $randomUsers;
     private static $administrator;
@@ -61,10 +64,11 @@ class UsersTest extends DuskTestCase
                 ->assertSee($selectedRole['id'])
                 ->assertSee($user['email']);
         });
-        $user = User::where('email', $user['email'])->first();
-        $this->assertTrue($user->isAn($selectedRole['id']));
+        $this->assertDatabaseHas('users', [
+            'name' => $user['name'],
+            'email' => $user['email'],
+        ]);
     }
-
     public function testValidation()
     {
         $administrator = static::$administrator;
@@ -76,7 +80,6 @@ class UsersTest extends DuskTestCase
             $administrator
         ) {
             $browser
-
                 ->loginAs($administrator['id'])
                 ->visit('admin/users#/')
                 ->assertSee('Novo')
@@ -146,3 +149,4 @@ class UsersTest extends DuskTestCase
         });
     }
 }
+
