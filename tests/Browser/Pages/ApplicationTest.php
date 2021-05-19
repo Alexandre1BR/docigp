@@ -95,7 +95,6 @@ class ApplicationTest extends DuskTestCase
             $randomCongressman,
             $newEntriesRaw,
             $provider,
-            $newEntryDocument,
             $rand
         ) {
             $inside_user
@@ -108,15 +107,15 @@ class ApplicationTest extends DuskTestCase
                 ->waitForText('Orçamento mensal')
                 ->pause(2000)
                 ->waitFor('@percentageButton')
-                ->screenshot('Budget')
+                ->screenshot('1-Budget')
                 ->click('@percentageButton')
                 ->type('@input-percentage', $rand)
                 ->script('$("button[class=\'swal2-confirm swal2-styled\']").click()');
             $inside_user
                 ->waitForText('Lançamentos', 10)
-                ->screenshot('Entry')
+                ->screenshot('2-Entry')
                 ->click('@newentry')
-                ->screenshot('EntryForm')
+                ->screenshot('3-EntryForm')
                 ->type('#date', $newEntriesRaw['date']->format('d/m/Y'))
                 ->type('@dusk_value', $newEntriesRaw['value'])
                 ->click('.vs__selected-options');
@@ -134,72 +133,84 @@ class ApplicationTest extends DuskTestCase
                 ->elements('ul.dropdown-menu li a')[0]->click();
             $inside_user
                 ->pause(2000)
-                ->screenshot('EntryForm-Filled')
-                ->press('Gravar')
+                ->screenshot('4-EntryForm-Filled')
+                ->script('$("button[class=\'btn btn-outline-gray btn-sm\']").click()');
+            $inside_user
                 ->pause(3000)
-                ->click('@budget')
+                ->click('@entrie')
                 ->waitForText('Documentos')
-                ->screenshot('Documents')
                 ->click('@newEntryDocument')
                 ->waitForText('Novo documento')
                 ->attach('input.dz-hidden-input', 'public/img/logo-alerj-docigp.png')
                 ->pause(5000)
-                ->screenshot('document_dropped')
+                ->screenshot('5-Document_dropped')
                 ->press('Fechar')
                 ->waitForText('Comentários')
-                ->screenshot('Comment')
-                ->click('@newEntryComment')
+                ->screenshot('6-Comment')
+                ->script('$("button[dusk=\'newEntryComment\']").click()');
+            $inside_user
                 ->type('#text', 'teste')
-                ->screenshot('testInsert-17')
-                ->press('Gravar')
-                ->click('@editComment')
-                ->type('#text', 'teste-'.$rand)
-                ->press('Gravar')
-                ->assertSee('teste-'.$rand)
-                ->screenshot('Comment-Edited')
+                ->script('$("button[class=\'btn btn-outline-gray btn-sm\']").click()');
+            $inside_user
+                ->waitFor('@editComment')
+                ->script('$("button[dusk=\'editComment\']").click()');
+            $inside_user
+                ->type('#text', $rand)
+                ->script('$("button[class=\'btn btn-outline-gray btn-sm\']").click()');
+            $inside_user
+                ->pause(1000)
+                ->assertSee($rand)
+                ->screenshot('7-Comment-Edited')
                 ->click('@deletComment')
                 ->script('$("button[class=\'swal2-confirm swal2-styled\']").click()');
             $inside_user
-                ->screeshot('Comment-Deleted')
+                ->screenshot('Comment-Deleted')
                 ->pause(2000)
                 ->press('@verify_document')
+                ->screenshot('8-verify_document')
                 ->script('$("button[class=\'swal2-confirm swal2-styled\']").click()');
             $inside_user
-                ->pause(800)
+                ->pause(2000)
                 ->press('@analize_document')
+                ->screenshot('9-analize_document')
                 ->script('$("button[class=\'swal2-confirm swal2-styled\']").click()');
             $inside_user
-                ->pause(800)
+                ->pause(2000)
                 ->press('@verify_entry_button')
+                ->screenshot('10-verify_entry_button')
                 ->script('$("button[class=\'swal2-confirm swal2-styled\']").click()');
             $inside_user
                 ->waitUntilMissing('Salvo com sucesso')
-                ->pause(800)
+                ->pause(2000)
                 ->press('@analize_entry_button')
+                ->screenshot('11-analize_entry_button')
                 ->script('$("button[class=\'swal2-confirm swal2-styled\']").click()');
             $inside_user
                 ->waitUntilMissing('Salvo com sucesso')
-                ->pause(800)
+                ->pause(2000)
                 ->press('@close_budget_button')
+                ->screenshot('12-close_budget_button')
                 ->script('$("button[class=\'swal2-confirm swal2-styled\']").click()');
             $inside_user
                 ->waitUntilMissing('Salvo com sucesso')
-                ->pause(800)
+                ->pause(2000)
                 ->press('@analize_budget_button')
+                ->screenshot('13-analize_budget_button')
                 ->script('$("button[class=\'swal2-confirm swal2-styled\']").click()');
             $inside_user
                 ->waitUntilMissing('Salvo com sucesso')
-                ->pause(800)
+                ->pause(2000)
                 ->press('@publish_budget_button')
+                ->screenshot('14-publish_budget_button')
                 ->script('$("button[class=\'swal2-confirm swal2-styled\']").click()');
             $inside_user
                 ->waitUntilMissing('Salvo com sucesso')
-                ->pause(800);
+                ->pause(2000);
             $outside_user
-                ->visit('/transparencia#/')
+                ->visit('/')
                 ->waitforText('Prestação de Contas')
                 ->assertSee($randomCongressman['name'])
-                ->screenshot('ApplicationFlow-Success');
+                ->screenshot('15-ApplicationFlow-Success');
         });
     }
 }
