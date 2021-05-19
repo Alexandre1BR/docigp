@@ -54,7 +54,7 @@
                     'cursor-pointer': true,
                     'bg-primary-lighter text-white': isCurrent(entry, selected),
                 }"
-                :dusk="'budget'"
+                :dusk="'entrie'"
             >
                 <td class="align-middle">{{ entry.date_formatted }}</td>
 
