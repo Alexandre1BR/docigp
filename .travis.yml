@@ -31,9 +31,6 @@ before_script:
   - composer self-update
   - export LANGUAGE=pt_BR.UTF-8
   - locale
-  - echo "SOCIAL_LOGIN_PASS=Alerjteste123" >> .env.travis;
-  - echo "FACEBOOK_CLIENT_SECRET=c59cdc6e6ca22cc899986b42960d15f4" >> .env.travis;
-  - echo "TWITTER_SECRET=iJEujRVdVsMdTQLLJ4XHiwDxGzdmRexzOIf4GXXqa6e76xH4jB" >> .env.travis;
   - cp .env.travis .env
   - cp .env.travis .env.dusk.local
   - cat .env
@@ -47,9 +44,13 @@ before_script:
   - psql -c "alter user vagrant with encrypted password 'vagrant'" -U postgres;
   - psql -c 'grant all privileges on database teste to vagrant'  -U postgres
   - psql -d teste -U vagrant -c "show DateStyle;"
+  - php artisan storage:link
   - php artisan migrate
   - php artisan db:seed
   - php artisan dusk:chrome-driver
+  - php artisan docigp:users:create admin@alerj.rj.gov.br Admin
+  - php artisan docigp:sync:roles
+  - php artisan docigp:role:assign administrator admin@alerj.rj.gov.br
   - export DISPLAY=:100.0
   - php artisan config:clear
   - php artisan cache:clear
@@ -68,3 +69,7 @@ after_failure:
   - cat storage/logs/laravel.log
 notifications:
   email: false
+version:
+  git-local: "git describe"
+  git-remote: "git ls-remote {$repository} | grep tags/ | grep -v {} | cut -d \/ -f 3 | sort --version-sort | tail -1"
+  matcher: "/[V|v]*[ersion]*\\s*\\.*(\\d+)\\.(\\d+)\\.(\\d+)\\.*(\\w*)/"
