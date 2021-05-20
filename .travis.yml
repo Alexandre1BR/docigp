@@ -1,4 +1,8 @@
 os: linux
+arch:
+  - arm64
+  - ppc64le
+  - s390x
 dist: bionic
 language: php
 php:
@@ -69,7 +73,3 @@ after_failure:
   - cat storage/logs/laravel.log
 notifications:
   email: false
-version:
-  git-local: "git describe"
-  git-remote: "git ls-remote {$repository} | grep tags/ | grep -v {} | cut -d \/ -f 3 | sort --version-sort | tail -1"
-  matcher: "/[V|v]*[ersion]*\\s*\\.*(\\d+)\\.(\\d+)\\.(\\d+)\\.*(\\w*)/"
