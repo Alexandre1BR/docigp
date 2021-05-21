@@ -130,7 +130,8 @@ class ApplicationTest extends DuskTestCase
                 ->screenshot('4-EntryForm-Filled')
                 ->script('$("button[class=\'btn btn-outline-gray btn-sm\']").click()');
             $inside_user
-                ->pause(3000)
+                ->pause(1000)
+                ->waitFor('@entrie',6)
                 ->click('@entrie')
                 ->waitForText('Documentos')
                 ->click('@newEntryDocument')
