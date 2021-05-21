@@ -1,0 +1,70 @@
+os: linux
+dist: bionic
+language: php
+php:
+  - 7.3
+  - 7.4
+services:
+  - postgresql
+  - redis-server
+  - xvfb
+sudo: true
+addons:
+  chrome: stable
+  postgresql: "12"
+  apt:
+    packages:
+      - postgresql-12
+      - postgresql-client-12
+      - postgresql-server-dev-12
+cache:
+  directories:
+    - $HOME/.composer/cache
+before_install:
+  - export TZ=America/Sao_Paulo
+  - sudo pg_dropcluster --stop 12 main
+  - sudo pg_upgradecluster 11 main
+  - sudo pg_ctlcluster 12 main restart
+  - sudo pg_dropcluster 11 main
+before_script:
+  - phpenv config-rm xdebug.ini || true
+  - composer self-update
+  - export LANGUAGE=pt_BR.UTF-8
+  - locale
+  - cp .env.travis .env
+  - cp .env.travis .env.dusk.local
+  - travis_retry composer install --prefer-source
+  - php artisan key:generate
+  - psql -V
+  - psql -c 'create database teste;' -U postgres
+  - psql -c 'create user vagrant WITH SUPERUSER;' -U postgres
+  - psql -c "alter user vagrant with encrypted password 'vagrant'" -U postgres;
+  - psql -c 'grant all privileges on database teste to vagrant'  -U postgres
+  - psql -d teste -U vagrant -c "show DateStyle;"
+  - php artisan migrate
+  - php artisan db:seed
+  - php artisan dusk:chrome-driver
+  - export DISPLAY=:100.0
+  - php artisan config:clear
+  - php artisan cache:clear
+  - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
+  - php artisan serve &
+  - php artisan docigp:budget:generate
+  - php artisan docigp:sync:congressmen
+  - php artisan docigp:sync:departments
+  - php artisan docigp:sync:parties
+  - php artisan docigp:sync:roles
+
+script:
+  - touch storage/logs/laravel.log
+  - chmod -R 777 storage/logs/laravel.log
+  - nohup php artisan queue:work --daemon &
+  - php artisan dusk --exclude social
+after_script:
+  - cat nohup.out
+after_failure:
+  - sleep 15s
+  - php artisan email:failure
+  - cat storage/logs/laravel.log
+notifications:
+  email: false
