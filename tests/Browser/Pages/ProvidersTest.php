@@ -31,13 +31,13 @@ class ProvidersTest extends DuskTestCase
             ->toArray();
     }
 
-    public function testInsert()
+    public function testInsert_and_Alter()
     {
         $this->createAdministrator();
         $this->init();
         $provider = static::$providerRaw;
-
         $administrator = static::$administrator;
+
         $this->browse(function (Browser $browser) use (
             $administrator,
             $provider
@@ -53,7 +53,21 @@ class ProvidersTest extends DuskTestCase
                 ->press('Gravar')
                 ->assertSee($provider['cpf_cnpj']);
         });
+        $providerId = DB::table('providers')->where('name', '=', $provider['name'])->first();
+        $this->browse(function (Browser $browser) use (
+            $administrator,
+            $providerId,
+            $provider
+        ) {
+            $browser
+                ->visit('admin/providers/' . $providerId->id . '#/')
+                ->click('#vue-editButton')
+                ->type('#name', '*' . $provider['name'] . '*')
+                ->press('Gravar')
+                ->assertSee('*' . $provider['name'] . '*');
+        });
     }
+
     public function testValidation()
     {
         $administrator = static::$administrator;
@@ -67,27 +81,6 @@ class ProvidersTest extends DuskTestCase
                 ->assertSee('O CNPJ não é válido.')
                 ->assertSee('O campo Tipo pessoa (PJ ou PF) é obrigatório.')
                 ->assertSee('O campo nome é obrigatório.');
-        });
-    }
-    public function testAlter()
-    {
-        $this->init();
-        $provider = static::$providerRaw;
-        $randomProviders1 = static::$randomProviders;
-        $administrator = static::$administrator;
-
-        $this->browse(function (Browser $browser) use (
-            $provider,
-            $randomProviders1,
-            $administrator
-        ) {
-            $browser
-                ->loginAs($administrator['id'])
-                ->visit('admin/providers/' . $randomProviders1['id'] . '#/')
-                ->click('#vue-editButton')
-                ->type('#name', '*' . $provider['name'] . '*')
-                ->press('Gravar')
-                ->assertSee('*' . $provider['name'] . '*');
         });
     }
     public function testWrongSearch()
