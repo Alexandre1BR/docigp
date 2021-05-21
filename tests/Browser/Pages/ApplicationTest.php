@@ -100,7 +100,7 @@ class ApplicationTest extends DuskTestCase
                 ->press('@congressman-'.$randomCongressman['id'])
                 ->waitForText('Orçamento mensal')
                 ->pause(2000)
-                ->waitFor('@percentageButton')
+                ->waitFor('@percentageButton', 10)
                 ->screenshot('1-Budget')
                 ->click('@percentageButton')
                 ->type('@input-percentage', $rand)
