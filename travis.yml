@@ -54,7 +54,6 @@ before_script:
   - php artisan docigp:sync:departments
   - php artisan docigp:sync:parties
   - php artisan docigp:sync:roles
-
 script:
   - touch storage/logs/laravel.log
   - chmod -R 777 storage/logs/laravel.log
