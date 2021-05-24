@@ -48,9 +48,6 @@ before_script:
   - php artisan migrate
   - php artisan db:seed
   - php artisan dusk:chrome-driver
-  - php artisan docigp:users:create admin@alerj.rj.gov.br Admin
-  - php artisan docigp:sync:roles
-  - php artisan docigp:role:assign administrator admin@alerj.rj.gov.br
   - php artisan docigp:sync:parties 
   - php artisan docigp:sync:congressmen
   - php artisan docigp:sync:departments
