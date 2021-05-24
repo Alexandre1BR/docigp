@@ -43,6 +43,7 @@ before_script:
   - psql -c "alter user vagrant with encrypted password 'vagrant'" -U postgres;
   - psql -c 'grant all privileges on database teste to vagrant'  -U postgres
   - psql -d teste -U vagrant -c "show DateStyle;"
+  - createdb docigp
   - php artisan storage:link
   - php artisan migrate
   - php artisan db:seed
