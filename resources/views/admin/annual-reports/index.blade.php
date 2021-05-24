@@ -15,13 +15,13 @@
                         <div class="form-row justify-content-center">
                             <div class="form-group col-md-2">
                                 <label for="year">Selecione o ano </label>
-                                <input class='form-control' type="number" name="year" id="" min='2019' step='1'>
+                                <input class='form-control' type="number" name="year"  dusk="CongressmanReport" id="" min='2019' step='1'>
                             </div>
                         </div>
                         <div class="form-row justify-content-center">
                             <div class="form-group col-md-3">
                                 <label for="congressman_id">Selecione o(a) deputado(a) </label>
-                                <select class="custom-select" name="congressman_id" id="congressman_id">
+                                <select class="custom-select" name="congressman_id"  id="congressman_id">
                                     <option value="">Selecione</option>
                                     @foreach($congressmen as $congressman)
                                         <option value="{{$congressman->id}}">{{$congressman->name}}</option>
@@ -30,7 +30,7 @@
                             </div>
                         </div>
 
-                        <button type="submit" class='btn btn-primary btn-sm'>Baixar pdf</button>
+                        <button type="submit" dusk="submit-CongressmanReport" class='btn btn-primary btn-sm' >Baixar pdf</button>
                     </form>
                 </div>
             </div>
@@ -43,10 +43,10 @@
                         <div class="form-row justify-content-center">
                             <div class="form-group col-md-2">
                                 <label for="year">Selecione o ano </label>
-                                <input class='form-control' type="number" name="year" id="" min='2019' step='1'>
+                                <input class='form-control' type="number"  name="year" dusk="Report" id="" min='2019' step='1'>
                             </div>
                         </div>
-                        <button type="submit" class='btn btn-primary btn-sm'>Baixar pdf</button>
+                        <button type="submit" dusk="submit-Report" class='btn btn-primary btn-sm'>Baixar pdf</button>
                     </form>
                 </div>
             </div>
