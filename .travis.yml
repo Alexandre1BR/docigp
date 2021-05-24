@@ -14,9 +14,9 @@ addons:
   postgresql: "12"
   apt:
     packages:
-      - postgresql-14
-      - postgresql-client-14
-      - postgresql-server-dev-14
+      - postgresql-12
+      - postgresql-client-12
+      - postgresql-server-dev-12
 cache:
   directories:
     - $HOME/.composer/cache
@@ -48,9 +48,6 @@ before_script:
   - php artisan migrate
   - php artisan db:seed
   - php artisan dusk:chrome-driver
-  - php artisan docigp:users:create admin@alerj.rj.gov.br Admin
-  - php artisan docigp:sync:roles
-  - php artisan docigp:role:assign administrator admin@alerj.rj.gov.br
   - php artisan docigp:sync:parties
   - php artisan docigp:sync:congressmen
   - php artisan docigp:sync:departments
@@ -73,4 +70,3 @@ after_failure:
   - php artisan email:failure
   - cat storage/logs/laravel.log
 notifications:
-  email: false
