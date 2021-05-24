@@ -66,4 +66,3 @@ after_failure:
   - php artisan email:failure
   - cat storage/logs/laravel.log
 notifications:
-  email: false
