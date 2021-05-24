@@ -2,6 +2,7 @@ os: linux
 dist: bionic
 language: php
 php:
+  - 7.3
   - 7.4
 services:
   - postgresql
@@ -13,9 +14,9 @@ addons:
   postgresql: "12"
   apt:
     packages:
-      - postgresql-12
-      - postgresql-client-12
-      - postgresql-server-dev-12
+      - postgresql-14
+      - postgresql-client-14
+      - postgresql-server-dev-14
 cache:
   directories:
     - $HOME/.composer/cache
@@ -43,12 +44,14 @@ before_script:
   - psql -c "alter user vagrant with encrypted password 'vagrant'" -U postgres;
   - psql -c 'grant all privileges on database teste to vagrant'  -U postgres
   - psql -d teste -U vagrant -c "show DateStyle;"
-  - createdb docigp
   - php artisan storage:link
   - php artisan migrate
   - php artisan db:seed
   - php artisan dusk:chrome-driver
-  - php artisan docigp:sync:parties 
+  - php artisan docigp:users:create admin@alerj.rj.gov.br Admin
+  - php artisan docigp:sync:roles
+  - php artisan docigp:role:assign administrator admin@alerj.rj.gov.br
+  - php artisan docigp:sync:parties
   - php artisan docigp:sync:congressmen
   - php artisan docigp:sync:departments
   - php artisan docigp:sync:roles
