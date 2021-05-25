@@ -100,7 +100,7 @@ class ApplicationTest extends DuskTestCase
                 ->press('@congressman-'.$randomCongressman['id'])
                 ->waitForText('Orçamento mensal')
                 ->pause(2000)
-                ->waitFor('@percentageButton', 10)
+                ->waitFor('@percentageButton', 20)
                 ->screenshot('1-Budget')
                 ->click('@percentageButton')
                 ->type('@input-percentage', $rand)
@@ -165,8 +165,8 @@ class ApplicationTest extends DuskTestCase
                 ->script('$("button[class=\'swal2-confirm swal2-styled\']").click()');
             $inside_user
                 ->pause(2000)
-                ->press('@analize_document')
-                ->screenshot('10-analize_document')
+                ->press('@analyze_document')
+                ->screenshot('10-analyze_document')
                 ->script('$("button[class=\'swal2-confirm swal2-styled\']").click()');
             $inside_user
                 ->pause(2000)

@@ -8,6 +8,7 @@ use App\Data\Repositories\Providers;
 use App\Support\Constants;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
+use Illuminate\Support\Facades\DB;
 
 class ProvidersTest extends DuskTestCase
 {
