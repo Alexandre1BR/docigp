@@ -54,7 +54,7 @@ class ProvidersTest extends DuskTestCase
                 ->press('Gravar')
                 ->assertSee($provider['cpf_cnpj']);
         });
-        $providerId = DB::table('providers')->where('name', '=', $provider['name'])->first();
+        $providerId = DB::table('providers')->where('name','=',$provider['name'])->first();
         $this->browse(function (Browser $browser) use (
             $administrator,
             $providerId,
@@ -68,7 +68,6 @@ class ProvidersTest extends DuskTestCase
                 ->assertSee('*' . $provider['name'] . '*');
         });
     }
-
     public function testValidation()
     {
         $administrator = static::$administrator;
@@ -84,6 +83,7 @@ class ProvidersTest extends DuskTestCase
                 ->assertSee('O campo nome é obrigatório.');
         });
     }
+
     public function testWrongSearch()
     {
         $administrator = static::$administrator;

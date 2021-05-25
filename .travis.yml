@@ -27,15 +27,11 @@ before_install:
   - sudo pg_dropcluster 11 main
 before_script:
   - phpenv config-rm xdebug.ini || true
-  - composer self-update
+  - composer install
   - export LANGUAGE=pt_BR.UTF-8
   - locale
   - cp .env.travis .env
   - cp .env.travis .env.dusk.local
-  - cat .env
-  - cat .env.travis
-  - cat .env.dusk.local
-  - travis_retry composer install --prefer-source
   - php artisan key:generate
   - psql -V
   - psql -c 'create database teste;' -U postgres
@@ -48,7 +44,7 @@ before_script:
   - php artisan migrate
   - php artisan db:seed
   - php artisan dusk:chrome-driver
-  - php artisan docigp:sync:parties 
+  - php artisan docigp:sync:parties
   - php artisan docigp:sync:congressmen
   - php artisan docigp:sync:departments
   - php artisan docigp:sync:roles
