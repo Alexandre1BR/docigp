@@ -8,6 +8,7 @@
 <button
     type="submit"
     class="btn btn-outline-danger ml-1"
+    id="submitButton"
     @include('partials.disabled', ['model' => $model ?? null])
 >
     <i class="fa fa-save"></i> Gravar
