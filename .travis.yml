@@ -27,7 +27,7 @@ before_install:
   - sudo pg_dropcluster 11 main
 before_script:
   - phpenv config-rm xdebug.ini || true
-  - composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
+  - composer self-update
   - export LANGUAGE=pt_BR.UTF-8
   - locale
   - cp .env.travis .env
@@ -40,6 +40,7 @@ before_script:
   - psql -c "alter user vagrant with encrypted password 'vagrant'" -U postgres;
   - psql -c 'grant all privileges on database teste to vagrant'  -U postgres
   - psql -d teste -U vagrant -c "show DateStyle;"
+  - createdb docigp
   - php artisan storage:link
   - php artisan migrate
   - php artisan db:seed
@@ -66,4 +67,4 @@ after_failure:
   - php artisan email:failure
   - cat storage/logs/laravel.log
 notifications:
-  - email: false
+  email: false
