@@ -69,7 +69,7 @@ class LegislaturesTest extends DuskTestCase
         $this->browse(function (Browser $browser) use ($administrator) {
             $browser
                 ->loginAs($administrator['id'])
-                ->visit('t/admin/legislatures/create#/')
+                ->visit('admin/legislatures/create#/')
                 ->press('#submitButton')
                 ->assertSee('O campo número é obrigatório.')
                 ->assertSee('O campo ano de início é obrigatório.')
