@@ -4,4 +4,3 @@
 @empty
     No images found
 @endforelse
-
