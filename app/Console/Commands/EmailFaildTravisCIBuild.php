@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Mail;
 
 
 
-class EmailFailedTravisCIBuild extends Command
+class EmailFaildTravisCIBuild extends Command
 {
     /**
      * The name and signature of the console command.
