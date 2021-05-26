@@ -156,7 +156,7 @@ class ApplicationTest extends DuskTestCase
                 ->pause(1000)
                 ->assertSee($rand)
                 ->screenshot('7-Comment-Edited')
-                ->click('@deletComment')
+                ->press('@deletComment')
                 ->script('$("button[class=\'swal2-confirm swal2-styled\']").click()');
             $inside_user
                 ->screenshot('8-Comment-Deleted')
