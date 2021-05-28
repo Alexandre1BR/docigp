@@ -176,6 +176,7 @@ return [
         'body' => 'conteúdo',
         'city' => 'cidade',
         'country' => 'país',
+        'congressman_id' => 'deputado(a)',
         'date' => 'data',
         'day' => 'dia',
         'description' => 'descrição',
