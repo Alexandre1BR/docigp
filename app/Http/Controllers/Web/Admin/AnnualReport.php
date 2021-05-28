@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Web\Admin;
 
 use App\Data\Models\Congressman;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AnnualReportWithCongressman as RequestsAnnualReportWithCongressman;
+use App\Http\Requests\AnnualReportWithoutCongressman as RequestsAnnualReportWithoutCongressman;
 use App\Services\AnnualReport\General\Service as AnnualReportGeneralService;
 use App\Services\PDF\Service as PDF;
 use App\Services\AnnualReport\Congressman\Service as AnnualReportCongressmanService;
@@ -20,10 +22,9 @@ class AnnualReport extends Controller
         ]);
     }
 
-    public function generate(Request $request)
+    public function generate(RequestsAnnualReportWithCongressman $request)
     {
         set_time_limit(0);
-
         $year = $request->get('year');
         $congressman = Congressman::withoutGlobalScopes()->find(
             $request->get('congressman_id')
@@ -50,7 +51,7 @@ class AnnualReport extends Controller
             ->download(make_pdf_filename($congressman->name));
     }
 
-    public function generateGeneral(Request $request)
+    public function generateGeneral(RequestsAnnualReportWithoutCongressman $request)
     {
         $year = $request->get('year');
 
@@ -66,14 +67,15 @@ class AnnualReport extends Controller
                     'logoBlob',
                     base64_encode(
                         file_get_contents(public_path('img/logo-alerj.png'))
-                    ))->with($parameters = app(
+                    )
+                )->with(
+                    $parameters = app(
                         AnnualReportGeneralService::class
                     )->getMainTable($year)
-                )->with('year',$year)
+                )->with('year', $year)
                     ->render(),
                 'A4',
                 'landscape'
             )->download(make_pdf_filename('Relatorio Anual de Todos os Centro de Custo'));
-
     }
 }
