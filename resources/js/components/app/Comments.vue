@@ -86,7 +86,7 @@
                         class="btn btn-sm btn-micro btn-danger"
                         @click="trash(comment)"
                         title="Deletar Comentário"
-                        dusk="deletComment"
+                        dusk="deleteComment"
                     >
                         <i class="fa fa-trash"></i>
                     </button>
