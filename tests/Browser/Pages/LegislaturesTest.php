@@ -72,6 +72,8 @@ class LegislaturesTest extends DuskTestCase
                 ->visit('admin/legislatures/create#/')
                 ->screenshot('ERRO')
                 ->press('#submitButton')
+                ->pause(1000)
+                ->screenshot('ERRO-2')
                 ->assertSee('O campo número é obrigatório.')
                 ->assertSee('O campo ano de início é obrigatório.')
                 ->assertSee('O campo ano final é obrigatório.');
