@@ -168,7 +168,8 @@ class ApplicationTest extends DuskTestCase
                 ->script('$("button[class=\'swal2-confirm swal2-styled\']").click()');
             $inside_user
                 ->pause(2000)
-                ->press('@analyze_document')
+                ->script('$("button[id=\'analyzeDocument\']").click()');
+            $inside_user
                 ->screenshot('10-analyze_document')
                 ->script('$("button[class=\'swal2-confirm swal2-styled\']").click()');
             $inside_user
