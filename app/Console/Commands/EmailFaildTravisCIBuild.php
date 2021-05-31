@@ -8,7 +8,11 @@ use Illuminate\Support\Facades\Mail;
 
 
 
+<<<<<<< HEAD
 class EmailFailedTravisCIBuild extends Command
+=======
+class EmailFaildTravisCIBuild extends Command
+>>>>>>> changes to run dusk-failure
 {
     /**
      * The name and signature of the console command.
