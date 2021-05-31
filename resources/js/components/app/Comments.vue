@@ -87,6 +87,7 @@
                         @click="trash(comment)"
                         title="Deletar Comentário"
                         dusk="deletComment"
+                        id="deleteComment"
                     >
                         <i class="fa fa-trash"></i>
                     </button>
