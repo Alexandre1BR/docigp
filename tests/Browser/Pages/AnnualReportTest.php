@@ -45,8 +45,21 @@ class AnnualReportTest extends DuskTestCase
                 ->loginAs($administrator['id'])
                 ->visit('admin/annual-report#/')
                 ->assertSee('Relatórios anuais')
+                ->press('@submit-CongressmanReport')
+                ->assertSee('O campo ano é obrigatório.')
+                ->assertSee('O campo deputado(a) é obrigatório.');
+            $browser
+                ->loginAs($administrator['id'])
+                ->visit('admin/annual-report#/')
+                ->assertSee('Relatórios anuais')
                 ->type('@Report', $random_date)
                 ->press('@submit-Report');
+            $browser
+                ->loginAs($administrator['id'])
+                ->visit('admin/annual-report#/')
+                ->assertSee('Relatórios anuais')
+                ->press('@submit-Report')
+                ->assertSee('O campo ano é obrigatório.');
         });
     }
 }
