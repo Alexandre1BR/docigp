@@ -152,7 +152,7 @@ class ApplicationTest extends DuskTestCase
                 ->type('#text', $rand)
                 ->script('$("button[class=\'btn btn-outline-gray btn-sm\']").click()');
             $inside_user
-                ->pause(1000)
+                ->pause(5000)
                 ->assertSee($rand)
                 ->screenshot('7-Comment-Edited')
                 ->click('@deletComment')
