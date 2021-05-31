@@ -134,6 +134,7 @@
                             store="entryDocuments"
                             method="analyse"
                             dusk="analyze_document"
+                            id="analyzeDocument"
                         >
                     </app-action-button>
                     
@@ -150,7 +151,7 @@
                             icon="fa fa-check"
                             store="entryDocuments"
                             method="unanalyse"
-                            dusk="analyze_document"
+                            dusk="unanalyze_document"
                         >
                     </app-action-button>
 
