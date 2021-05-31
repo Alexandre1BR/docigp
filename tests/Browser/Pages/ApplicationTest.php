@@ -71,7 +71,6 @@ class ApplicationTest extends DuskTestCase
         }
     }
 
-
     public function testInsert()
     {
         $this->createAdminstrator();
