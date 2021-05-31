@@ -33,7 +33,6 @@
         >
             <tr
                 @click="selectEntryComment(comment)"
-                dusk="editComment"
                 v-for="comment in entryComments.data.rows"
                 :class="{
                     'cursor-pointer': true,
@@ -87,8 +86,7 @@
                         class="btn btn-sm btn-micro btn-danger"
                         @click="trash(comment)"
                         title="Deletar Comentário"
-                        dusk="deletComment"
-                        id="deleteComment"
+                        dusk="deleteComment"
                     >
                         <i class="fa fa-trash"></i>
                     </button>
