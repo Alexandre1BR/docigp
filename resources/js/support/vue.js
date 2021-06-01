@@ -23,8 +23,8 @@ import VueSweetalert2 from 'vue-sweetalert2'
 import 'sweetalert2/dist/sweetalert2.min.css'
 
 const options = {
-    confirmButtonColor: '#D0D0D0',
-    cancelButtonColor: '#38c172',
+    cancelButtonColor: '#D0D0D0',
+    confirmButtonColor: '#38c172',
     confirmButtonText: 'confirmar',
     cancelButtonText: 'cancelar',
     showCancelButton: true,
@@ -60,12 +60,10 @@ Vue.use(BootstrapVue)
  * Autoload Vue components
  */
 const file = require.context('../components/app/', true, /\.vue$/i)
-file.keys().map(file => {
+file.keys().map((file) => {
     const name = 'App' + _.last(file.split('/')).split('.')[0]
 
-    return Vue.component(name, () =>
-        import('../components/app/' + basename(file)),
-    )
+    return Vue.component(name, () => import('../components/app/' + basename(file)))
 })
 
 /**
