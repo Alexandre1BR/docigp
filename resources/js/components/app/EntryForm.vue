@@ -82,9 +82,7 @@
                     v-model="form.fields.provider_name"
                     :form="form"
                     :required="true"
-                    :readonly="
-                        !newCpfCnpj || !can('entries:update') || isRefund()
-                    "
+                    :readonly="!newCpfCnpj || !can('entries:update') || isRefund()"
                 ></app-input>
 
                 <app-input
@@ -94,9 +92,7 @@
                     v-model="form.fields.to"
                     :required="true"
                     :form="form"
-                    :readonly="
-                        !newCpfCnpj || !can('entries:update') || isRefund()
-                    "
+                    :readonly="!newCpfCnpj || !can('entries:update') || isRefund()"
                 ></app-input>
 
                 <app-select
@@ -113,7 +109,7 @@
             <template slot="modal-footer">
                 <button
                     @click="saveAndClose()"
-                    class="btn btn-outline-gray btn-sm"
+                    class="btn btn-success btn-sm"
                     v-if="can('entries:update')"
                 >
                     <i v-if="busy" class="fas fa-compact-disc fa-spin"></i>
@@ -121,9 +117,7 @@
                     Gravar
                 </button>
 
-                <button @click="close()" class="btn btn-success btn-sm">
-                    Cancelar
-                </button>
+                <button @click="close()" class="btn btn-outline-gray btn-sm">Cancelar</button>
             </template>
         </b-modal>
     </div>
@@ -138,8 +132,7 @@ import permissions from '../../views/mixins/permissions'
 const service = {
     name: 'entries',
 
-    uri:
-        'congressmen/{congressmen.selected.id}/budgets/{congressmanBudgets.selected.id}/entries',
+    uri: 'congressmen/{congressmen.selected.id}/budgets/{congressmanBudgets.selected.id}/entries',
 }
 
 const __cpfCnpj = {
@@ -165,7 +158,7 @@ export default {
 
             service: service,
 
-            checkCpfCnpj: _.debounce(cpfCnpj => {
+            checkCpfCnpj: _.debounce((cpfCnpj) => {
                 this.checkCpfCnpjChecker(cpfCnpj)
             }, 650),
 
@@ -212,7 +205,7 @@ export default {
         checkCpfCnpjChecker(cpfCnpj) {
             post('/api/v1/cpf-cnpj/check', {
                 cpf_cnpj: cpfCnpj,
-            }).then(response => {
+            }).then((response) => {
                 this.cpfCnpj = response.data
             })
         },
