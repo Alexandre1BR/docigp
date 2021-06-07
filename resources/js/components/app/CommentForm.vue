@@ -11,18 +11,12 @@
             </template>
 
             <template slot="modal-footer">
-                <button
-                    @click="saveAndClose()"
-                    class="btn btn-outline-gray btn-sm"
-                >
+                <button @click="saveAndClose()" class="btn btn-success btn-sm">
                     <i v-if="busy" class="fas fa-compact-disc fa-spin"></i>
-
                     Gravar
                 </button>
 
-                <button @click="close()" class="btn btn-success btn-sm">
-                    Fechar
-                </button>
+                <button @click="close()" class="btn btn-outline-gray btn-sm">Fechar</button>
             </template>
         </b-modal>
     </div>
@@ -36,8 +30,7 @@ import { mapActions } from 'vuex'
 const service = {
     name: 'entryComments',
 
-    uri:
-        'congressmen/{congressmen.selected.id}/budgets/{congressmanBudgets.selected.id}/entries/{entries.selected.id}/comments',
+    uri: 'congressmen/{congressmen.selected.id}/budgets/{congressmanBudgets.selected.id}/entries/{entries.selected.id}/comments',
 }
 
 export default {
