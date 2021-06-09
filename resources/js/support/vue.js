@@ -23,7 +23,7 @@ import VueSweetalert2 from 'vue-sweetalert2'
 import 'sweetalert2/dist/sweetalert2.min.css'
 
 const options = {
-    cancelButtonColor: '#D0D0D0',
+    cancelButtonColor: '#E3352E',
     confirmButtonColor: '#38c172',
     confirmButtonText: 'confirmar',
     cancelButtonText: 'cancelar',

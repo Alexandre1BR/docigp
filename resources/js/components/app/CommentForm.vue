@@ -16,7 +16,7 @@
                     Gravar
                 </button>
 
-                <button @click="close()" class="btn btn-outline-gray btn-sm">Fechar</button>
+                <button @click="close()" class="btn btn-outline-danger btn-sm">Fechar</button>
             </template>
         </b-modal>
     </div>
