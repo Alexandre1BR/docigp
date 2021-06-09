@@ -117,7 +117,7 @@
                     Gravar
                 </button>
 
-                <button @click="close()" class="btn btn-outline-gray btn-sm">Cancelar</button>
+                <button @click="close()" class="btn btn-outline-danger btn-sm">Cancelar</button>
             </template>
         </b-modal>
     </div>
