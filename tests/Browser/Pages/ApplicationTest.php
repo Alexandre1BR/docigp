@@ -98,10 +98,12 @@ class ApplicationTest extends DuskTestCase
                 ->pause(1000)
                 ->press('@congressman-'.$randomCongressman['id'])
                 ->waitForText('Orçamento mensal')
-                ->pause(2000)
-                ->waitFor('@percentageButton', 20)
+                ->pause(4000)
+                ->waitFor('@percentageButton')
                 ->screenshot('1-Budget')
-                ->click('@percentageButton')
+                ->pause(2000)
+                ->script('document.querySelector("button[dusk=\'percentageButton\']").click();');
+            $inside_user
                 ->type('@input-percentage', $rand)
                 ->script('$("button[class=\'swal2-confirm swal2-styled\']").click()');
             $inside_user
@@ -130,7 +132,7 @@ class ApplicationTest extends DuskTestCase
                 ->script('$("button[class=\'btn btn-outline-gray btn-sm\']").click()');
             $inside_user
                 ->pause(1000)
-                ->waitFor('@entrie',6)
+                ->waitFor('@entrie',8)
                 ->click('@entrie')
                 ->waitForText('Documentos')
                 ->click('@newEntryDocument')
@@ -152,12 +154,12 @@ class ApplicationTest extends DuskTestCase
                 ->type('#text', $rand)
                 ->script('$("button[class=\'btn btn-outline-gray btn-sm\']").click()');
             $inside_user
-                ->pause(5000)
+                ->pause(1000)
                 ->assertSee($rand)
                 ->screenshot('7-Comment-Edited')
                 ->script('window.scrollTo(0 , document.body.scrollHeight);');
             $inside_user
-                ->script('$("button[id=\'deleteComment\']").click()');
+                ->script('$("button[dusk=\'deleteComment\']").click()');
             $inside_user
                 ->script('$("button[class=\'swal2-confirm swal2-styled\']").click()');
             $inside_user
@@ -168,9 +170,8 @@ class ApplicationTest extends DuskTestCase
                 ->script('$("button[class=\'swal2-confirm swal2-styled\']").click()');
             $inside_user
                 ->pause(2000)
-                ->script('$("button[id=\'analyzeDocument\']").click()');
-            $inside_user
-                ->screenshot('10-analyze_document')
+                ->press('@analize_document')
+                ->screenshot('10-analize_document')
                 ->script('$("button[class=\'swal2-confirm swal2-styled\']").click()');
             $inside_user
                 ->pause(2000)
