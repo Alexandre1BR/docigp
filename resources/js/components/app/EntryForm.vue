@@ -112,6 +112,7 @@
                 <button
                     @click="saveAndClose()"
                     class="btn btn-success btn-sm"
+                    dusk="record"
                     v-if="can('entries:update')"
                 >
                     <i v-if="busy" class="fas fa-compact-disc fa-spin"></i>

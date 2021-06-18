@@ -11,7 +11,7 @@
             </template>
 
             <template slot="modal-footer">
-                <button @click="saveAndClose()" class="btn btn-success btn-sm">
+                <button @click="saveAndClose()" class="btn btn-success btn-sm" dusk="record">
                     <i v-if="busy" class="fas fa-compact-disc fa-spin"></i>
                     Gravar
                 </button>

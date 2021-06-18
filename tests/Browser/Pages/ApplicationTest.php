@@ -129,9 +129,9 @@ class ApplicationTest extends DuskTestCase
             $inside_user
                 ->pause(2000)
                 ->screenshot('4-EntryForm-Filled')
-                ->script('$("button[class=\'btn btn-outline-gray btn-sm\']").click()');
+                ->script('$("button[dusk=\'record\']").click()');
             $inside_user
-                ->pause(1000)
+                ->pause(2000)
                 ->waitFor('@entrie',8)
                 ->click('@entrie')
                 ->waitForText('Documentos')
@@ -140,19 +140,19 @@ class ApplicationTest extends DuskTestCase
                 ->attach('input.dz-hidden-input', 'public/img/logo-alerj-docigp.png')
                 ->pause(5000)
                 ->screenshot('5-Document_dropped')
-                ->press('Fechar')
+                ->press('@close')
                 ->waitForText('Comentários')
                 ->screenshot('6-Comment')
                 ->script('$("button[dusk=\'newEntryComment\']").click()');
             $inside_user
                 ->type('#text', 'teste')
-                ->script('$("button[class=\'btn btn-outline-gray btn-sm\']").click()');
+                ->script('$("button[dusk=\'record\']").click()');
             $inside_user
-                ->waitFor('@editComment')
+                ->waitFor('@editComment',8)
                 ->script('$("button[dusk=\'editComment\']").click()');
             $inside_user
                 ->type('#text', $rand)
-                ->script('$("button[class=\'btn btn-outline-gray btn-sm\']").click()');
+                ->script('$("button[dusk=\'record\']").click()');
             $inside_user
                 ->pause(1000)
                 ->assertSee($rand)
@@ -186,19 +186,19 @@ class ApplicationTest extends DuskTestCase
                 ->script('$("button[class=\'swal2-confirm swal2-styled\']").click()');
             $inside_user
                 ->waitUntilMissing('Salvo com sucesso')
-                ->pause(2000)
+                ->pause(2500)
                 ->press('@close_budget_button')
                 ->screenshot('13-close_budget_button')
                 ->script('$("button[class=\'swal2-confirm swal2-styled\']").click()');
             $inside_user
                 ->waitUntilMissing('Salvo com sucesso')
-                ->pause(2000)
+                ->pause(2500)
                 ->press('@analize_budget_button')
                 ->screenshot('14-analize_budget_button')
                 ->script('$("button[class=\'swal2-confirm swal2-styled\']").click()');
             $inside_user
                 ->waitUntilMissing('Salvo com sucesso')
-                ->pause(2000)
+                ->pause(2500)
                 ->press('@publish_budget_button')
                 ->screenshot('15-publish_budget_button')
                 ->script('$("button[class=\'swal2-confirm swal2-styled\']").click()');
