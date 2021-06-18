@@ -100,7 +100,8 @@ class ApplicationTest extends DuskTestCase
                 ->waitForText('Orçamento mensal')
                 ->pause(4000)
 //                ->waitFor('@percentageButton')
-                ->screenshot('1-Budget');
+                ->screenshot('1-Budget')
+                ->script('$("tr[class=\'cursor-pointer\']").click()');
 //                ->pause(2000)
 //                ->script('document.querySelector("button[dusk=\'percentageButton\']").click();');
 //            $inside_user
