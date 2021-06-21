@@ -71,6 +71,13 @@ class ApplicationTest extends DuskTestCase
         }
     }
 
+    /**
+        * @test
+        * @group testInsert
+        * @group link
+        */
+
+
     public function testInsert()
     {
         $this->createAdminstrator();
@@ -130,7 +137,7 @@ class ApplicationTest extends DuskTestCase
             $inside_user
                 ->pause(2000)
                 ->screenshot('4-EntryForm-Filled')
-                ->script('$("button[dusk=\'record\']").click()');
+                ->press('Gravar');
             $inside_user
                 ->pause(6000)
                 ->script('$("tr[dusk=\'entrie\']").click()');
@@ -143,20 +150,20 @@ class ApplicationTest extends DuskTestCase
                 ->attach('input.dz-hidden-input', 'public/img/logo-alerj-docigp.png')
                 ->pause(5000)
                 ->screenshot('5-Document_dropped')
-                ->press('@close')
+                ->press('Fechar')
                 ->script('window.scrollTo(0,document.body.scrollHeight);');
             $inside_user
                 ->screenshot('6-Comment')
                 ->script('$("button[dusk=\'newEntryComment\']").click()');
             $inside_user
                 ->type('#text', 'teste')
-                ->script('$("button[dusk=\'record\']").click()');
+                ->press('Gravar');
             $inside_user
                 ->waitFor('@editComment', 8)
                 ->script('$("button[dusk=\'editComment\']").click()');
             $inside_user
                 ->type('#text', $rand)
-                ->script('$("button[dusk=\'record\']").click()');
+                ->press('Gravar');
             $inside_user
                 ->pause(1000)
                 ->waitForText($rand)

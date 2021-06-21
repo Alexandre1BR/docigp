@@ -120,7 +120,7 @@
                     Gravar
                 </button>
 
-                <button @click="close()" class="btn btn-outline-danger btn-sm">Cancelar</button>
+                <button dusk='cancel' @click="close()" class="btn btn-outline-danger btn-sm">Cancelar</button>
             </template>
         </b-modal>
     </div>
