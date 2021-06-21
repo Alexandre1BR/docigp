@@ -142,7 +142,8 @@ class ApplicationTest extends DuskTestCase
                 ->pause(5000)
                 ->screenshot('5-Document_dropped')
                 ->press('@close')
-                ->waitForText('Comentários')
+                ->script('window.scrollTo(0,document.body.scrollHeight);');
+            $inside_user
                 ->screenshot('6-Comment')
                 ->script('$("button[dusk=\'newEntryComment\']").click()');
             $inside_user
@@ -166,41 +167,48 @@ class ApplicationTest extends DuskTestCase
             $inside_user
                 ->screenshot('8-Comment-Deleted')
                 ->pause(2000)
-                ->press('@verify_document')
+                ->script('$("button[dusk=\'verify_document\']").click()');
+            $inside_user
                 ->screenshot('9-verify_document')
                 ->script('$("button[class=\'swal2-confirm swal2-styled\']").click()');
             $inside_user
                 ->pause(2000)
-                ->press('@analize_document')
+                ->script('$("button[dusk=\'analize_document\']").click()');
+            $inside_user
                 ->screenshot('10-analize_document')
                 ->script('$("button[class=\'swal2-confirm swal2-styled\']").click()');
             $inside_user
                 ->pause(2000)
-                ->press('@verify_entry_button')
+                ->script('$("button[dusk=\'verify_entry_button\']").click()');
+            $inside_user
                 ->screenshot('11-verify_entry_button')
                 ->script('$("button[class=\'swal2-confirm swal2-styled\']").click()');
             $inside_user
                 ->waitUntilMissing('Salvo com sucesso')
                 ->pause(2000)
-                ->press('@analize_entry_button')
+                ->script('$("button[dusk=\'analize_entry_button\']").click()');
+            $inside_user
                 ->screenshot('12-analize_entry_button')
                 ->script('$("button[class=\'swal2-confirm swal2-styled\']").click()');
             $inside_user
                 ->waitUntilMissing('Salvo com sucesso')
-                ->pause(2500)
-                ->press('@close_budget_button')
+                ->pause(3500)
+                ->script('$("button[dusk=\'close_budget_button\']").click()');
+            $inside_user
                 ->screenshot('13-close_budget_button')
                 ->script('$("button[class=\'swal2-confirm swal2-styled\']").click()');
             $inside_user
                 ->waitUntilMissing('Salvo com sucesso')
                 ->pause(2500)
-                ->press('@analize_budget_button')
+                ->script('$("button[dusk=\'analize_budget_button\']").click()');
+            $inside_user
                 ->screenshot('14-analize_budget_button')
                 ->script('$("button[class=\'swal2-confirm swal2-styled\']").click()');
             $inside_user
                 ->waitUntilMissing('Salvo com sucesso')
                 ->pause(2500)
-                ->press('@publish_budget_button')
+                ->script('$("button[dusk=\'publish_budget_button\']").click()');
+            $inside_user
                 ->screenshot('15-publish_budget_button')
                 ->script('$("button[class=\'swal2-confirm swal2-styled\']").click()');
             $inside_user
