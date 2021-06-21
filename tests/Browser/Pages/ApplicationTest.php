@@ -132,9 +132,11 @@ class ApplicationTest extends DuskTestCase
                 ->screenshot('4-EntryForm-Filled')
                 ->script('$("button[dusk=\'record\']").click()');
             $inside_user
-                ->pause(2000)
-                ->waitFor('@entrie',8)
-                ->click('@entrie')
+                ->pause(6000)
+                ->script('$("tr[dusk=\'entrie\']").click()');
+//                ->waitFor('@entrie',8)
+//                ->click('@entrie')
+            $inside_user
                 ->waitForText('Documentos')
                 ->click('@newEntryDocument')
                 ->waitForText('Novo documento')
@@ -157,6 +159,7 @@ class ApplicationTest extends DuskTestCase
                 ->script('$("button[dusk=\'record\']").click()');
             $inside_user
                 ->pause(1000)
+                ->waitForText($rand)
                 ->assertSee($rand)
                 ->screenshot('7-Comment-Edited')
                 ->script('window.scrollTo(0 , document.body.scrollHeight);');
