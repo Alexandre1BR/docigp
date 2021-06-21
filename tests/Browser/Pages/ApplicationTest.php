@@ -152,7 +152,7 @@ class ApplicationTest extends DuskTestCase
                 ->type('#text', 'teste')
                 ->script('$("button[dusk=\'record\']").click()');
             $inside_user
-                ->waitFor('@editComment',8)
+                ->waitFor('@editComment', 8)
                 ->script('$("button[dusk=\'editComment\']").click()');
             $inside_user
                 ->type('#text', $rand)
