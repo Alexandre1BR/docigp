@@ -20,6 +20,7 @@
                 class="btn btn-primary btn-sm pull-right"
                 @click="createComment()"
                 title="Novo Comentário"
+                dusk="newEntryComment"
             >
                 <i class="fa fa-plus"></i>
             </button>
@@ -67,6 +68,7 @@
                         class="btn btn-sm btn-micro btn-primary"
                         @click="editComment(comment)"
                         title="Editar comentário"
+                        dusk="editComment"
                     >
                         <i class="fa fa-edit"></i>
                     </button>
@@ -84,6 +86,7 @@
                         class="btn btn-sm btn-micro btn-danger"
                         @click="trash(comment)"
                         title="Deletar Comentário"
+                        dusk="deleteComment"
                     >
                         <i class="fa fa-trash"></i>
                     </button>

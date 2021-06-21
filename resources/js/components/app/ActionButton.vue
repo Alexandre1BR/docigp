@@ -4,6 +4,7 @@
         :class="classes"
         :title="title"
         @click="pressButton(model)"
+        :dusk="dusk"
     >
         <pulse-loader
             v-if="loading"
@@ -31,6 +32,7 @@ export default {
         'swal-title',
         'spinner-config',
         'swal-message',
+        'dusk'
     ],
 
     data() {

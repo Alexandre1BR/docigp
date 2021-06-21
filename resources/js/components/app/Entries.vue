@@ -36,6 +36,7 @@
                 class="btn btn-primary btn-sm pull-right"
                 @click="createEntry()"
                 title="Novo lançamento"
+                dusk="newentry"
             >
                 <i class="fa fa-plus"></i>
             </button>
@@ -53,6 +54,7 @@
                     'cursor-pointer': true,
                     'bg-primary-lighter text-white': isCurrent(entry, selected),
                 }"
+                :dusk="'entrie'"
             >
                 <td class="align-middle">{{ entry.date_formatted }}</td>
 
@@ -179,6 +181,7 @@
                             icon="fa fa-check"
                             store="entries"
                             method="verify"
+                            dusk="verify_entry_button"
                         >
                         </app-action-button>
 
@@ -212,6 +215,7 @@
                             icon="fa fa-check"
                             store="entries"
                             method="analyse"
+                            dusk="analize_entry_button"
                         >
                         </app-action-button>
 

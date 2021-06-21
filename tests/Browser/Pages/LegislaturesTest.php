@@ -1,5 +1,4 @@
 <?php
-
 namespace Tests\Browser\Pages;
 
 use App\Data\Models\User;
@@ -26,7 +25,6 @@ class LegislaturesTest extends DuskTestCase
 
     public function init()
     {
-        $faker = app(Faker::class);
         static::$anoLegislatura = only_numbers(app(Faker::class)->year);
         static::$numeroLegislatura = only_numbers(
             app(Faker::class)->numberBetween(0, 1000)
@@ -71,9 +69,8 @@ class LegislaturesTest extends DuskTestCase
         $this->browse(function (Browser $browser) use ($administrator) {
             $browser
                 ->loginAs($administrator['id'])
-                ->visit('admin/legislatures#/')
-                ->clickLink('Novo')
-                ->press('Gravar')
+                ->visit('admin/legislatures/create#/')
+                ->press('#submitButton')
                 ->assertSee('O campo número é obrigatório.')
                 ->assertSee('O campo ano de início é obrigatório.')
                 ->assertSee('O campo ano final é obrigatório.');

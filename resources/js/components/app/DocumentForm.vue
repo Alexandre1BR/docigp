@@ -9,7 +9,7 @@
             </template>
 
             <template slot="modal-footer">
-                <button @click="close()" class="btn btn-success btn-sm">
+                <button @click="close()" class="btn btn-success btn-sm" dusk="close">
                     Fechar
                 </button>
             </template>

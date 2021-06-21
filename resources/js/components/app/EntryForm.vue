@@ -13,14 +13,16 @@
                             :form="form"
                             v-mask="'##/##/####'"
                             :focus="true"
+                            dusk="date"
                         ></app-input>
                     </div>
 
-                    <div class="col-6">
+                    <div class="col-6" >
                         <app-input
                             name="value"
                             type="money"
                             label="Valor pago"
+
                             v-model="form.fields.value_abs"
                             :readonly="!can('entries:update')"
                             :required="true"
@@ -110,6 +112,7 @@
                 <button
                     @click="saveAndClose()"
                     class="btn btn-success btn-sm"
+                    dusk="record"
                     v-if="can('entries:update')"
                 >
                     <i v-if="busy" class="fas fa-compact-disc fa-spin"></i>
@@ -117,7 +120,7 @@
                     Gravar
                 </button>
 
-                <button @click="close()" class="btn btn-outline-danger btn-sm">Cancelar</button>
+                <button dusk='cancel' @click="close()" class="btn btn-outline-danger btn-sm">Cancelar</button>
             </template>
         </b-modal>
     </div>
@@ -146,7 +149,7 @@ const __cpfCnpj = {
 export default {
     mixins: [crud, entries, permissions],
 
-    props: ['show', 'refund'],
+    props: ['show', 'refund','dusk'],
 
     data() {
         return {

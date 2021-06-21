@@ -24,6 +24,7 @@
                 class="btn btn-primary btn-sm pull-right"
                 @click="createDocument()"
                 title="Novo documento"
+                dusk="newEntryDocument"
             >
                 <i class="fa fa-plus"></i>
             </button>
@@ -98,6 +99,7 @@
                         :title="
                             getEntryDocumentState(document).buttons.verify.title
                         "
+                        dusk="verify_document"
                     >
                         <i class="fa fa-check"></i> verificar
                     </button>
@@ -136,6 +138,7 @@
                             getEntryDocumentState(document).buttons.analyse
                                 .title
                         "
+                        dusk="analize_document"
                     >
                         <i class="fa fa-check"></i> analisado
                     </button>
