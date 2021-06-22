@@ -25,7 +25,7 @@ class FixEntry extends Migration
             $entry->analysed_by_id = null;
             $entry->verified_at = null;
             $entry->verified_by_id = null;
-
+          
             $entry->save();
 
         }else{
