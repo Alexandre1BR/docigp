@@ -25,8 +25,8 @@ class FixEntry extends Migration
             $entry->analysed_by_id = null;
             $entry->verified_at = null;
             $entry->verified_by_id = null;
-
-            dump($entry->save());
+          
+            $entry->save();
 
         }else{
             dump('Não foi possível encontrar a entry com o id solicitado');
