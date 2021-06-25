@@ -2,8 +2,8 @@
 
 namespace Tests\Browser\Pages;
 
-use App\Data\Models\Provider;
-use App\Data\Models\User;
+use App\Models\Provider;
+use App\Models\User;
 use App\Data\Repositories\Providers;
 use App\Support\Constants;
 use Laravel\Dusk\Browser;

@@ -3,7 +3,7 @@
 
 namespace Tests\Browser\Pages;
 
-use App\Data\Models\User;
+use App\Models\User;
 use App\Data\Repositories\EntryTypes;
 use Faker\Generator as Faker;
 use Laravel\Dusk\Browser;

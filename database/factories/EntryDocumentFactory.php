@@ -2,7 +2,7 @@
 
 use App\Data\Repositories\Entries;
 use App\Data\Repositories\Users as UsersRepository;
-use App\Data\Models\EntryDocument as EntryDocumentModel;
+use App\Models\EntryDocument as EntryDocumentModel;
 use Illuminate\Database\Eloquent\Factory;
 
 //$factory->define(EntryDocumentModel::class, function () {

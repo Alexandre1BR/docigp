@@ -4,7 +4,7 @@
 namespace Tests\Browser\Pages;
 
 
-use App\Data\Models\User;
+use App\Models\User;
 use App\Support\Constants;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;

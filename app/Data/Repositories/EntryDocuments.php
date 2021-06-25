@@ -4,7 +4,7 @@ namespace App\Data\Repositories;
 
 use App\Data\Traits\RepositoryActionable;
 use App\Data\Repositories\Files as FilesRepository;
-use App\Data\Models\EntryDocument as EntryDocument;
+use App\Models\EntryDocument as EntryDocument;
 
 class EntryDocuments extends Repository
 {
@@ -45,11 +45,11 @@ class EntryDocuments extends Repository
     }
 
     /**
-     * @param \App\Data\Models\File $physicalFile
+     * @param \App\Models\File $physicalFile
      * @return bool
      */
     private function documentWasAlreadyUploaded(
-        \App\Data\Models\File $physicalFile
+        \App\Models\File $physicalFile
     ): bool {
         return $this->getEntry()->documents->reduce(function (
             $carry,

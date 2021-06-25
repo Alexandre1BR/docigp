@@ -1,13 +1,15 @@
 <?php
 
+namespace Database\Seeders;
+
 use Illuminate\Database\Seeder;
 
-use App\Data\Models\User as UserModel;
+use App\Models\User as UserModel;
 
 class UsersTableSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Run the database seeders.
      *
      * @return void
      */

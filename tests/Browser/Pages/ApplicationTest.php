@@ -3,12 +3,12 @@
 
 namespace Tests\Browser\Pages;
 
-use App\Data\Models\Entry;
-use App\Data\Models\EntryType;
-use App\Data\Models\File;
-use App\Data\Models\Provider;
+use App\Models\Entry;
+use App\Models\EntryType;
+use App\Models\File;
+use App\Models\Provider;
 use App\Data\Repositories\Congressmen;
-use App\Data\Models\User;
+use App\Models\User;
 use App\Data\Repositories\EntryTypes;
 use App\Support\Constants;
 use Laravel\Dusk\Browser;

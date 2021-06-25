@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Data\Models;
+namespace App\Models;
 
 use App\Data\Repositories\CostCenters as CostCentersRepository;
 use App\Data\Scopes\NotTransportOrCreditEntry as NotTransportOrCreditEntryScope;

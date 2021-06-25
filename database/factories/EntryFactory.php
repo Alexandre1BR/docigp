@@ -1,10 +1,10 @@
 <?php
 
-use App\Data\Models\Entry as Entry;
+use App\Models\Entry as Entry;
 use App\Data\Repositories\EntryTypes;
 use App\Data\Repositories\Providers;
 use App\Data\Repositories\CostCenters;
-use App\Data\Models\Entry as EntryModel;
+use App\Models\Entry as EntryModel;
 use App\Data\Repositories\CongressmanBudgets;
 use App\Data\Repositories\Users as UsersRepository;
 use App\Support\Constants;

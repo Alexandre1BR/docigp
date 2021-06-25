@@ -1,7 +1,7 @@
 <?php
 
 use App\Data\Repositories\Users as UsersRepository;
-use App\Data\Models\Legislature as LegislatureModel;
+use App\Models\Legislature as LegislatureModel;
 use Illuminate\Database\Eloquent\Factory;
 
 /*

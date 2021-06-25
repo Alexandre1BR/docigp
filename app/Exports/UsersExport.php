@@ -2,8 +2,8 @@
 
 namespace App\Exports;
 
-use App\Data\Models\Audit as Audits;
-use App\Data\Models\User as Users;
+use App\Models\Audit as Audits;
+use App\Models\User as Users;
 use Carbon\Carbon;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Illuminate\Http\Request;
@@ -30,7 +30,7 @@ class UsersExport implements FromCollection
         $users = Users::all();
 
         $period = \Carbon\CarbonPeriod::create($this->data_ini, $this->data_fim);
-        
+
 
         $periodCollection = collect($period->toArray());
 
@@ -66,7 +66,7 @@ class UsersExport implements FromCollection
 
             $allLinesCollection->push($lineCollection);
         });
-        
+
         return $allLinesCollection;
     }
 };

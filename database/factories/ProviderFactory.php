@@ -1,7 +1,7 @@
 <?php
 
 use App\Services\CpfCnpj\CpfCnpj;
-use App\Data\Models\Provider as ProviderModel;
+use App\Models\Provider as ProviderModel;
 use App\Data\Repositories\Users as UsersRepository;
 use Illuminate\Database\Eloquent\Factory;
 

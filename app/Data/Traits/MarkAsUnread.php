@@ -2,8 +2,8 @@
 
 namespace App\Data\Traits;
 
-use App\Data\Models\User;
-use App\Data\Models\ChangeUnread;
+use App\Models\User;
+use App\Models\ChangeUnread;
 
 trait MarkAsUnread
 {

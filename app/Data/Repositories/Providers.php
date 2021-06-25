@@ -2,7 +2,7 @@
 
 namespace App\Data\Repositories;
 
-use App\Data\Models\Provider;
+use App\Models\Provider;
 
 class Providers extends Repository
 {

@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Data\Models\EntryComment;
+use App\Models\EntryComment;
 use App\Http\Traits\WithRouteParams;
 use Illuminate\Support\Facades\Gate;
 

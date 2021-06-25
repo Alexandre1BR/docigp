@@ -2,9 +2,9 @@
 
 namespace App\Data\Repositories;
 
-use App\Data\Models\Congressman;
-use App\Data\Models\ChangeUnread;
-use App\Data\Models\CongressmanLegislature;
+use App\Models\Congressman;
+use App\Models\ChangeUnread;
+use App\Models\CongressmanLegislature;
 use PragmaRX\Coollection\Package\Coollection;
 use App\Data\Repositories\Departments as DepartmentsRepository;
 

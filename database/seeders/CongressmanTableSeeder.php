@@ -1,16 +1,18 @@
 <?php
 
-use App\Data\Models\User;
+namespace Database\Seeders;
+
+use App\Models\User;
 use App\Support\Constants;
 use Illuminate\Database\Seeder;
-use App\Data\Models\Department;
-use App\Data\Models\Congressman;
-use App\Data\Models\CongressmanLegislature;
+use App\Models\Department;
+use App\Models\Congressman;
+use App\Models\CongressmanLegislature;
 
 class CongressmanTableSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Run the database seeders.
      *
      * @return void
      */

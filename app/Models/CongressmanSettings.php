@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Data\Models;
+namespace App\Models;
 
 class CongressmanSettings extends Model
 {

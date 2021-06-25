@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Data\Models;
+namespace App\Models;
 
 use App\Data\Traits\Selectable;
 use Illuminate\Support\Facades\DB;
@@ -133,7 +133,7 @@ class Congressman extends Model
     }
 
     /**
-     * @return \App\Data\Models\CongressmanBudget|null
+     * @return \App\Models\CongressmanBudget|null
      */
     public function getCurrentBudgetAttribute()
     {
@@ -150,7 +150,7 @@ class Congressman extends Model
 
     /**
      * @param $congressmanBudget
-     * @return \App\Data\Models\CongressmanBudget|null
+     * @return \App\Models\CongressmanBudget|null
      */
     public function getPriorBudgetRelativeTo($congressmanBudget)
     {
@@ -172,7 +172,7 @@ class Congressman extends Model
 
     /**
      * @param $congressmanBudget
-     * @return \App\Data\Models\CongressmanBudget|null
+     * @return \App\Models\CongressmanBudget|null
      */
     public function getNextBudgetRelativeTo($congressmanBudget)
     {
@@ -193,7 +193,7 @@ class Congressman extends Model
     }
 
     /**
-     * @return \App\Data\Models\Legislature|null
+     * @return \App\Models\Legislature|null
      */
     public function getCurrentLegislatureAttribute()
     {

@@ -1,6 +1,6 @@
 <?php
 
-use App\Data\Models\Department;
+use App\Models\Department;
 use Illuminate\Database\Eloquent\Factory;
 
 //$factory->define(Department::class, function () {

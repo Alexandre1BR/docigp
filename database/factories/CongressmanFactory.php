@@ -1,6 +1,6 @@
 <?php
 
-use App\Data\Models\Congressman;
+use App\Models\Congressman;
 use App\Data\Repositories\Parties;
 use Illuminate\Database\Eloquent\Factory;
 

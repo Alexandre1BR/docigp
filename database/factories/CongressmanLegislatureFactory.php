@@ -1,9 +1,9 @@
 <?php
 
 use Carbon\Carbon;
-use App\Data\Models\Congressman;
+use App\Models\Congressman;
 use App\Data\Repositories\Legislatures;
-use App\Data\Models\CongressmanLegislature;
+use App\Models\CongressmanLegislature;
 use Illuminate\Database\Eloquent\Factory;
 
 //$factory->define(CongressmanLegislature::class, function () {

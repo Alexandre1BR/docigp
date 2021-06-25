@@ -1,7 +1,7 @@
 <?php
 
-use App\Data\Models\File;
-use App\Data\Models\AttachedFile;
+use App\Models\File;
+use App\Models\AttachedFile;
 use App\Data\Repositories\Entries;
 use Illuminate\Database\Eloquent\Factory as Factory;
 

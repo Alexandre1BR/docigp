@@ -3,9 +3,9 @@
 namespace App\Data\Repositories;
 
 use Carbon\Carbon;
-use App\Data\Models\Budget;
-use App\Data\Models\Congressman;
-use App\Data\Models\CongressmanBudget;
+use App\Models\Budget;
+use App\Models\Congressman;
+use App\Models\CongressmanBudget;
 
 class Budgets extends Repository
 {

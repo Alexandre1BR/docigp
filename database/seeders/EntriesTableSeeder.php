@@ -1,12 +1,14 @@
 <?php
 
+namespace Database\Seeders;
+
 use App\Support\Constants;
 use Faker\Generator as Faker;
 use Illuminate\Database\Seeder;
-use App\Data\Models\Congressman;
-use App\Data\Models\CongressmanBudget;
-use App\Data\Models\Entry as EntryModel;
-use App\Data\Models\EntryDocument as EntryDocumentModel;
+use App\Models\Congressman;
+use App\Models\CongressmanBudget;
+use App\Models\Entry as EntryModel;
+use App\Models\EntryDocument as EntryDocumentModel;
 
 class EntriesTableSeeder extends Seeder
 {

@@ -2,13 +2,13 @@
 
 namespace App\Services\AnnualReport\Congressman;
 
-use App\Data\Models\Budget;
-use App\Data\Models\Congressman;
-use App\Data\Models\CongressmanBudget;
-use App\Data\Models\CongressmanLegislature;
-use App\Data\Models\CostCenter;
-use App\Data\Models\Entry;
-use App\Data\Models\Legislature;
+use App\Models\Budget;
+use App\Models\Congressman;
+use App\Models\CongressmanBudget;
+use App\Models\CongressmanLegislature;
+use App\Models\CostCenter;
+use App\Models\Entry;
+use App\Models\Legislature;
 use App\Support\Constants;
 use App\Data\Repositories\CostCenters as CostCentersRepository;
 use Carbon\Carbon;

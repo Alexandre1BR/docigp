@@ -2,7 +2,7 @@
 
 namespace Tests\Browser\Pages;
 
-use App\Data\Models\User;
+use App\Models\User;
 use App\Data\Repositories\CostCenters;
 use App\Support\Constants;
 use Faker\Generator as Faker;

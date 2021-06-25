@@ -1,6 +1,6 @@
 <?php
 
-use App\Data\Models\File;
+use App\Models\File;
 use Illuminate\Database\Eloquent\Factory;
 use Illuminate\Support\Str;
 

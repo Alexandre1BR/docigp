@@ -1,6 +1,6 @@
 <?php
 use App\Support\Constants;
-use App\Data\Models\User;
+use App\Models\User;
 use App\Data\Repositories\Users as UsersRepository;
 use Illuminate\Database\Eloquent\Factory;
 use Illuminate\Support\Str;

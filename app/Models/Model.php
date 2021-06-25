@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Data\Models;
+namespace App\Models;
 
 use App\Data\Traits\Eventable;
 use OwenIt\Auditing\Auditable;
