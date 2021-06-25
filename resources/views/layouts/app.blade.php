@@ -37,7 +37,7 @@
 
                 <div class="row text-center mt-5">
                     <div class="col">
-                        @version
+{{--                        @version--}}
                     </div>
                 </div>
             </div>
