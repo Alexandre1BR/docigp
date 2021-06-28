@@ -1,7 +1,7 @@
 /**
  * Vue & Vuex
  */
-window.Vue = require('vue')
+window.Vue = require('vue').default
 window.Vuex = require('vuex')
 
 /**

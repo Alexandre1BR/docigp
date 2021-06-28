@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6abfeb632124efdefd067c34f2f0e14a",
+    "content-hash": "cced7835b55b9a16793c324e31fe22a9",
     "packages": [
         {
             "name": "barryvdh/laravel-dompdf",
@@ -3010,7 +3010,7 @@
         },
         {
             "name": "owen-it/laravel-auditing",
-            "version": "dev-master",
+            "version": "v12.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/owen-it/laravel-auditing.git",
@@ -3037,7 +3037,6 @@
             "suggest": {
                 "laravelista/lumen-vendor-publish": "Needed to publish the package configuration in Lumen"
             },
-            "default-branch": true,
             "type": "package",
             "extra": {
                 "branch-alias": {
