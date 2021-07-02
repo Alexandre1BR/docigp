@@ -4,6 +4,7 @@
 namespace Tests\Browser\Pages;
 
 use App\Models\Entry;
+use App\Models\EntryDocument;
 use App\Models\EntryType;
 use App\Models\File;
 use App\Models\Provider;
@@ -29,10 +30,9 @@ class ApplicationTest extends DuskTestCase
 
     public function createAdminstrator()
     {
-        static::$administrator = factory(
-            User::class,
-            Constants::ROLE_ADMINISTRATOR
-        )->raw();
+        $user = User::factory()->create();
+        $user->assign(Constants::ROLE_ADMINISTRATOR);
+        static::$administrator = $user;
     }
 
     public function init()
@@ -45,20 +45,15 @@ class ApplicationTest extends DuskTestCase
         ->randomElement()
         ->toArray();
 
-        static::$newEntriesRaw = factory(
-            Entry::class
-        )->raw();
+        static::$newEntriesRaw =  Entry::factory()->make();
 
         static::$randomProvider = Provider::find(static::$newEntriesRaw['provider_id']);
         static::$randomEntryType = EntryType::find(static::$newEntriesRaw['entry_type_id']);
 
-        static::$provider = factory(
-            Provider::class
-        )->raw();
+        static::$provider = Provider::factory()->make();
 
-        static::$newEntryDocument = factory(
-            File::class
-        )->raw();
+        static::$newEntryDocument = EntryDocument::factory()->make();
+
     }
 
     public function documentNumber($newEntriesRaw)
@@ -78,7 +73,7 @@ class ApplicationTest extends DuskTestCase
         */
 
 
-    public function testInsert()
+    public function testInsertAAA()
     {
         $this->createAdminstrator();
         $this->init();

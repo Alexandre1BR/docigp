@@ -1,5 +1,8 @@
 <?php
 
+namespace Database\Factories;
+
+
 use App\Models\File;
 use App\Models\AttachedFile;
 use App\Data\Repositories\Entries;

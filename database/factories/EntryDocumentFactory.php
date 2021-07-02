@@ -1,9 +1,12 @@
 <?php
 
+namespace Database\Factories;
+
+
 use App\Data\Repositories\Entries;
 use App\Data\Repositories\Users as UsersRepository;
 use App\Models\EntryDocument as EntryDocumentModel;
-use Illuminate\Database\Eloquent\Factory;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 //$factory->define(EntryDocumentModel::class, function () {
 //    return [

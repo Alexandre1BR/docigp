@@ -6,6 +6,7 @@ use App\Data\Traits\Filterable;
 use App\Data\Traits\Eventable;
 use App\Events\UserCreated;
 use App\Support\Constants;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use OwenIt\Auditing\Auditable;
 use App\Data\Traits\Selectable;
 use Illuminate\Notifications\Notifiable;
@@ -24,7 +25,8 @@ class User extends Authenticatable implements AuditableContract
         Selectable,
         HasRolesAndAbilities,
         Filterable,
-        Eventable;
+        Eventable,
+        HasFactory;
 
     /**
      * The attributes that are mass assignable.

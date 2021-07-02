@@ -1,5 +1,8 @@
 <?php
 
+namespace Database\Factories;
+
+
 use App\Models\Entry as Entry;
 use App\Data\Repositories\EntryTypes;
 use App\Data\Repositories\Providers;
@@ -8,7 +11,7 @@ use App\Models\Entry as EntryModel;
 use App\Data\Repositories\CongressmanBudgets;
 use App\Data\Repositories\Users as UsersRepository;
 use App\Support\Constants;
-use Illuminate\Database\Eloquent\Factory;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 //$factory->define(EntryModel::class, function () {
 //    EntryModel::disableGlobalScopes();
@@ -125,7 +128,8 @@ class EntryFactory extends Factory{
         'created_by_id' => app(UsersRepository::class)->randomElement()->id,
         'updated_by_id' => app(UsersRepository::class)->randomElement()->id,
     ];
+        EntryModel::enableGlobalScopes();
     return $array;
-    EntryModel::enableGlobalScopes();
+
     }
 }

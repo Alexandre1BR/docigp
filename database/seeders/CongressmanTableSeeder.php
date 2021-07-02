@@ -18,20 +18,20 @@ class CongressmanTableSeeder extends Seeder
      */
     public function run()
     {
-        $department = factory(Department::class)->create([
+        $department = Department::factory()->create([
             'name' => ($name = 'Manuel Francisco dos Santos'),
         ]);
 
-        $congressman = factory(Congressman::class)->create([
+        $congressman = Congressman::factory()->create([
             'name' => $name,
             'department_id' => $department->id,
         ]);
 
-        factory(CongressmanLegislature::class)->create([
+        CongressmanLegislature::factory()->create([
             'congressman_id' => $congressman->id,
         ]);
 
-        $user = factory(User::class)->create([
+        $user = User::factory()->create([
             'name' => $name,
             'email' => 'docigp@alerj.rj.gov.br',
             'congressman_id' => $congressman->id,

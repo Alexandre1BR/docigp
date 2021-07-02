@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Data\Traits\Selectable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\DB;
 use App\Data\Scopes\Published as PublishedScope;
 use App\Data\Scopes\Congressman as CongressmanScope;
@@ -12,6 +13,8 @@ class Congressman extends Model
     use Selectable {
         getSelectColumnsRaw as protected getSelectColumnsRawOverloaded;
     }
+
+    use HasFactory;
 
     protected $fillable = [
         'remote_id',

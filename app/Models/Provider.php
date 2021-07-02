@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use App\Services\CpfCnpj\CpfCnpj;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Provider extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'cpf_cnpj',
         'type',

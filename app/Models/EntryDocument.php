@@ -7,10 +7,11 @@ use App\Data\Scopes\Analysed;
 use App\Data\Scopes\Verified;
 use App\Data\Traits\MarkAsUnread;
 use App\Data\Traits\ModelActionable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class EntryDocument extends Model
 {
-    use ModelActionable, MarkAsUnread;
+    use ModelActionable, MarkAsUnread, HasFactory;
 
     protected $fillable = [
         'entry_id',

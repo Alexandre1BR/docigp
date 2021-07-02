@@ -17,6 +17,7 @@ class UsersTableSeeder extends Seeder
     {
         UserModel::disableEvents();
 
-        factory(UserModel::class, 50)->create();
+        UserModel::factory()->count(50)->create();
+
     }
 }

@@ -1,8 +1,11 @@
 <?php
 
+namespace Database\Factories;
+
+
 use App\Models\Congressman;
 use App\Data\Repositories\Parties;
-use Illuminate\Database\Eloquent\Factory;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 //$factory->define(Congressman::class, function () {
 //    return [

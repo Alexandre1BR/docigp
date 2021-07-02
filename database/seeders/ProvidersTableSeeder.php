@@ -16,6 +16,7 @@ class ProvidersTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(ProviderModel::class, 30)->create();
+//        factory(ProviderModel::class, 30)->create();
+        ProviderModel::factory()->count(30)->create();
     }
 }

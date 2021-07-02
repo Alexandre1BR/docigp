@@ -1,7 +1,10 @@
 <?php
 
+namespace Database\Factories;
+
+
 use App\Models\Department;
-use Illuminate\Database\Eloquent\Factory;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 //$factory->define(Department::class, function () {
 //    return [

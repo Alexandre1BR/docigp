@@ -8,10 +8,11 @@ use App\Data\Scopes\Published;
 use App\Data\Traits\MarkAsUnread;
 use App\Data\Traits\ModelActionable;
 use App\Data\Scopes\Published as PublishedScope;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Entry extends Model
 {
-    use ModelActionable, MarkAsUnread;
+    use ModelActionable, MarkAsUnread, HasFactory;
 
     protected $table = 'entries';
 
@@ -145,6 +146,7 @@ class Entry extends Model
         }
 
         $this->updatingTransport = true;
+
 
         $this->congressmanBudget->updateTransportEntries();
 

@@ -1,5 +1,8 @@
 <?php
 
+namespace Database\Factories;
+
+
 use App\Data\Repositories\Users as UsersRepository;
 use App\Models\Legislature as LegislatureModel;
 use Illuminate\Database\Eloquent\Factory;

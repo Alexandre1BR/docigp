@@ -16,8 +16,11 @@ class EntryTypesTest extends DuskTestCase
     private static $randomEntryTypes;
     private static $administrator;
 
-    public function createAdminstrator(){
-        static::$administrator = factory(User::class, Constants::ROLE_ADMINISTRATOR)->raw();
+    public function createAdminstrator()
+    {
+        $user = User::factory()->create();
+        $user->assign(Constants::ROLE_ADMINISTRATOR);
+        static::$administrator = $user;
     }
 
 
