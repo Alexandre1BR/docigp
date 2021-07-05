@@ -25,7 +25,7 @@ class ProvidersTest extends DuskTestCase
 
     public function init()
     {
-        static::$providerRaw = factory(Provider::class)->raw();
+        static::$providerRaw = Provider::factory()->make();
         static::$randomProviders = app(Providers::class)
             ->randomElement()
             ->toArray();
@@ -33,7 +33,7 @@ class ProvidersTest extends DuskTestCase
 
     public function testInsert_and_Alter()
     {
-        $this->createAdministrator();
+        $this->createAdminstrator();
         $this->init();
         $provider = static::$providerRaw;
         $administrator = static::$administrator;

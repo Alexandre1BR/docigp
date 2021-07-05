@@ -73,7 +73,7 @@ class ApplicationTest extends DuskTestCase
         */
 
 
-    public function testInsertAAA()
+    public function testInsertEntry()
     {
         $this->createAdminstrator();
         $this->init();
@@ -97,7 +97,7 @@ class ApplicationTest extends DuskTestCase
                 ->visit('admin/entries#/')
                 ->assertSee('Prestação de Contas')
                 ->type('@filter_input', $randomCongressman['name'])
-                ->pause(1000)
+                ->pause(2000)
                 ->press('@congressman-'.$randomCongressman['id'])
                 ->waitForText('Orçamento mensal')
                 ->pause(4000)
@@ -118,7 +118,7 @@ class ApplicationTest extends DuskTestCase
                 ->type('@dusk_value', $newEntriesRaw['value'])
                 ->click('.vs__selected-options');
             $inside_user
-                ->elements('ul.dropdown-menu li a')[1]->click();
+                ->elements('.vs__dropdown-option')[0]->click();
             $inside_user
                 ->type('#document_number', $document)
                 ->type('#object', $newEntriesRaw['object'])
@@ -128,7 +128,7 @@ class ApplicationTest extends DuskTestCase
             $inside_user
                 ->click('.vs__selected-options1');
             $inside_user
-                ->elements('ul.dropdown-menu li a')[0]->click();
+                ->elements('.vs__dropdown-option')[0]->click();
             $inside_user
                 ->pause(2000)
                 ->screenshot('4-EntryForm-Filled')

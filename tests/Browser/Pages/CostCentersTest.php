@@ -5,6 +5,7 @@ namespace Tests\Browser\Pages;
 use App\Models\User;
 use App\Data\Repositories\CostCenters;
 use App\Support\Constants;
+use Carbon\Carbon;
 use Faker\Generator as Faker;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
@@ -41,14 +42,14 @@ class CostCentersTest extends DuskTestCase
         static::$limiteCentrosdeCusto = only_numbers(
             app(Faker::class)->numberBetween(0, 100)
         );
-        static::$revogadoCentrosdeCusto = $this->randomDate();
+        static::$revogadoCentrosdeCusto = Carbon::today()->subDays(rand(0, 365));
 
         static::$randomCostsCenter = app(CostCenters::class)
             ->randomElement()
             ->toArray();
     }
 
-    public function testInsert()
+    public function testInsertCostCenter()
     {
         $this->createAdminstrator();
         $this->init();

@@ -182,6 +182,7 @@ class CongressmanBudgets extends Repository
 
     public function updateAllEntriesFor($id)
     {
+//        dd(CongressmanBudget::find($id));
         CongressmanBudget::find($id)
             ->congressman->congressmanBudgets()
             ->orderBy('id', 'asc')

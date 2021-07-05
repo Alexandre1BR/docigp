@@ -28,7 +28,7 @@ class UsersTest extends DuskTestCase
 
     public function init()
     {
-        static::$usersRaw = factory(User::class)->raw();
+        static::$usersRaw = User::factory()->make();
         static::$randomUsers = app(Users::class)
             ->randomElement()
             ->toArray();
@@ -91,8 +91,9 @@ class UsersTest extends DuskTestCase
                 ->assertSee('O campo nome é obrigatório.');
         });
     }
-    public function testAlter()
+    public function testAlterUser()
     {
+        $this->createAdminstrator();
         $this->init();
         $user = static::$usersRaw;
         $randomUsers1 = static::$randomUsers;

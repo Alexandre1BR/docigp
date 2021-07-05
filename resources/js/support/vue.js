@@ -70,6 +70,7 @@ file.keys().map((file) => {
  * VueSelect
  */
 Vue.component('vue-select', () => import('vue-select'))
+Vue.use(Vue.component('vue-select', () => import('vue-select')))
 
 /**
  * Vue The Mask

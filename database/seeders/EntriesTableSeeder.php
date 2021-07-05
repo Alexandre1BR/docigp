@@ -25,9 +25,9 @@ class EntriesTableSeeder extends Seeder
         Congressman::disableGlobalScopes();
         EntryModel::disableEvents();
         EntryModel::disableMarking();
-        Congressman::whereIn('id', range(1, 10))
-            ->get()
+        Congressman::all()
             ->each(function (Congressman $congressman) {
+                dump($congressman->name);
                 $this->seedEntries($congressman);
             });
         EntryModel::enableEvents();
@@ -56,15 +56,14 @@ class EntriesTableSeeder extends Seeder
                 'entry_type_id' => Constants::ENTRY_TYPE_ALERJ_DEPOSIT_ID
             ]);
 
-            dd($entry->congressmanBudget());
 
-            $entry->congressmanBudget()->percentage =
-                ($value / $entry->congressmanBudget()->budget->value) * 100;
-
-            $entry->congressmanBudget()->save();
+//             $congressmanBudget->percentage =
+//                ($value / $congressmanBudget->budget->value) * 100;
+//
+//            $congressmanBudget->save();
 
             foreach (range(1, rand(1, 6)) as $counter) {
-                $entry = factory(EntryModel::class)->create([
+                $entry = EntryModel::factory()->create([
                     'congressman_budget_id' => $congressmanBudget->id,
                     'date' => faker()->dateTimeBetween(
                         $congressmanBudget->budget->date->startOfMonth(),
