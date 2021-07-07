@@ -38,8 +38,8 @@
                     {{ session('status') }}
                 </div>
             @endif
-
-            @include('admin.providers.partials.table')
+                <livewire:providers-table />
+{{--            @include('admin.providers.partials.table')--}}
         </div>
     </div>
 @endsection

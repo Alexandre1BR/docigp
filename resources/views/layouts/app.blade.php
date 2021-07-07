@@ -21,6 +21,7 @@
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
 
     @include('layouts.partials.environment')
+    @livewireStyles
 </head>
 
 <body>
@@ -46,6 +47,7 @@
 
     @include('layouts.partials.livereload')
     @include('layouts.partials.google-analytics')
+    @livewireScripts
 </body>
 
 </html>

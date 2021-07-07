@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Data\Repositories\Providers as ProvidersRepository;
 use App\Http\Requests\ProviderStore as ProviderStoreRequest;
 use App\Http\Requests\ProviderUpdate as ProviderUpdateRequest;
+use Livewire\Component;
 
 class Providers extends Controller
 {
@@ -23,7 +24,7 @@ class Providers extends Controller
     public function create()
     {
         formMode(Constants::FORM_MODE_CREATE);
-
+        return $this->view('livewire.providers.providers-form');
         return $this->view('admin.providers.form')->with([
             'provider' => app(ProvidersRepository::class)->new()
         ]);
@@ -55,5 +56,10 @@ class Providers extends Controller
         app(ProvidersRepository::class)->update($id, $request->all());
 
         return redirect()->route('providers.index');
+    }
+
+    public function allBlocked()
+    {
+        return app(ProvidersRepository::class)->allBlocked();
     }
 }
