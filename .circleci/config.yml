@@ -1,11 +1,6 @@
 version: 2
 jobs:
   build:
-    #ChromeDriver
-    - run:
-        name: Start Chrome Driver
-        command: ./vendor/laravel/dusk/bin/chromedriver-linux
-        background: true
     steps:
       #before install
       - run: export TZ=America/Sao_Paulo
@@ -13,6 +8,12 @@ jobs:
       - run: sudo pg_upgradecluster 11 main
       - run: sudo pg_ctlcluster 12 main restart
       - run: sudo pg_dropcluster 11 main
+
+      #ChromeDriver
+      - run:
+        name: Start Chrome Driver
+          command: ./vendor/laravel/dusk/bin/chromedriver-linux
+        background: true
       #before script
       - run: apt-get install postgresql-12
       - run: cp .env.circleci .env
@@ -56,16 +57,7 @@ jobs:
       #after script
       - run: cat nohup.out
 
-      - store_artifacts:
-          path: tests/Browser/screenshots
-
-      - store_artifacts:
-          path: tests/Browser/console
-
-      - store_artifacts:
-          path: storage/logs
-
-      #After Failure
+      #after Failure
       steps:
         - run: sleep 15s
         - run: php artisan email:failure
