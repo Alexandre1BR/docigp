@@ -1,0 +1,72 @@
+version: 2
+jobs:
+  build:
+    #ChromeDriver
+    - run:
+        name: Start Chrome Driver
+        command: ./vendor/laravel/dusk/bin/chromedriver-linux
+        background: true
+    steps:
+      #before install
+      - run: export TZ=America/Sao_Paulo
+      - run: sudo pg_dropcluster --stop 12 main
+      - run: sudo pg_upgradecluster 11 main
+      - run: sudo pg_ctlcluster 12 main restart
+      - run: sudo pg_dropcluster 11 main
+      #before script
+      - run: apt-get install postgresql-12
+      - run: cp .env.circleci .env
+      - run: cp .env.circleci .env.dusk.local
+      - run: composer install
+      - run: npm install
+      - run: npm run dev
+      - run: phpenv config-rm xdebug.ini || true
+      - run: composer install
+      - run: export LANGUAGE=pt_BR.UTF-8
+      - run: locale
+      - run: cp .env.circleci .env
+      - run: cp .env.circleci .env.dusk.local
+      - run: php artisan key:generate
+      - run: psql -V
+      - run: psql -c 'create database teste;' -U postgres
+      - run: psql -c 'create user vagrant WITH SUPERUSER;' -U postgres
+      - run: psql -c "alter user vagrant with encrypted password 'vagrant'" -U postgres;
+      - run: psql -c 'grant all privileges on database teste to vagrant'  -U postgres
+      - run: psql -d teste -U vagrant -c "show DateStyle;"
+      - run: createdb docigp
+      - run: php artisan storage:link
+      - run: php artisan migrate
+      - run: php artisan db:seed
+      - run: php artisan dusk:chrome-driver
+      - run: php artisan docigp:sync:parties
+      - run: php artisan docigp:sync:congressmen
+      - run: php artisan docigp:sync:departments
+      - run: php artisan docigp:sync:roles
+      - run: php artisan docigp:budget:generate
+      - run: export DISPLAY=:100.0
+      - run: php artisan config:clear
+      - run: php artisan cache:clear
+      - run: google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
+      - run: php artisan serve &
+      #script
+      - run: touch storage/logs/laravel.log
+      - run: chmod -R 777 storage/logs/laravel.log
+      - run: nohup php artisan queue:work --daemon &
+      - run: php artisan dusk
+      #after script
+      - run: cat nohup.out
+
+      - store_artifacts:
+          path: tests/Browser/screenshots
+
+      - store_artifacts:
+          path: tests/Browser/console
+
+      - store_artifacts:
+          path: storage/logs
+
+      #After Failure
+      steps:
+        - run: sleep 15s
+        - run: php artisan email:failure
+        - run: cat storage/logs/laravel.log
