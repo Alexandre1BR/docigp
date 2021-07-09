@@ -12,7 +12,7 @@
 
         <div class="col-xs-8 d-flex justify-content-end">
             <div class="input-group">
-                <input  dusk="search-input" class="form-control" name="search" placeholder="Pesquisar" value="{{ $search ?? '' }}">
+                <input  dusk="search-input" class="form-control" name="search" wire:model="searchString" placeholder="Pesquisar" value="{{ $search ?? '' }}">
 
                 <div class="input-group-append">
                     <span

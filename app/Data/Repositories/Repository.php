@@ -40,13 +40,7 @@ abstract class Repository
         $this->model()
             ->getJoins()
             ->each(function ($join, $table) use ($query) {
-                $query->join(
-                    $table,
-                    $join[0],
-                    $join[1],
-                    $join[2],
-                    $join[3] ?? 'inner'
-                );
+                $query->join($table, $join[0], $join[1], $join[2], $join[3] ?? 'inner');
             });
     }
 
@@ -164,8 +158,7 @@ abstract class Repository
                 $this->getPageSize($queryFilter),
                 ['*'],
                 'page',
-                $queryFilter->pagination &&
-                $queryFilter->pagination->currentPage
+                $queryFilter->pagination && $queryFilter->pagination->currentPage
                     ? $queryFilter->pagination->currentPage
                     : 1
             )
@@ -225,21 +218,14 @@ abstract class Repository
 
     protected function findByAnyColumnName($name, $arguments)
     {
-        return $this->makeQueryByAnyColumnName(
-            'findBy',
-            $name,
-            $arguments
-        )->first();
+        return $this->makeQueryByAnyColumnName('findBy', $name, $arguments)->first();
     }
 
     protected function generatePages(LengthAwarePaginator $data)
     {
         $pageLimit = 4;
 
-        $firstPage =
-            $data->lastPage() > $pageLimit
-                ? max($data->currentPage() - 2, 1)
-                : 1;
+        $firstPage = $data->lastPage() > $pageLimit ? max($data->currentPage() - 2, 1) : 1;
 
         $lastPage = min($firstPage + $pageLimit, $data->lastPage());
 
@@ -250,16 +236,8 @@ abstract class Repository
     {
         $query = $this->newQuery();
 
-        coollect((array) $columns)->each(function ($column) use (
-            $query,
-            $arguments
-        ) {
-            $this->makeQueryByAnyColumnName(
-                'filterBy',
-                $column,
-                $arguments,
-                $query
-            );
+        coollect((array) $columns)->each(function ($column) use ($query, $arguments) {
+            $this->makeQueryByAnyColumnName('filterBy', $column, $arguments, $query);
         });
 
         return $this->applyFilter($query);
@@ -267,11 +245,7 @@ abstract class Repository
 
     protected function getByAnyColumnName($name, $arguments)
     {
-        return $this->makeQueryByAnyColumnName(
-            'getBy',
-            $name,
-            $arguments
-        )->get();
+        return $this->makeQueryByAnyColumnName('getBy', $name, $arguments)->get();
     }
 
     protected function getQueryFilter()
@@ -285,21 +259,15 @@ abstract class Repository
         $queryFilter['pagination'] = $queryFilter['pagination'] ?? [];
 
         $queryFilter['pagination']['current_page'] =
-            $queryFilter['pagination']['current_page'] ??
-            (request()->get('page') ?? 1);
+            $queryFilter['pagination']['current_page'] ?? (request()->get('page') ?? 1);
 
-        $queryFilter['pagination']['per_page'] =
-            $queryFilter['pagination']['per_page'] ?? 20;
+        $queryFilter['pagination']['per_page'] = $queryFilter['pagination']['per_page'] ?? 20;
 
         return coollect($queryFilter);
     }
 
-    protected function makeQueryByAnyColumnName(
-        $type,
-        $name,
-        $arguments,
-        $query = null
-    ) {
+    protected function makeQueryByAnyColumnName($type, $name, $arguments, $query = null)
+    {
         if (!$query) {
             $query = $this->newQuery($type);
         }
@@ -338,10 +306,7 @@ abstract class Repository
 
     protected function order($query)
     {
-        if (
-            $query instanceof QueryBuilder ||
-            $query instanceof EloquentBuilder
-        ) {
+        if ($query instanceof QueryBuilder || $query instanceof EloquentBuilder) {
             foreach ($this->new()->getOrderBy() as $field => $direction) {
                 $query->orderBy($field, $direction);
             }
@@ -417,16 +382,15 @@ abstract class Repository
                         'per_page' => $data->perPage(),
                         'current_page' => $data->currentPage(),
                         'last_page' => $data->lastPage(),
-                        'from' => ($from =
-                            ($data->currentPage() - 1) * $data->perPage() + 1),
+                        'from' => ($from = ($data->currentPage() - 1) * $data->perPage() + 1),
                         'to' => $from + count($data->items()) - 1,
-                        'pages' => $this->generatePages($data)
-                    ]
+                        'pages' => $this->generatePages($data),
+                    ],
                 ],
 
                 'filter' => $this->getQueryFilter()['filter'],
 
-                'rows' => $this->transform($data->items())
+                'rows' => $this->transform($data->items()),
             ];
     }
 
@@ -444,7 +408,7 @@ abstract class Repository
      * @param null $type
      * @return Builder
      */
-    protected function newQuery($type = null)
+    public function newQuery($type = null)
     {
         $query = $this->model::query();
 
@@ -582,11 +546,8 @@ abstract class Repository
      *
      * @return mixed
      */
-    protected function makeResultForSelect(
-        $result,
-        $label = 'name',
-        $value = 'id'
-    ) {
+    protected function makeResultForSelect($result, $label = 'name', $value = 'id')
+    {
         return $result->map(function ($row) use ($value, $label) {
             $row['text'] = empty($row->text) ? $row[$label] : $row->text;
 
@@ -604,9 +565,7 @@ abstract class Repository
 
         $id = isset($request['id']) ? $request['id'] : null;
 
-        $model = is_null($id)
-            ? new $this->model()
-            : $this->model::withoutGlobalScopes()->find($id);
+        $model = is_null($id) ? new $this->model() : $this->model::withoutGlobalScopes()->find($id);
 
         $model->fill($request);
 
