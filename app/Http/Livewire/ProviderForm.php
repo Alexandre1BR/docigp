@@ -2,16 +2,20 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Provider;
 use Livewire\Component;
 
 class ProviderForm extends Component
 {
-    public function mount($post)
-    {
+    public $provider;
 
+    public function mount()
+    {
+         $this->provider = new Provider();
     }
     public function render()
     {
-        return view('livewire.providers.provider-form');
+
+        return view('livewire.providers.form');
     }
 }

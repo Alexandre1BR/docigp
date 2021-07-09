@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Data\Repositories\Providers;
 use Livewire\Component;
 
 class ProvidersTable extends Component
@@ -9,13 +10,11 @@ class ProvidersTable extends Component
     public $providers = null;
 
     public function mount(){
-        $this->providers = app(\App\Http\Controllers\Web\Admin\Providers::class)->allBlocked();
+        $this->providers = app(Providers::class)->allBlocked();
     }
-    
+
     public function render()
     {
-
-
         return view('livewire.providers.blocked');
     }
 }
