@@ -15,7 +15,15 @@ class Provider extends Model
         'name',
         'created_by_id',
         'updated_by_id',
-        'is_blocked'
+        'is_blocked',
+
+        'zipcode',
+        'street',
+        'number',
+        'complement',
+        'neighborhood',
+        'city',
+        'state',
     ];
 
     protected $orderBy = ['name' => 'asc'];
@@ -37,6 +45,6 @@ class Provider extends Model
 
     public function entries()
     {
-        return $this->hasMany(Entry::class)->orderBy('date','desc');
+        return $this->hasMany(Entry::class)->orderBy('date', 'desc');
     }
 }

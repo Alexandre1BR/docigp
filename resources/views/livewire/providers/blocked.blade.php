@@ -20,17 +20,6 @@
                 <td>
                     {{ $provider->name }}
                 </td>
-                @if ($provider->is_blocked)
-                    <td style=color:red>
-                        <strong>
-                            Sim
-                        </strong>
-                    </td>
-                @else
-                    <td>
-                        Não
-                    </td>
-                @endif
             </tr>
         @empty
             <p>Nenhum Fornecedor ou Favorecido encontrado</p>

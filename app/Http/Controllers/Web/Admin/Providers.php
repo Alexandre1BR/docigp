@@ -24,8 +24,8 @@ class Providers extends Controller
     public function create()
     {
         formMode(Constants::FORM_MODE_CREATE);
-        return $this->view('livewire.providers.provider-form')->with([
-            'provider' => app(ProvidersRepository::class)->new()
+        return $this->view('admin.providers.form')->with([
+            'provider' => app(ProvidersRepository::class)->new(),
         ]);
     }
 
@@ -41,7 +41,7 @@ class Providers extends Controller
         $provider = app(ProvidersRepository::class)->findById($id);
         $provider->setRelation('entries', $provider->entries()->paginate(10));
         return $this->view('admin.providers.form')->with([
-            'provider' => $provider
+            'provider' => $provider,
         ]);
     }
 
