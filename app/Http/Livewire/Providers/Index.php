@@ -10,11 +10,16 @@ class Index extends Component
 {
     use WithPagination;
 
+    protected $paginationTheme = 'bootstrap';
     public $searchString = '';
     public $isBlocked = false;
 
     public $pageSize = 20;
-    //    public $repository;
+
+    public function updatingSearchString()
+    {
+        $this->resetPage();
+    }
 
     public function filter()
     {
@@ -25,7 +30,6 @@ class Index extends Component
                     ->where('name', 'ilike', "%{$this->searchString}%")
                     ->orWhere('cpf_cnpj', 'ilike', "%{$this->searchString}%");
             })
-
             ->when($this->isBlocked, function ($query, $isBlocked) {
                 return $query->where('is_blocked', $isBlocked);
             })
