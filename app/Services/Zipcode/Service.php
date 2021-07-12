@@ -16,7 +16,11 @@ class Service
     public function get($zipCode)
     {
         if (strlen(only_numbers($zipCode)) >= 8) {
-            return $this->zipcodeContract->find($zipCode, true)->getArray();
+            if ($response = $this->zipcodeContract->find(only_numbers($zipCode), true)) {
+                return $response->getArray();
+            } else {
+                return [];
+            }
         }
     }
 }

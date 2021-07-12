@@ -3,37 +3,31 @@
 namespace App\Http\Livewire\Providers;
 
 use App\Data\Repositories\Providers as ProvidersRepository;
-use Livewire\Component;
-use Livewire\WithPagination;
+use App\Http\Livewire\BaseIndex;
 
-class Index extends Component
+class Index extends BaseIndex
 {
-    use WithPagination;
-
-    protected $paginationTheme = 'bootstrap';
-    public $searchString = '';
+    protected $repository = ProvidersRepository::class;
     public $isBlocked = false;
-
     public $pageSize = 20;
+    protected $refreshFields = ['isBlocked', 'searchString'];
+    public $searchFields = [
+        'providers.name' => 'text',
+        'providers.cpf_cnpj' => 'text',
+        'providers.zipcode' => 'text',
+        'providers.street' => 'text',
+        'providers.number' => 'text',
+        'providers.complement' => 'text',
+        'providers.neighborhood' => 'text',
+        'providers.city' => 'text',
+        'providers.state' => 'text',
+    ];
 
-    public function updatingSearchString()
+    public function additionalFilterQuery($query)
     {
-        $this->resetPage();
-    }
-
-    public function filter()
-    {
-        return app(ProvidersRepository::class)
-            ->newQuery()
-            ->where(function ($query) {
-                $query
-                    ->where('name', 'ilike', "%{$this->searchString}%")
-                    ->orWhere('cpf_cnpj', 'ilike', "%{$this->searchString}%");
-            })
-            ->when($this->isBlocked, function ($query, $isBlocked) {
-                return $query->where('is_blocked', $isBlocked);
-            })
-            ->paginate($this->pageSize);
+        return $query->when($this->isBlocked, function ($query, $isBlocked) {
+            return $query->where('is_blocked', $isBlocked);
+        });
     }
 
     public function render()

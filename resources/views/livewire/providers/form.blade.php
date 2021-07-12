@@ -53,6 +53,7 @@
                                         class="form-control"
                                         name="cpf_cnpj"
                                         id="cpf_cnpj"
+                                        v-mask="['###.###.###-##', '##.###.###/####-##']"
                                         value="{{is_null(old('cpf_cnpj')) ? $provider->cpf_cnpj : old('cpf_cnpj')}}"  @include('partials.disabled', ['model'=>$provider])
                                     />
                                 </div>
@@ -77,14 +78,16 @@
                                     <label for="is_blocked">Bloqueado pela DOCIGP</label>
                                 </div>
 
+                                <hr class="mt-2 mb-3"/>
 
-                                Endereço
+                                <h4>Endereço</h4>
                                 <div class="form-group">
                                     <label for="zipcode">CEP</label>
                                     <input
                                         class="form-control"
                                         name="zipcode"
                                         id="zipcode"
+                                        v-mask="['#####-###']"
                                         wire:model.debounce.500ms="zipcode"
                                         value="{{is_null(old('zipcode')) ? $provider->zipcode : old('zipcode')}}"  @include('partials.disabled', ['model'=>$provider])
                                     />

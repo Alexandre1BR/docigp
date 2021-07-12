@@ -73,4 +73,7 @@ Vue.use(Vue.component('vue-select', () => import('vue-select')))
 /**
  * Vue The Mask
  */
-Vue.use(() => import('vue-the-mask'))
+import VueTheMask from 'vue-the-mask'
+Vue.use(VueTheMask)
+
+require('../pages/basic')

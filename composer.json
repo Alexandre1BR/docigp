@@ -21,7 +21,7 @@
         "laravel/horizon": "^5.0",
         "laravel/tinker": "^2.0",
         "laravel/ui": "^3.0",
-        "livewire/livewire": "^2.5",
+        "livewire/livewire": "2.4.4",
         "maatwebsite/excel": "^3.1",
         "owen-it/laravel-auditing": "^12.0",
         "pragmarx/coollection": "^0.6.2",
@@ -81,8 +81,7 @@
         "post-update-cmd": [
             "Illuminate\\Foundation\\ComposerScripts::postUpdate",
             "php artisan ide-helper:generate",
-            "php artisan ide-helper:meta",
-            "php artisan ide-helper:models --dir=\"app/Models\" --nowrite"
+            "php artisan ide-helper:meta"
         ]
     }
 }

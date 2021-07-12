@@ -3,19 +3,12 @@
 namespace App\Http\Livewire\Providers;
 
 use App\Data\Repositories\Providers as ProvidersRepository;
-use Livewire\Component;
-use Livewire\WithPagination;
+use App\Http\Livewire\BaseIndex;
 
-class Blocked extends Component
+class Blocked extends BaseIndex
 {
-    use WithPagination;
-
-    protected $paginationTheme = 'bootstrap';
-    public $searchString = '';
-    public $isBlocked = false;
-
+    protected $repository = ProvidersRepository::class;
     public $pageSize = 10;
-
     public $searchFields = [
         'providers.name' => 'text',
         'providers.cpf_cnpj' => 'text',
@@ -28,33 +21,9 @@ class Blocked extends Component
         'providers.state' => 'text',
     ];
 
-    public function updatingSearchString()
-    {
-        $this->resetPage();
-    }
-
     public function additionalFilterQuery($query)
     {
         return $query->where('is_blocked', true);
-    }
-
-    public function filter()
-    {
-        $query = app(ProvidersRepository::class)
-            ->newQuery()
-            ->where(function ($query) {
-                collect($this->searchFields)->each(function ($key, $field) use ($query) {
-                    switch ($key) {
-                        case 'text':
-                            $query->orWhere($field, 'ilike', "%{$this->searchString}%");
-                            break;
-                    }
-                });
-            });
-
-        $query = $this->additionalFilterQuery($query);
-
-        return $query->paginate($this->pageSize);
     }
 
     public function render()

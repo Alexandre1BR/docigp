@@ -2,14 +2,12 @@
 
 namespace App\Http\Livewire\Providers;
 
+use App\Http\Livewire\BaseForm;
 use App\Services\Zipcode\Service as Zipcode;
-use Livewire\Component;
 
-class Form extends Component
+class Form extends BaseForm
 {
     public $provider;
-    public $mode = 'create';
-
     public $zipcode;
     public $street;
     public $city;
