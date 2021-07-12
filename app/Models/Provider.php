@@ -27,6 +27,7 @@ class Provider extends Model
     ];
 
     protected $orderBy = ['name' => 'asc'];
+    protected $appends = ['fullAddress'];
 
     protected $filterableColumns = ['cpf_cnpj', 'name'];
 
@@ -46,5 +47,36 @@ class Provider extends Model
     public function entries()
     {
         return $this->hasMany(Entry::class)->orderBy('date', 'desc');
+    }
+
+    public function getFullAddressAttribute()
+    {
+        $fullAddress = $this->street;
+
+        if ($this->number) {
+            $fullAddress .= ', ' . $this->number;
+        }
+
+        if ($this->complement) {
+            $fullAddress .= ', ' . $this->complement;
+        }
+
+        if ($this->neighbourhood) {
+            $fullAddress .= ' - ' . $this->neighbourhood;
+        }
+
+        if ($this->city || $this->state) {
+            $fullAddress .= '. ';
+        }
+
+        if ($this->city) {
+            $fullAddress .= $this->city;
+        }
+
+        if ($this->state) {
+            $fullAddress .= '/' . $this->state;
+        }
+
+        return $fullAddress;
     }
 }

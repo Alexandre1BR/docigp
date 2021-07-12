@@ -1,4 +1,4 @@
-<div>
+<div id="vue-basic">
         <div class="card card-default">
             <form name="formulario" id="formulario" @if($provider->id) action="{{ route('providers.update', ['id' => $provider->id]) }}" @else action="{{ route('providers.store')}}" @endIf method="POST">
                 {{ csrf_field() }}

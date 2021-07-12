@@ -56,3 +56,14 @@ jobs:
       #- run: ./vendor/bin/phpunit
       - run: ./vendor/bin/codecept build
       - run: ./vendor/bin/codecept run
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - test
+      - test-with-data:
+        filters:
+          branches:
+            # Forked pull requests have CIRCLE_BRANCH set to pull/XXX
+            ignore: /pull\/[0-9]+/

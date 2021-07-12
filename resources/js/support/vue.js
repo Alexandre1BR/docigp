@@ -1,13 +1,11 @@
+import Vue from 'vue'
+import 'livewire-vue'
+
 /**
  * Vue & Vuex
  */
-window.Vue = require('vue').default
+window.Vue = Vue
 window.Vuex = require('vuex')
-
-/**
- * Vue The Mask
- */
-Vue.use(() => import('vue-the-mask'))
 
 // ClipLoader
 Vue.component('clip-loader', require('vue-spinner/src/ClipLoader.vue').default)

@@ -11,35 +11,20 @@
                 <div class="col-md-9">
                     <form action="{{ route('providers.index') }}" id="searchForm">
                         {{ csrf_field() }}
-
                         <div class="form-group pull-right">
                             <div class="row d-flex justify-content-end">
                                 <div class="col-xs-4">
-
                                         <a  id="novo" href="{{ route('providers.create') }}" class="btn btn-danger pull-right mr-1">
                                             <i class="fa fa-plus"></i> Novo
                                         </a>
-
                                 </div>
-
                                 <div class="col-xs-8 d-flex justify-content-end">
                                     <div class="input-group">
                                         <input  dusk="search-input" class="form-control" name="search" wire:model.debounce.500ms="searchString" placeholder="Pesquisar" value="{{ $search ?? '' }}">
-
-
-
-
                                     </div>
-
                                 </div>
                             </div>
                         </div>
-
-
-
-
-
-
                         <div class="row d-flex justify-content-end">
                             <div class="m-0 inline">
                                 <input type="checkbox" name="query[filter][checkboxes][blocked_checkbox]" wire:model="isBlocked" {{(isset($query['filter']['checkboxes']['blocked_checkbox']) ? 'checked' : '') }} class="form-check-input" />
@@ -78,6 +63,7 @@
                         <th>Tipo de Pessoa</th>
                         <th>Nome</th>
                         <th>Bloqueado pela DOCIGP</th>
+                        <th>Endereço</th>
                     </tr>
                     </thead>
 
@@ -103,6 +89,9 @@
                                     Não
                                 </td>
                             @endif
+                            <td>
+                                {{ $provider->full_address }}
+                            </td>
                         </tr>
 
 
