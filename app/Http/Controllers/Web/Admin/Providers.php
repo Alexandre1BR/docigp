@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Web\Admin;
 
+use App\Models\Entry;
 use App\Support\Constants;
 use App\Http\Controllers\Controller;
 use App\Data\Repositories\Providers as ProvidersRepository;
 use App\Http\Requests\ProviderStore as ProviderStoreRequest;
 use App\Http\Requests\ProviderUpdate as ProviderUpdateRequest;
+use App\Data\Repositories\Entries as EntriesRepository;
 use Livewire\Component;
 
 class Providers extends Controller
@@ -38,10 +40,8 @@ class Providers extends Controller
 
     public function show($id)
     {
-        $provider = app(ProvidersRepository::class)->findById($id);
-        $provider->setRelation('entries', $provider->entries()->paginate(10));
         return $this->view('admin.providers.form')->with([
-            'provider' => $provider,
+            'providerId' => $id,
         ]);
     }
 
