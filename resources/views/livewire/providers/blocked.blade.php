@@ -43,7 +43,7 @@
         @forelse ($providers as $provider)
             <tr>
                 <td>
-                    <a href="{{ route('providers.show', ['provider' => $provider->id]) }}">{{ $provider->cpf_cnpj }}</a>
+                    {{ $provider->cpf_cnpj }}
                 </td>
                 <td>
                     {{ $provider->type }}

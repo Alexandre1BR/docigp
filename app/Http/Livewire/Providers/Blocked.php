@@ -7,6 +7,9 @@ use App\Http\Livewire\BaseIndex;
 
 class Blocked extends BaseIndex
 {
+    protected $orderByField = 'name';
+    protected $orderByDirection = 'asc';
+
     protected $repository = ProvidersRepository::class;
     public $pageSize = 10;
     public $searchFields = [

@@ -32,6 +32,13 @@ abstract class BaseIndex extends Component
         return $query;
     }
 
+    protected $orderByField = 'updated_at';
+    protected $orderByDirection = 'desc';
+    public function orderBy($query)
+    {
+        return $query->orderBy($this->orderByField, $this->orderByDirection);
+    }
+
     public function filter()
     {
         $query = app($this->repository)
@@ -40,13 +47,21 @@ abstract class BaseIndex extends Component
                 collect($this->searchFields)->each(function ($key, $field) use ($query) {
                     switch ($key) {
                         case 'text':
-                            $query->orWhere($field, 'ilike', "%{$this->searchString}%");
+                            $query->orWhereRaw(
+                                'unaccent(' .
+                                    $field .
+                                    ") ILIKE '%'||unaccent('" .
+                                    pg_escape_string($this->searchString) .
+                                    "')||'%' "
+                            );
                             break;
                     }
                 });
             });
 
         $query = $this->additionalFilterQuery($query);
+
+        $query = $this->orderBy($query);
 
         return $query->paginate($this->pageSize);
     }

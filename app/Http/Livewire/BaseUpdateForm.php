@@ -27,6 +27,9 @@ abstract class BaseUpdateForm extends Component
 
     function edit()
     {
+        session()->flash('editingMessage', 'Post successfully updated.');
+
+        //Passar essa lógica para vuejs
         $this->isEditing = !$this->isEditing;
         $this->resetPage();
     }

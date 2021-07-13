@@ -1,3 +1,3 @@
 @if($mode == 'update')
-    disabled="{{ $isEditing }}"
+    {{ $isEditing ? '' : 'disabled'}}
 @endIf

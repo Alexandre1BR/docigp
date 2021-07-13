@@ -47,12 +47,12 @@
                         </div>
                     @endif
                 </div>
-
                     <div class="row">
                         <div class="form-group col-md-6">
                             <div class="col-md-12">
 
-                                <div id="vue-basic">
+                                <div id="vue-basico">
+
                                 <div class="form-group">
                                     <label for="cpf_cnpj">CPF / CNPJ</label>
                                     <input
@@ -61,16 +61,11 @@
                                         id="cpf_cnpj"
                                         v-mask="['###.###.###-##', '##.###.###/####-##']"
                                         value="{{is_null(old('cpf_cnpj')) ? $provider->cpf_cnpj : old('cpf_cnpj')}}"
-
-
+                                        @include('livewire.partials.disabled', ['model'=>$provider])
                                     />
                                 </div>
 
 
-                                    {{$label}}
-                                    <input
-                                        wire:model="label"
-                                    />
 
                                 <div class="form-group">
                                     <label for="type">Tipo Pessoa</label>
@@ -103,7 +98,8 @@
                                         id="zipcode"
                                         v-mask="['#####-###']"
                                         wire:model.debounce.500ms="zipcode"
-                                        value="{{is_null(old('zipcode')) ? $provider->zipcode : old('zipcode')}}"  @include('livewire.partials.disabled', ['model'=>$provider])
+                                        value="{{is_null(old('zipcode')) ? $provider->zipcode : old('zipcode')}}"
+                                        @include('livewire.partials.disabled', ['model'=>$provider])
                                     />
                                 </div>
 
@@ -174,28 +170,9 @@
                                     />
                                 </div>
                                 </div>
-
-
-
-
-
-
-
-
-
-
-
                             </div>
-
-
-
-
                         </div>
-
-
-
                     </div>
-
                 <div>
                     @if($entries && $entries->count() > 0)
                         <div class="row">

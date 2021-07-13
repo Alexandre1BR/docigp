@@ -7,6 +7,9 @@ use App\Http\Livewire\BaseIndex;
 
 class Index extends BaseIndex
 {
+    protected $orderByField = 'name';
+    protected $orderByDirection = 'asc';
+
     protected $repository = ProvidersRepository::class;
     public $isBlocked = false;
     public $pageSize = 20;
