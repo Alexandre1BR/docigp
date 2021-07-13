@@ -1,7 +1,10 @@
-<div id="vue-basic">
+<div>
+    <div >
         <div class="card card-default">
             <form name="formulario" id="formulario" @if($provider->id) action="{{ route('providers.update', ['id' => $provider->id]) }}" @else action="{{ route('providers.store')}}" @endIf method="POST">
                 {{ csrf_field() }}
+
+
 
                 <input name="id" type="hidden" value="{{$provider->id}}" id="id">
 
@@ -43,10 +46,13 @@
                             {{ $errors->first('name') }}
                         </div>
                     @endif
+                </div>
 
                     <div class="row">
                         <div class="form-group col-md-6">
                             <div class="col-md-12">
+
+                                <div id="vue-basic">
                                 <div class="form-group">
                                     <label for="cpf_cnpj">CPF / CNPJ</label>
                                     <input
@@ -54,9 +60,17 @@
                                         name="cpf_cnpj"
                                         id="cpf_cnpj"
                                         v-mask="['###.###.###-##', '##.###.###/####-##']"
-                                        value="{{is_null(old('cpf_cnpj')) ? $provider->cpf_cnpj : old('cpf_cnpj')}}"  @include('livewire.partials.disabled', ['model'=>$provider])
+                                        value="{{is_null(old('cpf_cnpj')) ? $provider->cpf_cnpj : old('cpf_cnpj')}}"
+
+
                                     />
                                 </div>
+
+
+                                    {{$label}}
+                                    <input
+                                        wire:model="label"
+                                    />
 
                                 <div class="form-group">
                                     <label for="type">Tipo Pessoa</label>
@@ -159,79 +173,105 @@
                                         value="{{is_null(old('state')) ? $provider->state : old('state')}}"  @include('livewire.partials.disabled', ['model'=>$provider])
                                     />
                                 </div>
+                                </div>
+
+
+
+
+
+
+
+
+
+
+
+                            </div>
+
+
+
+
+                        </div>
+
+
+
+                    </div>
+
+                <div>
+                    @if($entries && $entries->count() > 0)
+                        <div class="row">
+                            <div class="form-group col-md-8">
+                                <table id="providersTable" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                    <tr>
+                                        <th>
+                                            Deputado
+                                        </th>
+                                        <th>
+                                            Mês / Ano do orçamento
+                                        </th>
+                                        <th>
+                                            Data do Lançamento
+                                        </th>
+                                        <th>
+                                            Objeto
+                                        </th>
+                                        <th>
+                                            Meio
+                                        </th>
+                                        <th>
+                                            Documento
+                                        </th>
+                                        <th>
+                                            Centro de Custo
+                                        </th>
+                                        <th>
+                                            Valor
+                                        </th>
+                                    </tr>
+                                    @foreach($entries as $entry)
+                                        <tr>
+                                            <td>
+                                                {{$entry->congressman->nickname}}
+                                            </td>
+                                            <td>
+                                                {{$entry->congressmanBudget->budget->date->year}} /
+                                                {{$entry->congressmanBudget->budget->date->month}}
+                                            </td>
+                                            <td>
+                                                {{$entry->date}}
+                                            </td>
+                                            <td>
+                                                {{$entry->object}}
+                                            </td>
+                                            <td>
+                                                {{$entry->entryType->name}}
+                                            </td>
+                                            <td>
+                                                {{$entry->document_number}}
+                                            </td>
+                                            <td>
+                                                {{$entry->costCenter->name}}
+                                            </td>
+                                            <td>
+                                                R$ {{$entry->value}}
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </table>
+                                {{$entries->links()}}
 
                             </div>
                         </div>
-                    </div>
+                    @endif
+                </div>
 
 
-
-{{--                    @if($entries && $entries->count() > 0)--}}
-{{--                    <div class="row">--}}
-{{--                        <div class="form-group col-md-8">--}}
-{{--                            <table id="providersTable" class="table table-striped table-bordered" cellspacing="0" width="100%">--}}
-{{--                                <tr>--}}
-{{--                                    <th>--}}
-{{--                                        Deputado--}}
-{{--                                    </th>--}}
-{{--                                    <th>--}}
-{{--                                        Mês / Ano do orçamento--}}
-{{--                                    </th>--}}
-{{--                                    <th>--}}
-{{--                                        Data do Lançamento--}}
-{{--                                    </th>--}}
-{{--                                    <th>--}}
-{{--                                        Objeto--}}
-{{--                                    </th>--}}
-{{--                                    <th>--}}
-{{--                                        Meio--}}
-{{--                                    </th>--}}
-{{--                                    <th>--}}
-{{--                                        Documento--}}
-{{--                                    </th>--}}
-{{--                                    <th>--}}
-{{--                                        Centro de Custo--}}
-{{--                                    </th>--}}
-{{--                                    <th>--}}
-{{--                                        Valor--}}
-{{--                                    </th>--}}
-{{--                                </tr>--}}
-{{--                                @foreach($entries as $entry)--}}
-{{--                                    <tr>--}}
-{{--                                        <td>--}}
-{{--                                            {{$entry->congressman->nickname}}--}}
-{{--                                        </td>--}}
-{{--                                        <td>--}}
-{{--                                            {{$entry->congressmanBudget->budget->date->year}} /--}}
-{{--                                            {{$entry->congressmanBudget->budget->date->month}}--}}
-{{--                                        </td>--}}
-{{--                                        <td>--}}
-{{--                                            {{$entry->date}}--}}
-{{--                                        </td>--}}
-{{--                                        <td>--}}
-{{--                                            {{$entry->object}}--}}
-{{--                                        </td>--}}
-{{--                                        <td>--}}
-{{--                                            {{$entry->entryType->name}}--}}
-{{--                                        </td>--}}
-{{--                                        <td>--}}
-{{--                                            {{$entry->document_number}}--}}
-{{--                                        </td>--}}
-{{--                                        <td>--}}
-{{--                                            {{$entry->costCenter->name}}--}}
-{{--                                        </td>--}}
-{{--                                        <td>--}}
-{{--                                            R$ {{$entry->value}}--}}
-{{--                                        </td>--}}
-{{--                                    </tr>--}}
-{{--                                @endforeach--}}
-{{--                            </table>--}}
-{{--                            {{$entries->links()}}--}}
-
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--                @endif--}}
             </form>
         </div>
+    </div>
+
+
+
+
 </div>
+
+

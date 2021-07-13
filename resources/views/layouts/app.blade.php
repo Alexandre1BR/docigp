@@ -33,6 +33,9 @@
                 <div class="row justify-content-center">
                     <div class="col">
                         @yield('content')
+                        @if(isset($slot))
+                            {{ $slot }}
+                        @endIf
                     </div>
                 </div>
 
@@ -48,7 +51,6 @@
     @include('layouts.partials.livereload')
     @include('layouts.partials.google-analytics')
     @livewireScripts
-{{--    <script src="https://cdn.jsdelivr.net/gh/livewire/vue@v0.3.x/dist/livewire-vue.js"></script>--}}
 </body>
 
 

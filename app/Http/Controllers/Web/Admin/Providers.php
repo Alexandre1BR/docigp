@@ -41,7 +41,7 @@ class Providers extends Controller
     public function show($id)
     {
         return $this->view('admin.providers.form')->with([
-            'providerId' => $id,
+            'provider' => app(ProvidersRepository::class)->findById($id),
         ]);
     }
 

@@ -1,3 +1,3 @@
-{{--@if(!is_null(optional($model)->id))--}}
-{{--    :disabled="!isEditing && !isCreating"--}}
-{{--@endif--}}
+@if($mode == 'update')
+    disabled="{{ $isEditing }}"
+@endIf

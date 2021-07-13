@@ -6,8 +6,6 @@
                 <div class="col-md-3">
                     <h4 class="mb-0">Fornecedores / Favorecidos</h4>
                 </div>
-
-
                 <div class="col-md-9">
                     <form action="{{ route('providers.index') }}" id="searchForm">
                         {{ csrf_field() }}
@@ -70,7 +68,7 @@
                     @forelse ($providers as $provider)
                         <tr>
                             <td>
-                                <a href="{{ route('providers.show', ['id' => $provider->id]) }}">{{ $provider->cpf_cnpj }}</a>
+                                <a href="{{ route('providers.show', ['provider' => $provider->id]) }}">{{ $provider->cpf_cnpj }}</a>
                             </td>
                             <td>
                                 {{ $provider->type }}
