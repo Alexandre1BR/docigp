@@ -1,5 +1,4 @@
 <div>
-
     <div class="card card-default">
         <div class="card-header">
             <div class="row">
@@ -37,27 +36,10 @@
         </div>
 
         <div class="card-body">
-            @if (session('status'))
-                <div class="alert alert-success">
-                    {{ session('status') }}
-                </div>
-            @endif
-                @if(session()->has('message'))
-                    <div class="alert alert-success">
-                        {{ session()->get('message') }}
-                    </div>
-                @endif
-
-                @if(session()->has('warning'))
-                    <div class="alert alert-warning">
-                        {{ session()->get('warning') }}
-                    </div>
-                @endif
-
-                <table id="providersTable" class="table table-striped table-bordered" cellspacing="0" width="100%">
+            <table id="providersTable" class="table table-striped table-bordered" cellspacing="0" width="100%">
                     <thead>
                     <tr>
-                        <th>CPF_CNPJ</th>
+                        <th>CPF/CNPJ</th>
                         <th>Tipo de Pessoa</th>
                         <th>Nome</th>
                         <th>Bloqueado pela DOCIGP</th>

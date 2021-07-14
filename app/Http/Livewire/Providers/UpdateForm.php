@@ -10,6 +10,8 @@ class UpdateForm extends BaseUpdateForm
 {
     public Provider $provider;
 
+    public $focus = 'zipcode';
+
     public $zipcode;
     public $street;
     public $city;
@@ -25,7 +27,16 @@ class UpdateForm extends BaseUpdateForm
             $this->city = $result['localidade'];
             $this->state = $result['uf'];
             $this->neighborhood = $result['bairro'];
+
+            $this->focus('number');
+        } else {
+            $this->focus('zipcode');
         }
+    }
+
+    public function clicando()
+    {
+        $this->dispatchBrowserEvent('focus-field', ['field' => 'number']);
     }
 
     protected function getComponentVariables()
@@ -49,7 +60,12 @@ class UpdateForm extends BaseUpdateForm
 
     public function render()
     {
-        $this->fillAddress();
+        //        $this->fillAddress();
         return view('livewire.providers.form')->with($this->getViewVariables());
+    }
+
+    public function mount()
+    {
+        $this->fillAddress();
     }
 }

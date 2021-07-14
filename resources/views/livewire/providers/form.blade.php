@@ -1,5 +1,7 @@
 <div>
-    <div >
+    <div x-data="{ isEditing: false, cepmask: ['99999-999'], cpfcnpjmask: ['999.999.999-99', '99.999.999/9999-99']}"
+         @focus-field.window="$refs[$event.detail.field].focus()"
+    >
         <div class="card card-default">
             <form name="formulario" id="formulario" @if($provider->id) action="{{ route('providers.update', ['id' => $provider->id]) }}" @else action="{{ route('providers.store')}}" @endIf method="POST">
                 {{ csrf_field() }}
@@ -53,14 +55,14 @@
 
                                 <div id="vue-basico">
 
-                                <div class="form-group">
+                                <div class="form-group" x-init="Inputmask(cpfcnpjmask).mask($refs.cpfcnpj);">
                                     <label for="cpf_cnpj">CPF / CNPJ</label>
                                     <input
                                         class="form-control"
                                         name="cpf_cnpj"
                                         id="cpf_cnpj"
-                                        v-mask="['###.###.###-##', '##.###.###/####-##']"
                                         value="{{is_null(old('cpf_cnpj')) ? $provider->cpf_cnpj : old('cpf_cnpj')}}"
+                                        x-ref="cpfcnpj"
                                         @include('livewire.partials.disabled', ['model'=>$provider])
                                     />
                                 </div>
@@ -90,19 +92,20 @@
                                 <hr class="mt-2 mb-3"/>
 
                                 <h4>Endereço</h4>
-                                <div class="form-group">
+                                <div class="form-group" x-init="Inputmask(cepmask).mask($refs.zipcode);">
                                     <label for="zipcode">CEP</label>
                                     <input
+
+                                        x-ref="zipcode"
                                         class="form-control"
                                         name="zipcode"
                                         id="zipcode"
-                                        v-mask="['#####-###']"
-                                        wire:model.debounce.500ms="zipcode"
-                                        value="{{is_null(old('zipcode')) ? $provider->zipcode : old('zipcode')}}"
+                                        wire:model.debounce.800ms="zipcode"
+                                        value="{{is_null(old('zipcode')) ? ($provider->zipcode) : old('zipcode')}}"
                                         @include('livewire.partials.disabled', ['model'=>$provider])
+
                                     />
                                 </div>
-
 
                                 <div class="form-group">
                                     <label for="street">Rua</label>
@@ -118,6 +121,7 @@
                                 <div class="form-group">
                                     <label for="number">Número</label>
                                     <input
+                                        x-ref="number"
                                         class="form-control"
                                         name="number"
                                         id="number"

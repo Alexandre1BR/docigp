@@ -14,7 +14,6 @@ abstract class BaseUpdateForm extends Component
     public $mode = 'update';
 
     protected $formVariables = ['mode'];
-    public $isEditing = false;
     protected function formVariables()
     {
         $array = [];
@@ -25,13 +24,9 @@ abstract class BaseUpdateForm extends Component
         return $array;
     }
 
-    function edit()
+    protected function focus($ref)
     {
-        session()->flash('editingMessage', 'Post successfully updated.');
-
-        //Passar essa lógica para vuejs
-        $this->isEditing = !$this->isEditing;
-        $this->resetPage();
+        $this->dispatchBrowserEvent('focus-field', ['field' => $ref]);
     }
 
     protected function getComponentVariables()

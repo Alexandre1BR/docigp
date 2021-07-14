@@ -1,3 +1,1 @@
-@if($mode == 'update')
-    {{ $isEditing ? '' : 'disabled'}}
-@endIf
+x-bind:disabled="!isEditing"
