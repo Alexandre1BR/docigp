@@ -63,7 +63,7 @@
                                         class="form-control"
                                         name="cpf_cnpj"
                                         id="cpf_cnpj"
-                                        value="{{is_null(old('cpf_cnpj')) ? $provider->cpf_cnpj : old('cpf_cnpj')}}"
+                                        wire:model.defer="cpfCnpj"
                                         x-ref="cpfcnpj"
                                         @include('livewire.partials.disabled', ['model'=>$provider])
                                     />
