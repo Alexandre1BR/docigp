@@ -2,10 +2,11 @@
 
 use App\Http\Controllers\Web\Admin\Providers as Providers;
 use App\Http\Livewire\Providers\UpdateForm as ProviderUpdateForm;
+use App\Http\Livewire\Providers\CreateForm as ProviderCreateForm;
 
 Route::group(['prefix' => '/providers'], function () {
     //    Route::get('/create', [Providers::class, 'create'])->name('providers.create');
-    Route::get('/create', ProviderUpdateForm::class)->name('providers.create');
+    Route::get('/create', ProviderCreateForm::class)->name('providers.create');
 
     Route::post('/', [Providers::class, 'store'])->name('providers.store');
 

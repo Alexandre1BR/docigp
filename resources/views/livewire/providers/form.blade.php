@@ -1,9 +1,9 @@
 <div>
-    <div x-data="{ isEditing: false, cepmask: ['99999-999'], cpfcnpjmask: ['999.999.999-99', '99.999.999/9999-99']}"
+    <div x-data="{ isEditing: {{$mode == 'create'}}, cepmask: ['99999-999'], cpfcnpjmask: ['999.999.999-99', '99.999.999/9999-99']}"
          @focus-field.window="$refs[$event.detail.field].focus()"
     >
         <div class="card card-default">
-            <form name="formulario" id="formulario" @if($provider->id) action="{{ route('providers.update', ['id' => $provider->id]) }}" @else action="{{ route('providers.store')}}" @endIf method="POST">
+            <form name="formulario" id="formulario" @if($mode == 'update') action="{{ route('providers.update', ['id' => $provider->id]) }}" @else action="{{ route('providers.store')}}" @endIf method="POST">
                 {{ csrf_field() }}
 
 
@@ -178,7 +178,7 @@
                         </div>
                     </div>
                 <div>
-                    @if($entries && $entries->count() > 0)
+                    @if(isset($entries) && $entries && $entries->count() > 0)
                         <div class="row">
                             <div class="form-group col-md-8">
                                 <table id="providersTable" class="table table-striped table-bordered" cellspacing="0" width="100%">

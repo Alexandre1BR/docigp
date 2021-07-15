@@ -5,13 +5,15 @@ namespace App\Http\Livewire;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-abstract class BaseUpdateForm extends Component
+abstract class BaseForm extends Component
 {
     use WithPagination;
 
+    public $focus;
+
     protected $paginationTheme = 'bootstrap';
 
-    public $mode = 'update';
+    public $mode = 'create';
 
     protected $formVariables = ['mode'];
     protected function formVariables()

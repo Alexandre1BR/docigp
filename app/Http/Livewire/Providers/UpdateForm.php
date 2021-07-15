@@ -2,42 +2,12 @@
 
 namespace App\Http\Livewire\Providers;
 
-use App\Http\Livewire\BaseUpdateForm;
 use App\Models\Provider;
 use App\Services\Zipcode\Service as Zipcode;
 
-class UpdateForm extends BaseUpdateForm
+class UpdateForm extends CreateForm
 {
-    public Provider $provider;
-
-    public $focus = 'zipcode';
-
-    public $zipcode;
-    public $street;
-    public $city;
-    public $number;
-    public $state;
-    public $complement;
-    public $neighborhood;
-
-    function updatedZipcode($newValue)
-    {
-        if ($result = app(Zipcode::class)->get($newValue)) {
-            $this->street = $result['logradouro'];
-            $this->city = $result['localidade'];
-            $this->state = $result['uf'];
-            $this->neighborhood = $result['bairro'];
-
-            $this->focus('number');
-        } else {
-            $this->focus('zipcode');
-        }
-    }
-
-    public function clicando()
-    {
-        $this->dispatchBrowserEvent('focus-field', ['field' => 'number']);
-    }
+    public $mode = 'update';
 
     protected function getComponentVariables()
     {
@@ -56,12 +26,6 @@ class UpdateForm extends BaseUpdateForm
         $this->state = $this->provider->state;
         $this->complement = $this->provider->complement;
         $this->neighborhood = $this->provider->neighborhood;
-    }
-
-    public function render()
-    {
-        //        $this->fillAddress();
-        return view('livewire.providers.form')->with($this->getViewVariables());
     }
 
     public function mount()
