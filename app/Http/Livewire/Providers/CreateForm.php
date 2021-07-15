@@ -20,15 +20,19 @@ class CreateForm extends BaseForm
 
     function updatedZipcode($newValue)
     {
-        if ($result = app(Zipcode::class)->get($newValue)) {
-            $this->street = $result['logradouro'];
-            $this->city = $result['localidade'];
-            $this->state = $result['uf'];
-            $this->neighborhood = $result['bairro'];
+        try {
+            if ($result = app(Zipcode::class)->get($newValue)) {
+                $this->street = $result['logradouro'];
+                $this->city = $result['localidade'];
+                $this->state = $result['uf'];
+                $this->neighborhood = $result['bairro'];
 
-            $this->focus('number');
-        } else {
-            $this->focus('zipcode');
+                $this->focus('number');
+            } else {
+                $this->focus('zipcode');
+            }
+        }catch(\Exception $e){
+            info('Exception na busca de CEP');
         }
     }
 
