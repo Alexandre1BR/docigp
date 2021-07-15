@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Data\Models\CongressmanBudget;
+use App\Models\CongressmanBudget;
 use App\Http\Traits\WithRouteParams;
 use Illuminate\Support\Facades\Gate;
 

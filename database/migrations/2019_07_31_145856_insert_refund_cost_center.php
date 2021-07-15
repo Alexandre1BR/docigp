@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 use App\Data\Repositories\CostCenters as CostCentersRepository;
-use App\Data\Models\CostCenter as CostCentersModel;
+use App\Models\CostCenter as CostCentersModel;
 use App\Support\Constants;
 
 class InsertRefundCostCenter extends Migration

@@ -1,5 +1,7 @@
 <?php
 
+use App\Services\Routes;
+
 Auth::routes();
 
 /// No Auth

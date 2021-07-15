@@ -3,12 +3,13 @@
 
 namespace Tests\Browser\Pages;
 
-use App\Data\Models\Entry;
-use App\Data\Models\EntryType;
-use App\Data\Models\File;
-use App\Data\Models\Provider;
+use App\Models\Entry;
+use App\Models\EntryDocument;
+use App\Models\EntryType;
+use App\Models\File;
+use App\Models\Provider;
 use App\Data\Repositories\Congressmen;
-use App\Data\Models\User;
+use App\Models\User;
 use App\Data\Repositories\EntryTypes;
 use App\Support\Constants;
 use Laravel\Dusk\Browser;
@@ -29,10 +30,9 @@ class ApplicationTest extends DuskTestCase
 
     public function createAdminstrator()
     {
-        static::$administrator = factory(
-            User::class,
-            Constants::ROLE_ADMINISTRATOR
-        )->raw();
+        $user = User::factory()->create();
+        $user->assign(Constants::ROLE_ADMINISTRATOR);
+        static::$administrator = $user;
     }
 
     public function init()
@@ -45,20 +45,15 @@ class ApplicationTest extends DuskTestCase
         ->randomElement()
         ->toArray();
 
-        static::$newEntriesRaw = factory(
-            Entry::class
-        )->raw();
+        static::$newEntriesRaw =  Entry::factory()->make();
 
         static::$randomProvider = Provider::find(static::$newEntriesRaw['provider_id']);
         static::$randomEntryType = EntryType::find(static::$newEntriesRaw['entry_type_id']);
 
-        static::$provider = factory(
-            Provider::class
-        )->raw();
+        static::$provider = Provider::factory()->make();
 
-        static::$newEntryDocument = factory(
-            File::class
-        )->raw();
+        static::$newEntryDocument = EntryDocument::factory()->make();
+
     }
 
     public function documentNumber($newEntriesRaw)
@@ -78,7 +73,7 @@ class ApplicationTest extends DuskTestCase
         */
 
 
-    public function testInsert()
+    public function testInsertEntry()
     {
         $this->createAdminstrator();
         $this->init();
@@ -102,7 +97,7 @@ class ApplicationTest extends DuskTestCase
                 ->visit('admin/entries#/')
                 ->assertSee('Prestação de Contas')
                 ->type('@filter_input', $randomCongressman['name'])
-                ->pause(1000)
+                ->pause(2000)
                 ->press('@congressman-'.$randomCongressman['id'])
                 ->waitForText('Orçamento mensal')
                 ->pause(4000)
@@ -123,7 +118,7 @@ class ApplicationTest extends DuskTestCase
                 ->type('@dusk_value', $newEntriesRaw['value'])
                 ->click('.vs__selected-options');
             $inside_user
-                ->elements('ul.dropdown-menu li a')[1]->click();
+                ->elements('.vs__dropdown-option')[0]->click();
             $inside_user
                 ->type('#document_number', $document)
                 ->type('#object', $newEntriesRaw['object'])
@@ -133,7 +128,7 @@ class ApplicationTest extends DuskTestCase
             $inside_user
                 ->click('.vs__selected-options1');
             $inside_user
-                ->elements('ul.dropdown-menu li a')[0]->click();
+                ->elements('.vs__dropdown-option')[0]->click();
             $inside_user
                 ->pause(2000)
                 ->screenshot('4-EntryForm-Filled')

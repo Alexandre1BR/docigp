@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Support\Facades\Gate;
 use App\Http\Traits\WithRouteParams;
-use App\Data\Models\EntryDocument;
+use App\Models\EntryDocument;
 
 class EntryDocumentChangeState extends Request
 {

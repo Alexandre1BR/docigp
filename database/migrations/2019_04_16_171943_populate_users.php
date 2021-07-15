@@ -1,6 +1,6 @@
 <?php
 
-use App\Data\Models\User;
+use App\Models\User;
 use App\Data\Repositories\Users;
 use Illuminate\Database\Migrations\Migration;
 
@@ -8,7 +8,7 @@ class PopulateUsers extends Migration
 {
     const USERS = [
         'afaria@alerj.rj.gov.br' => 'Antonio Carlos Ribeiro',
-        'ovalenca@alerj.rj.gov.br' => 'Orlando Vinícios Valença',
+        'ovalenca@alerj.rj.gov.br' => 'Orlando Vinícius Valença',
         'bmasqui@alerj.rj.gov.br' => 'Bruno Masquio',
         'afdsilva@alerj.rj.gov.br' => 'Alexandre Ferreira',
         'blaignier@alerj.rj.gov.br' => 'Breno Laignier',

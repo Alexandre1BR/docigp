@@ -1,6 +1,6 @@
 <?php
 
-use App\Data\Models\Entry;
+use App\Models\Entry;
 use App\Data\Repositories\EntryTypes as EntryTypesRepository;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;

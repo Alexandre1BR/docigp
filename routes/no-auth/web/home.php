@@ -1,7 +1,9 @@
 <?php
 
-Route::get('/', 'Home@index')->name('home');
+use App\Http\Controllers\Web\Pub\Home as Home;
 
-Route::get('/', 'Home@index')->name('home.index');
+Route::get('/', [Home::class,'index'])->name('home');
 
-Route::get('/transparencia', 'Home@transparency')->name('home.transparency');
+Route::get('/', [Home::class,'index'])->name('home.index');
+
+Route::get('/transparencia', [Home::class,'transparency'])->name('home.transparency');

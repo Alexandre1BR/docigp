@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container-fluid" id="vue-users">
-        <form name="formUsers" id="formUsers" @if(formMode() == 'show') action="{{ route('users.update', ['id' => $user->id]) }}" @else action="{{ route('users.store')}}" @endIf method="POST">
+        <form name="formUsers" id="formUsers" @if($mode == 'show') action="{{ route('users.update', ['id' => $user->id]) }}" @else action="{{ route('users.store')}}" @endIf method="POST">
             {{ csrf_field() }}
             <input name="id" type='hidden' value="{{$user->id}}" id="id" >
 

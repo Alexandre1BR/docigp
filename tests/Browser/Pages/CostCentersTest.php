@@ -2,9 +2,10 @@
 
 namespace Tests\Browser\Pages;
 
-use App\Data\Models\User;
+use App\Models\User;
 use App\Data\Repositories\CostCenters;
 use App\Support\Constants;
+use Carbon\Carbon;
 use Faker\Generator as Faker;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
@@ -21,10 +22,9 @@ class CostCentersTest extends DuskTestCase
 
     public function createAdminstrator()
     {
-        static::$administrator = factory(
-            User::class,
-            Constants::ROLE_ADMINISTRATOR
-        )->raw();
+        $user = User::factory()->create();
+        $user->assign(Constants::ROLE_ADMINISTRATOR);
+        static::$administrator = $user;
     }
 
     public function init()
@@ -42,14 +42,14 @@ class CostCentersTest extends DuskTestCase
         static::$limiteCentrosdeCusto = only_numbers(
             app(Faker::class)->numberBetween(0, 100)
         );
-        static::$revogadoCentrosdeCusto = $this->randomDate();
+        static::$revogadoCentrosdeCusto = Carbon::today()->subDays(rand(0, 365));
 
         static::$randomCostsCenter = app(CostCenters::class)
             ->randomElement()
             ->toArray();
     }
 
-    public function testInsert()
+    public function testInsertCostCenter()
     {
         $this->createAdminstrator();
         $this->init();

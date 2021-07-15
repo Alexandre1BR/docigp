@@ -2,7 +2,7 @@
 
 namespace App\Data\Repositories;
 
-use App\Data\Models\Department as DepartmentModel;
+use App\Models\Department as DepartmentModel;
 
 class Departments extends Repository
 {

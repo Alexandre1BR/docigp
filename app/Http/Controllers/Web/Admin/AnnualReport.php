@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Web\Admin;
 
-use App\Data\Models\Congressman;
+use App\Models\Congressman;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AnnualReportWithCongressman as RequestsAnnualReportWithCongressman;
 use App\Http\Requests\AnnualReportWithoutCongressman as RequestsAnnualReportWithoutCongressman;

@@ -3,8 +3,8 @@
 use App\Data\Repositories\Users;
 use App\Data\Repositories\Budgets;
 use App\Data\Repositories\CongressmanBudgets;
-use App\Data\Models\CongressmanBudget;
-use App\Data\Models\Entry;
+use App\Models\CongressmanBudget;
+use App\Models\Entry;
 use App\Data\Scopes\Published;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Password;

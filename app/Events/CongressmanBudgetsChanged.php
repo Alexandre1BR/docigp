@@ -2,7 +2,7 @@
 
 namespace App\Events;
 
-use App\Data\Models\CongressmanBudget;
+use App\Models\CongressmanBudget;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;

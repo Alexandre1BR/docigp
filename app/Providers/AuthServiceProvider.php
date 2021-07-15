@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Data\Models\CongressmanBudget;
+use App\Models\CongressmanBudget;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 

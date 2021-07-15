@@ -21,6 +21,7 @@
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
 
     @include('layouts.partials.environment')
+    @livewireStyles
 </head>
 
 <body>
@@ -32,12 +33,15 @@
                 <div class="row justify-content-center">
                     <div class="col">
                         @yield('content')
+                        @if(isset($slot))
+                            {{ $slot }}
+                        @endIf
                     </div>
                 </div>
 
                 <div class="row text-center mt-5">
                     <div class="col">
-                        @version
+{{--                        @version--}}
                     </div>
                 </div>
             </div>
@@ -46,6 +50,8 @@
 
     @include('layouts.partials.livereload')
     @include('layouts.partials.google-analytics')
+    @livewireScripts
 </body>
+
 
 </html>

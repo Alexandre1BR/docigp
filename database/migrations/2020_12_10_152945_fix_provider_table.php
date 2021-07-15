@@ -13,7 +13,7 @@ class FixProviderTable extends Migration
      */
     public function up()
     {
-        if($provider = \App\Data\Models\Provider::find(661)){
+        if($provider = \App\Models\Provider::find(661)){
             $provider->delete();
             dump('O Provider 661 foi excluído');
         }else{

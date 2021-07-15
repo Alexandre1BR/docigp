@@ -16,7 +16,7 @@ class FixEntry extends Migration
     {
         // id = 16676
 
-        if($entry = \App\Data\Models\Entry::withoutGlobalScopes()->find(16676)) {
+        if($entry = \App\Models\Entry::withoutGlobalScopes()->find(16676)) {
 
             dump('atualizando o id '. $entry->id);
             $entry->published_at = null;

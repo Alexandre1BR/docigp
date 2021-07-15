@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Support\Facades\Gate;
 use App\Http\Traits\WithRouteParams;
-use App\Data\Models\CongressmanBudget;
+use App\Models\CongressmanBudget;
 
 class CongressmanBudgetChangeState extends Request
 {

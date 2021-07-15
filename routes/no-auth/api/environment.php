@@ -1,3 +1,5 @@
 <?php
 
-Route::get('/environment', 'Environment@data');
+use App\Http\Controllers\Api\Environment;
+
+Route::get('/environment', [Environment::class,'data']);

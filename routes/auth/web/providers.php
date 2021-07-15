@@ -1,13 +1,18 @@
 <?php
 
+use App\Http\Controllers\Web\Admin\Providers as Providers;
+use App\Http\Livewire\Providers\UpdateForm as ProviderUpdateForm;
+use App\Http\Livewire\Providers\CreateForm as ProviderCreateForm;
+
 Route::group(['prefix' => '/providers'], function () {
-    Route::get('/create', 'Providers@create')->name('providers.create');
+    //    Route::get('/create', [Providers::class, 'create'])->name('providers.create');
+    Route::get('/create', ProviderCreateForm::class)->name('providers.create');
 
-    Route::post('/', 'Providers@store')->name('providers.store');
+    Route::post('/', [Providers::class, 'store'])->name('providers.store');
 
-    Route::get('/{id}', 'Providers@show')->name('providers.show');
+    Route::get('/{provider}', ProviderUpdateForm::class)->name('providers.show');
 
-    Route::post('/{id}', 'Providers@update')->name('providers.update');
+    Route::post('/{id}', [Providers::class, 'update'])->name('providers.update');
 
-    Route::get('/', 'Providers@index')->name('providers.index');
+    Route::get('/', [Providers::class, 'index'])->name('providers.index');
 });

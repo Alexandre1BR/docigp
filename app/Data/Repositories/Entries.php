@@ -4,7 +4,7 @@ namespace App\Data\Repositories;
 
 use App\Support\Constants;
 use Carbon\Carbon;
-use App\Data\Models\Entry;
+use App\Models\Entry;
 use Illuminate\Support\Str;
 use App\Data\Traits\RepositoryActionable;
 
@@ -65,7 +65,7 @@ class Entries extends Repository
 
     public function transform($data)
     {
-        
+
         $this->addTransformationPlugin(function ($entry) {
             $entry['date_formatted'] = Carbon::parse($entry['date'])->format(
                 'd/m/Y'
@@ -95,7 +95,7 @@ class Entries extends Repository
                 : "{$entry['provider_type']}: {$entry['provider_cpf_cnpj']}";
 
             $entry['pendencies'] = $this->buildPendenciesArray($entry);
-            
+
             return $entry;
         });
 
