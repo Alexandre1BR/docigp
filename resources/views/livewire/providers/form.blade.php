@@ -57,7 +57,7 @@
 
                                 <div class="form-group"
                                      x-init="Inputmask(cpfcnpjmask).mask($refs.cpfcnpj);"
-                                    >
+                                >
                                     <label for="cpf_cnpj">CPF / CNPJ</label>
                                     <input
                                         class="form-control"
