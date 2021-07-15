@@ -1,5 +1,5 @@
 <div>
-    <div x-data="{ isEditing: {{$mode == 'create'}}, cepmask: ['99999-999'], cpfcnpjmask: ['999.999.999-99', '99.999.999/9999-99']}"
+    <div x-data="{ isEditing: {{$mode == 'create' ? 'true' : 'false'}}, cepmask: ['99999-999'], cpfcnpjmask: ['999.999.999-99', '99.999.999/9999-99']}"
          @focus-field.window="$refs[$event.detail.field].focus()"
     >
         <div class="card card-default">
@@ -55,7 +55,9 @@
 
                                 <div id="vue-basico">
 
-                                <div class="form-group" x-init="Inputmask(cpfcnpjmask).mask($refs.cpfcnpj);">
+                                <div class="form-group"
+                                     x-init="Inputmask(cpfcnpjmask).mask($refs.cpfcnpj);"
+                                    >
                                     <label for="cpf_cnpj">CPF / CNPJ</label>
                                     <input
                                         class="form-control"
@@ -92,7 +94,9 @@
                                 <hr class="mt-2 mb-3"/>
 
                                 <h4>Endereço</h4>
-                                <div class="form-group" x-init="Inputmask(cepmask).mask($refs.zipcode);">
+                                <div class="form-group"
+                                     x-init="Inputmask(cepmask).mask($refs.zipcode);"
+                                >
                                     <label for="zipcode">CEP</label>
                                     <input
 
@@ -101,7 +105,6 @@
                                         name="zipcode"
                                         id="zipcode"
                                         wire:model.debounce.800ms="zipcode"
-                                        value="{{is_null(old('zipcode')) ? ($provider->zipcode) : old('zipcode')}}"
                                         @include('livewire.partials.disabled', ['model'=>$provider])
 
                                     />

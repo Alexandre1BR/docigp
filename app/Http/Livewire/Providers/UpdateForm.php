@@ -19,13 +19,13 @@ class UpdateForm extends CreateForm
 
     protected function fillAddress()
     {
-        $this->zipcode = $this->provider->zipcode;
-        $this->street = $this->provider->street;
-        $this->city = $this->provider->city;
-        $this->number = $this->provider->number;
-        $this->state = $this->provider->state;
-        $this->complement = $this->provider->complement;
-        $this->neighborhood = $this->provider->neighborhood;
+        $this->zipcode = $this->provider->zipcode ?? '';
+        $this->street = $this->provider->street ?? '';
+        $this->city = $this->provider->city ?? '';
+        $this->number = $this->provider->number ?? '';
+        $this->state = $this->provider->state ?? '';
+        $this->complement = $this->provider->complement ?? '';
+        $this->neighborhood = $this->provider->neighborhood ?? '';
     }
 
     public function mount()
