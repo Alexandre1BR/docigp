@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-
 use App\Data\Repositories\Entries;
 use App\Data\Repositories\Users as UsersRepository;
 use App\Models\Entry;
@@ -17,17 +16,17 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 //    ];
 //});
 
-
-class EntryDocumentFactory extends Factory{
-
+class EntryDocumentFactory extends Factory
+{
     protected $model = EntryDocumentModel::class;
 
-    public function definition(){
+    public function definition()
+    {
         Entry::disableGlobalScopes();
         Entry::disableMarking();
         Entry::disableEvents();
 
-        return [
+        $array = [
             'entry_id' => app(Entries::class)->randomElement()->id,
             'created_by_id' => app(UsersRepository::class)->randomElement()->id,
             'updated_by_id' => app(UsersRepository::class)->randomElement()->id,
@@ -36,5 +35,7 @@ class EntryDocumentFactory extends Factory{
         Entry::enableGlobalScopes();
         Entry::enableMarking();
         Entry::enableEvents();
+
+        return $array;
     }
 }
