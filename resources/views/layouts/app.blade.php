@@ -33,9 +33,12 @@
                 <div class="row justify-content-center">
                     <div class="col">
                         @yield('content')
-                        @if(isset($slot))
-                            {{ $slot }}
-                        @endIf
+
+                        <div>
+                            @if(isset($slot))
+                                {{ $slot }}
+                            @endIf
+                        </div>
                     </div>
                 </div>
 
@@ -51,6 +54,8 @@
     @include('layouts.partials.livereload')
     @include('layouts.partials.google-analytics')
     @livewireScripts
+    <script src="{{ mix('js/alpine.js') }}" defer></script>
+
 </body>
 
 

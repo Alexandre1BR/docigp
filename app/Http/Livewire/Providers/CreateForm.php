@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Providers;
 
 use App\Http\Livewire\BaseForm;
 use App\Models\Provider;
+use App\Services\CpfCnpj\CpfCnpj;
 use App\Services\Zipcode\Service as Zipcode;
 
 class CreateForm extends BaseForm
@@ -24,41 +25,66 @@ class CreateForm extends BaseForm
 
     public function fillModel()
     {
-        $this->cpfCnpj = $this->provider->cpfCnpj ?? '';
-        $this->type = $this->provider->type ?? '';
-        $this->name = $this->provider->name ?? '';
-        $this->is_blocked = $this->provider->is_blocked ?? '';
-        $this->zipcode = $this->provider->zipcode ?? '';
-        $this->street = $this->provider->street ?? '';
-        $this->city = $this->provider->city ?? '';
-        $this->number = $this->provider->number ?? '';
-        $this->state = $this->provider->state ?? '';
-        $this->complement = $this->provider->complement ?? '';
-        $this->neighborhood = $this->provider->neighborhood ?? '';
+        $this->cpfCnpj = is_null(old('cpf_cnpj'))
+            ? $this->provider->cpf_cnpj ?? ''
+            : old('cpf_cnpj');
+        $this->type = is_null(old('type')) ? $this->provider->type ?? '' : old('type');
+        $this->name = is_null(old('name')) ? $this->provider->name ?? '' : old('name') ?? '';
+        $this->is_blocked = is_null(old('is_blocked'))
+            ? $this->provider->is_blocked ?? ''
+            : old('is_blocked');
+        $this->zipcode = is_null(old('zipcode'))
+            ? mask_zipcode($this->provider->zipcode) ?? ''
+            : mask_zipcode(old('zipcode'));
+        $this->street = is_null(old('street'))
+            ? $this->provider->street ?? ''
+            : old('street') ?? '';
+        $this->city = is_null(old('city')) ? $this->provider->city ?? '' : old('city') ?? '';
+        $this->number = is_null(old('number'))
+            ? $this->provider->number ?? ''
+            : old('number') ?? '';
+        $this->state = is_null(old('state')) ? $this->provider->state ?? '' : old('state') ?? '';
+        $this->complement = is_null(old('complement'))
+            ? $this->provider->complement ?? ''
+            : old('complement') ?? '';
+        $this->neighborhood = is_null(old('neighborhood'))
+            ? $this->provider->neighborhood ?? ''
+            : old('neighborhood') ?? '';
+    }
+
+    public function updatedCpfCnpj($newValue)
+    {
+        $cpfCnpj = new CpfCnpj($newValue);
+
+        if ($cpfCnpj->valida()) {
+            $this->resetErrorBag('cpfcnpj');
+        } else {
+            $this->addError('cpfcnpj', 'CPF/CNPJ inválido');
+            $this->focus('cpfcnpj');
+        }
     }
 
     function updatedZipcode($newValue)
     {
-        //        try {
-        if ($result = app(Zipcode::class)->get(only_numbers($newValue))) {
-            $this->street = $result['logradouro'];
-            $this->city = $result['localidade'];
-            $this->state = $result['uf'];
-            $this->neighborhood = $result['bairro'];
+        try {
+            if ($result = app(Zipcode::class)->get(only_numbers($newValue))) {
+                $this->street = $result['logradouro'];
+                $this->city = $result['localidade'];
+                $this->state = $result['uf'];
+                $this->neighborhood = $result['bairro'];
 
-            $this->focus('number');
+                $this->focus('number');
 
-            $this->resetErrorBag('zipcode');
-        } else {
+                $this->resetErrorBag('zipcode');
+            } else {
+                $this->focus('zipcode');
+
+                $this->addError('zipcode', 'CEP não encontrado');
+            }
+        } catch (\Exception $e) {
             $this->focus('zipcode');
-
-            //            info('CEP n enc');
-
-            $this->addError('zipcode', 'CEP não encontrado');
+            info('Exception no CEP');
         }
-        //        }catch(\Exception $e){
-        //            info('Exception na busca de CEP');
-        //        }
     }
 
     protected function getComponentVariables()
@@ -70,7 +96,10 @@ class CreateForm extends BaseForm
 
     public function mount()
     {
-        $this->provider = new Provider();
+        if ($this->mode == 'create') {
+            $this->provider = new Provider();
+        }
+
         $this->fillModel();
     }
 
