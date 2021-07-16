@@ -15,20 +15,14 @@ abstract class BaseForm extends Component
 
     public $mode = 'create';
 
-    protected $formVariables = ['mode'];
-    protected function formVariables()
-    {
-        $array = [];
-        collect($this->formVariables)->each(function ($field) use (&$array) {
-            $array[$field] = $this->{$field};
-        });
-
-        return $array;
-    }
-
     protected function focus($ref)
     {
         $this->dispatchBrowserEvent('focus-field', ['field' => $ref]);
+    }
+
+    protected function formVariables()
+    {
+        return [];
     }
 
     protected function getComponentVariables()

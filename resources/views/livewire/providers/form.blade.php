@@ -1,12 +1,19 @@
 <div>
-    <div x-data="{ isEditing: {{$mode == 'create' ? 'true' : 'false'}}, cepmask: ['99999-999'], cpfcnpjmask: ['999.999.999-99', '99.999.999/9999-99']}"
-         @focus-field.window="$refs[$event.detail.field].focus()"
+    <div
+        x-init="VMasker($refs.cpfcnpj).maskPattern(cpfcnpjmask[0]);
+        $refs.cpfcnpj.addEventListener('input', inputHandler.bind(undefined, cpfcnpjmask, 14), false);
+
+
+        VMasker($refs.zipcode).maskPattern(cepmask);
+        "
+        x-data="{ isEditing: {{$mode == 'create' ? 'true' : 'false'}}, cepmask: '99999-999', cpfcnpjmask: ['999.999.999-999', '99.999.999/9999-99']}"
+        @focus-field.window="$refs[$event.detail.field].focus()"
     >
         <div class="card card-default">
-            <form name="formulario" id="formulario" @if($mode == 'update') action="{{ route('providers.update', ['id' => $provider->id]) }}" @else action="{{ route('providers.store')}}" @endIf method="POST">
+            <form name="formulario" id="formulario"
+                  action="{{ $mode == 'update' ? route('providers.update', ['id' => $provider->id]) : route('providers.store')}}"
+                  method="POST">
                 {{ csrf_field() }}
-
-
 
                 <input name="id" type="hidden" value="{{$provider->id}}" id="id">
 
@@ -16,11 +23,7 @@
                             <h4 class="mb-0">
                                 <a href="{{ route('providers.index') }}">Favorecidos</a>
 
-                                @if(is_null($provider->id))
-                                    > NOVA
-                                @else
-                                    > {{ $provider->cpf_cnpj }} - {{ $provider->name }}
-                                @endif
+                                {{ is_null($provider->id) ? ('> NOVA') : ('> '.$provider->cpf_cnpj.' - '.$provider->name) }}
                             </h4>
                         </div>
 
@@ -56,17 +59,26 @@
                                 <div id="vue-basico">
 
                                 <div class="form-group"
-                                     x-init="Inputmask(cpfcnpjmask).mask($refs.cpfcnpj);"
+
                                 >
                                     <label for="cpf_cnpj">CPF / CNPJ</label>
                                     <input
-                                        class="form-control"
+                                        class="form-control @error('cpfcnpj') is-invalid @endError"
                                         name="cpf_cnpj"
                                         id="cpf_cnpj"
-                                        value="{{is_null(old('cpf_cnpj')) ? $provider->cpf_cnpj : old('cpf_cnpj')}}"
+                                        wire:model.debounce.800ms="cpfCnpj"
                                         x-ref="cpfcnpj"
                                         @include('livewire.partials.disabled', ['model'=>$provider])
                                     />
+
+                                    <div>
+                                        @error('cpfcnpj')
+                                        <small class="text-danger">
+                                            <i class="fas fa-exclamation-triangle"></i>
+                                            {{ $message }}
+                                        </small>
+                                        @endError
+                                    </div>
                                 </div>
 
 
@@ -95,19 +107,27 @@
 
                                 <h4>Endereço</h4>
                                 <div class="form-group"
-                                     x-init="Inputmask(cepmask).mask($refs.zipcode);"
+
                                 >
                                     <label for="zipcode">CEP</label>
                                     <input
 
                                         x-ref="zipcode"
-                                        class="form-control"
+                                        class="form-control @error('zipcode') is-invalid @endError"
                                         name="zipcode"
                                         id="zipcode"
                                         wire:model.debounce.800ms="zipcode"
                                         @include('livewire.partials.disabled', ['model'=>$provider])
-
                                     />
+
+                                    <div>
+                                        @error('zipcode')
+                                            <small class="text-danger">
+                                                <i class="fas fa-exclamation-triangle"></i>
+                                                {{ $message }}
+                                            </small>
+                                        @endError
+                                    </div>
                                 </div>
 
                                 <div class="form-group">
@@ -117,7 +137,8 @@
                                         name="street"
                                         id="street"
                                         wire:model.defer="street"
-                                        value="{{is_null(old('street')) ? $provider->street : old('street')}}"  @include('livewire.partials.disabled', ['model'=>$provider])
+                                        value="{{is_null(old('street')) ? $provider->street : old('street')}}"
+                                        @include('livewire.partials.disabled', ['model'=>$provider])
                                     />
                                 </div>
 

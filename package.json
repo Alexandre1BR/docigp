@@ -43,11 +43,11 @@
     "dependencies": {
         "@popperjs/core": "^2.9.2",
         "@toast-ui/vue-editor": "^3.0.0",
-        "alpinejs": "^3.2.2",
-        "inputmask": "^5.0.6",
+        "alpinejs": "^2.8.2",
         "laravel-mix": "^6.0.25",
         "sass-loader": "^12.1.0",
         "sweetalert2": "^11.0.18",
+        "vanilla-masker": "^1.2.0",
         "vue-spinner": "^1.0.4",
         "vue-sweetalert2": "^4.3.1",
         "webpack": "^5.41.0",
