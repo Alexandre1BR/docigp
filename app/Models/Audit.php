@@ -6,6 +6,10 @@ use Carbon\Carbon;
 
 class Audit extends Model
 {
+    protected $controlCreatedBy = false;
+
+    protected $controlUpdatedBy = false;
+
     protected $with = ['user'];
 
     protected $dates = ['created_at'];
@@ -19,8 +23,6 @@ class Audit extends Model
 
     public function getFormattedCreatedAtAttribute()
     {
-        return $this->created_at
-            ? $this->created_at->format('d/m/Y H:i:s')
-            : null;
+        return $this->created_at ? $this->created_at->format('d/m/Y H:i:s') : null;
     }
 }
