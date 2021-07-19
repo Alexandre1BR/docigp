@@ -2,10 +2,7 @@
     <div
         x-init="VMasker($refs.cpfcnpj).maskPattern(cpfcnpjmask[0]);
         $refs.cpfcnpj.addEventListener('input', inputHandler.bind(undefined, cpfcnpjmask, 14), false);
-
-
-        VMasker($refs.zipcode).maskPattern(cepmask);
-        "
+        VMasker($refs.zipcode).maskPattern(cepmask);"
         x-data="{ isEditing: {{$mode == 'create' ? 'true' : 'false'}}, cepmask: '99999-999', cpfcnpjmask: ['999.999.999-999', '99.999.999/9999-99']}"
         @focus-field.window="$refs[$event.detail.field].focus()"
     >
@@ -73,15 +70,13 @@
 
                                     <div>
                                         @error('cpfcnpj')
-                                        <small class="text-danger">
-                                            <i class="fas fa-exclamation-triangle"></i>
-                                            {{ $message }}
-                                        </small>
+                                            <small class="text-danger">
+                                                <i class="fas fa-exclamation-triangle"></i>
+                                                {{ $message }}
+                                            </small>
                                         @endError
                                     </div>
                                 </div>
-
-
 
                                 <div class="form-group">
                                     <label for="type">Tipo Pessoa</label>
