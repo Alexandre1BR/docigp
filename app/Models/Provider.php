@@ -79,4 +79,11 @@ class Provider extends Model
 
         return $fullAddress;
     }
+
+    public function getIsBlockedAttribute($reference = null)
+    {
+        //TODO: terminar essa func e passar p entry (cache)
+        $reference = $reference ?? now();
+        return $reference;
+    }
 }
