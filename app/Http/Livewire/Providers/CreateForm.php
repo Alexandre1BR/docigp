@@ -14,7 +14,6 @@ class CreateForm extends BaseForm
     public $cpfCnpj;
     public $type;
     public $name;
-    public $is_blocked;
     public $zipcode;
     public $street;
     public $city;
@@ -30,9 +29,6 @@ class CreateForm extends BaseForm
             : old('cpf_cnpj');
         $this->type = is_null(old('type')) ? $this->provider->type ?? '' : old('type');
         $this->name = is_null(old('name')) ? $this->provider->name ?? '' : old('name') ?? '';
-        $this->is_blocked = is_null(old('is_blocked'))
-            ? $this->provider->is_blocked ?? ''
-            : old('is_blocked');
         $this->zipcode = is_null(old('zipcode'))
             ? mask_zipcode($this->provider->zipcode) ?? ''
             : mask_zipcode(old('zipcode'));

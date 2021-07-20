@@ -28,9 +28,11 @@ class Index extends BaseIndex
 
     public function additionalFilterQuery($query)
     {
-        return $query->when($this->isBlocked, function ($query, $isBlocked) {
-            return $query->where('is_blocked', $isBlocked);
-        });
+        return $query
+            ->with('blockedPeriods')
+            ->when($this->isBlocked, function ($query, $isBlocked) {
+                return $query->isBlocked();
+            });
     }
 
     public function render()

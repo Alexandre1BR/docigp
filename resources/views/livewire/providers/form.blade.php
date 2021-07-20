@@ -92,12 +92,6 @@
                                     <input class="form-control" name="name" id="name" value="{{is_null(old('name')) ? $provider->name : old('name')}}"  @include('livewire.partials.disabled', ['model'=>$provider])/>
                                 </div>
 
-                                <div class="form-group">
-                                    <input class="form-control" type="hidden" name="is_blocked" value="false">
-                                    <input type="checkbox" name="is_blocked" id="is_blocked" {{ $provider->is_blocked == 1 ? 'checked="checked"' : '' }}  @include('livewire.partials.disabled', ['model'=>$provider])/>
-                                    <label for="is_blocked">Bloqueado pela DOCIGP</label>
-                                </div>
-
                                 <hr class="mt-2 mb-3"/>
 
                                 <h4>Endereço</h4>
@@ -263,6 +257,75 @@
                         </div>
                     @endif
                 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                <div>
+                    @if(isset($provider->blockedPeriods) && $provider->blockedPeriods && $provider->blockedPeriods->count() > 0)
+                        <div class="row">
+                            <div class="form-group col-md-8">
+                                <table id="providersTable" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                    <tr>
+                                        <th>
+                                            Início
+                                        </th>
+                                        <th>
+                                            Fim
+                                        </th>
+                                    </tr>
+
+                                    @foreach($provider->blockedPeriods as $period)
+                                        <tr>
+                                            <td>
+                                                {{date('d/m/Y', strtotime($period->start_date))}}
+                                            </td>
+                                            <td>
+                                                {{$period->end_date ? date('d/m/Y', strtotime($period->end_date)) : ''}}
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </table>
+
+                            </div>
+                        </div>
+                    @endif
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
             </form>
