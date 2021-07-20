@@ -4,11 +4,50 @@ namespace App\Http\Livewire\Providers;
 
 use App\Http\Livewire\BaseForm;
 use App\Models\Provider;
+use App\Models\ProviderBlockPeriod;
 use App\Services\CpfCnpj\CpfCnpj;
 use App\Services\Zipcode\Service as Zipcode;
 
 class CreateForm extends BaseForm
 {
+    public $start_date;
+    public $end_date;
+    public $provider_id;
+    public $blockedPeriods;
+
+    public function store()
+    {
+        $validatedData = $this->validate([
+            'provider_id' => 'required',
+            'start_date' => 'required|date',
+            'end_date' => 'sometimes|required|date|after:start_date',
+        ]);
+
+        ProviderBlockPeriod::create($validatedData);
+
+        session()->flash('message', 'Período criado com sucesso.');
+
+        $this->resetInputFields();
+
+        $this->emit('userStore'); // Close model to using to jquery
+        $this->resetPage();
+    }
+
+    private function resetInputFields()
+    {
+        $this->start_date = null;
+        $this->end_date = null;
+    }
+
+    public function delete($id)
+    {
+        if ($id) {
+            ProviderBlockPeriod::where('id', $id)->delete();
+            session()->flash('message', 'Users Deleted Successfully.');
+        }
+        $this->resetPage();
+    }
+
     public Provider $provider;
 
     public $cpfCnpj;
@@ -46,6 +85,10 @@ class CreateForm extends BaseForm
         $this->neighborhood = is_null(old('neighborhood'))
             ? $this->provider->neighborhood ?? ''
             : old('neighborhood') ?? '';
+
+        $this->provider_id = is_null(old('id')) ? $this->provider->id ?? '' : old('id');
+
+        $this->blockedPeriods = $this->provider->blockedPeriods;
     }
 
     public function updatedCpfCnpj($newValue)
@@ -86,7 +129,7 @@ class CreateForm extends BaseForm
     protected function getComponentVariables()
     {
         return [
-            'provider' => $this->provider,
+            'provider' => $this->provider->load('blockedPeriods'),
         ];
     }
 

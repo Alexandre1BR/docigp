@@ -16,3 +16,7 @@ window.inputHandler = (masks, max, event) => {
 import Alpine from 'alpinejs'
 window.Alpine = Alpine
 Alpine.start()
+
+window.livewire.on('userStore', () => {
+    $('#createPeriod').modal('hide')
+})
