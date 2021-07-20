@@ -13,7 +13,6 @@ class CreateForm extends BaseForm
     public $start_date;
     public $end_date;
     public $provider_id;
-    public $blockedPeriods;
 
     public function store()
     {
@@ -29,8 +28,8 @@ class CreateForm extends BaseForm
 
         $this->resetInputFields();
 
+        $this->provider->refresh();
         $this->emit('userStore'); // Close model to using to jquery
-        $this->resetPage();
     }
 
     private function resetInputFields()
@@ -45,7 +44,8 @@ class CreateForm extends BaseForm
             ProviderBlockPeriod::where('id', $id)->delete();
             session()->flash('message', 'Users Deleted Successfully.');
         }
-        $this->resetPage();
+
+        $this->provider->refresh();
     }
 
     public Provider $provider;
@@ -87,8 +87,6 @@ class CreateForm extends BaseForm
             : old('neighborhood') ?? '';
 
         $this->provider_id = is_null(old('id')) ? $this->provider->id ?? '' : old('id');
-
-        $this->blockedPeriods = $this->provider->blockedPeriods;
     }
 
     public function updatedCpfCnpj($newValue)
@@ -128,9 +126,7 @@ class CreateForm extends BaseForm
 
     protected function getComponentVariables()
     {
-        return [
-            'provider' => $this->provider->load('blockedPeriods'),
-        ];
+        return [];
     }
 
     public function mount()

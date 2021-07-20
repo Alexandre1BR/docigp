@@ -338,7 +338,7 @@
                         <input type="hidden" class="form-control" name="provider_id" id="provider_id" wire:model="provider_id">
                         <div class="form-group">
                             <label for="exampleFormControlInput1">Início</label>
-                            <input type="date" class="form-control" id="start_date" wire:model="start_date">
+                            <input type="date" class="form-control" id="start_date" wire:model.defer="start_date">
 
 
                             <div>
@@ -352,7 +352,7 @@
                         </div>
                         <div class="form-group">
                             <label for="exampleFormControlInput2">Fim</label>
-                            <input type="date" class="form-control" id="end_date" wire:model="end_date" >
+                            <input type="date" class="form-control" id="end_date" wire:model.defer="end_date" >
 
                             <div>
                                 @error('end_date')
@@ -373,9 +373,9 @@
         </div>
     </div>
 
+    <div>
     @if(isset($this->provider->blockedPeriods) && $this->provider->blockedPeriods && $this->provider->blockedPeriods->count() > 0)
-        <div class="row" wire:poll.750ms>
-            Current time: {{ now() }}
+        <div class="row">
             <div class="form-group col-md-8">
                 <table id="providersTable" class="table table-striped table-bordered" cellspacing="0" width="100%">
                     <tr>
@@ -409,6 +409,7 @@
             </div>
         </div>
     @endif
+    </div>
 
 
 </div>
