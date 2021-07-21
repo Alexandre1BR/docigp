@@ -1,16 +1,18 @@
 <div>
-    <div
-        x-init="VMasker($refs.cpfcnpj).maskPattern(cpfcnpjmask[0]);
-        $refs.cpfcnpj.addEventListener('input', inputHandler.bind(undefined, cpfcnpjmask, 14), false);
-        VMasker($refs.zipcode).maskPattern(cepmask);"
-        x-data="{ isEditing: {{$mode == 'create' ? 'true' : 'false'}}, cepmask: '99999-999', cpfcnpjmask: ['999.999.999-999', '99.999.999/9999-99']}"
-        @focus-field.window="$refs[$event.detail.field].focus()"
-    >
+
         <div class="card card-default">
             <form name="formulario" id="formulario"
                   action="{{ $mode == 'update' ? route('providers.update', ['id' => $provider->id]) : route('providers.store')}}"
                   method="POST">
                 {{ csrf_field() }}
+
+                <div
+                    x-init="VMasker($refs.cpfcnpj).maskPattern(cpfcnpjmask[0]);
+                    $refs.cpfcnpj.addEventListener('input', inputHandler.bind(undefined, cpfcnpjmask, 14), false);
+                    VMasker($refs.zipcode).maskPattern(cepmask);"
+                    x-data="{ isEditing: {{$mode == 'create' ? 'true' : 'false'}}, cepmask: '99999-999', cpfcnpjmask: ['999.999.999-999', '99.999.999/9999-99']}"
+                    @focus-field.window="$refs[$event.detail.field].focus()"
+                >
 
                 <input name="id" type="hidden" value="{{$provider->id}}" id="id">
 
@@ -193,7 +195,10 @@
                             </div>
                         </div>
                     </div>
+
+                </div>
                 <div>
+
                     @if(isset($entries) && $entries && $entries->count() > 0)
                         <div class="row">
                             <div class="form-group col-md-8">
@@ -402,7 +407,6 @@
 
         </div>
 
-    </div>
 
 
 
