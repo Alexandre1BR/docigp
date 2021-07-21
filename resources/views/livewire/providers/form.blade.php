@@ -49,6 +49,9 @@
                         </div>
                     @endif
                 </div>
+
+
+
                     <div class="row">
                         <div class="form-group col-md-6">
                             <div class="col-md-12">
@@ -256,6 +259,10 @@
                             </div>
                         </div>
                     @endif
+
+
+
+
                 </div>
 
 
@@ -263,153 +270,141 @@
 
 
 
+                <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-10">
+                        <h4 class="mb-0">
+                            Períodos de bloqueio
+                        </h4>
+                    </div>
+
+                    <div class="col-md-2 text-right">
+                        <button type="button" wire:click="clearPeriod" class="btn btn-primary" data-toggle="modal" data-target="#period-modal">
+                            <i class="fa fa-plus"></i>
+                        </button>
+                    </div>
+                </div>
+                <!-- Modal -->
+                <div wire:ignore.self class="modal fade" id="period-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true close-btn">×</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form>
+
+                                    <input type="hidden" class="form-control" name="provider_id" id="provider_id" wire:model.defer="provider_id">
+                                    <div class="form-group">
+                                        <label for="exampleFormControlInput1">Início</label>
+                                        <input type="date" class="form-control" id="start_date" wire:model.defer="start_date">
 
 
+                                        <div>
+                                            @error('start_date')
+                                                <small class="text-danger">
+                                                    <i class="fas fa-exclamation-triangle"></i>
+                                                    {{ $message }}
+                                                </small>
+                                            @endError
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleFormControlInput2">Fim</label>
+                                        <input type="date" class="form-control" id="end_date" wire:model.defer="end_date" >
+
+                                        <div>
+                                            @error('end_date')
+                                                <small class="text-danger">
+                                                    <i class="fas fa-exclamation-triangle"></i>
+                                                    {{ $message }}
+                                                </small>
+                                            @endError
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+                                <button type="button" wire:click.prevent="clearPeriod" class="btn btn-outline-danger btn-sm close-btn" data-dismiss="modal">Cancelar</button>
+                                <button type="button" wire:click.prevent="store()" class="btn btn-success btn-sm close-modal">Salvar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 <div>
+                    @if(isset($this->provider->blockedPeriods) && $this->provider->blockedPeriods && $this->provider->blockedPeriods->count() > 0)
+                        <div class="row">
+                            <div class="form-group col-md-12">
+                                <table id="providersTable" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                    <tr>
+                                        <th>
+                                            Início
+                                        </th>
+                                        <th>
+                                            Fim
+                                        </th>
+                                        <th>
+
+                                        </th>
+                                    </tr>
+
+                                    @foreach($this->provider->blockedPeriods()->orderBy('start_date')->get() as $period)
+                                        <tr>
+                                            <td>
+                                                {{date('d/m/Y', strtotime($period->start_date))}}
+                                            </td>
+                                            {{--                                            https://talltips.novate.co.uk/livewire/sweetalert2-with-livewire--}}
+                                            <td>
+                                                {{$period->end_date ? date('d/m/Y', strtotime($period->end_date)) : ''}}
+                                            </td>
+                                            <td>
+                                                <button
+                                                    type="button"
+                                                    wire:click="prepareForUpdate({{$period->id}})"
+                                                    class="btn btn-sm  btn-primary"
+                                                >
+                                                    <i class="fa fa-edit"></i>
+                                                </button>
+                                                <button type="button" wire:click="prepareForDelete({{ $period->id }})" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
 
 
 
 
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </table>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                            </div>
+                        </div>
+                    @endif
                 </div>
+                </div>
+
+
+
+
+
+
+
+
+
+
 
             </form>
+
+
         </div>
+
     </div>
 
 
-
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createPeriod">
-        Open Form
-    </button>
-
-    <!-- Modal -->
-    <div wire:ignore.self class="modal fade" id="createPeriod" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true close-btn">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <input type="hidden" class="form-control" name="provider_id" id="provider_id" wire:model="provider_id">
-                        <div class="form-group">
-                            <label for="exampleFormControlInput1">Início</label>
-                            <input type="date" class="form-control" id="start_date" wire:model.defer="start_date">
-
-
-                            <div>
-                                @error('start_date')
-                                <small class="text-danger">
-                                    <i class="fas fa-exclamation-triangle"></i>
-                                    {{ $message }}
-                                </small>
-                                @endError
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleFormControlInput2">Fim</label>
-                            <input type="date" class="form-control" id="end_date" wire:model.defer="end_date" >
-
-                            <div>
-                                @error('end_date')
-                                <small class="text-danger">
-                                    <i class="fas fa-exclamation-triangle"></i>
-                                    {{ $message }}
-                                </small>
-                                @endError
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary close-btn" data-dismiss="modal">Close</button>
-                    <button wire:click.prevent="store()" class="btn btn-primary close-modal">Save changes</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div>
-    @if(isset($this->provider->blockedPeriods) && $this->provider->blockedPeriods && $this->provider->blockedPeriods->count() > 0)
-        <div class="row">
-            <div class="form-group col-md-8">
-                <table id="providersTable" class="table table-striped table-bordered" cellspacing="0" width="100%">
-                    <tr>
-                        <th>
-                            Início
-                        </th>
-                        <th>
-                            Fim
-                        </th>
-                        <th>
-
-                        </th>
-                    </tr>
-
-                    @foreach($this->provider->blockedPeriods as $period)
-                        <tr>
-                            <td>
-                                {{date('d/m/Y', strtotime($period->start_date))}}
-                            </td>
-                            {{--                                            https://talltips.novate.co.uk/livewire/sweetalert2-with-livewire--}}
-                            <td>
-                                {{$period->end_date ? date('d/m/Y', strtotime($period->end_date)) : ''}}
-                            </td>
-                            <td>
-                                <button wire:click="delete({{ $period->id }})" class="btn btn-danger btn-sm">Delete</button>
-                            </td>
-                        </tr>
-                    @endforeach
-                </table>
-
-            </div>
-        </div>
-    @endif
-    </div>
 
 
 </div>

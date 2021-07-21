@@ -7,45 +7,80 @@ use App\Models\Provider;
 use App\Models\ProviderBlockPeriod;
 use App\Services\CpfCnpj\CpfCnpj;
 use App\Services\Zipcode\Service as Zipcode;
+use Carbon\Carbon;
 
 class CreateForm extends BaseForm
 {
     public $start_date;
     public $end_date;
     public $provider_id;
+    public $selectedId;
 
-    public function store()
-    {
-        $validatedData = $this->validate([
-            'provider_id' => 'required',
-            'start_date' => 'required|date',
-            'end_date' => 'sometimes|required|date|after:start_date',
-        ]);
+    protected $listeners = ['confirm-delete' => 'confirmDelete'];
 
-        ProviderBlockPeriod::create($validatedData);
-
-        session()->flash('message', 'Período criado com sucesso.');
-
-        $this->resetInputFields();
-
-        $this->provider->refresh();
-        $this->emit('userStore'); // Close model to using to jquery
-    }
-
-    private function resetInputFields()
+    public function clearPeriod()
     {
         $this->start_date = null;
         $this->end_date = null;
+        $this->selectedId = null;
     }
 
-    public function delete($id)
+    public function confirmDelete()
     {
-        if ($id) {
-            ProviderBlockPeriod::where('id', $id)->delete();
-            session()->flash('message', 'Users Deleted Successfully.');
+        if ($this->selectedId) {
+            ProviderBlockPeriod::where('id', $this->selectedId)->delete();
         }
 
         $this->provider->refresh();
+    }
+
+    public function prepareForUpdate($id)
+    {
+        $this->selectedId = $id;
+        $period = ProviderBlockPeriod::find($id);
+
+        $this->start_date = $period->start_date->format('Y-m-d');
+        $this->end_date = $period->end_date ? $period->end_date->format('Y-m-d') : null;
+        $this->provider_id = $period->provider_id;
+
+        $this->dispatchBrowserEvent('show-modal', [
+            'target' => 'period-modal',
+        ]);
+    }
+
+    public function prepareForDelete($id)
+    {
+        $this->selectedId = $id;
+        $this->dispatchBrowserEvent('swal', [
+            'title' => 'Quer mesmo apagar o registro?',
+            'text' => 'Não será possível desfazer essa ação',
+            'confirmEvent' => 'confirm-delete',
+            'action' => 'delete',
+        ]);
+    }
+
+    public function store()
+    {
+        $this->end_date = $this->end_date ? Carbon::create($this->end_date)->endOfDay() : null;
+
+        $validatedData = $this->validate([
+            'provider_id' => 'required',
+            'start_date' => 'required|date',
+            'end_date' => $this->end_date ? 'date|after:start_date' : '',
+        ]);
+
+        if ($validatedData['end_date'] == '') {
+            $validatedData['end_date'] = null;
+        }
+
+        ProviderBlockPeriod::updateOrCreate(
+            $this->selectedId ? ['id' => $this->selectedId] : [],
+            $validatedData
+        );
+
+        $this->clearPeriod();
+        $this->provider->refresh();
+        $this->dispatchBrowserEvent('hide-modal', ['target' => 'period-modal']);
     }
 
     public Provider $provider;
