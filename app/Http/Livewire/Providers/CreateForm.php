@@ -61,16 +61,16 @@ class CreateForm extends BaseForm
 
     public function store()
     {
-        $this->end_date = $this->end_date ? Carbon::create($this->end_date)->endOfDay() : null;
-
         $validatedData = $this->validate([
             'provider_id' => 'required',
             'start_date' => 'required|date',
-            'end_date' => $this->end_date ? 'date|after:start_date' : '',
+            'end_date' => $this->end_date ? 'date|after_or_equal:start_date' : '',
         ]);
 
         if ($validatedData['end_date'] == '') {
             $validatedData['end_date'] = null;
+        } else {
+            $validatedData['end_date'] = Carbon::create($validatedData['end_date'])->endOfDay();
         }
 
         ProviderBlockPeriod::updateOrCreate(
