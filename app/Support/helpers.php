@@ -33,7 +33,7 @@ if (!function_exists('studly')) {
      */
     function studly($value)
     {
-        $value = ucwords(str_replace(array('-', '_'), ' ', $value));
+        $value = ucwords(str_replace(['-', '_'], ' ', $value));
 
         return str_replace(' ', '', $value);
     }
@@ -41,10 +41,7 @@ if (!function_exists('studly')) {
 
 function toBoolean($boolean)
 {
-    return $boolean === 'true' ||
-        $boolean === '1' ||
-        $boolean === 1 ||
-        $boolean === true;
+    return $boolean === 'true' || $boolean === '1' || $boolean === 1 || $boolean === true;
 }
 
 function extract_credentials(Request $request)
@@ -107,22 +104,15 @@ function make_pdf_filename($baseName)
 
 function make_filename($baseName, $extension)
 {
-    return Str::slug($baseName . ' ' . now()->format('Y m d H i')) .
-        '.' .
-        $extension;
+    return Str::slug($baseName . ' ' . now()->format('Y m d H i')) . '.' . $extension;
 }
 
 function extract_info_from_mailgun_webhook($data)
 {
     return [
-        'timestamp' => Carbon::createFromTimestamp(
-            Arr::get($data, 'signature.timestamp')
-        ),
+        'timestamp' => Carbon::createFromTimestamp(Arr::get($data, 'signature.timestamp')),
 
-        'message_id' => array_get(
-            $data,
-            'event-data.message.headers.message-id'
-        )
+        'message_id' => array_get($data, 'event-data.message.headers.message-id'),
     ];
 }
 
@@ -133,7 +123,7 @@ function current_user()
 
 function unnacent($string)
 {
-    $table = array(
+    $table = [
         'Š' => 'S',
         'š' => 's',
         'Đ' => 'Dj',
@@ -205,8 +195,8 @@ function unnacent($string)
         'þ' => 'b',
         'ÿ' => 'y',
         'Ŕ' => 'R',
-        'ŕ' => 'r'
-    );
+        'ŕ' => 'r',
+    ];
 
     return strtr($string, $table);
 }
@@ -222,9 +212,7 @@ function capitalizeBrazilian($name)
 
     $string = trim(preg_replace('/\s\s+/', ' ', $string));
 
-    coollect(['de', 'da', 'do', 'das', 'dos', 'e'])->each(function (
-        $exception
-    ) use (&$string) {
+    coollect(['de', 'da', 'do', 'das', 'dos', 'e'])->each(function ($exception) use (&$string) {
         $exception = mb_convert_case($exception, MB_CASE_TITLE);
 
         $newCase = mb_convert_case($exception, MB_CASE_LOWER);
@@ -237,11 +225,7 @@ function capitalizeBrazilian($name)
             coollect($matched[0])->each(function ($match) use (&$string) {
                 $newCase = mb_convert_case($match, MB_CASE_UPPER);
 
-                $string = str_replace(
-                    substr($match, 1),
-                    substr($newCase, 1),
-                    $string
-                );
+                $string = str_replace(substr($match, 1), substr($newCase, 1), $string);
             });
         }
     });
@@ -261,10 +245,9 @@ function to_reais($number)
     return 'R$ ' . number_format($number, 2, ',', '.');
 }
 
-function without_reais($number){
-    return str_replace(",",".",
-                str_replace(".","",
-                    str_replace('R$ ',"",$number)));
+function without_reais($number)
+{
+    return str_replace(',', '.', str_replace('.', '', str_replace('R$ ', '', $number)));
 }
 
 function trunc_value_with_two_digits($number)
@@ -274,9 +257,7 @@ function trunc_value_with_two_digits($number)
 
 function get_current_department_id()
 {
-    return auth()->user() && auth()->user()->department
-        ? auth()->user()->department->id
-        : null;
+    return auth()->user() && auth()->user()->department ? auth()->user()->department->id : null;
 }
 
 function db_listen($dump = false)
@@ -335,8 +316,7 @@ function make_deep_path($nameHash, $length = 4)
     $deepPath = '';
 
     for ($i = 1; $i <= $length; $i++) {
-        $deepPath =
-            $deepPath . substr($nameHash, $i - 1, 1) . DIRECTORY_SEPARATOR;
+        $deepPath = $deepPath . substr($nameHash, $i - 1, 1) . DIRECTORY_SEPARATOR;
     }
 
     return $deepPath;
@@ -364,6 +344,11 @@ function is_br_date($date)
         return false;
     }
     return true;
+}
+
+function mask_zipcode($zipcode)
+{
+    return preg_replace('/(\d\d\d\d\d)(\d\d\d)/', '$1-$2', $zipcode);
 }
 
 class Timer

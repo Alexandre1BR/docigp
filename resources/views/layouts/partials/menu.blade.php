@@ -29,7 +29,7 @@
                     </li>
                 @else
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('admin.index') }}">Painel de Controle</a>
+{{--                        <a class="nav-link" href="{{ route('admin.index') }}">Painel de Controle</a>--}}
                     </li>
 
                     <li class="nav-item dropdown">

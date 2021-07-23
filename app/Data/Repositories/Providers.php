@@ -2,7 +2,7 @@
 
 namespace App\Data\Repositories;
 
-use App\Data\Models\Provider;
+use App\Models\Provider;
 
 class Providers extends Repository
 {
@@ -28,5 +28,11 @@ class Providers extends Repository
         if (isset($filter['blocked_checkbox'])) {
             $query->where('is_blocked', true);
         }
+    }
+
+    public function allBlocked()
+    {
+
+        return Provider::where('is_blocked','=','false')->get();
     }
 }

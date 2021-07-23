@@ -1,10 +1,28 @@
 <?php
 
-use App\Data\Models\Department;
+namespace Database\Factories;
 
-$factory->define(Department::class, function () {
-    return [
-        'name' => faker()->name,
-        'initials' => faker()->name,
-    ];
-});
+
+use App\Models\Department;
+use Illuminate\Database\Eloquent\Factories\Factory;
+
+//$factory->define(Department::class, function () {
+//    return [
+//        'name' => faker()->name,
+//        'initials' => faker()->name,
+//    ];
+//});
+
+
+class DepartmentFactory extends Factory{
+
+    protected $model = Department::class;
+
+    public function definition()
+    {
+        return [
+            'name' => faker()->name,
+            'initials' => faker()->name,
+        ];
+    }
+}

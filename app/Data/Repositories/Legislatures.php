@@ -2,7 +2,7 @@
 
 namespace App\Data\Repositories;
 
-use App\Data\Models\Legislature as LegislatureModel;
+use App\Models\Legislature as LegislatureModel;
 
 class Legislatures extends Repository
 {

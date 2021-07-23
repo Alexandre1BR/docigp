@@ -1,5 +1,6 @@
 <?php
 
-Route::get('/', 'Home@index')->name('admin.index');
 
-Route::post('/change-client/', 'Home@changeClient')->name('change.client');
+Route::get('/', [\App\Http\Controllers\Web\Admin\Home::class,'index'])->name('admin.index');
+
+Route::post('/change-client/', [\App\Http\Controllers\Web\Admin\Home::class,'changeClient'])->name('change.client');

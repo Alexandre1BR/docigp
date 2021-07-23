@@ -4,7 +4,7 @@ namespace App\Data\Repositories;
 
 use App\Data\Traits\RepositoryActionable;
 use App\Data\Repositories\Files as FilesRepository;
-use App\Data\Models\EntryComment as EntryComment;
+use App\Models\EntryComment as EntryComment;
 
 class EntryComments extends Repository
 {

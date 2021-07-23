@@ -1,7 +1,9 @@
 <?php
 
-Route::group(['prefix' => '/budgets'], function () {
-    Route::post('/{id}', 'Budgets@update')->name('budgets.update');
+use App\Http\Controllers\Api\Budgets;
 
-    Route::post('/', 'Budgets@store')->name('budgets.store');
+Route::group(['prefix' => '/budgets'], function () {
+    Route::post('/{id}', [Budgets::class,'update'])->name('budgets.update');
+
+    Route::post('/', [Budgets::class,'store'])->name('budgets.store');
 });

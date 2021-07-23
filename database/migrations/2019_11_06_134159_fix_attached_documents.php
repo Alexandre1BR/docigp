@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
-use App\Data\Models\EntryDocument;
+use App\Models\EntryDocument;
 
 class FixAttachedDocuments extends Migration
 {

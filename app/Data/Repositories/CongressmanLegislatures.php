@@ -2,7 +2,7 @@
 
 namespace App\Data\Repositories;
 
-use App\Data\Models\CongressmanLegislature;
+use App\Models\CongressmanLegislature;
 
 class CongressmanLegislatures extends Repository
 {

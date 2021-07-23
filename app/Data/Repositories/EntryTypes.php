@@ -2,7 +2,7 @@
 
 namespace App\Data\Repositories;
 
-use App\Data\Models\EntryType;
+use App\Models\EntryType;
 
 class EntryTypes extends Repository
 {

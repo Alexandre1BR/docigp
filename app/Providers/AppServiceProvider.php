@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\ServiceProvider;
 use Silber\Bouncer\BouncerFacade as Bouncer;
@@ -17,7 +18,7 @@ class AppServiceProvider extends ServiceProvider
             'permissions' => 'bouncer_permissions',
             'assigned_roles' => 'bouncer_assigned_roles',
             'roles' => 'bouncer_roles',
-            'abilities' => 'bouncer_abilities'
+            'abilities' => 'bouncer_abilities',
         ]);
     }
 
@@ -41,5 +42,7 @@ class AppServiceProvider extends ServiceProvider
         if (App::environment('local') && config('app.debug')) {
             info(request()->all());
         }
+
+        Paginator::useBootstrap();
     }
 }

@@ -1,6 +1,6 @@
 <?php
 Route::group(
-    ['prefix' => '/', 'namespace' => 'Web\Pub', 'middleware' => 'guest'],
+    ['prefix' => '/', 'middleware' => 'guest'],
     function () {
         require __DIR__ . '/web/home.php';
     }

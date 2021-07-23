@@ -1,13 +1,15 @@
 <?php
 
+use App\Http\Controllers\Web\Admin\Congressmen as Congressmen;
+
 Route::group(['prefix' => '/congressmen'], function () {
-    Route::get('/', 'Congressmen@index')->name('congressmen.index');
+    Route::get('/', [Congressmen::class,'index'])->name('congressmen.index');
 
-    Route::get('/create', 'Congressmen@create')->name('congressmen.create');
+    Route::get('/create', [Congressmen::class,'create'])->name('congressmen.create');
 
-    Route::post('/', 'Congressmen@associateWithUser')->name(
+    Route::post('/', [Congressmen::class,'associateWithUser'])->name(
         'congressmen.associate-with-user'
     );
 
-    Route::get('/{id}', 'Congressmen@show')->name('congressmen.show');
+    Route::get('/{id}', [Congressmen::class,'show'])->name('congressmen.show');
 });
