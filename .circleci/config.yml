@@ -14,8 +14,10 @@ jobs:
           POSTGRES_DB: circleci-tests
           POSTGRES_PASSWORD: vagrant
     steps:
+     - add_ssh_keys:
+        fingerprints:
+          - "SO:ME:FIN:G:ER:PR:IN:T"
       - checkout
-
       - run:
           name: "Prepare Environment"
           command: |
