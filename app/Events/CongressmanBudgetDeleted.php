@@ -2,7 +2,7 @@
 
 namespace App\Events;
 
-use App\Data\Models\CongressmanLegislature;
+use App\Models\CongressmanLegislature;
 
 class CongressmanBudgetDeleted extends Event
 {

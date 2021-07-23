@@ -2,8 +2,8 @@
 
 namespace Tests\Browser\Pages;
 
-use App\Data\Models\Provider;
-use App\Data\Models\User;
+use App\Models\Provider;
+use App\Models\User;
 use App\Data\Repositories\Providers;
 use App\Support\Constants;
 use Laravel\Dusk\Browser;
@@ -16,17 +16,16 @@ class ProvidersTest extends DuskTestCase
     private static $randomProviders;
     private static $administrator;
 
-    public function createAdministrator()
+    public function createAdminstrator()
     {
-        static::$administrator = factory(
-            User::class,
-            Constants::ROLE_ADMINISTRATOR
-        )->raw();
+        $user = User::factory()->create();
+        $user->assign(Constants::ROLE_ADMINISTRATOR);
+        static::$administrator = $user;
     }
 
     public function init()
     {
-        static::$providerRaw = factory(Provider::class)->raw();
+        static::$providerRaw = Provider::factory()->make();
         static::$randomProviders = app(Providers::class)
             ->randomElement()
             ->toArray();
@@ -34,7 +33,7 @@ class ProvidersTest extends DuskTestCase
 
     public function testInsert_and_Alter()
     {
-        $this->createAdministrator();
+        $this->createAdminstrator();
         $this->init();
         $provider = static::$providerRaw;
         $administrator = static::$administrator;

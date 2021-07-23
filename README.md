@@ -23,7 +23,7 @@
 - Clonar o repositório (branch: staging [homologação] or production [produção])
 - Configurar servidor web para apontar para a **`<pasta-aonde-o-site-foi-instalado>`/public**
 - Instalar certificado SSL (precisamos que a página seja acessível **via https apenas**)
-- Criar o banco do dados
+- Criar o banco do dados.
 - Entrar na `<pasta-aonde-o-site-foi-instalado>`
 - Configurar o arquivo `.env`
     - Copiar o arquivo `.env.example` para `.env`

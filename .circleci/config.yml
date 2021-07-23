@@ -49,9 +49,9 @@ jobs:
           name: "Create database and run migration"
           command: |
             php artisan migrate --env=testing
-      #      - run:
-      #          name: "Run Http Tests"
-      #          command: ./vendor/bin/phpunit tests/Feature
+#      - run:
+#          name: "Run Http Tests"
+#          command: ./vendor/bin/phpunit tests/Feature
 
       - run:
           name: "Install Dusk and Chrome Drivers"

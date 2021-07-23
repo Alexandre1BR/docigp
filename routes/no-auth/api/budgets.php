@@ -1,9 +1,11 @@
 <?php
 
-Route::group(['prefix' => '/budgets'], function () {
-    Route::get('/', 'Budgets@all')->name('budgets.all');
+use App\Http\Controllers\Api\Budgets;
 
-    Route::get('/availableBudgets', 'Budgets@availableBudgets')->name(
+Route::group(['prefix' => '/budgets'], function () {
+    Route::get('/', [Budgets::class,'all'])->name('budgets.all');
+
+    Route::get('/availableBudgets', [Budgets::class,'availableBudgets'])->name(
         'budgets.availableBudgets'
     );
 });

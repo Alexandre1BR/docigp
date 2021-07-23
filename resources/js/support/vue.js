@@ -1,13 +1,11 @@
+import Vue from 'vue'
+import 'livewire-vue'
+
 /**
  * Vue & Vuex
  */
-window.Vue = require('vue')
+window.Vue = Vue
 window.Vuex = require('vuex')
-
-/**
- * Vue The Mask
- */
-Vue.use(() => import('vue-the-mask'))
 
 // ClipLoader
 Vue.component('clip-loader', require('vue-spinner/src/ClipLoader.vue').default)
@@ -70,8 +68,12 @@ file.keys().map((file) => {
  * VueSelect
  */
 Vue.component('vue-select', () => import('vue-select'))
+Vue.use(Vue.component('vue-select', () => import('vue-select')))
 
 /**
  * Vue The Mask
  */
-Vue.use(() => import('vue-the-mask'))
+import VueTheMask from 'vue-the-mask'
+Vue.use(VueTheMask)
+
+require('../pages/basic')

@@ -2,7 +2,7 @@
 
 namespace App\Data\Repositories;
 
-use App\Data\Models\CongressmanSettings as CongressmanSettingsModel;
+use App\Models\CongressmanSettings as CongressmanSettingsModel;
 
 class CongressmanSettings extends Repository
 {

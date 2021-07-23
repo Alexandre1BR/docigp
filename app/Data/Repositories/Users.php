@@ -2,7 +2,7 @@
 
 namespace App\Data\Repositories;
 
-use App\Data\Models\User;
+use App\Models\User;
 use App\Support\Constants;
 use App\Data\Repositories\Congressmen as CongressmenRepository;
 use Illuminate\Support\Facades\Hash;

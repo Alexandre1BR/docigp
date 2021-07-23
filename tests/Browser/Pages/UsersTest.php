@@ -4,7 +4,7 @@
 namespace Tests\Browser\Pages;
 
 
-use App\Data\Models\User;
+use App\Models\User;
 use App\Data\Repositories\Users;
 use App\Support\Constants;
 use Faker\Generator as Faker;
@@ -21,15 +21,14 @@ class UsersTest extends DuskTestCase
 
     public function createAdminstrator()
     {
-        static::$administrator = factory(
-            User::class,
-            Constants::ROLE_ADMINISTRATOR
-        )->raw();
+        $user = User::factory()->create();
+        $user->assign(Constants::ROLE_ADMINISTRATOR);
+        static::$administrator = $user;
     }
 
     public function init()
     {
-        static::$usersRaw = factory(User::class)->raw();
+        static::$usersRaw = User::factory()->make();
         static::$randomUsers = app(Users::class)
             ->randomElement()
             ->toArray();
@@ -92,8 +91,9 @@ class UsersTest extends DuskTestCase
                 ->assertSee('O campo nome é obrigatório.');
         });
     }
-    public function testAlter()
+    public function testAlterUser()
     {
+        $this->createAdminstrator();
         $this->init();
         $user = static::$usersRaw;
         $randomUsers1 = static::$randomUsers;

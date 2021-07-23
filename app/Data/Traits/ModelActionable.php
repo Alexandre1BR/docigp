@@ -2,7 +2,7 @@
 
 namespace App\Data\Traits;
 
-use App\Data\Models\EntryDocument;
+use App\Models\EntryDocument;
 
 trait ModelActionable
 {
@@ -49,7 +49,7 @@ trait ModelActionable
         if (!$this instanceof EntryDocument) {
             $this->unpublish(false);
         }
-    
+
         if ($save) {
             $this->save();
         }

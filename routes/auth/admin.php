@@ -3,7 +3,7 @@
 Route::group(
     [
         'prefix' => '/admin',
-        'namespace' => 'Web\Admin',
+        //'namespace' => 'Web\Admin',
         'middleware' => ['auth'] //, 'app.users'],
     ],
     function () {
@@ -24,5 +24,5 @@ Route::group(
         require __DIR__ . '/web/entryTypes.php';
         require __DIR__ . '/web/audits.php';
         require __DIR__ . '/web/annual-reports.php';
-    }  
+    }
 );

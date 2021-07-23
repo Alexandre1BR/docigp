@@ -2,7 +2,7 @@
 
 use App\Data\Repositories\EntryTypes as EntryTypesRepository;
 use Illuminate\Database\Migrations\Migration;
-use App\Data\Models\EntryType;
+use App\Models\EntryType;
 use App\Support\Constants;
 
 class InsertIdentifiedDeposit extends Migration

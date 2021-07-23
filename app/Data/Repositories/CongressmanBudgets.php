@@ -2,10 +2,10 @@
 
 namespace App\Data\Repositories;
 
-use App\Data\Models\Entry;
+use App\Models\Entry;
 use Carbon\Carbon;
-use App\Data\Models\Congressman;
-use App\Data\Models\CongressmanBudget;
+use App\Models\Congressman;
+use App\Models\CongressmanBudget;
 use App\Data\Traits\RepositoryActionable;
 
 class CongressmanBudgets extends Repository
@@ -182,6 +182,7 @@ class CongressmanBudgets extends Repository
 
     public function updateAllEntriesFor($id)
     {
+//        dd(CongressmanBudget::find($id));
         CongressmanBudget::find($id)
             ->congressman->congressmanBudgets()
             ->orderBy('id', 'asc')

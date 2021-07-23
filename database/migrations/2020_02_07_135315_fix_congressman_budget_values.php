@@ -1,8 +1,8 @@
 <?php
 
-use App\Data\Models\Congressman;
+use App\Models\Congressman;
 
-use App\Data\Models\CongressmanBudget;
+use App\Models\CongressmanBudget;
 use App\Data\Repositories\Congressmen as CongressmenRepository;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;

@@ -1,13 +1,15 @@
 <?php
 
+use App\Http\Controllers\Web\Admin\Legislatures as Legislatures;
+
 Route::group(['prefix' => '/legislatures'], function () {
-    Route::get('/create', 'Legislatures@create')->name('legislatures.create');
+    Route::get('/create', [Legislatures::class,'create'])->name('legislatures.create');
 
-    Route::post('/', 'Legislatures@store')->name('legislatures.store');
+    Route::post('/', [Legislatures::class,'store'])->name('legislatures.store');
 
-    Route::get('/{id}', 'Legislatures@show')->name('legislatures.show');
+    Route::get('/{id}', [Legislatures::class,'show'])->name('legislatures.show');
 
-    Route::post('/{id}', 'Legislatures@update')->name('legislatures.update');
+    Route::post('/{id}', [Legislatures::class,'update'])->name('legislatures.update');
 
-    Route::get('/', 'Legislatures@index')->name('legislatures.index');
+    Route::get('/', [Legislatures::class,'index'])->name('legislatures.index');
 });

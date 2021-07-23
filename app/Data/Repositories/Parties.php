@@ -2,7 +2,7 @@
 
 namespace App\Data\Repositories;
 
-use App\Data\Models\Party;
+use App\Models\Party;
 
 class Parties extends Repository
 {

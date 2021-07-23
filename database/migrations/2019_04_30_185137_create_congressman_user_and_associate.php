@@ -1,6 +1,6 @@
 <?php
 
-use App\Data\Models\User;
+use App\Models\User;
 use App\Data\Repositories\Users;
 use App\Services\DataSync\Service as DataSyncService;
 use App\Support\Constants;

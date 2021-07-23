@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Web\Admin;
 
-use App\Data\Models\Audit;
+use App\Models\Audit;
 use App\Http\Controllers\Controller;
 
 class Audits extends Controller

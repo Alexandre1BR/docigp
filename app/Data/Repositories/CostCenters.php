@@ -3,7 +3,7 @@
 namespace App\Data\Repositories;
 
 use App\Support\Constants;
-use App\Data\Models\CostCenter;
+use App\Models\CostCenter;
 use Cache;
 use HnhDigital\LaravelNumberConverter\Facade as NumConvert;
 
