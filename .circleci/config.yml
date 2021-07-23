@@ -80,7 +80,7 @@ jobs:
     steps:
      - add_ssh_keys:
         fingerprints:
-          - "SO:ME:FIN:G:ER:PR:IN:T"
+          SO:ME:FIN:G:ER:PR:IN:T
       - checkout
       - run:
           name: "Prepare Environment"
@@ -148,4 +148,7 @@ jobs:
       - run:
           name: Run Browser Tests Tests
           command: php artisan dusk
+<<<<<<< HEAD
 >>>>>>> Circle CI
+=======
+>>>>>>> Update config.yml
