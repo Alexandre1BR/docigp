@@ -1,64 +1,76 @@
-version: 2
+version: 2.1
 jobs:
   build:
+    docker:
+      # Specify the version you desire here
+      - image: circleci/php:7.4-browsers
+        environment:
+          PGHOST: 127.0.0.1
+          PGUSER: vagrant
+          TEST_DATABASE_URL: http://127.0.0.1:8000
+      - image: circleci/postgres:12
+        environment:
+          POSTGRES_USER: vagrant
+          POSTGRES_DB: circleci-tests
+          POSTGRES_PASSWORD: vagrant
     steps:
-      #before install
-      - run: export TZ=America/Sao_Paulo
-      - run: sudo pg_dropcluster --stop 12 main
-      - run: sudo pg_upgradecluster 11 main
-      - run: sudo pg_ctlcluster 12 main restart
-      - run: sudo pg_dropcluster 11 main
+      - checkout
 
-      #ChromeDriver
       - run:
-        name: Start Chrome Driver
-          command: ./vendor/laravel/dusk/bin/chromedriver-linux
-        background: true
-      #before script
-      - run: apt-get install postgresql-12
-      - run: cp .env.circleci .env
-      - run: cp .env.circleci .env.dusk.local
-      - run: composer install
-      - run: npm install
-      - run: npm run dev
-      - run: phpenv config-rm xdebug.ini || true
-      - run: composer install
-      - run: export LANGUAGE=pt_BR.UTF-8
-      - run: locale
-      - run: cp .env.circleci .env
-      - run: cp .env.circleci .env.dusk.local
-      - run: php artisan key:generate
-      - run: psql -V
-      - run: psql -c 'create database teste;' -U postgres
-      - run: psql -c 'create user vagrant WITH SUPERUSER;' -U postgres
-      - run: psql -c "alter user vagrant with encrypted password 'vagrant'" -U postgres;
-      - run: psql -c 'grant all privileges on database teste to vagrant'  -U postgres
-      - run: psql -d teste -U vagrant -c "show DateStyle;"
-      - run: createdb docigp
-      - run: php artisan storage:link
-      - run: php artisan migrate
-      - run: php artisan db:seed
-      - run: php artisan dusk:chrome-driver
-      - run: php artisan docigp:sync:parties
-      - run: php artisan docigp:sync:congressmen
-      - run: php artisan docigp:sync:departments
-      - run: php artisan docigp:sync:roles
-      - run: php artisan docigp:budget:generate
-      - run: export DISPLAY=:100.0
-      - run: php artisan config:clear
-      - run: php artisan cache:clear
-      - run: google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
-      - run: php artisan serve &
-      #script
-      - run: touch storage/logs/laravel.log
-      - run: chmod -R 777 storage/logs/laravel.log
-      - run: nohup php artisan queue:work --daemon &
-      - run: php artisan dusk
-      #after script
-      - run: cat nohup.out
+          name: "Prepare Environment"
+          command: |
+            sudo apt-get update && sudo apt-get install libpq-dev
+            sudo docker-php-ext-install pdo_pgsql && sudo docker-php-ext-enable pdo_pgsql
+      - run:
+          name: "Create Environment file"
+          command: |
+            cp .env.testing .env
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            # "composer.lock" can be used if it is committed to the repo
+            - v1-dependencies-{{ checksum "composer.json" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
 
-      #after Failure
-      steps:
-        - run: sleep 15s
-        - run: php artisan email:failure
-        - run: cat storage/logs/laravel.log
+      - run: composer install -n --prefer-dist
+      - run: ./vendor/bin/phpunit
+
+      - save_cache:
+          key: v1-dependencies-{{ checksum "composer.json" }}
+          paths:
+            - ./vendor
+
+      - run:
+          name: "Generate App key"
+          command: php artisan key:generate
+
+      - run:
+          name: "Create database and run migration"
+          command: |
+            php artisan migrate --env=testing
+      #      - run:
+      #          name: "Run Http Tests"
+      #          command: ./vendor/bin/phpunit tests/Feature
+
+      - run:
+          name: "Install Dusk and Chrome Drivers"
+          command: |
+            wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+            sudo apt install ./google-chrome-stable_current_amd64.deb
+            composer require --dev laravel/dusk
+            php artisan dusk:chrome-driver
+      - run:
+          name: Start Chrome Driver
+          command: |
+            ./vendor/laravel/dusk/bin/chromedriver-linux
+          background: true
+
+      - run:
+          name: Run Laravel Server
+          command: php artisan serve --no-reload
+          background: true
+
+      - run:
+          name: Run Browser Tests Tests
+          command: php artisan dusk
