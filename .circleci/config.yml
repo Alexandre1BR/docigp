@@ -22,7 +22,7 @@ jobs:
           command: |
             php -v
             composer update
-            composer require "ext-gd:*" --ignore-platform-reqs
+            php -m | grep gd
             sudo apt-get update && sudo apt-get install libpq-dev
             sudo docker-php-ext-install pdo_pgsql && sudo docker-php-ext-enable pdo_pgsql
             sudo docker-php-ext-install pcntl
