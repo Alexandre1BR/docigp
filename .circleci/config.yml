@@ -17,6 +17,10 @@ jobs:
           POSTGRES_USER: vagrant
           POSTGRES_DB: circleci-tests
           POSTGRES_PASSWORD: vagrant
+    override:
+      mkdir -p $CIRCLE_TEST_REPORTS/phpunit
+      docker run -it --name punit $DOCKER_REPOSITORY:$DOCKER_TAG php vendor/bin/phpunit --log-junit /tmp/phpunit/junit.xml
+      docker cp punit:/tmp/phpunit/junit.xml $CIRCLE_TEST_REPORTS/phpunit/junit.xml
     steps:
       - add_ssh_keys:
           fingerprints:
@@ -27,9 +31,6 @@ jobs:
           command: |
             sudo apt-get update && sudo apt-get install libpq-dev
             sudo docker-php-ext-install pdo_pgsql && sudo docker-php-ext-enable pdo_pgsql
-            mkdir -p $CIRCLE_TEST_REPORTS/phpunit
-            docker run -it --name punit $DOCKER_REPOSITORY:$DOCKER_TAG php vendor/bin/phpunit --log-junit /tmp/phpunit/junit.xml
-            docker cp punit:/tmp/phpunit/junit.xml $CIRCLE_TEST_REPORTS/phpunit/junit.xml
 
       - run:
           name: "Create Environment file"
