@@ -21,6 +21,7 @@ jobs:
           name: "Prepare Environment"
           command: |
             php -v
+            composer update
             sudo apt-get update && sudo apt-get install libpq-dev
             sudo docker-php-ext-install pdo_pgsql && sudo docker-php-ext-enable pdo_pgsql
             sudo docker-php-ext-install pcntl
