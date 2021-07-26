@@ -23,6 +23,7 @@ jobs:
             sudo apt update && sudo docker-php-ext-install zip
             sudo apt-get update && sudo apt-get install libpq-dev
             sudo docker-php-ext-install pdo_pgsql && sudo docker-php-ext-enable pdo_pgsql
+            sudo docker-php-ext-install pcntl
 
       - run:
           name: "Create Environment file"
@@ -35,7 +36,7 @@ jobs:
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
-      - run: composer install --ignore-platform-reqs
+      - run: composer install
       - run: composer require --dev laravel/dusk
 
       - save_cache:
