@@ -17,10 +17,6 @@ jobs:
           POSTGRES_USER: vagrant
           POSTGRES_DB: circleci-tests
           POSTGRES_PASSWORD: vagrant
-    override:
-      mkdir -p $CIRCLE_TEST_REPORTS/phpunit
-      docker run -it --name punit $DOCKER_REPOSITORY:$DOCKER_TAG php vendor/bin/phpunit --log-junit /tmp/phpunit/junit.xml
-      docker cp punit:/tmp/phpunit/junit.xml $CIRCLE_TEST_REPORTS/phpunit/junit.xml
     steps:
       - add_ssh_keys:
           fingerprints:
@@ -44,7 +40,7 @@ jobs:
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
-      - run: composer install  --ignore-platform-reqs --no-interaction --prefer-dist --optimize-autoloader --no-dev
+      - run: composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
 
 
       - save_cache:
