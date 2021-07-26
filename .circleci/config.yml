@@ -22,7 +22,7 @@ jobs:
           command: |
             sudo apt update && sudo docker-php-ext-install zip
             sudo apt-get update && sudo apt-get install libpq-dev
-            sudo apt-get install libssl-dev
+            sudo apt-get install php74-gd
             sudo docker-php-ext-install pdo_pgsql && sudo docker-php-ext-enable pdo_pgsql
             sudo docker-php-ext-install pcntl
             sudo docker-php-ext-install gd
