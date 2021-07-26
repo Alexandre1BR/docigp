@@ -34,8 +34,9 @@ jobs:
             - v1-dependencies-{{ checksum "composer.json" }}
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
-      - run: composer install --ignore-platform-reqs
 
+      - run: composer install --ignore-platform-reqs
+      - run: composer require --dev laravel/dusk
 
       - save_cache:
           key: v1-dependencies-{{ checksum "composer.json" }}
@@ -48,7 +49,7 @@ jobs:
       - run:
           name: "Create database and run migration"
           command: |
-            php artisan migrate --env=testing
+            php artisan migrate
 
       - run:
           name: "Install Dusk and Chrome Drivers"
