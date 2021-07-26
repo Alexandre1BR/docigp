@@ -4,65 +4,7 @@
 #
 # Check https://circleci.com/docs/2.0/language-php/ for more details
 #
-version: 2
-jobs:
-  build:
-    docker:
-      # Specify the version you desire here
-      - image: circleci/php:7.1-node-browsers
-
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # Using the RAM variation mitigates I/O contention
-      # for database intensive operations.
-      # - image: circleci/mysql:5.7-ram
-      #
-      # - image: redis:2.8.19
-
-    steps:
-      - checkout
-
-      - run: sudo apt update # PHP CircleCI 2.0 Configuration File# PHP CircleCI 2.0 Configuration File sudo apt install zlib1g-dev libsqlite3-dev
-      - run: sudo docker-php-ext-install zip
-
-      # Download and cache dependencies
-      - restore_cache:
-          keys:
-            # "composer.lock" can be used if it is committed to the repo
-            - v1-dependencies-{{ checksum "composer.json" }}
-            # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
-
-      - run: composer install -n --prefer-dist
-
-      - save_cache:
-          key: v1-dependencies-{{ checksum "composer.json" }}
-          paths:
-            - ./vendor
-      - restore_cache:
-          keys:
-            - node-v1-{{ checksum "package.json" }}
-            - node-v1-
-      - run: yarn install
-      - save_cache:
-          key: node-v1-{{ checksum "package.json" }}
-          paths:
-            - node_modules
-
-      # prepare the database
-      - run: touch storage/testing.sqlite
-      - run: php artisan migrate --env=testing --database=sqlite_testing --force
-
-      # run tests with phpunit or codecept
-      #- run: ./vendor/bin/phpunit
-      - run: ./vendor/bin/codecept build
-      - run: ./vendor/bin/codecept run
-=======
-version: 2
-=======
 version: 2.1
->>>>>>> Circle CI
 jobs:
   build:
     docker:
@@ -78,9 +20,9 @@ jobs:
           POSTGRES_DB: circleci-tests
           POSTGRES_PASSWORD: vagrant
     steps:
-     - add_ssh_keys:
-        fingerprints:
-          SO:ME:FIN:G:ER:PR:IN:T
+      - add_ssh_keys:
+          fingerprints:
+            "a5:3d:c0:4b:4e:2f:bd:e4:9f:9c:86:a1:8e:2b:2a:e7"
       - checkout
       - run:
           name: "Prepare Environment"
@@ -99,7 +41,7 @@ jobs:
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
-      - run: composer install -n --prefer-dist
+      - run: composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
       - run: ./vendor/bin/phpunit
 
       - save_cache:
@@ -119,14 +61,6 @@ jobs:
       #          name: "Run Http Tests"
       #          command: ./vendor/bin/phpunit tests/Feature
 
-<<<<<<< HEAD
-      #after Failure
-      steps:
-        - run: sleep 15s
-        - run: php artisan email:failure
-        - run: cat storage/logs/laravel.log
->>>>>>> CircleCi configuration
-=======
       - run:
           name: "Install Dusk and Chrome Drivers"
           command: |
@@ -148,7 +82,3 @@ jobs:
       - run:
           name: Run Browser Tests Tests
           command: php artisan dusk
-<<<<<<< HEAD
->>>>>>> Circle CI
-=======
->>>>>>> Update config.yml
