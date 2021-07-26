@@ -27,7 +27,9 @@ jobs:
           command: |
             sudo apt-get update && sudo apt-get install libpq-dev
             sudo docker-php-ext-install pdo_pgsql && sudo docker-php-ext-enable pdo_pgsql
-            sudo docker-php-ext-install pcntl && sudo docker-php-ext-install gd
+            mkdir -p $CIRCLE_TEST_REPORTS/phpunit
+            docker run -it --name punit $DOCKER_REPOSITORY:$DOCKER_TAG php vendor/bin/phpunit --log-junit /tmp/phpunit/junit.xml
+            docker cp punit:/tmp/phpunit/junit.xml $CIRCLE_TEST_REPORTS/phpunit/junit.xml
 
       - run:
           name: "Create Environment file"
@@ -40,14 +42,7 @@ jobs:
             - v1-dependencies-{{ checksum "composer.json" }}
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
-      - command: |
-        mkdir php
-        cd php
-        apt-get source php5
-        cd php5-(WHATEVER_RELEASE)/ext/pcntl
-        phpize
-        ./configure
-        make
+
       - run: composer install  --ignore-platform-reqs --no-interaction --prefer-dist --optimize-autoloader --no-dev
 
 
