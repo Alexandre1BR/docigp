@@ -29,10 +29,6 @@ jobs:
             sudo -E docker-php-ext-install pdo_pgsql && sudo -E docker-php-ext-enable pdo_pgsql
 
       - run:
-          name: "Package Extension"
-          command: git archive -o pointless.zip HEAD
-
-      - run:
           name: "Create Environment file"
           command: |
             cp .env.testing .env
