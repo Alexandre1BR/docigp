@@ -25,8 +25,8 @@ jobs:
       - run:
           name: "Prepare Environment"
           command: |
-            sudo -E apt-get update && sudo -E apt-get install libpq-dev
-            sudo -E docker-php-ext-install pdo_pgsql && sudo -E docker-php-ext-enable pdo_pgsql
+            sudo apt-get update && sudo apt-get install libpq-dev
+            sudo docker-php-ext-install pdo_pgsql && sudo docker-php-ext-enable pdo_pgsql
 
       - run:
           name: "Create Environment file"
@@ -41,12 +41,15 @@ jobs:
             - v1-dependencies-
 
       - run: composer install  --ignore-platform-reqs --no-interaction --prefer-dist --optimize-autoloader --no-dev
-      - run: ./vendor/bin/phpunit
 
       - save_cache:
           key: v1-dependencies-{{ checksum "composer.json" }}
           paths:
             - ./vendor
+
+     - run:
+         name: "Run Http Tests"
+         command: ./vendor/bin/phpunit tests/Feature
 
       - run:
           name: "Generate App key"
@@ -56,9 +59,6 @@ jobs:
           name: "Create database and run migration"
           command: |
             php artisan migrate --env=testing
-      #      - run:
-      #          name: "Run Http Tests"
-      #          command: ./vendor/bin/phpunit tests/Feature
 
       - run:
           name: "Install Dusk and Chrome Drivers"
@@ -67,6 +67,7 @@ jobs:
             sudo apt install ./google-chrome-stable_current_amd64.deb
             composer require --dev laravel/dusk
             php artisan dusk:chrome-driver
+            
       - run:
           name: Start Chrome Driver
           command: |
