@@ -41,6 +41,7 @@ jobs:
             - v1-dependencies-
 
       - run: composer install  --ignore-platform-reqs --no-interaction --prefer-dist --optimize-autoloader --no-dev
+      - run: composer require --dev phpunit/phpunit
 
       - save_cache:
           key: v1-dependencies-{{ checksum "composer.json" }}
