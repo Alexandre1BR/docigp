@@ -35,8 +35,11 @@ jobs:
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
-      - run: composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
-      - run: composer require --dev laravel/dusk
+      - run:
+          name: "Composer"
+          command: |
+            composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
+            composer require --dev laravel/dusk
 
       - save_cache:
           key: v1-dependencies-{{ checksum "composer.json" }}
@@ -63,15 +66,23 @@ jobs:
             sudo apt install ./google-chrome-stable_current_amd64.deb
 
       - run:
-          name: Start Chrome Driver
+          name: "Start Chrome Driver"
           command: |
             php artisan dusk:chrome-driver 72
 
       - run:
-          name: Artisan Serve Command
+          name: "Artisan Serve Command"
           command: |
             php artisan serve
+          background: true
 
       - run:
-          name: Run Browser Tests
+          name: "Run Browser Tests"
           command: php artisan dusk
+
+      - run:
+          name: "Email Failure"
+          command: |
+            sleep 15s
+            php artisan email:failure
+            cat storage/logs/laravel.log
