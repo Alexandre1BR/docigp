@@ -79,7 +79,7 @@ jobs:
       - run:
           name: "Run Browser Tests and Email Failure"
           command: |
-            php artisan dusk
+            php artisan dusk || true
             sleep 15s || true
             php artisan email:failure || true
             cat storage/logs/laravel.log || true
