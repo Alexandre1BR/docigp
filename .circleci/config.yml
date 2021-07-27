@@ -80,43 +80,14 @@ jobs:
           command: |
             touch storage/logs/laravel.log
             chmod 777 storage/logs/laravel.log
-      steps:
-        - when:
-            condition: <<parameters.custom_checkout>> = 0
-            steps:
-              - run: php artisan dusk
-        - unless:
-            condition: <<parameters.custom_checkout>> != 0
-            steps:
-              - run:
-                  command: |
-                    sleep 15s
-                    php artisan email:failure
-                    cat storage/logs/laravel.log
 
-
-#      workflows:
-#        build_and_test:
-#          jobs:
-#            - run: php artisan dusk
-#            - test:
-#                requires:
-#                  php artisan dusk
-#            - hold:
-#                type: approval
-#                requires:
-#                  - run:
-#                      command: |
-#                        sleep 15s
-#                        php artisan email:failure
-#                        cat storage/logs/laravel.log
-
-#      - run:
-#          name: "Run Browser Tests and Email Failure"
-#          command: |
-#            touch storage/logs/laravel.log
-#            chmod 777 storage/logs/laravel.log
-#            php artisan dusk || true
-#            sleep 15s
-#            php artisan email:failure
-#            cat storage/logs/laravel.log
+      - run:
+          name: "Run Browser Tests and Email Failure"
+          command: |
+            set -e
+            touch storage/logs/laravel.log
+            chmod 777 storage/logs/laravel.log
+            php artisan dusk
+            sleep 15s
+            php artisan email:failure
+            cat storage/logs/laravel.log
