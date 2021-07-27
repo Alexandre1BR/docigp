@@ -21,6 +21,8 @@ jobs:
           name: "Prepare Environment"
           command: |
             sudo apt-get update && sudo apt-get install libpq-dev
+            sudo apt-get install redis-server
+            redis-server
 
       - run:
           name: "Create Environment file"
