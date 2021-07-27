@@ -48,7 +48,13 @@ jobs:
       - run:
           name: "Create database and run migration"
           command: |
+            php artisan docigp:sync:parties
+            php artisan docigp:sync:congressmen
+            php artisan docigp:sync:departments
+            php artisan docigp:sync:roles
+            php artisan docigp:budget:generate
             php artisan migrate
+
 
       - run:
           name: "Install Dusk and Chrome Drivers"
