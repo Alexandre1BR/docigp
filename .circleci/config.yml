@@ -10,7 +10,7 @@ jobs:
       - image: circleci/postgres:12
         environment:
           POSTGRES_USER: vagrant
-          POSTGRES_DB: circleci-tests
+          POSTGRES_DB: docigp
           POSTGRES_PASSWORD: vagrant
     steps:
       - add_ssh_keys:
@@ -20,11 +20,11 @@ jobs:
       - run:
           name: "Prepare Environment"
           command: |
-            sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
-            wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
-            sudo apt-get update
-            sudo apt-get install postgresql-12
-            sudo pg_ctlcluster 12 main start
+#            sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+#            wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+#            sudo apt-get update
+#            sudo apt-get install postgresql-12
+#            sudo pg_ctlcluster 12 main start
 #            pg_ctlcluster 12 main start
 
 
