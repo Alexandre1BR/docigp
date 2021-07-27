@@ -80,9 +80,10 @@ jobs:
           name: "Run Browser Tests"
           command: php artisan dusk
 
-      - run:
-          name: "Email Failure"
-          command: |
-            sleep 15s
-            php artisan email:failure
-            cat storage/logs/laravel.log
+      - store_artifacts:
+          path: tmp/screenshots
+#          command: |
+#
+#            sleep 15s
+#            php artisan email:failure
+#            cat storage/logs/laravel.log
