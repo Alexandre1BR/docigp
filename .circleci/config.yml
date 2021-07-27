@@ -70,5 +70,11 @@ jobs:
           background: true
 
       - run:
-          name: Run Browser Tests Tests
+          name: Artisan Serve Command
+          command: |
+            php artisan serve
+          background: true
+
+      - run:
+          name: Run Browser Tests
           command: php artisan dusk
