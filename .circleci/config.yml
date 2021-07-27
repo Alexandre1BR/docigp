@@ -56,8 +56,6 @@ jobs:
             php artisan docigp:sync:departments
             php artisan docigp:sync:roles
 
-
-
       - run:
           name: "Install Dusk and Chrome Drivers"
           command: |
@@ -65,16 +63,10 @@ jobs:
             sudo apt install ./google-chrome-stable_current_amd64.deb
             composer require --dev laravel/dusk
 
-
       - run:
           name: Start Chrome Driver
           command: |
             php artisan dusk:chrome-driver
-          background: true
-
-      - run:
-          name: Run Laravel Server
-          command: php artisan serve
           background: true
 
       - run:
