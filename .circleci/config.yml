@@ -76,7 +76,7 @@ jobs:
             php artisan serve
           background: true
 
-      - steps:
+      - run:
           name: "Run Browser Tests and Email Failure"
           command: |
             php artisan dusk
