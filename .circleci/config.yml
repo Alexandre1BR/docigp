@@ -81,7 +81,7 @@ jobs:
             touch storage/logs/laravel.log
             chmod 777 storage/logs/laravel.log
       - run:
-          nane: "Email Failure"
+          name: "Email Failure"
             command: |
               sleep 15s
               php artisan email:failure
