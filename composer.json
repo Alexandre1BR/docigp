@@ -27,8 +27,7 @@
         "pragmarx/coollection": "^0.6.2",
         "predis/predis": "^1.1",
         "pusher/pusher-php-server": "^7.0",
-        "silber/bouncer": "v1.0.0-rc.9",
-        "ext-gd": "*"
+        "silber/bouncer": "v1.0.0-rc.9"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.2",
