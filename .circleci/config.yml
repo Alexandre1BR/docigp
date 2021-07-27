@@ -2,7 +2,7 @@ version: 2.1
 jobs:
   build:
     docker:
-      - image: circleci/php:7.4-browsers
+      - image: cimg/php:7.4.14-browsers
         environment:
           PGHOST: 127.0.0.1
           PGUSER: vagrant
@@ -13,6 +13,7 @@ jobs:
           POSTGRES_DB: circleci-tests
           POSTGRES_PASSWORD: vagrant
     steps:
+      - browser-tools/install-browser-tools
       - add_ssh_keys:
           fingerprints:
             "a5:3d:c0:4b:4e:2f:bd:e4:9f:9c:86:a1:8e:2b:2a:e7"
