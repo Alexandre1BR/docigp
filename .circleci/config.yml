@@ -20,8 +20,9 @@ jobs:
       - run:
           name: "Prepare Environment"
           command: |
-            sudo apt-get update && sudo apt-get install libpq-dev
-            sudo docker-php-ext-install pdo_pgsql && sudo docker-php-ext-enable pdo_pgsql
+            composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
+#            sudo apt-get update && sudo apt-get install libpq-dev
+#            sudo docker-php-ext-install pdo_pgsql && sudo docker-php-ext-enable pdo_pgsql
 
       - run:
           name: "Create Environment file"
