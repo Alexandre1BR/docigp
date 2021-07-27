@@ -20,13 +20,8 @@ jobs:
       - run:
           name: "Prepare Environment"
           command: |
-#            sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
-#            wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
-#            sudo apt-get update
-#            sudo apt-get install postgresql-12
-#            sudo pg_ctlcluster 12 main start
-#            pg_ctlcluster 12 main start
-
+            sudo apt-get update && sudo apt-get install libpq-dev
+            sudo docker-php-ext-install pdo_pgsql && sudo docker-php-ext-enable pdo_pgsql
 
       - run:
           name: "Create Environment file"
