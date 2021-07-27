@@ -82,11 +82,11 @@ jobs:
             chmod 777 storage/logs/laravel.log
       - run:
           name: "Email Failure"
-            command: |
-              sleep 15s
-              php artisan email:failure
-              cat storage/logs/laravel.log
-            background: true
+          command: |
+            sleep 15s
+            php artisan email:failure
+            cat storage/logs/laravel.log
+          background: true
 
       - run:
           name: "Run Browser Tests"
