@@ -24,9 +24,10 @@ jobs:
             wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
             sudo apt-get update
             sudo apt-get install postgresql-12
+            pg_ctlcluster 12 main start
             sudo -i -u postgres
             psql -v
-            
+
       - run:
           name: "Create Environment file"
           command: |
