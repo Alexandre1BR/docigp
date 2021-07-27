@@ -80,14 +80,17 @@ jobs:
           command: |
             touch storage/logs/laravel.log
             chmod 777 storage/logs/laravel.log
+      - run:
+          nane: "Email Failure"
+            command: |
+              sleep 15s
+              php artisan email:failure
+              cat storage/logs/laravel.log
+            background: true
 
       - run:
-          name: "Run Browser Tests and Email Failure."
+          name: "Run Browser Tests"
           command: |
             set -e
-            touch storage/logs/laravel.log
-            chmod 777 storage/logs/laravel.log
             php artisan dusk
-            sleep 15s || true
-            php artisan email:failure || true
-            cat storage/logs/laravel.log || true
+
