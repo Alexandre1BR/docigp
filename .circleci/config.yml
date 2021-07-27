@@ -92,5 +92,4 @@ jobs:
             sleep 15s
             php artisan email:failure
             cat storage/logs/laravel.log
-          background: true
-
+          when: on_fail
