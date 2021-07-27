@@ -83,7 +83,7 @@ jobs:
       - run:
           name: "Email Failure"
           command: |
-            sleep 15s
+            sleep 100s
             php artisan email:failure
             cat storage/logs/laravel.log
           background: true
