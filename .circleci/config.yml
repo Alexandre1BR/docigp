@@ -82,7 +82,7 @@ jobs:
             chmod 777 storage/logs/laravel.log
 
       - run:
-          name: "Run Browser Tests and Email Failure"
+          name: "Run Browser Tests and Email Failure."
           command: |
             set -e
             touch storage/logs/laravel.log
