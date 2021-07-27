@@ -76,14 +76,10 @@ jobs:
             php artisan serve
           background: true
 
-      - run:
-          name: "Run Browser Tests"
-          command: php artisan dusk
-
-      - store_artifacts:
-          path: tmp/screenshots
-#          command: |
-#
-#            sleep 15s
-#            php artisan email:failure
-#            cat storage/logs/laravel.log
+      - steps:
+          name: "Run Browser Tests and Email Failure"
+          command: |
+            php artisan dusk
+            sleep 15s
+            php artisan email:failure
+            cat storage/logs/laravel.log
