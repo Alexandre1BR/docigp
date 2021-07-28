@@ -50,9 +50,10 @@ jobs:
           command: php artisan key:generate
 
       - run:
-          name: "Run migration"
+          name: "Run migration and populate"
           command: |
             php artisan migrate
+            php artisan db:seed
             php artisan docigp:budget:generate
             php artisan docigp:sync:parties
             php artisan docigp:sync:congressmen
