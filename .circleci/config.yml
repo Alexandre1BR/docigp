@@ -50,7 +50,7 @@ jobs:
           command: php artisan key:generate
 
       - run:
-          name: "Create database and run migration"
+          name: "Run migration"
           command: |
             php artisan migrate
             php artisan docigp:budget:generate
