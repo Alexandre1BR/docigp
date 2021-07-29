@@ -26,7 +26,7 @@ class Blocked extends BaseIndex
 
     public function additionalFilterQuery($query)
     {
-        return $query->where('is_blocked', true);
+        return $query->isBlocked();
     }
 
     public function render()

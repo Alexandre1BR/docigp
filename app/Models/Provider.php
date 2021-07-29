@@ -79,4 +79,39 @@ class Provider extends Model
 
         return $fullAddress;
     }
+
+    public function isBlocked($reference = null)
+    {
+        $reference = $reference ?? now();
+
+        return $this->blockedPeriods()
+            ->where('start_date', '<=', $reference)
+            ->where(function ($query) use ($reference) {
+                $query->orWhereNull('end_date')->orWhere('end_date', '>', $reference);
+            })
+            ->count() > 0;
+    }
+
+    public function scopeIsBlocked($query, $reference = null)
+    {
+        $reference = $reference ?? now();
+
+        return $query->whereExists(function ($query) use ($reference) {
+            $query
+                ->select(\DB::raw(1))
+                ->from('provider_block_periods')
+                ->whereRaw('provider_block_periods.provider_id = providers.id')
+                ->where('provider_block_periods.start_date', '<=', $reference)
+                ->where(function ($query) use ($reference) {
+                    $query
+                        ->orWhereNull('provider_block_periods.end_date')
+                        ->orWhere('provider_block_periods.end_date', '>', $reference);
+                });
+        });
+    }
+
+    public function blockedPeriods()
+    {
+        return $this->hasMany(ProviderBlockPeriod::class);
+    }
 }
