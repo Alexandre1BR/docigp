@@ -274,7 +274,8 @@
 
 
 
-
+                <div>
+                    @if($mode === 'update')
                 <div class="col-md-6">
                 <div class="row">
                     <div class="col-md-10">
@@ -390,6 +391,8 @@
                         </div>
                     @endif
                 </div>
+                </div>
+                        @endIf
                 </div>
 
 

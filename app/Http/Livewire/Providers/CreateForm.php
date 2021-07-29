@@ -23,6 +23,7 @@ class CreateForm extends BaseForm
         $this->start_date = null;
         $this->end_date = null;
         $this->selectedId = null;
+        $this->resetErrorBag();
     }
 
     public function confirmDelete()
@@ -73,10 +74,11 @@ class CreateForm extends BaseForm
             $validatedData['end_date'] = Carbon::create($validatedData['end_date'])->endOfDay();
         }
 
-        ProviderBlockPeriod::updateOrCreate(
-            $this->selectedId ? ['id' => $this->selectedId] : [],
-            $validatedData
-        );
+        if ($this->selectedId) {
+            ProviderBlockPeriod::where('id', $this->selectedId)->update($validatedData);
+        } else {
+            ProviderBlockPeriod::create($validatedData);
+        }
 
         $this->clearPeriod();
         $this->provider->refresh();
