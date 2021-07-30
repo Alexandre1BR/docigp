@@ -15,7 +15,6 @@ class Provider extends Model
         'name',
         'created_by_id',
         'updated_by_id',
-        'is_blocked',
 
         'zipcode',
         'street',
@@ -27,7 +26,7 @@ class Provider extends Model
     ];
 
     protected $orderBy = ['name' => 'asc'];
-    protected $appends = ['fullAddress'];
+    protected $appends = ['fullAddress', 'is_blocked'];
 
     protected $filterableColumns = ['cpf_cnpj', 'name'];
 
@@ -81,6 +80,18 @@ class Provider extends Model
     }
 
     public function isBlocked($reference = null)
+    {
+        $reference = $reference ?? now();
+
+        return $this->blockedPeriods()
+            ->where('start_date', '<=', $reference)
+            ->where(function ($query) use ($reference) {
+                $query->orWhereNull('end_date')->orWhere('end_date', '>', $reference);
+            })
+            ->count() > 0;
+    }
+
+    public function getIsBlockedAttribute($reference = null)
     {
         $reference = $reference ?? now();
 
