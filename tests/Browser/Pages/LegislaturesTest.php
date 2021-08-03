@@ -119,7 +119,6 @@ class LegislaturesTest extends DuskTestCase
                 ->type('@search-input', '132312312vcxvdsf413543445654')
                 ->click('@search-button')
                 ->waitForText('Nenhuma Legislatura encontrada')
-                ->screenshot('Legislatures-wrongsearch')
                 ->assertSee('Nenhuma Legislatura encontrada');
         });
     }
@@ -139,8 +138,7 @@ class LegislaturesTest extends DuskTestCase
                 ->visit('admin/legislatures#/')
                 ->type('@search-input', $randomLegislatures1['number'])
                 ->click('@search-button')
-                ->assertSee($randomLegislatures1['year_start'])
-                ->screenshot('Legislatures-rightsearch');
+                ->assertSee($randomLegislatures1['year_start']);
         });
     }
 }

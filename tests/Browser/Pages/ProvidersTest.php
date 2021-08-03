@@ -48,10 +48,11 @@ class ProvidersTest extends DuskTestCase
                 ->assertSee('Novo')
                 ->press('#novo')
                 ->type('#name', $provider['name'])
-                ->select('#type', $provider['type'])
-                ->type('#cpf_cnpj', $provider['cpf_cnpj'])
+                ->select('#type','PJ')
+                ->type('#cpf_cnpj', '76.613.547/0001-24')
                 ->press('Gravar')
-                ->assertSee($provider['cpf_cnpj']);
+                ->type('@search-input','76.613.547/0001-24')
+                ->assertSee('76.613.547/0001-24');
         });
         $providerId = DB::table('providers')->where('name','=',$provider['name'])->first();
         $this->browse(function (Browser $browser) use (
@@ -92,9 +93,7 @@ class ProvidersTest extends DuskTestCase
                 ->loginAs($administrator['id'])
                 ->visit('admin/providers#/')
                 ->type('@search-input', '1323e12312vcxvdsf413543445654')
-                ->click('@search-button')
                 ->waitForText('Nenhum Fornecedor ou Favorecido encontrado')
-                ->screenshot('Providers-wrongsearch')
                 ->assertSee('Nenhum Fornecedor ou Favorecido encontrado');
         });
     }
@@ -113,10 +112,8 @@ class ProvidersTest extends DuskTestCase
                 ->loginAs($administrator['id'])
                 ->visit('admin/providers#/')
                 ->type('@search-input', $randomProviders1['name'])
-                ->click('@search-button')
-                ->assertSee($randomProviders1['cpf_cnpj'])
-                ->assertSee($randomProviders1['type'])
-                ->screenshot('Providers-rightsearch');
+                ->waitForText($randomProviders1['cpf_cnpj'])
+                ->assertSee($randomProviders1['type']);
         });
     }
     public function testCancellation()
