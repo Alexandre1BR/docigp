@@ -109,6 +109,7 @@ class ApplicationTest extends DuskTestCase
                 ->waitForText('Lançamentos', 10)
                 ->screenshot('2-Entry')
                 ->click('@newentry')
+                ->pause('1000')
                 ->screenshot('3-EntryForm')
                 ->type('#date', $newEntriesRaw['date']->format('d/m/Y'))
                 ->type('@dusk_value', $newEntriesRaw['value'])
