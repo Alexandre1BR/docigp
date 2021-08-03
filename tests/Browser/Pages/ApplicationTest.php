@@ -110,6 +110,7 @@ class ApplicationTest extends DuskTestCase
                 ->screenshot('2-Entry')
                 ->scrollTo('@newentry')
                 ->click('@newentry')
+                ->pause('1000')
                 ->screenshot('3-EntryForm')
                 ->type('#date', $newEntriesRaw['date']->format('d/m/Y'))
                 ->type('@dusk_value', $newEntriesRaw['value'])
