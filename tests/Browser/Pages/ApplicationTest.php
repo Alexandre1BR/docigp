@@ -129,7 +129,9 @@ class ApplicationTest extends DuskTestCase
                 ->pause(2000)
                 ->screenshot('4-EntryForm-Filled')
                 ->press('Gravar');
-            $inside_user->pause(6000)->script('$("tr[dusk=\'entrie\']").click()');
+            $inside_user
+                ->pause(6000)
+                ->script('$("tr[dusk=\'entrie\']").click()');
             //                ->waitFor('@entrie',8)
             //                ->click('@entrie')
             $inside_user

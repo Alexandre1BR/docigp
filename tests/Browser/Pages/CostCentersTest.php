@@ -120,7 +120,6 @@ class CostCentersTest extends DuskTestCase
                 ->visit('admin/cost-centers/' . $randomCostsCenter1['id'] . '#/')
                 ->click('#vue-editButton')
                 ->type('#name', '*' . $nomeA . '*')
-                ->screenshot('asdasd')
                 ->press('Gravar')
                 ->assertSee('*' . $nomeA . '*');
         });
@@ -137,7 +136,6 @@ class CostCentersTest extends DuskTestCase
                 ->type('@search-input', '1323e12312vcxvdsf413543445654')
                 ->click('@search-button')
                 ->waitForText('Nenhum Centro de Custo encontrado')
-                ->screenshot('CostCenters-wrongsearch')
                 ->assertSee('Nenhum Centro de Custo encontrado');
         });
     }
@@ -157,8 +155,7 @@ class CostCentersTest extends DuskTestCase
                 ->visit('admin/cost-centers#/')
                 ->type('@search-input', $randomCostCenters1['name'])
                 ->click('@search-button')
-                ->assertSee($randomCostCenters1['code'])
-                ->screenshot('CostCenters-rightsearch');
+                ->assertSee($randomCostCenters1['code']);
         });
     }
 }
