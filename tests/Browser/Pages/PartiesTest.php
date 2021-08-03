@@ -103,8 +103,7 @@ class PartiesTest extends DuskTestCase
                 ->visit('admin/parties#/')
                 ->type('@search-input', $randomEntryTypes1['name'])
                 ->click('@search-button')
-                ->assertSee($randomEntryTypes1['id'])
-                ->screenshot('Parties-rightsearch');
+                ->assertSee($randomEntryTypes1['id']);
         });
     }
 
@@ -118,7 +117,6 @@ class PartiesTest extends DuskTestCase
                 ->type('@search-input', '132312312vcxvdsf413543445654')
                 ->click('@search-button')
                 ->waitForText('Nenhuma Legislatura encontrada')
-                ->screenshot('Parties-wrongsearch')
                 ->assertSee('Nenhuma Legislatura encontrada');
         });
     }

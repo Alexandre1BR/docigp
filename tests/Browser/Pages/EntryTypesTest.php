@@ -113,7 +113,6 @@ class EntryTypesTest extends DuskTestCase
                 ->type('@search-input', '132312312vcxvdsf413543445654')
                 ->click('@search-button')
                 ->waitForText('Nenhum Tipo de Lançamento encontrado')
-                ->screenshot('EntryTypes-wrongsearch')
                 ->assertSee('Nenhum Tipo de Lançamento encontrado');
         });
     }
@@ -129,8 +128,7 @@ class EntryTypesTest extends DuskTestCase
                 ->visit('admin/entry-types#/')
                 ->type('@search-input',$randomEntryTypes1['name'])
                 ->click('@search-button')
-                ->assertSee($randomEntryTypes1['name'])
-                ->screenshot('EntryTypes-rightsearch');
+                ->assertSee($randomEntryTypes1['name']);
         });
     }
 

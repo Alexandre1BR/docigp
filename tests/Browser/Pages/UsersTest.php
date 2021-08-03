@@ -57,7 +57,6 @@ class UsersTest extends DuskTestCase
                 ->type('#name', $user['name'])
                 ->select('#all-roles', $selectedRole['id'])
                 ->press('#add-profile-button')
-                ->screenshot('verificaçao')
                 ->press('Gravar')
                 ->assertSee($user['name'])
                 ->assertSee($selectedRole['id'])
@@ -124,7 +123,6 @@ class UsersTest extends DuskTestCase
                 ->type('@search-input', '1323e12312vcxvdsf413543445654')
                 ->click('@search-button')
                 ->waitForText('Nenhum Usuário encontrado.')
-                ->screenshot('Users-wrongsearch')
                 ->assertSee('Nenhum Usuário encontrado.');
         });
     }
@@ -144,8 +142,7 @@ class UsersTest extends DuskTestCase
                 ->visit('admin/users#/')
                 ->type('@search-input', $randomUsers1['name'])
                 ->click('@search-button')
-                ->assertSee($randomUsers1['name'])
-                ->screenshot('Users-rightsearch');
+                ->assertSee($randomUsers1['name']);
         });
     }
 }
