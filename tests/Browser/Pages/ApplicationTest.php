@@ -93,7 +93,7 @@ class ApplicationTest extends DuskTestCase
                 ->visit('admin/entries#/')
                 ->assertSee('Prestação de Contas')
                 ->type('@filter_input', $randomCongressman['name'])
-                ->pause(2000)
+                ->pause(3000)
                 ->press('@congressman-' . $randomCongressman['id'])
                 ->waitForText('Orçamento mensal')
                 ->pause(4000)
@@ -129,7 +129,17 @@ class ApplicationTest extends DuskTestCase
             $inside_user
                 ->pause(2000)
                 ->screenshot('4-EntryForm-Filled')
-                ->press('Gravar');
+                ->press('@record')
+                ->pause('1000')
+                ->script('location.reload()');
+            $inside_user
+                ->assertSee('Prestação de Contas')
+                ->type('@filter_input', $randomCongressman['name'])
+                ->pause(3000)
+                ->press('@congressman-' . $randomCongressman['id'])
+                ->waitForText('Orçamento mensal')
+                ->pause(4000)
+                ->script('$("tr[class=\'cursor-pointer\']").click()');
             $inside_user
                 ->pause(6000)
                 ->script('$("tr[dusk=\'entrie\']").click()');
@@ -150,7 +160,22 @@ class ApplicationTest extends DuskTestCase
                 ->script('$("button[dusk=\'newEntryComment\']").click()');
             $inside_user->type('#text', 'teste')->press('Gravar');
             $inside_user
-                ->waitFor('@editComment', 8)
+                ->script('location.reload()');
+            $inside_user
+            ->assertSee('Prestação de Contas')
+                ->type('@filter_input', $randomCongressman['name'])
+                ->pause(3000)
+                ->press('@congressman-' . $randomCongressman['id'])
+                ->waitForText('Orçamento mensal')
+                ->pause(4000)
+                ->script('$("tr[class=\'cursor-pointer\']").click()');
+            $inside_user
+                ->pause(6000)
+                ->script('$("tr[dusk=\'entrie\']").click()');
+            $inside_user
+                ->script('window.scrollTo(0,document.body.scrollHeight);');
+            $inside_user
+                ->waitFor('@editComment')
                 ->script('$("button[dusk=\'editComment\']").click()');
             $inside_user->type('#text', $rand)->press('Gravar');
             $inside_user
