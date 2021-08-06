@@ -49,10 +49,10 @@ class ProvidersTest extends DuskTestCase
                 ->press('#novo')
                 ->type('#name', $provider['name'])
                 ->select('#type','PJ')
-                ->type('#cpf_cnpj', '76.613.547/0001-24')
-                ->press('Gravar')
-                ->type('@search-input','76.613.547/0001-24')
-                ->assertSee('76.613.547/0001-24');
+                ->typeSlowly('#cpf_cnpj','76613547000124')
+                ->press('#submitButton')
+                ->type('@search-input','76613547000124')
+                ->waitForText('76.613.547/0001-24');
         });
         $providerId = DB::table('providers')->where('name','=',$provider['name'])->first();
         $this->browse(function (Browser $browser) use (
@@ -62,7 +62,7 @@ class ProvidersTest extends DuskTestCase
         ) {
             $browser
                 ->visit('admin/providers/' . $providerId->id . '#/')
-                ->click('#vue-editButton')
+                ->click('#edit-button')
                 ->type('#name', '*' . $provider['name'] . '*')
                 ->press('Gravar')
                 ->assertSee('*' . $provider['name'] . '*');

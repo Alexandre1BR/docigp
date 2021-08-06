@@ -179,6 +179,21 @@ class ApplicationTest extends DuskTestCase
                 ->script('$("button[dusk=\'editComment\']").click()');
             $inside_user->type('#text', $rand)->press('Gravar');
             $inside_user
+                ->script('location.reload()');
+            $inside_user
+            ->assertSee('Prestação de Contas')
+                ->type('@filter_input', $randomCongressman['name'])
+                ->pause(3000)
+                ->press('@congressman-' . $randomCongressman['id'])
+                ->waitForText('Orçamento mensal')
+                ->pause(4000)
+                ->script('$("tr[class=\'cursor-pointer\']").click()');
+            $inside_user
+                ->pause(6000)
+                ->script('$("tr[dusk=\'entrie\']").click()');
+            $inside_user
+                ->script('window.scrollTo(0,document.body.scrollHeight);');
+            $inside_user
                 ->pause(1000)
                 ->waitForText($rand)
                 ->assertSee($rand)
