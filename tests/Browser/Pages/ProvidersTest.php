@@ -51,7 +51,7 @@ class ProvidersTest extends DuskTestCase
                 ->select('#type','PJ')
                 ->typeSlowly('#cpf_cnpj','76613547000124')
                 ->press('#submitButton')
-                ->type('@search-input','76613547000124')
+                ->type('@search-input','76.613.547/0001-24')
                 ->waitForText('76.613.547/0001-24');
         });
         $providerId = DB::table('providers')->where('name','=',$provider['name'])->first();
