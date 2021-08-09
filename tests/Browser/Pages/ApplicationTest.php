@@ -98,7 +98,7 @@ class ApplicationTest extends DuskTestCase
                 ->waitForText('Orçamento mensal')
                 ->pause(4000)
                 //                ->waitFor('@percentageButton')
-                ->screenshot('1-Budget')
+                // ->screenshot('1-Budget')
                 ->script('$("tr[class=\'cursor-pointer\']").click()');
             //                ->pause(2000)
             //                ->script('document.querySelector("button[dusk=\'percentageButton\']").click();');
@@ -107,11 +107,10 @@ class ApplicationTest extends DuskTestCase
             //                ->script('$("button[class=\'swal2-confirm swal2-styled\']").click()');
             $inside_user
                 ->waitForText('Lançamentos', 10)
-                ->screenshot('2-Entry')
-                ->scrollTo('@newentry')
+                // ->screenshot('2-Entry')
                 ->click('@newentry')
                 ->pause('1000')
-                ->screenshot('3-EntryForm')
+                // ->screenshot('3-EntryForm')
                 ->type('#date', $newEntriesRaw['date']->format('d/m/Y'))
                 ->type('@dusk_value', $newEntriesRaw['value'])
                 ->click('.vs__selected-options');
@@ -128,7 +127,7 @@ class ApplicationTest extends DuskTestCase
             $inside_user->elements('.vs__dropdown-option')[0]->click();
             $inside_user
                 ->pause(2000)
-                ->screenshot('4-EntryForm-Filled')
+                // ->screenshot('4-EntryForm-Filled')
                 ->press('@record')
                 ->pause('1000')
                 ->script('location.reload()');
@@ -147,16 +146,15 @@ class ApplicationTest extends DuskTestCase
             //                ->click('@entrie')
             $inside_user
                 ->waitForText('Documentos')
-                ->scrollTo('@newEntryDocument')
                 ->click('@newEntryDocument')
                 ->waitForText('Novo documento')
                 ->attach('input.dz-hidden-input', 'public/img/logo-alerj-docigp.png')
                 ->pause(5000)
-                ->screenshot('5-Document_dropped')
+                // ->screenshot('5-Document_dropped')
                 ->press('Fechar')
                 ->script('window.scrollTo(0,document.body.scrollHeight);');
             $inside_user
-                ->screenshot('6-Comment')
+                // ->screenshot('6-Comment')
                 ->script('$("button[dusk=\'newEntryComment\']").click()');
             $inside_user->type('#text', 'teste')->press('Gravar');
             $inside_user
@@ -197,52 +195,52 @@ class ApplicationTest extends DuskTestCase
                 ->pause(1000)
                 ->waitForText($rand)
                 ->assertSee($rand)
-                ->screenshot('7-Comment-Edited')
+                // ->screenshot('7-Comment-Edited')
                 ->script('window.scrollTo(0 , document.body.scrollHeight);');
             $inside_user->script('$("button[dusk=\'deleteComment\']").click()');
             $inside_user->script('$("button[class=\'swal2-confirm swal2-styled\']").click()');
             $inside_user
-                ->screenshot('8-Comment-Deleted')
+                // ->screenshot('8-Comment-Deleted')
                 ->pause(2000)
                 ->script('$("button[dusk=\'verify_document\']").click()');
             $inside_user
-                ->screenshot('9-verify_document')
+                // ->screenshot('9-verify_document')
                 ->script('$("button[class=\'swal2-confirm swal2-styled\']").click()');
             $inside_user->pause(2000)->script('$("button[dusk=\'analize_document\']").click()');
             $inside_user
-                ->screenshot('10-analize_document')
+                // ->screenshot('10-analize_document')
                 ->script('$("button[class=\'swal2-confirm swal2-styled\']").click()');
             $inside_user->pause(2000)->script('$("button[dusk=\'verify_entry_button\']").click()');
             $inside_user
-                ->screenshot('11-verify_entry_button')
+                // ->screenshot('11-verify_entry_button')
                 ->script('$("button[class=\'swal2-confirm swal2-styled\']").click()');
             $inside_user
                 ->waitUntilMissing('Salvo com sucesso')
                 ->pause(2000)
                 ->script('$("button[dusk=\'analize_entry_button\']").click()');
             $inside_user
-                ->screenshot('12-analize_entry_button')
+                // ->screenshot('12-analize_entry_button')
                 ->script('$("button[class=\'swal2-confirm swal2-styled\']").click()');
             $inside_user
                 ->waitUntilMissing('Salvo com sucesso')
                 ->pause(3500)
                 ->script('$("button[dusk=\'close_budget_button\']").click()');
             $inside_user
-                ->screenshot('13-close_budget_button')
+                // ->screenshot('13-close_budget_button')
                 ->script('$("button[class=\'swal2-confirm swal2-styled\']").click()');
             $inside_user
                 ->waitUntilMissing('Salvo com sucesso')
                 ->pause(2500)
                 ->script('$("button[dusk=\'analize_budget_button\']").click()');
             $inside_user
-                ->screenshot('14-analize_budget_button')
+                // ->screenshot('14-analize_budget_button')
                 ->script('$("button[class=\'swal2-confirm swal2-styled\']").click()');
             $inside_user
                 ->waitUntilMissing('Salvo com sucesso')
                 ->pause(2500)
                 ->script('$("button[dusk=\'publish_budget_button\']").click()');
             $inside_user
-                ->screenshot('15-publish_budget_button')
+                // ->screenshot('15-publish_budget_button')
                 ->script('$("button[class=\'swal2-confirm swal2-styled\']").click()');
             $inside_user->waitUntilMissing('Salvo com sucesso')->pause(2000);
             $outside_user
@@ -253,8 +251,8 @@ class ApplicationTest extends DuskTestCase
                 ->waitFor('@congressman-' . $randomCongressman['id'])
                 ->assertSee($randomCongressman['nickname'])
                 ->waitForText('Aderiu?')
-                ->assertSee('sim')
-                ->screenshot('16-ApplicationFlow-Success');
+                ->assertSee('sim');
+                // ->screenshot('16-ApplicationFlow-Success');
         });
     }
 }

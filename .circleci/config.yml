@@ -52,7 +52,7 @@ jobs:
       - run:
           name: "Run migration and populate"
           command: |
-            php artisan migrate
+            php artisan migrate 
             php artisan db:seed
             php artisan docigp:budget:generate
             php artisan docigp:sync:parties
