@@ -112,9 +112,9 @@ class ApplicationTest extends DuskTestCase
                 ->pause('1000')
                 // ->screenshot('3-EntryForm')
                 ->type('#date', $newEntriesRaw['date']->format('d/m/Y'))
-                ->type('@dusk_value', $newEntriesRaw['value'])
-                ->click('.vs__selected-options');
-            $inside_user->elements('.vs__dropdown-option')[0]->click();
+                ->type('@dusk_value', $newEntriesRaw['value']);
+            //     ->click('.vs__selected-options');
+            // $inside_user->elements('.vs__dropdown-option')[0]->click();
             $inside_user
                 ->type('#document_number', $document)
                 ->type('#object', $newEntriesRaw['object'])
@@ -123,7 +123,7 @@ class ApplicationTest extends DuskTestCase
                 ->script(
                     '$("div[id=\'cost_center_id\']").children().children()[0].setAttribute(\'class\', \'vs__selected-options1\')'
                 );
-            $inside_user->click('.vs__selected-options1');
+            $inside_user->press('.vs__selected-options1');
             $inside_user->elements('.vs__dropdown-option')[0]->click();
             $inside_user
                 ->pause(2000)
