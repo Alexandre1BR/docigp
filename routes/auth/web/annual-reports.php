@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Web\Admin\AnnualReports as AnnualReports;
+use App\Http\Controllers\Web\Admin\AnnualReport as AnnualReports;
 
 Route::group(['prefix' => '/annual-report'], function () {
     Route::post('/', [AnnualReports::class,'generate'])->name('annual-reports.generate');
