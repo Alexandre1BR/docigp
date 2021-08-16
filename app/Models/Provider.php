@@ -91,9 +91,9 @@ class Provider extends Model
             ->count() > 0;
     }
 
-    public function getIsBlockedAttribute($reference = null)
+    public function getIsBlockedAttribute()
     {
-        $reference = $reference ?? now();
+        $reference = now();
 
         return $this->blockedPeriods()
             ->where('start_date', '<=', $reference)
