@@ -69,7 +69,7 @@ jobs:
       - run:
           name: "Start Chrome Driver"
           command: |
-            php artisan dusk:chrome-driver 72
+            php artisan dusk:chrome-driver
 
       - run:
           name: "Artisan Serve Command"
