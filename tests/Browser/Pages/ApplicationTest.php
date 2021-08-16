@@ -114,7 +114,7 @@ class ApplicationTest extends DuskTestCase
                 ->type('#date', $newEntriesRaw['date']->format('d/m/Y'))
                 ->type('@dusk_value', $newEntriesRaw['value'])
                 ->click('.vs__selected-options');
-            $inside_user->elements('.vs__dropdown-option')[0]->click();
+            $inside_user->select(('.vs__dropdown-option')[0])->click();
             $inside_user
                 ->type('#document_number', $document)
                 ->type('#object', $newEntriesRaw['object'])
