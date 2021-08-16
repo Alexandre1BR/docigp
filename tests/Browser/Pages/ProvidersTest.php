@@ -65,7 +65,7 @@ class ProvidersTest extends DuskTestCase
                 ->click('#edit-button')
                 ->type('#name', '*' . $provider['name'] . '*')
                 ->press('Gravar')
-                ->assertSee('*' . $provider['name'] . '*');
+                ->waitforText('*' . $provider['name'] . '*');
         });
     }
     public function testValidation()
