@@ -15,7 +15,6 @@ class Provider extends Model
         'name',
         'created_by_id',
         'updated_by_id',
-        'is_blocked',
 
         'zipcode',
         'street',
@@ -27,7 +26,7 @@ class Provider extends Model
     ];
 
     protected $orderBy = ['name' => 'asc'];
-    protected $appends = ['fullAddress'];
+    protected $appends = ['fullAddress', 'is_blocked'];
 
     protected $filterableColumns = ['cpf_cnpj', 'name'];
 
@@ -58,15 +57,15 @@ class Provider extends Model
         }
 
         if ($this->complement) {
-            $fullAddress .= ', ' . $this->complement;
+            $fullAddress .= ' - ' . $this->complement;
         }
 
-        if ($this->neighbourhood) {
-            $fullAddress .= ' - ' . $this->neighbourhood;
+        if ($this->neighborhood) {
+            $fullAddress .= '. ' . $this->neighborhood;
         }
 
         if ($this->city || $this->state) {
-            $fullAddress .= '. ';
+            $fullAddress .= ' - ';
         }
 
         if ($this->city) {
@@ -78,5 +77,52 @@ class Provider extends Model
         }
 
         return $fullAddress;
+    }
+
+    public function isBlocked($reference = null)
+    {
+        $reference = $reference ?? now();
+
+        return $this->blockedPeriods()
+            ->where('start_date', '<=', $reference)
+            ->where(function ($query) use ($reference) {
+                $query->orWhereNull('end_date')->orWhere('end_date', '>', $reference);
+            })
+            ->count() > 0;
+    }
+
+    public function getIsBlockedAttribute()
+    {
+        $reference = now();
+
+        return $this->blockedPeriods()
+            ->where('start_date', '<=', $reference)
+            ->where(function ($query) use ($reference) {
+                $query->orWhereNull('end_date')->orWhere('end_date', '>', $reference);
+            })
+            ->count() > 0;
+    }
+
+    public function scopeIsBlocked($query, $reference = null)
+    {
+        $reference = $reference ?? now();
+
+        return $query->whereExists(function ($query) use ($reference) {
+            $query
+                ->select(\DB::raw(1))
+                ->from('provider_block_periods')
+                ->whereRaw('provider_block_periods.provider_id = providers.id')
+                ->where('provider_block_periods.start_date', '<=', $reference)
+                ->where(function ($query) use ($reference) {
+                    $query
+                        ->orWhereNull('provider_block_periods.end_date')
+                        ->orWhere('provider_block_periods.end_date', '>', $reference);
+                });
+        });
+    }
+
+    public function blockedPeriods()
+    {
+        return $this->hasMany(ProviderBlockPeriod::class);
     }
 }

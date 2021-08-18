@@ -31,7 +31,7 @@ return [
                 'assign:operator' => 'Atribuir perfil de Lançador',
                 'assign:congressman' => 'Atribuir perfil de Deputado',
                 'assign:verifier' => 'Atribuir perfil de Verificador',
-
+                
                 'audit' => 'Fazer auditoria',
 
                 'congressman:buttons' => 'Deputados: mostra todos os botões',
@@ -100,6 +100,8 @@ return [
                 'cost-centers:show' => 'Centros de custo: ver',
                 'cost-centers:store' => 'Centros de custo: criar',
                 'cost-centers:update' => 'Centros de custo: alterar',
+
+                'annual-reports:generate' =>'Criação de relatório anual',
             ],
         ],
 
@@ -187,6 +189,8 @@ return [
                 'cost-centers:show',
                 'cost-centers:store',
                 'cost-centers:update',
+
+                'annual-reports:generate',
             ],
         ],
 

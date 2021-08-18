@@ -36,10 +36,10 @@ class Entry extends Model
         'analysed_by_id',
         'published_by_id',
         'created_by_id',
-        'updated_by_id'
+        'updated_by_id',
     ];
 
-    protected $appends = ['is_transport_or_credit', 'comments_count'];
+    protected $appends = ['is_transport_or_credit', 'comments_count', 'provider_is_blocked'];
 
     protected $dates = ['date', 'verified_at', 'analysed_at', 'published_at'];
 
@@ -51,27 +51,22 @@ class Entry extends Model
         'providers.cpf_cnpj as provider_cpf_cnpj',
         'providers.type as provider_type',
         'entry_types.name as entry_type_name',
-        'providers.is_blocked as provider_is_blocked'
     ];
 
     protected $selectColumnsRaw = [
         '(select count(*) from entry_documents ed where ed.entry_id = entries.id :published-at-filter: :analysed-at-filter:) as documents_count',
         '(select count(*) from entry_documents ed where ed.entry_id = entries.id and ed.verified_at is null :published-at-filter:) > 0 as missing_verification',
-        '(select count(*) from entry_documents ed where ed.entry_id = entries.id and ed.analysed_at is null :published-at-filter:) > 0 as missing_analysis'
+        '(select count(*) from entry_documents ed where ed.entry_id = entries.id and ed.analysed_at is null :published-at-filter:) > 0 as missing_analysis',
     ];
 
-    protected $filterableColumns = [
-        'entries.to',
-        'entries.object',
-        'entries.value'
-    ];
+    protected $filterableColumns = ['entries.to', 'entries.object', 'entries.value'];
 
     protected $orderBy = ['date' => 'desc'];
 
     protected $joins = [
         'providers' => ['providers.id', '=', 'entries.provider_id', 'left'],
         'cost_centers' => ['cost_centers.id', '=', 'entries.cost_center_id'],
-        'entry_types' => ['entry_types.id', '=', 'entries.entry_type_id']
+        'entry_types' => ['entry_types.id', '=', 'entries.entry_type_id'],
     ];
 
     protected $updatingTransport = false;
@@ -147,7 +142,6 @@ class Entry extends Model
 
         $this->updatingTransport = true;
 
-
         $this->congressmanBudget->updateTransportEntries();
 
         $this->updatingTransport = false;
@@ -186,5 +180,10 @@ class Entry extends Model
             $this->cost_center_id,
             app(CostCentersRepository::class)->getTransportAndCreditIdsArray()
         );
+    }
+
+    public function getProviderIsBlockedAttribute()
+    {
+        return $this->provider->isBlocked($this->date);
     }
 }

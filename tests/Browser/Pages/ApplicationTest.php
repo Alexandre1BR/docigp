@@ -107,7 +107,8 @@ class ApplicationTest extends DuskTestCase
             //                ->script('$("button[class=\'swal2-confirm swal2-styled\']").click()');
             $inside_user
                 ->waitForText('Lançamentos', 10)
-                // ->screenshot('2-Entry')
+                ->screenshot('2-Entry')
+                ->scrollTo('@newentry')
                 ->click('@newentry')
                 ->pause('1000')
                 // ->screenshot('3-EntryForm')
@@ -146,6 +147,7 @@ class ApplicationTest extends DuskTestCase
             //                ->click('@entrie')
             $inside_user
                 ->waitForText('Documentos')
+                ->scrollTo('@newEntryDocument')
                 ->click('@newEntryDocument')
                 ->waitForText('Novo documento')
                 ->attach('input.dz-hidden-input', 'public/img/logo-alerj-docigp.png')

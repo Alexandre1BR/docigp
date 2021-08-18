@@ -4,17 +4,92 @@ namespace App\Http\Livewire\Providers;
 
 use App\Http\Livewire\BaseForm;
 use App\Models\Provider;
+use App\Models\ProviderBlockPeriod;
 use App\Services\CpfCnpj\CpfCnpj;
 use App\Services\Zipcode\Service as Zipcode;
+use Carbon\Carbon;
 
 class CreateForm extends BaseForm
 {
+    public $start_date;
+    public $end_date;
+    public $provider_id;
+    public $selectedId;
+
+    protected $listeners = ['confirm-delete' => 'confirmDelete'];
+
+    public function clearPeriod()
+    {
+        $this->start_date = null;
+        $this->end_date = null;
+        $this->selectedId = null;
+        $this->resetErrorBag();
+    }
+
+    public function confirmDelete()
+    {
+        if ($this->selectedId) {
+            ProviderBlockPeriod::where('id', $this->selectedId)->delete();
+        }
+
+        $this->provider->refresh();
+    }
+
+    public function prepareForUpdate($id)
+    {
+        $this->selectedId = $id;
+        $period = ProviderBlockPeriod::find($id);
+
+        $this->start_date = $period->start_date->format('Y-m-d');
+        $this->end_date = $period->end_date ? $period->end_date->format('Y-m-d') : null;
+        $this->provider_id = $period->provider_id;
+
+        $this->dispatchBrowserEvent('show-modal', [
+            'target' => 'period-modal',
+        ]);
+    }
+
+    public function prepareForDelete($id)
+    {
+        $this->selectedId = $id;
+        $this->dispatchBrowserEvent('swal', [
+            'title' => 'Quer mesmo apagar o registro?',
+            'text' => 'Não será possível desfazer essa ação',
+            'confirmEvent' => 'confirm-delete',
+            'action' => 'delete',
+        ]);
+    }
+
+    public function store()
+    {
+        $validatedData = $this->validate([
+            'provider_id' => 'required',
+            'start_date' => 'required|date',
+            'end_date' => $this->end_date ? 'date|after_or_equal:start_date' : '',
+        ]);
+
+        if ($validatedData['end_date'] == '') {
+            $validatedData['end_date'] = null;
+        } else {
+            $validatedData['end_date'] = Carbon::create($validatedData['end_date'])->endOfDay();
+        }
+
+        if ($this->selectedId) {
+            ProviderBlockPeriod::where('id', $this->selectedId)->update($validatedData);
+        } else {
+            ProviderBlockPeriod::create($validatedData);
+        }
+
+        $this->clearPeriod();
+        $this->provider->refresh();
+        $this->dispatchBrowserEvent('hide-modal', ['target' => 'period-modal']);
+    }
+
     public Provider $provider;
 
     public $cpfCnpj;
     public $type;
     public $name;
-    public $is_blocked;
     public $zipcode;
     public $street;
     public $city;
@@ -30,9 +105,6 @@ class CreateForm extends BaseForm
             : old('cpf_cnpj');
         $this->type = is_null(old('type')) ? $this->provider->type ?? '' : old('type');
         $this->name = is_null(old('name')) ? $this->provider->name ?? '' : old('name') ?? '';
-        $this->is_blocked = is_null(old('is_blocked'))
-            ? $this->provider->is_blocked ?? ''
-            : old('is_blocked');
         $this->zipcode = is_null(old('zipcode'))
             ? mask_zipcode($this->provider->zipcode) ?? ''
             : mask_zipcode(old('zipcode'));
@@ -50,6 +122,8 @@ class CreateForm extends BaseForm
         $this->neighborhood = is_null(old('neighborhood'))
             ? $this->provider->neighborhood ?? ''
             : old('neighborhood') ?? '';
+
+        $this->provider_id = is_null(old('id')) ? $this->provider->id ?? '' : old('id');
     }
 
     public function updatedCpfCnpj($newValue)
@@ -89,9 +163,7 @@ class CreateForm extends BaseForm
 
     protected function getComponentVariables()
     {
-        return [
-            'provider' => $this->provider,
-        ];
+        return [];
     }
 
     public function mount()
