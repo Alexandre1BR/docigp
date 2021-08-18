@@ -108,6 +108,7 @@ class ApplicationTest extends DuskTestCase
             $inside_user
                 ->waitForText('Lançamentos', 10)
                 ->screenshot('2-Entry')
+                ->scrollTo('@newentry')
                 ->click('@newentry')
                 ->screenshot('3-EntryForm')
                 ->type('#date', $newEntriesRaw['date']->format('d/m/Y'))
@@ -133,6 +134,7 @@ class ApplicationTest extends DuskTestCase
             //                ->click('@entrie')
             $inside_user
                 ->waitForText('Documentos')
+                ->scrollTo('@newEntryDocument')
                 ->click('@newEntryDocument')
                 ->waitForText('Novo documento')
                 ->attach('input.dz-hidden-input', 'public/img/logo-alerj-docigp.png')
