@@ -57,15 +57,15 @@ class Provider extends Model
         }
 
         if ($this->complement) {
-            $fullAddress .= ', ' . $this->complement;
+            $fullAddress .= ' - ' . $this->complement;
         }
 
-        if ($this->neighbourhood) {
-            $fullAddress .= ' - ' . $this->neighbourhood;
+        if ($this->neighborhood) {
+            $fullAddress .= '. ' . $this->neighborhood;
         }
 
         if ($this->city || $this->state) {
-            $fullAddress .= '. ';
+            $fullAddress .= ' - ';
         }
 
         if ($this->city) {
