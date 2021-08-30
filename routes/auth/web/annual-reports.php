@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Web\Admin\AnnualReport as AnnualReports;
 use App\Http\Controllers\Web\Admin\AnnualReport as AnnualReport;
 
 Route::group(['prefix' => '/annual-report'], function () {
