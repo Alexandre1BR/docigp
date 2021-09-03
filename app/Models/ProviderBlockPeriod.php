@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class ProviderBlockPeriod extends Model
 {
+    use HasFactory;
+    
     protected $fillable = [
         'provider_id',
         'start_date',
