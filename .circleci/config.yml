@@ -20,7 +20,6 @@ jobs:
       - run:
           name: "Prepare Environment"
           command: |
-            sudo apt update && sudo docker-php-ext-install zip
             sudo apt-get update && sudo apt-get install libpq-dev
             sudo apt-get install redis-server
             sudo service redis-server start
