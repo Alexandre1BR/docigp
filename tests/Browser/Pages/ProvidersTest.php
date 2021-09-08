@@ -146,7 +146,7 @@ class ProvidersTest extends DuskTestCase
                 ->assertSee('08/08/2039')
                 ->visit('admin/providers/')
                 ->check('@checkbox_block')
-                ->assertSee($provider['name']);
+                ->assertSeeIn('#providersTable',$provider['cpf_cnpj']);
         });
     }
 }
