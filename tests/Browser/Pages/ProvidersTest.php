@@ -133,14 +133,16 @@ class ProvidersTest extends DuskTestCase
         
         $provider =  app(Providers::class)->randomElement()->toArray();
         $today = now();
-        $this->browse(function ($browser) use ($provider,$today) {
+        $tomorrow = $today->day +1;
+    
+        $this->browse(function ($browser) use ($provider,$today,$tomorrow) {
             $browser
                 ->loginAs($provider['id'])
                 ->visit('admin/providers/'.$provider['id'].'#/')
                 ->press('@period')
                 ->waitForText('Criar período',6)
                 ->append('#start_date',$today->day.$today->month.$today->year)
-                ->append('#end_date',$today->addDays(5)->day.$today->month.$today->year)
+                ->append('#end_date',$today->day.$tomorrow.$today->year)
                 ->press('@salvar')
                 ->pause(1000)
                 ->assertSee($today->format('d/m/Y'))
