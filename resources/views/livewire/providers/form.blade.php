@@ -285,7 +285,7 @@
                     </div>
 
                     <div class="col-md-2 text-right">
-                        <button type="button" wire:click="clearPeriod" class="btn btn-primary" data-toggle="modal" data-target="#period-modal">
+                        <button type="button" wire:click="clearPeriod" dusk="period" class="btn btn-primary" data-toggle="modal" data-target="#period-modal">
                             <i class="fa fa-plus"></i>
                         </button>
                     </div>
@@ -337,7 +337,7 @@
 
 
                                 <button type="button" wire:click.prevent="clearPeriod" class="btn btn-outline-danger btn-sm close-btn" data-dismiss="modal">Cancelar</button>
-                                <button type="button" wire:click.prevent="store()" class="btn btn-success btn-sm close-modal">Salvar</button>
+                                <button type="button" wire:click.prevent="store()" class="btn btn-success btn-sm close-modal" dusk="salvar">Salvar</button>
                             </div>
                         </div>
                     </div>
