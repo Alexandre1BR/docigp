@@ -132,20 +132,18 @@ class ProvidersTest extends DuskTestCase
     public function test_setBlockedPeriod(){
         
         $provider =  app(Providers::class)->randomElement()->toArray();
-        $today = now();
-        $tomorrow = $today->day +1;
     
-        $this->browse(function ($browser) use ($provider,$today,$tomorrow) {
+        $this->browse(function ($browser) use ($provider) {
             $browser
                 ->loginAs($provider['id'])
                 ->visit('admin/providers/'.$provider['id'].'#/')
                 ->press('@period')
                 ->waitForText('Criar período',6)
-                ->append('#start_date',$today->day.$today->month.$today->year)
-                ->append('#end_date',$today->day.$tomorrow.$today->year)
+                ->append('#start_date','08'.'08'.'2021')
+                ->append('#end_date','08'.'08'.'2039')
                 ->press('@salvar')
                 ->pause(1000)
-                ->assertSee($today->format('d/m/Y'))
+                ->assertSee('08/08/2039')
                 ->visit('admin/providers/')
                 ->check('@checkbox_block')
                 ->assertSee($provider['name']);
