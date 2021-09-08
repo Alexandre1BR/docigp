@@ -156,7 +156,7 @@ class ApplicationTest extends DuskTestCase
             $inside_user
                 // ->screenshot('6-Comment')
                 ->script('$("button[dusk=\'newEntryComment\']").click()');
-            $inside_user->type('#text', 'teste')->press('Gravar');
+            $inside_user->type('#text', 'teste')->press('@record');
             $inside_user
                 ->script('location.reload()');
             $inside_user
