@@ -8,7 +8,7 @@
             <div class="row">
                 <div class="col-md-3">
 
-                    <h4 class="mb-0">Auditorias</h4></div>
+                    <h4 class="mb-0">Logs de atividades</h4></div>
                     <app-audits-button id='vue-audits' route="{{route('audits.export')}}"></app-audits-button>
 
 
