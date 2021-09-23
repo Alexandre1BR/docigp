@@ -192,7 +192,7 @@ return [
 
                 'annual-reports:generate',
 
-                'audits:show' => 'Visualizar auditorias',
+                'audits:show',
             ],
         ],
 
