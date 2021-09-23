@@ -50,6 +50,14 @@ class Audit extends Model
             $activity = 'Logout';
         }
 
+        if (Str::endsWith($route, 'congressman-legislatures.remove-from-legislature')) {
+            $activity = 'Modificação das datas de deputado em legislaturas';
+        }
+
+        if (Str::endsWith($route, 'congressman-legislatures.include-in-legislature')) {
+            $activity = 'Modificação das datas de deputado em legislaturas';
+        }
+
         if (Str::endsWith($url, 'providers.update-form')) {
             $activity = 'Modificação de período de bloqueio';
         }
@@ -105,7 +113,7 @@ class Audit extends Model
         });
 
         if (!$activity) {
-            info('Não há activity registrada para o log de ' . $this->id);
+            info('Não há activity registrada para o audits.id = ' . $this->id);
         }
 
         return $activity;
@@ -141,14 +149,11 @@ class Audit extends Model
         return collect(explode('->', $relation))
             ->push('last')
             ->reduce(
-                function ($carry, $item, $key) use ($classArray, $modelId) {
+                function ($carry, $item) use ($classArray, $modelId) {
                     if ($previous = $carry['previous']) {
                         $className = Str::ucfirst($camel = Str::camel($previous));
 
                         if (!($previousModel = $carry['model'])) {
-                            //                            dump($previous);
-                            //                            dump($carry['model']);
-
                             $id = $modelId;
                         } else {
                             //                            dump(Str::snake($camel) . '_id');
@@ -174,16 +179,16 @@ class Audit extends Model
                                 ->orderBy('created_at', 'desc')
                                 ->first();
 
-                            if (!$audit) {
-                                dd(
-                                    $id .
-                                        ' - ' .
-                                        $className .
-                                        ' - ' .
-                                        Str::snake($currentCamel) .
-                                        ' - '
-                                );
-                            }
+                            //                            if (!$audit) {
+                            //                                dd(
+                            //                                    $id .
+                            //                                        ' - ' .
+                            //                                        $className .
+                            //                                        ' - ' .
+                            //                                        Str::snake($currentCamel) .
+                            //                                        ' - '
+                            //                                );
+                            //                            }
 
                             //If last is delete(new_values empty), then get the old_values, which are all the values
                             $model = !empty($audit->new_values)
@@ -320,14 +325,6 @@ class Audit extends Model
                 ];
                 break;
             case 'EntryComment':
-                //                $array[] = [
-                //                    'field' => 'Deputado',
-                //                    'value' => $this->getLastModel(
-                //                        'entryComment->entry->congressmanBudget->congressmanLegislature->congressman',
-                //                        $this->auditable_id
-                //                    )->name,
-                //                ];
-
                 $entry = $this->getLastModel('entryComment->entry', $this->auditable_id);
 
                 if (!$entry) {
@@ -367,14 +364,12 @@ class Audit extends Model
 
                 break;
             case 'EntryType':
-                //                TESTADO
                 $array[] = [
                     'field' => 'Nome',
                     'value' => $auditable->name,
                 ];
                 break;
             case 'Provider':
-                //                TESTADO
                 $array[] = [
                     'field' => 'Nome',
                     'value' => $auditable->name,
@@ -385,7 +380,6 @@ class Audit extends Model
                 ];
                 break;
             case 'Party':
-                //                TESTADO
                 $array[] = [
                     'field' => 'Nome',
                     'value' => $auditable->name,
@@ -396,7 +390,6 @@ class Audit extends Model
                 ];
                 break;
             case 'CongressmanBudget':
-                //                TESTADO
                 $array[] = [
                     'field' => 'Deputado',
                     'value' => $auditable->congressman->name,
@@ -459,21 +452,11 @@ class Audit extends Model
 
     public function getOldValuesAttribute()
     {
-        //        return $this->attributes['old_values'];
-        //        if ($this->attributes['old_values'] == '[]') {
-        //            return [];
-        //        } else {
         return json_decode($this->attributes['old_values']);
-        //        }
     }
 
     public function getNewValuesAttribute()
     {
-        //        return $this->attributes['old_values'];
-        //        if ($this->attributes['old_values'] == '[]') {
-        //            return [];
-        //        } else {
         return json_decode($this->attributes['new_values']);
-        //        }
     }
 }
