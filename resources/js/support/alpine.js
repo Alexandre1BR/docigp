@@ -1,6 +1,3 @@
-// import Inputmask from 'inputmask'
-// window.Inputmask = Inputmask
-
 import VMasker from 'vanilla-masker'
 window.VMasker = VMasker
 

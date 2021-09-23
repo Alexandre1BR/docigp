@@ -31,8 +31,8 @@ return [
                 'assign:operator' => 'Atribuir perfil de Lançador',
                 'assign:congressman' => 'Atribuir perfil de Deputado',
                 'assign:verifier' => 'Atribuir perfil de Verificador',
-                
-                'audit' => 'Fazer auditoria',
+
+                'audits:show' => 'Visualizar auditorias',
 
                 'congressman:buttons' => 'Deputados: mostra todos os botões',
                 'congressman:show' => 'Deputados: ver',
@@ -101,7 +101,7 @@ return [
                 'cost-centers:store' => 'Centros de custo: criar',
                 'cost-centers:update' => 'Centros de custo: alterar',
 
-                'annual-reports:generate' =>'Criação de relatório anual',
+                'annual-reports:generate' => 'Criação de relatório anual',
             ],
         ],
 
@@ -141,6 +141,58 @@ return [
                 'entry-comments:update',
                 'entry-comments:update:congressman',
                 'entry-comments:delete:congressman',
+            ],
+        ],
+
+        [
+            'group' => Constants::ROLE_ACI_COORDINATOR,
+
+            'abilities' => [
+                'annual-reports:view',
+
+                'assign:assistant',
+                'assign:manager',
+                'assign:employee',
+                'assign:publisher',
+                'assign:viewer',
+
+                'congressman:show',
+                'congressman:buttons',
+                'congressman:see-unread',
+
+                'congressman-budgets:buttons',
+                'congressman-budgets:show',
+                'congressman-budgets:reopen',
+                'congressman-budgets:analyse',
+                'congressman-budgets:publish',
+
+                'entries:buttons',
+                'entries:show',
+                'entries:analyse',
+                'entries:publish',
+
+                'providers:show',
+                'providers:store',
+                'providers:update',
+
+                'entry-documents:buttons',
+                'entry-documents:show',
+                'entry-documents:analyse',
+
+                'entry-comments:store',
+                'entry-comments:show',
+                'entry-comments:delete',
+                'entry-comments:update',
+                'entry-comments:update:not-congressman',
+                'entry-comments:delete:not-congressman',
+
+                'cost-centers:show',
+                'cost-centers:store',
+                'cost-centers:update',
+
+                'annual-reports:generate',
+
+                'audits:show' => 'Visualizar auditorias',
             ],
         ],
 
@@ -239,6 +291,10 @@ return [
         [
             'title' => 'Verificador',
             'name' => 'verifier',
+        ],
+        [
+            'title' => 'Coordenador ACI',
+            'name' => Constants::ROLE_ACI_COORDINATOR,
         ],
         [
             'title' => 'ACI',
