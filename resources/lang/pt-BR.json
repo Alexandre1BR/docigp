@@ -78,15 +78,11 @@
     "entry_type_id" : "meio",
     "cost_center_id" : "centro de custo",
 
-
-
     "congressman_legislature_id" : "legislatura",
     "budget_id" : "orçamento",
     "analysed_by_id" :  "analisado por",
     "published_by_id" : "publicado por",
     "closed_by_id" :  "fechado por",
-
-
 
 
     "verified_at" : "verificado em",
@@ -97,14 +93,11 @@
     "percentage" : "porcentagem",
     "value" : "valor",
 
-
     "provider_id" : "fornecedor",
     "congressman_budget_id" : "orçamento mensal",
     "document_number" : "documento",
     "created_by_id" : "criado por",
     "updated_by_id" : "alterado por",
-
-
 
     "entry_id" : "lançamento",
 
@@ -117,20 +110,19 @@
 
 
     "start_date" : "data de início",
-
     "end_date" :  "data de fim",
 
     "remember_token" :  "token de sessão",
 
-
     "provider_type" : "tipo de fornecedor",
-    "entry_type_name" : "fornecedor",
+    "entry_type_name" : "tipo de lançamento",
     "documents_count" : "quantidade de documentos",
     "missing_verification" : "sem verificação",
     "missing_analysis" : "sem análise",
     "cost_center_name" : "centro de custo",
     "verified_by_id" : "verificado por",
-
+    "cost_center_code": "código de centro de custo",
+    "provider_name" : "fornecedor",
 
     "revoked_at" : "revogado em"
 }
