@@ -22,5 +22,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ProvidersTableSeeder::class);
 
         $this->call(EntriesTableSeeder::class);
+
+        $this->call(ProviderBlockPeriodTableSeeder::class);
     }
 }

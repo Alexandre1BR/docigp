@@ -1,30 +1,33 @@
-# PHP CircleCI 2.0 configuration file
-#
-# Check https://circleci.com/docs/2.0/language-php/ for more details
-#
-version: 2
+version: 2.1
 jobs:
   build:
     docker:
-      # Specify the version you desire here
-      - image: circleci/php:7.1-node-browsers
-
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # Using the RAM variation mitigates I/O contention
-      # for database intensive operations.
-      # - image: circleci/mysql:5.7-ram
-      #
-      # - image: redis:2.8.19
-
+      - image: cimg/php:7.4.21-browsers
+        environment:
+          PGHOST: 127.0.0.1
+          PGUSER: vagrant
+          TEST_DATABASE_URL: http://127.0.0.1:8000
+      - image: circleci/postgres:12
+        environment:
+          POSTGRES_USER: vagrant
+          POSTGRES_DB: docigp
+          POSTGRES_PASSWORD: vagrant
     steps:
+      - add_ssh_keys:
+          fingerprints:
+            "a5:3d:c0:4b:4e:2f:bd:e4:9f:9c:86:a1:8e:2b:2a:e7"
       - checkout
+      - run:
+          name: "Prepare Environment"
+          command: |
+            sudo apt-get update && sudo apt-get install libpq-dev
+            sudo apt-get install redis-server
+            sudo service redis-server start
 
-      - run: sudo apt update # PHP CircleCI 2.0 Configuration File# PHP CircleCI 2.0 Configuration File sudo apt install zlib1g-dev libsqlite3-dev
-      - run: sudo docker-php-ext-install zip
-
-      # Download and cache dependencies
+      - run:
+          name: "Create Environment file"
+          command: |
+            cp .env.testing .env
       - restore_cache:
           keys:
             # "composer.lock" can be used if it is committed to the repo
@@ -32,27 +35,62 @@ jobs:
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
-      - run: composer install -n --prefer-dist
+      - run:
+          name: "Composer"
+          command: |
+            composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
+            composer require --dev laravel/dusk
 
       - save_cache:
           key: v1-dependencies-{{ checksum "composer.json" }}
           paths:
             - ./vendor
-      - restore_cache:
-          keys:
-            - node-v1-{{ checksum "package.json" }}
-            - node-v1-
-      - run: yarn install
-      - save_cache:
-          key: node-v1-{{ checksum "package.json" }}
-          paths:
-            - node_modules
+      - run:
+          name: "Generate App key"
+          command: php artisan key:generate
 
-      # prepare the database
-      - run: touch storage/testing.sqlite
-      - run: php artisan migrate --env=testing --database=sqlite_testing --force
+      - run:
+          name: "Run migration and populate"
+          command: |
+            php artisan migrate 
+            php artisan db:seed
+            php artisan docigp:budget:generate
+            php artisan docigp:sync:parties
+            php artisan docigp:sync:congressmen
+            php artisan docigp:sync:departments
+            php artisan docigp:sync:roles
 
-      # run tests with phpunit or codecept
-      #- run: ./vendor/bin/phpunit
-      - run: ./vendor/bin/codecept build
-      - run: ./vendor/bin/codecept run
+      - run:
+          name: "Install Dusk and Chrome Drivers"
+          command: |
+            wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+            sudo apt install ./google-chrome-stable_current_amd64.deb
+
+      - run:
+          name: "Start Chrome Driver"
+          command: |
+            php artisan dusk:chrome-driver
+
+      - run:
+          name: "Artisan Serve Command"
+          command: |
+            php artisan serve
+          background: true
+      - run:
+          name: "Dependencies"
+          command: |
+            touch storage/logs/laravel.log
+            chmod 777 storage/logs/laravel.log
+      - run:
+          name: "Run Browser Tests"
+          command: |
+            set -e
+            php artisan dusk
+
+      - run:
+          name: "Email Failure"
+          command: |
+            sleep 15s
+            php artisan email:failure
+            cat storage/logs/laravel.log
+          when: on_fail

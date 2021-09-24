@@ -24,7 +24,7 @@
                         </div>
                         <div class="row d-flex justify-content-end">
                             <div class="m-0 inline">
-                                <input type="checkbox" name="query[filter][checkboxes][blocked_checkbox]" wire:model="isBlocked" {{(isset($query['filter']['checkboxes']['blocked_checkbox']) ? 'checked' : '') }} class="form-check-input" />
+                                <input type="checkbox" dusk='checkbox_block'name="query[filter][checkboxes][blocked_checkbox]" wire:model="isBlocked" {{(isset($query['filter']['checkboxes']['blocked_checkbox']) ? 'checked' : '') }} class="form-check-input" />
                                 <label class="form-check-label d-inline-block">
                                     Apenas os bloqueados pela DOCIGP
                                 </label>
