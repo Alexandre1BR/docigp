@@ -3,18 +3,16 @@
 @section('content')
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script> {{-- Aguardando solução de bug - Issue aberta --}}
 <div class="card card-default">
-    
+
         <div class="card-header">
             <div class="row">
                 <div class="col-md-3">
-                    
-                    <h4 class="mb-0">Auditorias</h4></div>
+
+                    <h4 class="mb-0">Logs de atividades</h4></div>
                     <app-audits-button id='vue-audits' route="{{route('audits.export')}}"></app-audits-button>
-                    
+
 
             </div>
-
-
         </div>
     </div>
 

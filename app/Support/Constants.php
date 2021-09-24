@@ -39,6 +39,7 @@ class Constants
     const ROLE_FINANCIAL = 'financial';
     const ROLE_CONGRESSMAN = 'congressman';
     const ROLE_ACI = 'aci';
+    const ROLE_ACI_COORDINATOR = 'aci_coordinator';
 
     const SESSION_FORM_MODE = 'flash_form_mode';
     const FORM_MODE_CREATE = 'create';

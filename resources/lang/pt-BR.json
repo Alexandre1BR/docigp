@@ -8,5 +8,129 @@
     "Confirm Password": "Confirmar senha",
     "Reset Password": "Trocar senha",
     "Send Password Reset Link": "Enviar link para troca de senha",
-    "Regards": "Atenciosamente"
+    "Regards": "Atenciosamente",
+
+    "Entry": "Lançamento",
+    "User": "Usuário",
+    "CongressmanLegislature": "Usuário",
+    "ProviderBlockPeriod": "Período de Bloqueio de Fornecedor",
+    "AttachedFile": "Arquivo Anexado",
+    "Budget": "Limite Mensal",
+    "EntryDocument": "Documento",
+    "File": "Arquivo",
+    "Legislature": "Legislatura",
+    "CostCenter": "Centro de Custo",
+    "CongressmanSettings": "Configurações de Deputado",
+    "Congressman": "Deputado",
+    "EntryComment": "Comentário",
+    "EntryType": "Tipo de Lançamento",
+    "Provider": "Fornecedor",
+    "Party": "Partido",
+    "CongressmanBudget": "Orçamento Mensal",
+
+
+    "address" : "endereço",
+    "age" : "idade",
+    "body" : "conteúdo",
+    "city" : "cidade",
+    "country" : "país",
+    "congressman_id" : "deputado(a)",
+    "date" : "data",
+    "day" : "dia",
+    "description" : "descrição",
+    "excerpt" : "resumo",
+    "first_name" : "primeiro nome",
+    "gender" : "gênero",
+    "hour" : "hora",
+    "last_name" : "sobrenome",
+    "message" : "mensagem",
+    "minute" : "minuto",
+    "mobile" : "celular",
+    "month" : "mês",
+    "name" : "nome",
+    "password_confirmation" : "confirmação da senha",
+    "password" : "senha",
+    "phone" : "telefone",
+    "second" : "segundo",
+    "sex" : "sexo",
+    "state" : "estado",
+    "subject" : "assunto",
+    "text" : "texto",
+    "time" : "hora",
+    "title" : "título",
+    "username" : "usuário",
+    "year" : "ano",
+    "email" : "e-mail",
+    "remember" : "lembrar-se de mim",
+    "code" : "código",
+    "parent_code" : "código superior",
+    "frequency" : "frequência",
+    "limit" : "limite",
+    "can_accumulate" : "acumulável",
+    "year_start" : "ano de início",
+    "year_end" : "ano final",
+    "number" : "número",
+    "cpf_cnpj" : "CPF/CNPJ",
+    "type" : "Tipo pessoa (PJ ou PF)",
+    "provider_cpf_cnpj" : "CPF/CNPJ",
+    "object" : "objeto",
+    "to" : "nome da pessoa ou razão social",
+    "entry_type_id" : "meio",
+    "cost_center_id" : "centro de custo",
+
+
+
+    "congressman_legislature_id" : "legislatura",
+    "budget_id" : "orçamento",
+    "analysed_by_id" :  "analisado por",
+    "published_by_id" : "publicado por",
+    "closed_by_id" :  "fechado por",
+
+
+
+
+    "verified_at" : "verificado em",
+    "analysed_at" : "analisado em",
+    "published_at" : "publicado em",
+    "closed_at" : "fechado em",
+    "last_login_at" : "último login em",
+    "percentage" : "porcentagem",
+    "value" : "valor",
+
+
+    "provider_id" : "fornecedor",
+    "congressman_budget_id" : "orçamento mensal",
+    "document_number" : "documento",
+    "created_by_id" : "criado por",
+    "updated_by_id" : "alterado por",
+
+
+
+    "entry_id" : "lançamento",
+
+    "document_number_required" : "número de documento obrigatório",
+
+    "zipcode" : "CEP",
+    "street" : "endereço",
+    "complement" : "complemento",
+    "neighborhood" :  "bairro",
+
+
+    "start_date" : "data de início",
+
+    "end_date" :  "data de fim",
+
+    "remember_token" :  "token de sessão",
+
+
+    "provider_type" : "tipo de fornecedor",
+    "entry_type_name" : "fornecedor",
+    "documents_count" : "quantidade de documentos",
+    "missing_verification" : "sem verificação",
+    "missing_analysis" : "sem análise",
+    "cost_center_name" : "centro de custo",
+    "verified_by_id" : "verificado por",
+
+
+    "revoked_at" : "revogado em"
 }

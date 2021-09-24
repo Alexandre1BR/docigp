@@ -29,7 +29,7 @@ class CreateForm extends BaseForm
     public function confirmDelete()
     {
         if ($this->selectedId) {
-            ProviderBlockPeriod::where('id', $this->selectedId)->delete();
+            ProviderBlockPeriod::find($this->selectedId)->delete();
         }
 
         $this->provider->refresh();
@@ -75,7 +75,9 @@ class CreateForm extends BaseForm
         }
 
         if ($this->selectedId) {
-            ProviderBlockPeriod::where('id', $this->selectedId)->update($validatedData);
+            $row = ProviderBlockPeriod::find($this->selectedId);
+            $row->fill($validatedData);
+            $row->save();
         } else {
             ProviderBlockPeriod::create($validatedData);
         }

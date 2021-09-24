@@ -83,7 +83,19 @@
                                 <a class="dropdown-item" href="{{ route('entry-types.index') }}">
                                     Tipos de Lançamentos
                                 </a>
-                        @endCan
+                            @endCan
+
+                            @can('annual-reports:view')
+                                <a class="dropdown-item" href="{{ route('annual-reports.index') }}">
+                                    Relatórios Anuais
+                                </a>
+                            @endCan
+
+                            @can('audits:show')
+                                <a class="dropdown-item" href="{{ route('audits.index') }}">
+                                    Logs de atividades
+                                </a>
+                            @endCan
 
                     </li>
 

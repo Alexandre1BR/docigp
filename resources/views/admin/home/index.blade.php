@@ -95,11 +95,11 @@
                                         </div>
                                         @endCan
 
-                                        @can('audit')
+                                        @can('audits:show')
                                             <div class="col-sm-12 col-md-6 col-lg-4">
                                                 @include('partials.tile', [
                                                 'route' => route('audits.index'),
-                                                'title' => 'Auditorias',
+                                                'title' => 'Logs de atividades',
                                                 'color' => 'blue',
                                                 'icon' => 'fas fa-user-tie fa-5x',
                                                 ])
