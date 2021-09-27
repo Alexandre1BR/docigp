@@ -89,6 +89,7 @@ class ProvidersTest extends DuskTestCase
             ->type('#neighborhood','Centro')
             ->type('#city','Rio de Janeiro')
             ->type('#state','RJ')
+            ->assertSelected('#type',$random[1])
             ->click('#submitButton')
             ->assertSee('Fornecedores / Favorecidos');
           $browser
@@ -129,6 +130,9 @@ class ProvidersTest extends DuskTestCase
      */
     
     //Períodos de Bloqueio e validacao do checkbox da tabela principal
+
+
+    
     public function test_setBlockedPeriod(){
         
         $provider =  app(Providers::class)->randomElement()->toArray();
