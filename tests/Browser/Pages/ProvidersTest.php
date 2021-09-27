@@ -130,9 +130,6 @@ class ProvidersTest extends DuskTestCase
      */
     
     //Períodos de Bloqueio e validacao do checkbox da tabela principal
-
-
-    
     public function test_setBlockedPeriod(){
         
         $provider =  app(Providers::class)->randomElement()->toArray();
