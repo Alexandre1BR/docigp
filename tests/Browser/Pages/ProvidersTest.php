@@ -89,6 +89,7 @@ class ProvidersTest extends DuskTestCase
             ->type('#neighborhood','Centro')
             ->type('#city','Rio de Janeiro')
             ->type('#state','RJ')
+            ->assertSelected('#type',$random[1])
             ->click('#submitButton')
             ->assertSee('Fornecedores / Favorecidos');
           $browser
@@ -144,9 +145,13 @@ class ProvidersTest extends DuskTestCase
                 ->press('@salvar')
                 ->pause(1000)
                 ->assertSee('08/08/2039')
-                ->visit('admin/providers/')
+                ->visit('admin/providers#/')
                 ->check('@checkbox_block')
-                ->assertSeeIn('#providersTable',$provider['cpf_cnpj']);
+                ->type('@search-input',$provider['cpf_cnpj'])
+                ->pause(1000)
+                ->assertSeeIn('#providersTable',$provider['cpf_cnpj'])
+                ->assertSeeIn('#providersTable',$provider['name'])
+                ->assertChecked('@checkbox_block');
         });
     }
 }
