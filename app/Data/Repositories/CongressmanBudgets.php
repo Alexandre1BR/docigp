@@ -154,13 +154,18 @@ class CongressmanBudgets extends Repository
 
     public function updateAllEntriesFor($id)
     {
-        //        dd(CongressmanBudget::find($id));
-        CongressmanBudget::find($id)
-            ->congressman->congressmanBudgets()
+        $currentCongressmanBudget = CongressmanBudget::find($id);
+        $currentBudget = $currentCongressmanBudget->budget;
+
+        $currentCongressmanBudget->congressman
+            ->congressmanBudgets()
             ->orderBy('id', 'asc')
             ->get()
-            ->each(function ($congressmanBudget) {
-                $congressmanBudget->updateTransportEntries();
+            ->each(function ($congressmanBudget) use ($currentBudget) {
+                if ($congressmanBudget->budget->date >= $currentBudget->date) {
+                    //Only update the budgets after the changed date
+                    $congressmanBudget->updateTransportEntries();
+                }
             });
     }
 }
