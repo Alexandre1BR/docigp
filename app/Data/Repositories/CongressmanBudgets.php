@@ -26,10 +26,7 @@ class CongressmanBudgets extends Repository
                     'congressman_legislatures.id',
                     'congressman_budgets.congressman_legislature_id'
                 )
-                ->where(
-                    'congressman_legislatures.congressman_id',
-                    $congressmanId
-                )
+                ->where('congressman_legislatures.congressman_id', $congressmanId)
         );
     }
 
@@ -41,23 +38,12 @@ class CongressmanBudgets extends Repository
 
         app(CostCenters::class)
             ->costCenterLimitsTable()
-            ->each(function ($item) use (
-                $baseValue,
-                $congressmanBudget,
-                &$returnArray
-            ) {
+            ->each(function ($item) use ($baseValue, $congressmanBudget, &$returnArray) {
                 if (
                     !empty($item['limit']) &&
                     abs(
                         $congressmanBudget[
-                            'sum_' .
-                                lower(
-                                    preg_replace(
-                                        '/[^\w\s]/',
-                                        '_',
-                                        $item['roman']
-                                    )
-                                )
+                            'sum_' . lower(preg_replace('/[^\w\s]/', '_', $item['roman']))
                         ]
                     ) >
                         $item['limit'] * abs(round($baseValue) / 100)
@@ -114,9 +100,7 @@ class CongressmanBudgets extends Repository
     public function transform($data)
     {
         $this->addTransformationPlugin(function ($congressmanBudget) {
-            $congressmanBudget['year'] = Carbon::parse(
-                $congressmanBudget['budget']['date']
-            )->year;
+            $congressmanBudget['year'] = Carbon::parse($congressmanBudget['budget']['date'])->year;
 
             $congressmanBudget['month'] = sprintf(
                 '%02d',
@@ -127,32 +111,20 @@ class CongressmanBudgets extends Repository
                 $congressmanBudget['budget']['value']
             );
 
-            $congressmanBudget['value_formatted'] = to_reais(
-                $congressmanBudget['value']
-            );
+            $congressmanBudget['value_formatted'] = to_reais($congressmanBudget['value']);
 
-            $congressmanBudget['sum_debit_formatted'] = to_reais(
-                $congressmanBudget['sum_debit']
-            );
+            $congressmanBudget['sum_debit_formatted'] = to_reais($congressmanBudget['sum_debit']);
 
-            $congressmanBudget['sum_credit_formatted'] = to_reais(
-                $congressmanBudget['sum_credit']
-            );
+            $congressmanBudget['sum_credit_formatted'] = to_reais($congressmanBudget['sum_credit']);
 
             $congressmanBudget['balance'] =
-                $congressmanBudget['sum_credit'] +
-                $congressmanBudget['sum_debit'];
+                $congressmanBudget['sum_credit'] + $congressmanBudget['sum_debit'];
 
-            $congressmanBudget['balance_formatted'] = to_reais(
-                $congressmanBudget['balance']
-            );
+            $congressmanBudget['balance_formatted'] = to_reais($congressmanBudget['balance']);
 
-            $congressmanBudget['percentage_formatted'] =
-                $congressmanBudget['percentage'] . '%';
+            $congressmanBudget['percentage_formatted'] = $congressmanBudget['percentage'] . '%';
 
-            $congressmanBudget['pendencies'] = $this->buildPendenciesArray(
-                $congressmanBudget
-            );
+            $congressmanBudget['pendencies'] = $this->buildPendenciesArray($congressmanBudget);
 
             return $congressmanBudget;
         });
@@ -182,7 +154,7 @@ class CongressmanBudgets extends Repository
 
     public function updateAllEntriesFor($id)
     {
-//        dd(CongressmanBudget::find($id));
+        //        dd(CongressmanBudget::find($id));
         CongressmanBudget::find($id)
             ->congressman->congressmanBudgets()
             ->orderBy('id', 'asc')
