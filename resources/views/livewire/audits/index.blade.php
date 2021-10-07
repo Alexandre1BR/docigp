@@ -137,15 +137,3 @@
 
 
 </div>
-
-<script defer>
-    // function select2Alpine() {
-    //     this.select2 = $(this.$refs.select).select2();
-    //     this.select2.on("select2:select", (event) => {
-    //         this.selectedUser = event.target.value;
-    //     });
-    //     this.$watch("selectedUser", (value) => {
-    //         this.select2.val(value).trigger("change");
-    //     });
-    // }
-</script>
