@@ -16,13 +16,27 @@ abstract class BaseIndex extends Component
     public $pageSize = 20;
     protected $refreshFields = ['searchString'];
 
-    public function updating($field)
+    protected $listeners = ['update-field' => 'updateField'];
+
+    public function checkResetPage($field)
     {
         collect($this->refreshFields)->each(function ($refreshField) use ($field) {
             if ($field == $refreshField) {
                 $this->resetPage();
             }
         });
+    }
+
+    public function updateField($event)
+    {
+        $field = $event['field'];
+        $this->{$field} = $event['value'];
+        $this->checkResetPage($field);
+    }
+
+    public function updating($field)
+    {
+        $this->checkResetPage($field);
     }
 
     public $searchFields = [];
