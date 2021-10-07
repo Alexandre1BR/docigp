@@ -28,7 +28,7 @@ class Audits extends Controller
                 ->where('auditable_type', 'not like', '%\File%')
                 ->where('auditable_type', 'not like', '%\AttachedFile%')
                 ->orderBy('created_at', 'desc')
-                ->paginate()
+                ->paginate(8)
         );
     }
 }
