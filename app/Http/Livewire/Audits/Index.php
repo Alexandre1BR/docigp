@@ -4,9 +4,9 @@ namespace App\Http\Livewire\Audits;
 
 use App\Data\Repositories\Audits as AuditsRepository;
 use App\Http\Livewire\BaseIndex;
-use App\Data\Repositories\Users as UsersRepository;
 use App\Models\User;
 use Livewire\WithPagination;
+use Carbon\Carbon;
 
 class Index extends BaseIndex
 {
@@ -17,11 +17,18 @@ class Index extends BaseIndex
 
     protected $repository = AuditsRepository::class;
 
-    protected $refreshFields = ['user_id'];
-    public $searchFields = [];
+    protected $refreshFields = ['user_id', 'searchString'];
     public $pageSize = 8;
 
-    public $user_id = '';
+    public $user_id = null;
+    public $created_at_start = null;
+    public $created_at_end = null;
+    public $searchString = null;
+
+    public $searchFields = [
+        'audits.new_values' => 'text',
+        'audits.old_values' => 'text',
+    ];
 
     public function additionalFilterQuery($query)
     {
@@ -32,6 +39,16 @@ class Index extends BaseIndex
             ->where('auditable_type', 'not like', '%\AttachedFile%')
             ->when($this->user_id, function ($query) {
                 return $query->where('user_id', $this->user_id);
+            })
+            ->when($this->created_at_start, function ($query) {
+                return $query->where('created_at', '>=', Carbon::create($this->created_at_start));
+            })
+            ->when($this->created_at_end, function ($query) {
+                return $query->where(
+                    'created_at',
+                    '<=',
+                    Carbon::create($this->created_at_end)->endOfDay()
+                );
             });
     }
 
@@ -39,7 +56,7 @@ class Index extends BaseIndex
     {
         return view('livewire.audits.index')->with([
             'audits' => $this->filter(),
-            'users' => User::all(),
+            'users' => User::orderBy('name', 'asc')->get(),
         ]);
     }
 }

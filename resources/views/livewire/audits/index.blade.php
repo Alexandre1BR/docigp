@@ -29,6 +29,24 @@
                                             </select>
                                         </div>
 
+{{--                                        <div class="input-group">--}}
+{{--                                            <input dusk="search-input" class="form-control" name="search" wire:model.debounce.500ms="searchString" placeholder="Pesquisar">--}}
+{{--                                        </div>--}}
+
+                                        <div class="">
+                                            <label for="created_at_start" class="col-form-label">Data<br> De:</label>
+                                            <input id="created_at_start"
+                                                   wire:model="created_at_start"
+                                                   class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}"
+                                                   name="created_at_start" value="{{$created_at_start ?? old("created_at_start")}}"
+                                                   type="date">
+                                            <label for="created_at_end" class="col-form-label"> Até: </label>
+                                            <input id="created_at_end"
+                                                   wire:model="created_at_end"
+                                                   class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}"
+                                                   name="created_at_end" value="{{$created_at_end ?? old("created_at_end")}}" type="date">
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
