@@ -17,7 +17,7 @@ class Index extends BaseIndex
 
     protected $repository = AuditsRepository::class;
 
-    protected $refreshFields = ['user_id', 'searchString'];
+    protected $refreshFields = ['user_id', 'searchString', 'created_at_start', 'created_at_end'];
     public $pageSize = 8;
 
     public $user_id = null;
@@ -41,7 +41,11 @@ class Index extends BaseIndex
                 return $query->where('user_id', $this->user_id);
             })
             ->when($this->created_at_start, function ($query) {
-                return $query->where('created_at', '>=', Carbon::create($this->created_at_start));
+                return $query->where(
+                    'created_at',
+                    '>=',
+                    Carbon::create($this->created_at_start)->startOfDay()
+                );
             })
             ->when($this->created_at_end, function ($query) {
                 return $query->where(
