@@ -79,6 +79,7 @@ class Audit extends Model
             ['suffix' => '.update', 'name' => 'Modificação'],
             ['suffix' => '.store', 'name' => 'Criação'],
             ['suffix' => '.delete', 'name' => 'Deleção'],
+            ['suffix' => '.deposit', 'name' => 'Depósito'],
         ])->each(function ($item) use (&$activity, $route, &$found) {
             if (!$found) {
                 if (Str::endsWith($route, $item['suffix'])) {
