@@ -17,7 +17,7 @@ class Index extends BaseIndex
 
     protected $repository = AuditsRepository::class;
 
-    protected $refreshFields = ['user_id', 'searchString'];
+    protected $refreshFields = ['user_id', 'searchString', 'created_at_start', 'created_at_end'];
     public $pageSize = 8;
 
     public $user_id = null;
