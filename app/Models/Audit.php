@@ -29,17 +29,23 @@ class Audit extends Model
 
     public function getRouteNameAttribute()
     {
-        return $route = app('router')
-            ->getRoutes()
-            ->match(app('request')->create($this->url, 'POST'))
-            ->getName();
+        return Str::startsWith($this->url, 'console')
+            ? 'Rotina do sistema'
+            : ($route = app('router')
+                ->getRoutes()
+                ->match(app('request')->create($this->url, 'POST'))
+                ->getName());
     }
 
     public function getActivityAttribute()
     {
-        $route = $this->route_name;
         $url = $this->url;
 
+        if (Str::startsWith($url, 'console')) {
+            return 'Rotina do sistema';
+        }
+
+        $route = $this->route_name;
         $activity = '';
 
         if (!$route) {
