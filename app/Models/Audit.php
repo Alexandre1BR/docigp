@@ -147,57 +147,58 @@ class Audit extends Model
             'Congressman' => Congressman::class,
         ];
 
+        $permaDeleted = false;
+
         return collect(explode('->', $relation))
             ->push('last')
             ->reduce(
-                function ($carry, $item) use ($classArray, $modelId) {
-                    if ($previous = $carry['previous']) {
-                        $className = Str::ucfirst($camel = Str::camel($previous));
+                function ($carry, $item) use ($classArray, $modelId, &$permaDeleted) {
+                    if (!$permaDeleted) {
+                        if ($previous = $carry['previous']) {
+                            $className = Str::ucfirst($camel = Str::camel($previous));
 
-                        if (!($previousModel = $carry['model'])) {
-                            $id = $modelId;
+                            if (!($previousModel = $carry['model'])) {
+                                $id = $modelId;
+                            } else {
+                                $id = $previousModel->{Str::snake($camel) . '_id'};
+                            }
+
+                            if (
+                                !($model = $classArray[$className]
+                                    ::withoutGlobalScopes()
+                                    ->find($id))
+                            ) {
+                                $currentCamel = Str::camel($item);
+
+                                $audit = Audit::where('auditable_id', $id)
+                                    ->where('auditable_type', 'like', '%' . $className)
+                                    ->when(Str::snake($currentCamel) != 'last', function (
+                                        $query
+                                    ) use ($currentCamel) {
+                                        return $query->where(
+                                            'new_values',
+                                            'like',
+                                            '%' . Str::snake($currentCamel) . '_id' . '%'
+                                        );
+                                    })
+                                    ->orderBy('created_at', 'desc')
+                                    ->first();
+
+                                if (!$audit) {
+                                    $permaDeleted = true;
+                                    return ['previous' => $item, 'model' => null];
+                                }
+
+                                //If last is delete(new_values empty), then get the old_values, which are all the values
+                                $model = !empty($audit->new_values)
+                                    ? $audit->new_values
+                                    : $audit->old_values;
+                            }
+
+                            return ['previous' => $item, 'model' => $model];
                         } else {
-                            //                            dump(Str::snake($camel) . '_id');
-                            $id = $previousModel->{Str::snake($camel) . '_id'};
+                            return ['previous' => $item, 'model' => null];
                         }
-
-                        if (!($model = $classArray[$className]::withoutGlobalScopes()->find($id))) {
-                            $currentCamel = Str::camel($item);
-
-                            $audit = Audit::where('auditable_id', $id)
-                                ->where('auditable_type', 'like', '%' . $className)
-
-                                ->when(Str::snake($currentCamel) != 'last', function ($query) use (
-                                    $currentCamel
-                                ) {
-                                    return $query->where(
-                                        'new_values',
-                                        'like',
-                                        '%' . Str::snake($currentCamel) . '_id' . '%'
-                                    );
-                                })
-
-                                ->orderBy('created_at', 'desc')
-                                ->first();
-
-                            //                            if (!$audit) {
-                            //                                dd(
-                            //                                    $id .
-                            //                                        ' - ' .
-                            //                                        $className .
-                            //                                        ' - ' .
-                            //                                        Str::snake($currentCamel) .
-                            //                                        ' - '
-                            //                                );
-                            //                            }
-
-                            //If last is delete(new_values empty), then get the old_values, which are all the values
-                            $model = !empty($audit->new_values)
-                                ? $audit->new_values
-                                : $audit->old_values;
-                        }
-
-                        return ['previous' => $item, 'model' => $model];
                     } else {
                         return ['previous' => $item, 'model' => null];
                     }
@@ -215,7 +216,6 @@ class Audit extends Model
 
         switch ($this->entity) {
             case 'User':
-                //                TESTADO
                 if ($auditable->congressman_id) {
                     $array[] = [
                         'field' => 'Deputado',
@@ -328,10 +328,6 @@ class Audit extends Model
             case 'EntryComment':
                 $entry = $this->getLastModel('entryComment->entry', $this->auditable_id);
 
-                if (!$entry) {
-                    dd($entry);
-                }
-
                 $array[] = [
                     'field' => 'Data',
                     'value' =>
@@ -391,60 +387,87 @@ class Audit extends Model
                 ];
                 break;
             case 'CongressmanBudget':
-                $array[] = [
-                    'field' => 'Deputado',
-                    'value' => $auditable->congressman->name,
-                ];
-                $array[] = [
-                    'field' => 'Mês',
-                    'value' => $auditable->budget->date->format('d/m'),
-                ];
+                if ($congressman = $auditable->congressman) {
+                    if (isset($congressman->name)) {
+                        $array[] = [
+                            'field' => 'Deputado',
+                            'value' => $auditable->congressman->name,
+                        ];
+                    }
+                }
+
+                if ($budget = $auditable->budget) {
+                    if (isset($budget->date)) {
+                        $array[] = [
+                            'field' => 'Mês',
+                            'value' => $auditable->budget->date->format('d/m'),
+                        ];
+                    }
+                }
                 break;
             case 'Entry':
-                $array[] = [
-                    'field' => 'Deputado',
-                    'value' => $this->getLastModel(
-                        'entry->congressmanBudget->congressmanLegislature->congressman',
-                        $this->auditable_id
-                    )->name,
-                ];
+                $congressman = $this->getLastModel(
+                    'entry->congressmanBudget->congressmanLegislature->congressman',
+                    $this->auditable_id
+                );
+
+                if (isset($congressman->name)) {
+                    $array[] = [
+                        'field' => 'Deputado',
+                        'value' => $congressman->name,
+                    ];
+                }
 
                 $entry = $this->getLastModel('entry', $this->auditable_id);
 
-                $array[] = [
-                    'field' => 'Data',
-                    'value' =>
-                        $entry->date instanceof Carbon
-                            ? $entry->date->format('d/m/Y')
-                            : Carbon::create($entry->date)->format('d/m/Y'),
-                ];
-                $array[] = [
-                    'field' => 'Valor',
-                    'value' => to_reais(abs($entry->value)),
-                ];
+                if (isset($entry->date)) {
+                    $array[] = [
+                        'field' => 'Data',
+                        'value' =>
+                            $entry->date instanceof Carbon
+                                ? $entry->date->format('d/m/Y')
+                                : Carbon::create($entry->date)->format('d/m/Y'),
+                    ];
+                }
 
-                $array[] = [
-                    'field' => 'Objeto',
-                    'value' => $entry->object,
-                ];
+                if (isset($entry->value)) {
+                    $array[] = [
+                        'field' => 'Valor',
+                        'value' => to_reais(abs($entry->value)),
+                    ];
+                }
+
+                if (isset($entry->object)) {
+                    $array[] = [
+                        'field' => 'Objeto',
+                        'value' => $entry->object,
+                    ];
+                }
 
                 $provider = $this->getLastModel('entry->provider', $this->auditable_id);
 
-                $array[] = [
-                    'field' => 'Fornecedor',
-                    'value' => $provider->name,
-                ];
-                $array[] = [
-                    'field' => 'CPF/CNPJ',
-                    'value' => $provider->cpf_cnpj,
-                ];
+                if (isset($provider->name)) {
+                    $array[] = [
+                        'field' => 'Fornecedor',
+                        'value' => $provider->name,
+                    ];
+                }
+
+                if (isset($provider->cpf_cnpj)) {
+                    $array[] = [
+                        'field' => 'CPF/CNPJ',
+                        'value' => $provider->cpf_cnpj,
+                    ];
+                }
 
                 break;
             case 'Congressman':
-                $array[] = [
-                    'field' => 'Deputado',
-                    'value' => $auditable->name,
-                ];
+                if (isset($auditable->name)) {
+                    $array[] = [
+                        'field' => 'Deputado',
+                        'value' => $auditable->name,
+                    ];
+                }
                 break;
         }
 
