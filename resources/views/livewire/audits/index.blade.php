@@ -11,7 +11,7 @@
                 <div class="col-md-8">
                     <form>
                         <div class="form-row justify-content-end">
-                            <div class="form-group col-lg-3 col-md-3" wire:ignore>
+                            <div class="form-group col-lg-3 col-md-4" wire:ignore>
                                 <label class="col-form-label" for="user_id">Usuário:</label>
                                 <select data-allow-clear="true" id="user_id" name="user_id" class="select2" data-placeholder="Selecione um usuário">
                                     <option value=""></option>
@@ -27,11 +27,11 @@
                             {{-- </div>--}}
 
 
-                            <div class="form-group col-lg-3 col-md-3">
+                            <div class="form-group col-lg-3 col-md-4">
                                 <label for="created_at_start" class="col-form-label">Data de:</label>
                                 <input id="created_at_start" wire:model="created_at_start" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="created_at_start" value="{{$created_at_start ?? old("created_at_start")}}" type="date">
                             </div>
-                            <div class="form-group col-lg-3 col-md-3">
+                            <div class="form-group col-lg-3 col-md-4">
                                 <label for="created_at_end" class="col-form-label"> Até: </label>
                                 <input id="created_at_end" wire:model="created_at_end" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="created_at_end" value="{{$created_at_end ?? old("created_at_end")}}" type="date">
                             </div>
@@ -42,7 +42,7 @@
         </div>
 
         <div class="card-body">
-            <table id="auditsTable" class="table table-striped table-bordered" cellspacing="0" width="100%">
+            <table id="auditsTable" class="table table-striped table-bordered">
                 <thead>
                     <tr class="text-center">
                         <th class="align-middle">Data da ação</th>
