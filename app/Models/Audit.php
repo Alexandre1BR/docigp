@@ -222,23 +222,32 @@ class Audit extends Model
 
         switch ($this->entity) {
             case 'User':
-                if ($auditable->congressman_id) {
+                $congressman = $auditable->congressman;
+
+                if (isset($congressman) && isset($congressman->name)) {
                     $array[] = [
                         'field' => 'Deputado',
                         'value' => $auditable->congressman->name,
                     ];
                 }
-                $array[] = [
-                    'field' => 'Usuário',
-                    'value' => $auditable->email,
-                ];
+
+                if (isset($auditable->email)) {
+                    $array[] = [
+                        'field' => 'Usuário',
+                        'value' => $auditable->email,
+                    ];
+                }
 
                 break;
             case 'CongressmanLegislature':
-                $array[] = [
-                    'field' => 'Deputado',
-                    'value' => $auditable->congressman->name,
-                ];
+                $congressman = $auditable->congressman;
+
+                if (isset($congressman) && isset($congressman->name)) {
+                    $array[] = [
+                        'field' => 'Deputado',
+                        'value' => $auditable->congressman->name,
+                    ];
+                }
                 break;
             case 'ProviderBlockPeriod':
                 $provider = $this->getLastModel(
@@ -246,151 +255,204 @@ class Audit extends Model
                     $this->auditable_id
                 );
 
-                $array[] = [
-                    'field' => 'Nome',
-                    'value' => $provider->name,
-                ];
-                $array[] = [
-                    'field' => 'CPF/CNPJ',
-                    'value' => $provider->cpf_cnpj,
-                ];
+                if (isset($provider->name)) {
+                    $array[] = [
+                        'field' => 'Nome',
+                        'value' => $provider->name,
+                    ];
+                }
+                if (isset($provider->cpf_cnpj)) {
+                    $array[] = [
+                        'field' => 'CPF/CNPJ',
+                        'value' => $provider->cpf_cnpj,
+                    ];
+                }
 
                 break;
             case 'Budget':
-                $array[] = [
-                    'field' => 'Deputado',
-                    'value' => $auditable->congressman->name,
-                ];
+                $congressman = $auditable->congressman;
+
+                if (isset($congressman) && isset($congressman->name)) {
+                    $array[] = [
+                        'field' => 'Deputado',
+                        'value' => $auditable->congressman->name,
+                    ];
+                }
                 break;
             case 'EntryDocument':
-                $array[] = [
-                    'field' => 'Deputado',
-                    'value' => $this->getLastModel(
-                        'entryDocument->entry->congressmanBudget->congressmanLegislature->congressman',
-                        $this->auditable_id
-                    )->name,
-                ];
+                $congressman = $this->getLastModel(
+                    'entryDocument->entry->congressmanBudget->congressmanLegislature->congressman',
+                    $this->auditable_id
+                );
+
+                if (isset($congressman->name)) {
+                    $array[] = [
+                        'field' => 'Deputado',
+                        'value' => $congressman->name,
+                    ];
+                }
 
                 $entry = $this->getLastModel('entryDocument->entry', $this->auditable_id);
 
-                $array[] = [
-                    'field' => 'Data',
-                    'value' =>
-                        $entry->date instanceof Carbon
-                            ? $entry->date->format('d/m/Y')
-                            : Carbon::create($entry->date)->format('d/m/Y'),
-                ];
-                $array[] = [
-                    'field' => 'Valor',
-                    'value' => to_reais(abs($entry->value)),
-                ];
+                if (isset($entry->date)) {
+                    $array[] = [
+                        'field' => 'Data',
+                        'value' =>
+                            $entry->date instanceof Carbon
+                                ? $entry->date->format('d/m/Y')
+                                : Carbon::create($entry->date)->format('d/m/Y'),
+                    ];
+                }
 
-                $array[] = [
-                    'field' => 'Objeto',
-                    'value' => $entry->object,
-                ];
+                if (isset($entry->value)) {
+                    $array[] = [
+                        'field' => 'Valor',
+                        'value' => to_reais(abs($entry->value)),
+                    ];
+                }
+
+                if (isset($entry->object)) {
+                    $array[] = [
+                        'field' => 'Objeto',
+                        'value' => $entry->object,
+                    ];
+                }
 
                 $provider = $this->getLastModel(
                     'entryDocument->entry->provider',
                     $this->auditable_id
                 );
 
-                $array[] = [
-                    'field' => 'Fornecedor',
-                    'value' => $provider->name,
-                ];
-                $array[] = [
-                    'field' => 'CPF/CNPJ',
-                    'value' => $provider->cpf_cnpj,
-                ];
-
+                if (isset($provider->name)) {
+                    $array[] = [
+                        'field' => 'Fornecedor',
+                        'value' => $provider->name,
+                    ];
+                }
+                if (isset($provider->cpf_cnpj)) {
+                    $array[] = [
+                        'field' => 'CPF/CNPJ',
+                        'value' => $provider->cpf_cnpj,
+                    ];
+                }
                 $attachedFile = AttachedFile::where('fileable_id', $this->auditable_id)->first();
 
-                $array[] = [
-                    'field' => 'Arquivo',
-                    'value' => $attachedFile->original_name,
-                ];
+                if (isset($attachedFile->original_name)) {
+                    $array[] = [
+                        'field' => 'Arquivo',
+                        'value' => $attachedFile->original_name,
+                    ];
+                }
 
                 break;
             case 'Legislature':
-                //                TESTADO
-                $array[] = [
-                    'field' => 'Legislatura',
-                    'value' => $auditable->year_start . ' -' . $auditable->year_end,
-                ];
+                if (isset($auditable->year_start) && isset($auditable->year_end)) {
+                    $array[] = [
+                        'field' => 'Legislatura',
+                        'value' => $auditable->year_start . ' -' . $auditable->year_end,
+                    ];
+                }
                 break;
             case 'CostCenter':
-                $array[] = [
-                    'field' => 'Nome',
-                    'value' => $auditable->code . ' - ' . $auditable->name,
-                ];
+                if (isset($auditable->code) && isset($auditable->name)) {
+                    $array[] = [
+                        'field' => 'Nome',
+                        'value' => $auditable->code . ' - ' . $auditable->name,
+                    ];
+                }
                 break;
             case 'CongressmanSettings':
-                $array[] = [
-                    'field' => 'Deputado',
-                    'value' => $auditable->congressman->name,
-                ];
+                $congressman = $auditable->congressman;
+
+                if (isset($congressman) && isset($congressman->name)) {
+                    $array[] = [
+                        'field' => 'Deputado',
+                        'value' => $auditable->congressman->name,
+                    ];
+                }
                 break;
             case 'EntryComment':
                 $entry = $this->getLastModel('entryComment->entry', $this->auditable_id);
 
-                $array[] = [
-                    'field' => 'Data',
-                    'value' =>
-                        $entry->date instanceof Carbon
-                            ? $entry->date->format('d/m/Y')
-                            : Carbon::create($entry->date)->format('d/m/Y'),
-                ];
-                $array[] = [
-                    'field' => 'Valor',
-                    'value' => to_reais(abs($entry->value)),
-                ];
+                if (isset($entry->date)) {
+                    $array[] = [
+                        'field' => 'Data',
+                        'value' =>
+                            $entry->date instanceof Carbon
+                                ? $entry->date->format('d/m/Y')
+                                : Carbon::create($entry->date)->format('d/m/Y'),
+                    ];
+                }
 
-                $array[] = [
-                    'field' => 'Objeto',
-                    'value' => $entry->object,
-                ];
+                if (isset($entry->value)) {
+                    $array[] = [
+                        'field' => 'Valor',
+                        'value' => to_reais(abs($entry->value)),
+                    ];
+                }
+
+                if (isset($entry->object)) {
+                    $array[] = [
+                        'field' => 'Objeto',
+                        'value' => $entry->object,
+                    ];
+                }
 
                 $provider = $this->getLastModel(
                     'entryComment->entry->provider',
                     $this->auditable_id
                 );
 
-                $array[] = [
-                    'field' => 'Fornecedor',
-                    'value' => $provider->name,
-                ];
-                $array[] = [
-                    'field' => 'CPF/CNPJ',
-                    'value' => $provider->cpf_cnpj,
-                ];
+                if (isset($provider->name)) {
+                    $array[] = [
+                        'field' => 'Fornecedor',
+                        'value' => $provider->name,
+                    ];
+                }
+
+                if (isset($provider->cpf_cnpj)) {
+                    $array[] = [
+                        'field' => 'CPF/CNPJ',
+                        'value' => $provider->cpf_cnpj,
+                    ];
+                }
 
                 break;
             case 'EntryType':
-                $array[] = [
-                    'field' => 'Nome',
-                    'value' => $auditable->name,
-                ];
+                if (isset($auditable->name)) {
+                    $array[] = [
+                        'field' => 'Nome',
+                        'value' => $auditable->name,
+                    ];
+                }
                 break;
             case 'Provider':
-                $array[] = [
-                    'field' => 'Nome',
-                    'value' => $auditable->name,
-                ];
-                $array[] = [
-                    'field' => 'CPF/CNPJ',
-                    'value' => $auditable->cpf_cnpj,
-                ];
+                if (isset($auditable->name)) {
+                    $array[] = [
+                        'field' => 'Nome',
+                        'value' => $auditable->name,
+                    ];
+                }
+                if (isset($auditable->cpf_cnpj)) {
+                    $array[] = [
+                        'field' => 'CPF/CNPJ',
+                        'value' => $auditable->cpf_cnpj,
+                    ];
+                }
                 break;
             case 'Party':
-                $array[] = [
-                    'field' => 'Nome',
-                    'value' => $auditable->name,
-                ];
-                $array[] = [
-                    'field' => 'Código',
-                    'value' => $auditable->code,
-                ];
+                if (isset($auditable->name)) {
+                    $array[] = [
+                        'field' => 'Nome',
+                        'value' => $auditable->name,
+                    ];
+                }
+                if (isset($auditable->code)) {
+                    $array[] = [
+                        'field' => 'Código',
+                        'value' => $auditable->code,
+                    ];
+                }
                 break;
             case 'CongressmanBudget':
                 if ($congressman = $auditable->congressman) {
