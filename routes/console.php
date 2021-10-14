@@ -11,18 +11,21 @@ use Illuminate\Support\Facades\Password;
 use App\Services\DataSync\Service as DataSyncService;
 
 Artisan::command('docigp:sync:congressmen', function () {
+    login_as_system();
     $this->info('Synchronizing congressmen...');
 
     app(DataSyncService::class)->congressmen();
 })->describe('Sync congressmen data');
 
 Artisan::command('docigp:sync:parties', function () {
+    login_as_system();
     $this->info('Synchronizing parties...');
 
     app(DataSyncService::class)->parties();
 })->describe('Sync congressmen data');
 
 Artisan::command('docigp:sync:departments', function () {
+    login_as_system();
     $this->info('Creating departments...');
 
     app(DataSyncService::class)->departments();
@@ -44,6 +47,7 @@ Artisan::command('docigp:budget:generate {baseDate?} {congressmanName?}', functi
 })->describe('Generate budgets {baseDate?} {congressmanName?}');
 
 Artisan::command('docigp:role:assign {role} {email}', function ($role, $email) {
+    login_as_system();
     if (!($user = app(Users::class)->findByEmail($email))) {
         return $this->info('E-mail não encontrado.');
     }
@@ -54,6 +58,7 @@ Artisan::command('docigp:role:assign {role} {email}', function ($role, $email) {
 })->describe('Add role to user {role} {email}');
 
 Artisan::command('docigp:role:retract {role} {email}', function ($role, $email) {
+    login_as_system();
     if (!($user = app(Users::class)->findByEmail($email))) {
         return $this->info('E-mail não encontrado.');
     }
@@ -64,6 +69,7 @@ Artisan::command('docigp:role:retract {role} {email}', function ($role, $email) 
 })->describe('Remove role from user {role} {email}');
 
 Artisan::command('docigp:users:create {email} {name}', function ($email, $name) {
+    login_as_system();
     $user = app(Users::class)->firstOrCreate(
         ['email' => $email],
         [
@@ -77,6 +83,8 @@ Artisan::command('docigp:users:create {email} {name}', function ($email, $name) 
 })->describe('Create user {email} {name}');
 
 Artisan::command('docigp:users:reset-password {email}', function ($email) {
+    login_as_system();
+
     Password::sendResetLink(['email' => $email]);
 
     $this->info("Password reset for {$email} was sent");
@@ -89,6 +97,8 @@ Artisan::command('queue:clear {name?}', function ($name = null) {
 })->describe('Clear queue {name?}');
 
 Artisan::command('docigp:entries:update-transport', function () {
+    login_as_system();
+
     CongressmanBudget::disableGlobalScopes();
     CongressmanBudget::disableEvents();
     Entry::disableGlobalScopes();
