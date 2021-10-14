@@ -95,9 +95,7 @@ class Users extends Repository
     {
         $this->model = $this->findUserByEmail($request['email']);
 
-        $congressman = app(CongressmenRepository::class)->findById(
-            $congressman_id
-        );
+        $congressman = app(CongressmenRepository::class)->findById($congressman_id);
 
         $this->model['congressman_id'] = $congressman_id;
         $this->model['department_id'] = $congressman->department->id ?? null;
@@ -128,11 +126,7 @@ class Users extends Repository
         $search->each(function ($item) use ($columns, $query) {
             $columns->each(function ($type, $column) use ($query, $item) {
                 if ($type === 'string') {
-                    $query->orWhere(
-                        DB::raw("lower({$column})"),
-                        'like',
-                        '%' . $item . '%'
-                    );
+                    $query->orWhere(DB::raw("lower({$column})"), 'like', '%' . $item . '%');
                 } else {
                     if ($this->isDate($item)) {
                         $query->orWhere($column, '=', $item);
@@ -142,5 +136,19 @@ class Users extends Repository
         });
 
         return $this->makeResultForSelect($query->orderBy('name')->get());
+    }
+
+    public function getSystemModel()
+    {
+        return \Cache::remember('getSystemModel', 15, function () {
+            return User::where('email', 'system@docigp.alerj.rj.gov.br')->first();
+        });
+    }
+
+    public function loginAsSystem()
+    {
+        if ($systemUser = $this->getSystemModel()) {
+            auth()->login($systemUser);
+        }
     }
 }
