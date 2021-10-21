@@ -14,13 +14,13 @@
                     <form action="{{route('annual-reports.generate')}}" method="post">
                         @csrf
                         <div class="form-row justify-content-center">
-                            <div class="form-group col-md-2">
+                            <div class="form-group col-md-6 col-lg-4">
                                 <label for="year">Selecione o ano </label>
                                 <input class='form-control' type="number" name="year"  dusk="CongressmanReport" id="" min='2019' step='1'>
                             </div>
                         </div>
                         <div class="form-row justify-content-center">
-                            <div class="form-group col-md-3">
+                            <div class="form-group col-md-6 col-lg-4">
                                 <label for="congressman_id">Selecione o(a) deputado(a) </label>
                                 <select class="custom-select" name="congressman_id"  id="congressman_id">
                                     <option value="">Selecione</option>
@@ -37,13 +37,13 @@
             </div>
 
             <div class="card">
-                <div class="d-flex align-self-center">
-                <div class="card-body text-center">
+                <div class="card-body text-center pt-4">
+                <div class="card-body text-center pt-4">
                     <h5 class="card-title">Relatório Geral</h5>
                     <form action="{{route('general-annual-reports.generate')}}" method="post">
                         @csrf
                         <div class="form-row justify-content-center">
-                            <div class="form-group col-md-2">
+                            <div class="form-group col-md-6 col-lg-4">
                                 <label for="year">Selecione o ano </label>
                                 <input class='form-control' type="number"  name="year" dusk="Report" id="" min='2019' step='1'>
                             </div>
