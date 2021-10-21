@@ -10,7 +10,8 @@
     </div>
 @endif
 
-<table id="congressmanLegislatures" class="table table-striped table-bordered" cellspacing="0" width="100%">
+<div class="table-responsive">
+<table id="congressmanLegislatures" class="table table-striped table-bordered" cellspacing="0">
     <thead>
         <tr>
             <th>#</th>
@@ -51,6 +52,7 @@
         @endforelse
     </tbody>
 </table>
+</div>
 {{$congressmanLegislatures->links()}}
 
 

@@ -37,6 +37,7 @@
             </div>
 
             <div class="card">
+                <div class="d-flex align-self-center">
                 <div class="card-body text-center">
                     <h5 class="card-title">Relatório Geral</h5>
                     <form action="{{route('general-annual-reports.generate')}}" method="post">
@@ -50,6 +51,7 @@
                         <button type="submit" dusk="submit-Report" class='btn btn-primary btn-sm'>Baixar pdf</button>
                     </form>
                     <br>
+                    </div>
                 </div>
             </div>
         </div>

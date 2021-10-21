@@ -159,6 +159,8 @@
 
                     </div>
 
+                    @if(!is_null($provider->id))
+
                     <div class="card">
                         <div class="card-header">
                             <h4>Lançamentos</h4>
@@ -169,7 +171,7 @@
 
                             <div class="col-md-12">
                                 <div class="table-responsive">
-                                    <table id="providersTable" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                    <table id="providersTable" class="table table-striped table-bordered" cellspacing="0">
                                         <tr>
                                             <th>
                                                 Deputado
@@ -239,8 +241,11 @@
 
                     </div>
 
+                    @endIf
+
+
+                    @if($mode === 'update')
                     <div class="card mt-4">
-                        @if($mode === 'update')
                         <div wire:ignore.self class="modal fade" id="period-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
                             <div class="modal-dialog" role="document">
@@ -331,45 +336,46 @@
                                 @if(isset($this->provider->blockedPeriods) && $this->provider->blockedPeriods && $this->provider->blockedPeriods->count() > 0)
 
                                 <div class="form-group col-md-12">
-                                    <table id="providersTable" class="table table-striped table-bordered" cellspacing="0" width="100%">
-                                        <tr>
-                                            <th>
-                                                Início
-                                            </th>
-                                            <th>
-                                                Fim
-                                            </th>
-                                            <th>
+                                    <div class="table-responsive">
+                                        <table id="providersTable" class="table table-striped table-bordered" cellspacing="0">
+                                            <tr>
+                                                <th>
+                                                    Início
+                                                </th>
+                                                <th>
+                                                    Fim
+                                                </th>
+                                                <th>
 
-                                            </th>
-                                        </tr>
+                                                </th>
+                                            </tr>
 
-                                        @foreach($this->provider->blockedPeriods()->orderBy('start_date')->get() as $period)
-                                        <tr>
+                                            @foreach($this->provider->blockedPeriods()->orderBy('start_date')->get() as $period)
+                                            <tr>
 
-                                            <td>
-                                                {{date('d/m/Y', strtotime($period->start_date))}}
-                                            </td>
+                                                <td>
+                                                    {{date('d/m/Y', strtotime($period->start_date))}}
+                                                </td>
 
-                                            {{-- https://talltips.novate.co.uk/livewire/sweetalert2-with-livewire--}}
+                                                {{-- https://talltips.novate.co.uk/livewire/sweetalert2-with-livewire--}}
 
-                                            <td>
-                                                {{$period->end_date ? date('d/m/Y', strtotime($period->end_date)) : ''}}
-                                            </td>
+                                                <td>
+                                                    {{$period->end_date ? date('d/m/Y', strtotime($period->end_date)) : ''}}
+                                                </td>
 
-                                            <td>
-                                                <button type="button" wire:click="prepareForUpdate({{$period->id}})" class="btn btn-sm  btn-primary">
-                                                    <i class="fa fa-edit"></i>
-                                                </button>
-                                                <button type="button" wire:click="prepareForDelete({{ $period->id }})" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
-                                            </td>
+                                                <td>
+                                                    <button type="button" wire:click="prepareForUpdate({{$period->id}})" class="btn btn-sm  btn-primary">
+                                                        <i class="fa fa-edit"></i>
+                                                    </button>
+                                                    <button type="button" wire:click="prepareForDelete({{ $period->id }})" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
+                                                </td>
 
-                                        </tr>
+                                            </tr>
 
-                                        @endforeach
+                                            @endforeach
 
-                                    </table>
-
+                                        </table>
+                                    </div>
                                 </div>
 
                                 @elseif(isset($this->provider->blockedPeriods) && $this->provider->blockedPeriods && $this->provider->blockedPeriods->count() === 0)
@@ -381,9 +387,8 @@
 
                         </div>
 
-                        @endIf
-
                     </div>
+                    @endIf
 
                 </div>
 
