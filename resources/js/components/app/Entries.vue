@@ -15,7 +15,7 @@
         <template slot="widgets" v-if="can('entries:show')">
             <div class="mr-2">
                 <span
-                    class="btn btn-sm m-2"
+                    class="btn btn-sm "
                     :class="{
                         'btn-outline-success':
                             congressmanBudgets.selected.balance >= 0,
@@ -101,13 +101,13 @@
                     {{ entry.value_formatted }}
                 </td>
 
-                <td v-if="can('entries:show')" class="align-middle text-center">
+                <td v-if="can('entries:show')" class="align-middle text-center text-uppercase">
                     <span :class="getEntryType(entry).class">
                         {{ getEntryType(entry).name }}
                     </span>
                 </td>
 
-                <td v-if="can('entries:show')" class="align-middle text-center">
+                <td v-if="can('entries:show')" class="align-middle text-center text-uppercase">
                     <span
                         class="
                             badge badge-primary"
@@ -137,27 +137,27 @@
                         color="#e3342f,#FFFFFF"
                         padding="1"
                     >
-                        <div v-for="pendency in entry.pendencies">
+                        <div v-for="pendency in entry.pendencies" class="text-uppercase mb-1 mt-1">
                             &bull; {{ pendency }}
                         </div>
                     </app-badge>
                 </td>
 
-                <td v-if="can('entries:show')" class="align-middle text-center">
+                <td v-if="can('entries:show')" class="align-middle text-center text-uppercase">
                     <app-active-badge
                         :value="entry.verified_at"
                         :labels="['sim', 'não']"
                     ></app-active-badge>
                 </td>
 
-                <td v-if="can('entries:show')" class="align-middle text-center">
+                <td v-if="can('entries:show')" class="align-middle text-center text-uppercase">
                     <app-active-badge
                         :value="entry.analysed_at"
                         :labels="['sim', 'não']"
                     ></app-active-badge>
                 </td>
 
-                <td v-if="can('entries:show')" class="align-middle text-center">
+                <td v-if="can('entries:show')" class="align-middle text-center text-uppercase">
                     <app-active-badge
                         :value="
                             entry.published_at && !entry.is_transport_or_credit
@@ -166,14 +166,14 @@
                     ></app-active-badge>
                 </td>
 
-                <td class="align-middle text-right">
+                <td class="align-middle text-center">
                     <div>
                         <app-action-button
                             v-if="getEntryState(entry).buttons.verify.visible"
                             :disabled="
                                 getEntryState(entry).buttons.verify.disabled
                             "
-                            classes="btn btn-sm btn-micro btn-primary"
+                            classes="btn btn-sm btn-primary mb-1"
                             :title="getEntryState(entry).buttons.verify.title"
                             :model="entry"
                             swal-title="Verificar este lançamento?"
@@ -190,7 +190,7 @@
                             :disabled="
                                 getEntryState(entry).buttons.unverify.disabled
                             "
-                            classes="btn btn-sm btn-micro btn-warning"
+                            classes="btn btn-sm btn-warning mb-1"
                             :title="getEntryState(entry).buttons.unverify.title"
                             :model="entry"
                             swal-title="Remover verificação deste lançamento?"
@@ -207,7 +207,7 @@
                             :disabled="
                                 getEntryState(entry).buttons.analyse.disabled
                             "
-                            classes="btn btn-sm btn-micro btn-success"
+                            classes="btn btn-sm btn-success mb-1"
                             :title="getEntryState(entry).buttons.analyse.title"
                             :model="entry"
                             swal-title="Analisar este lançamento?"
@@ -226,7 +226,7 @@
                             :disabled="
                                 getEntryState(entry).buttons.unanalyse.disabled
                             "
-                            classes="btn btn-sm btn-micro btn-danger"
+                            classes="btn btn-sm btn-danger mb-1"
                             :title="
                                 getEntryState(entry).buttons.unanalyse.title
                             "
@@ -244,7 +244,7 @@
                             :disabled="
                                 getEntryState(entry).buttons.publish.disabled
                             "
-                            classes="btn btn-sm btn-micro btn-danger"
+                            classes="btn btn-sm btn-danger mb-1"
                             :title="getEntryState(entry).buttons.publish.title"
                             :model="entry"
                             swal-title="Publicar este lançamento?"
@@ -262,7 +262,7 @@
                             :disabled="
                                 getEntryState(entry).buttons.unpublish.disabled
                             "
-                            classes="btn btn-sm btn-micro btn-danger"
+                            classes="btn btn-sm btn-danger mb-1"
                             :title="
                                 getEntryState(entry).buttons.unpublish.title
                             "
@@ -280,7 +280,7 @@
                             :disabled="
                                 getEntryState(entry).buttons.edit.disabled
                             "
-                            class="btn btn-sm btn-micro btn-primary"
+                            class="btn btn-sm btn-primary mb-1"
                             @click="editEntry(entry)"
                             :title="getEntryState(entry).buttons.edit.title"
                         >
@@ -292,7 +292,7 @@
                             :disabled="
                                 getEntryState(entry).buttons.delete.disabled
                             "
-                            classes="btn btn-sm btn-micro btn-danger"
+                            classes="btn btn-sm btn-danger mb-1"
                             :title="getEntryState(entry).buttons.delete.title"
                             :model="entry"
                             swal-title="Deseja realmente deletar este lançamento?"

@@ -65,7 +65,7 @@
                         color="#e3342f,#FFFFFF"
                         padding="1"
                     >
-                        <div v-for="pendency in congressmanBudget.pendencies">
+                        <div class="text-uppercase mb-1 mt-1" v-for="pendency in congressmanBudget.pendencies">
                             &bull; {{ pendency }}<br />
                         </div>
                     </app-badge>
@@ -73,7 +73,7 @@
 
                 <td
                     v-if="can('congressman-budgets:show')"
-                    class="align-middle text-center"
+                    class="align-middle text-center text-uppercase"
                 >
                     <app-active-badge
                         :value="congressmanBudget.closed_at"
@@ -83,7 +83,7 @@
 
                 <td
                     v-if="can('congressman-budgets:show')"
-                    class="align-middle text-center"
+                    class="align-middle text-center text-uppercase"
                 >
                     <app-active-badge
                         :value="congressmanBudget.analysed_at"
@@ -93,7 +93,7 @@
 
                 <td
                     v-if="can('congressman-budgets:show')"
-                    class="align-middle text-center"
+                    class="align-middle text-center text-uppercase"
                 >
                     <app-active-badge
                         :value="congressmanBudget.published_at"
@@ -103,7 +103,7 @@
 
                 <td
                     v-if="can('congressman-budgets:show')"
-                    class="align-middle text-right"
+                    class="align-middle text-center"
                 >
                     <!--                    <button-->
                     <!--                        v-if="-->
@@ -136,7 +136,7 @@
                                 .deposit.disabled
                         "
                         @click="deposit(congressmanBudget)"
-                        class="btn btn-sm btn-micro btn-success"
+                        class="btn btn-sm btn-success mb-1"
                         :title="
                             getCongressmanBudgetState(congressmanBudget).buttons
                                 .deposit.title
@@ -150,7 +150,7 @@
                             :disabled="
                                 getCongressmanBudgetState(congressmanBudget).buttons.editPercentage.disabled
                             "
-                            classes="btn btn-sm btn-micro btn-primary"
+                            classes="btn btn-sm btn-primary mb-1"
                             :title="getCongressmanBudgetState(congressmanBudget).buttons.editPercentage.title"
                             :model="congressmanBudget"
                             label="percentual"
@@ -166,7 +166,7 @@
                             :disabled="
                                 getCongressmanBudgetState(congressmanBudget).buttons.close.disabled
                             "
-                            classes="btn btn-sm btn-micro btn-danger"
+                            classes="btn btn-sm btn-danger mb-1"
                             :title="getCongressmanBudgetState(congressmanBudget).buttons.close.title"
                             :model="congressmanBudget"
                             swal-title="Deseja realmente FECHAR esse Orçamento Mensal?"
@@ -183,7 +183,7 @@
                             :disabled="
                                 getCongressmanBudgetState(congressmanBudget).buttons.reopen.disabled
                             "
-                            classes="btn btn-sm btn-micro btn-danger"
+                            classes="btn btn-sm btn-danger mb-1"
                             :title="getCongressmanBudgetState(congressmanBudget).buttons.reopen.title"
                             :model="congressmanBudget"
                             swal-title="Deseja REABRIR esse Orçamento Mensal?"
@@ -199,7 +199,7 @@
                             :disabled="
                                 getCongressmanBudgetState(congressmanBudget).buttons.analyse.disabled
                             "
-                            classes="btn btn-sm btn-micro btn-warning"
+                            classes="btn btn-sm btn-warning mb-1"
                             :title="getCongressmanBudgetState(congressmanBudget).buttons.analyse.title"
                             :model="congressmanBudget"
                             swal-title="Esse Orçamento mensal foi ANALISADO?"
@@ -217,7 +217,7 @@
                             :disabled="
                                 getCongressmanBudgetState(congressmanBudget).buttons.unanalyse.disabled
                             "
-                            classes="btn btn-sm btn-micro btn-warning"
+                            classes="btn btn-sm btn-warning mb-1"
                             :title="getCongressmanBudgetState(congressmanBudget).buttons.unanalyse.title"
                             :model="congressmanBudget"
                             swal-title="Deseja remover o status ANALISADO deste lançamento?"
@@ -234,7 +234,7 @@
                             :disabled="
                                 getCongressmanBudgetState(congressmanBudget).buttons.publish.disabled
                             "
-                            classes="btn btn-sm btn-micro btn-danger"
+                            classes="btn btn-sm btn-danger mb-1"
                             :title="getCongressmanBudgetState(congressmanBudget).buttons.publish.title"
                             :model="congressmanBudget"
                             swal-title="Confirma a PUBLICAÇÃO deste Orçamento Mensal?"
@@ -251,7 +251,7 @@
                             :disabled="
                                 getCongressmanBudgetState(congressmanBudget).buttons.unpublish.disabled
                             "
-                            classes="btn btn-sm btn-micro btn-danger"
+                            classes="btn btn-sm btn-danger mb-1"
                             :title="getCongressmanBudgetState(congressmanBudget).buttons.unpublish.title"
                             :model="congressmanBudget"
                             swal-title="Confirma a DESPUBLICAÇÃO deste Orçamento Mensal?"

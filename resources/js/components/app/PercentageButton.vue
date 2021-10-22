@@ -50,6 +50,10 @@ export default {
                 title: 'Novo percentual',
                 input: 'text',
                 inputPlaceholder: 'Digite um percentual',
+                customClass: {
+                    content: 'align-self-center',
+                    input: 'text-center',
+                    },
                 inputAttributes: {
                     dusk: 'input-percentage',
                 },

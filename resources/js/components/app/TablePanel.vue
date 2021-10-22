@@ -1,29 +1,25 @@
 <template>
     <div class="card shadow-sm mb-4 mt-4">
         <div class="align-items-end card-header">
-            <div class="row border-bottom">
+            <div class="form-row border-bottom">
                 <div class="col-12">
                     <div class="mb-2">
                         <div class="row">
-                            <div class="col-10">
-                                <div class="row" v-if="unCollapsed">
+                            <div class="col-6">
+                                <div v-if="unCollapsed">
                                     <div class="col-12">
                                         <div class="row">
-                                            <div class="col">
                                                 <h4 class="mb-0">
                                                     {{ title }}
                                                 </h4>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="row" v-if="collapsed">
-                                    <div class="col-12">
+                                <div v-if="collapsed">
                                         <h4 class="mb-0">
                                             {{ titleCollapsed }}
                                         </h4>
-                                    </div>
                                 </div>
 
                                 <div class="row">
@@ -35,7 +31,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-2 d-flex justify-content-end">
+                            <div class="col-6 d-flex justify-content-end">
                                 <slot name="widgets"></slot>
 
                                 <i
@@ -60,7 +56,7 @@
                 <div v-if="perPage" class="row">
                     <div class="col-12 card-filters bg-filters py-2">
                         <div class="row">
-                            <div v-if="perPage" class="col">
+                            <div v-if="perPage" class="col-6">
                                 <input
                                     class="form-control"
                                     :value="filterText"
@@ -70,7 +66,7 @@
                                 />
                             </div>
 
-                            <div v-if="perPage" class="col p-0">
+                            <div v-if="perPage" class="col-6">
                                 <app-per-page
                                     :value="perPage"
                                     @input="$emit('set-per-page', $event)"

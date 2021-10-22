@@ -12,31 +12,31 @@
         <template slot="checkboxes">
             <div class="row">
                 <div v-if="can('congressman:show')" class="col">
-                    <app-input name="joined" label="aderiu" type="checkbox" v-model="joined" :required="true" :form="form" inline="true"></app-input>
+                    <app-input name="joined" label="Aderiu" type="checkbox" class="form-check-input" v-model="joined" :required="true" :form="form" inline="true"></app-input>
                 </div>
 
                 <div v-if="can('congressman:show')" class="col">
-                    <app-input name="notJoined" label="não aderiu" type="checkbox" v-model="notJoined" :required="true" :form="form" inline="true"></app-input>
+                    <app-input name="notJoined" label="Não aderiu" type="checkbox" class="form-check-input" v-model="notJoined" :required="true" :form="form" inline="true"></app-input>
                 </div>
 
                 <div v-if="can('congressman:show')" class="col">
-                    <app-input name="withMandate" label="com mandato" type="checkbox" v-model="withMandate" :required="true" :form="form" inline="true"></app-input>
+                    <app-input name="withMandate" label="Com mandato" type="checkbox" class="form-check-input" v-model="withMandate" :required="true" :form="form" inline="true"></app-input>
                 </div>
 
                 <div v-if="can('congressman:show')" class="col">
-                    <app-input name="withoutMandate" label="sem mandato" type="checkbox" v-model="withoutMandate" :required="true" :form="form" inline="true"></app-input>
+                    <app-input name="withoutMandate" label="Sem mandato" type="checkbox" class="form-check-input" v-model="withoutMandate" :required="true" :form="form" inline="true"></app-input>
                 </div>
 
                 <div v-if="can('congressman:show')" class="col">
-                    <app-input name="withPendency" label="com pendências" type="checkbox" v-model="withPendency" :required="true" :form="form" inline="true"></app-input>
+                    <app-input name="withPendency" label="Com pendências" type="checkbox" class="form-check-input" v-model="withPendency" :required="true" :form="form" inline="true"></app-input>
                 </div>
 
                 <div v-if="can('congressman:show')" class="col">
-                    <app-input name="withoutPendency" label="sem pendências" type="checkbox" v-model="withoutPendency" :required="true" :form="form" inline="true"></app-input>
+                    <app-input name="withoutPendency" label="Sem pendências" type="checkbox" v-model="withoutPendency" :required="true" :form="form" inline="true"></app-input>
                 </div>
 
                 <div v-if="can('congressman:show')" class="col">
-                    <app-input name="unread" label="não lidos" type="checkbox" v-model="unread" :required="true" :form="form" inline="true"></app-input>
+                    <app-input name="unread" label="Não lidos" type="checkbox" v-model="unread" :required="true" :form="form" inline="true"></app-input>
                 </div>
             </div>
         </template>
@@ -66,20 +66,20 @@
                         {{ congressman.nickname }}
                     </div>
 
-                    <div class="mb-2" style="line-height: 3px; " v-if="congressman.name !== congressman.nickname">
-                        <small class="text-primary" style="font-size: 0.6em;">({{ congressman.name }})</small>
+                    <div class="mb-2" style="line-height: 0.7rem; " v-if="congressman.name !== congressman.nickname">
+                        <small class="text-primary" style="font-size: 0.6rem;">({{ congressman.name }})</small>
                     </div>
                 </td>
 
-                <td class="align-middle text-center">
+                <td class="align-middle text-center text-uppercase">
                     <app-active-badge :value="congressman.is_published" :labels="['sim', 'não']"></app-active-badge>
                 </td>
 
-                <td v-if="can('congressman:show')" class="align-middle text-center">
+                <td v-if="can('congressman:show')" class="align-middle text-center text-uppercase">
                     <app-active-badge :value="!congressman.has_pendency" :labels="['não', 'sim']"></app-active-badge>
                 </td>
 
-                <td v-if="can('congressman:show')" class="align-middle text-center">
+                <td v-if="can('congressman:show')" class="align-middle text-center text-uppercase">
                     <app-active-badge :value="congressman.has_mandate" :labels="['com mandato', 'sem mandato ']"></app-active-badge>
                 </td>
             </tr>
