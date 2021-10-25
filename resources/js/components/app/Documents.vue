@@ -56,7 +56,7 @@
 
                 <td
                     v-if="can('entry-documents:show')"
-                    class="align-middle text-center"
+                    class="align-middle text-center text-uppercase"
                 >
                     <app-active-badge
                         :value="document.verified_at"
@@ -66,7 +66,7 @@
 
                 <td
                     v-if="can('entry-documents:show')"
-                    class="align-middle text-center"
+                    class="align-middle text-center text-uppercase"
                 >
                     <app-active-badge
                         :value="document.analysed_at"
@@ -76,7 +76,7 @@
 
                 <td
                     v-if="can('entry-documents:show')"
-                    class="align-middle text-center"
+                    class="align-middle text-center text-uppercase"
                 >
                     <app-active-badge
                         :value="document.published_at"
@@ -84,7 +84,7 @@
                     ></app-active-badge>
                 </td>
 
-                <td class="align-middle text-right">
+                <td class="align-middle text-center">
                     <button
                         v-if="
                             getEntryDocumentState(document).buttons.verify
@@ -94,7 +94,7 @@
                             getEntryDocumentState(document).buttons.verify
                                 .disabled
                         "
-                        class="btn btn-sm btn-micro btn-primary"
+                        class="btn btn-sm btn-primary mb-1"
                         @click="verify(document)"
                         :title="
                             getEntryDocumentState(document).buttons.verify.title
@@ -113,7 +113,7 @@
                             getEntryDocumentState(document).buttons.unverify
                                 .disabled
                         "
-                        class="btn btn-sm btn-micro btn-warning"
+                        class="btn btn-sm btn-warning mb-1"
                         @click="unverify(document)"
                         :title="
                             getEntryDocumentState(document).buttons.unverify
@@ -132,7 +132,7 @@
                             getEntryDocumentState(document).buttons.analyse
                                 .disabled
                         "
-                        class="btn btn-sm btn-micro btn-primary"
+                        class="btn btn-sm btn-primary mb-1"
                         @click="analyse(document)"
                         :title="
                             getEntryDocumentState(document).buttons.analyse
@@ -152,7 +152,7 @@
                             getEntryDocumentState(document).buttons.unanalyse
                                 .disabled
                         "
-                        class="btn btn-sm btn-micro btn-danger"
+                        class="btn btn-sm btn-danger mb-1"
                         @click="unanalyse(document)"
                         :title="
                             getEntryDocumentState(document).buttons.unanalyse
@@ -171,7 +171,7 @@
                             getEntryDocumentState(document).buttons.publish
                                 .disabled
                         "
-                        class="btn btn-sm btn-micro btn-danger"
+                        class="btn btn-sm btn-danger mb-1"
                         @click="publish(document)"
                         :title="
                             getEntryDocumentState(document).buttons.publish
@@ -190,7 +190,7 @@
                             getEntryDocumentState(document).buttons.unpublish
                                 .disabled
                         "
-                        class="btn btn-sm btn-micro btn-success"
+                        class="btn btn-sm btn-success mb-1"
                         @click="unpublish(document)"
                         :title="
                             getEntryDocumentState(document).buttons.unpublish
@@ -204,7 +204,7 @@
                         :href="document.url"
                         target="_blank"
                         title="Visualizar documento"
-                        class="btn btn-sm btn-micro btn-warning cursor-pointer"
+                        class="btn btn-sm btn-warning cursor-pointer mb-1"
                     >
                         <i class="fa fa-eye"></i>
                     </a>
@@ -218,7 +218,7 @@
                             getEntryDocumentState(document).buttons.delete
                                 .disabled
                         "
-                        class="btn btn-sm btn-micro btn-danger"
+                        class="btn btn-sm btn-danger mb-1"
                         @click="trash(document)"
                         :title="
                             getEntryDocumentState(document).buttons.delete.title

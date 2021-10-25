@@ -54,7 +54,7 @@
                     {{ comment.formatted_created_at }}
                 </td>
 
-                <td class="align-middle text-right">
+                <td class="align-middle text-center">
                     <button
                         :disabled="
                             !can('entry-comments:update') ||
@@ -65,7 +65,7 @@
                                         : 'not-congressman'),
                             )
                         "
-                        class="btn btn-sm btn-micro btn-primary"
+                        class="btn btn-sm btn-primary mb-1"
                         @click="editComment(comment)"
                         title="Editar comentário"
                         dusk="editComment"
@@ -83,7 +83,7 @@
                                         : 'not-congressman'),
                             )
                         "
-                        class="btn btn-sm btn-micro btn-danger"
+                        class="btn btn-sm btn-danger mb-1"
                         @click="trash(comment)"
                         title="Deletar Comentário"
                         dusk="deleteComment"

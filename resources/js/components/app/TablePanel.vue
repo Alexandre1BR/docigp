@@ -66,14 +66,14 @@
                                 />
                             </div>
 
-                            <div v-if="perPage" class="col-6">
+                            <div v-if="perPage" class="col-4">
                                 <app-per-page
                                     :value="perPage"
                                     @input="$emit('set-per-page', $event)"
                                 ></app-per-page>
                             </div>
 
-                            <div class="col text-right">
+                            <div class="col-2 text-center mt-1">
                                 <slot name="buttons"></slot>
 
                                 <router-link

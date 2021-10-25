@@ -55,10 +55,11 @@
                 >
                     <app-badge
                         v-if="congressmanBudget.pendencies.length === 0"
-                        caption="não"
                         color="#38c172,#FFFFFF"
                         padding="1"
-                    ></app-badge>
+                    >
+                    <span class="text-uppercase">não</span>
+                    </app-badge>
 
                     <app-badge
                         v-if="congressmanBudget.pendencies.length > 0"
