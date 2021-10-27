@@ -36,6 +36,7 @@
         </div>
 
         <div class="card-body">
+            <div class="table-responsive">
             <table id="providersTable" class="table table-striped table-bordered" cellspacing="0" width="100%">
                     <thead>
                     <tr>
@@ -81,6 +82,7 @@
 
                     {{ $providers->links() }}
                 </table>
+                </div>
         </div>
     </div>
 
