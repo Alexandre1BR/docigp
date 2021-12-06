@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Password;
 use App\Services\DataSync\Service as DataSyncService;
 
 Artisan::command('docigp:sync:congressmen', function () {
+    info('Synchronizing congressmen...');
     login_as_system();
     $this->info('Synchronizing congressmen...');
 
@@ -18,6 +19,7 @@ Artisan::command('docigp:sync:congressmen', function () {
 })->describe('Sync congressmen data');
 
 Artisan::command('docigp:sync:parties', function () {
+    info('Synchronizing parties...');
     login_as_system();
     $this->info('Synchronizing parties...');
 
@@ -25,6 +27,7 @@ Artisan::command('docigp:sync:parties', function () {
 })->describe('Sync congressmen data');
 
 Artisan::command('docigp:sync:departments', function () {
+    info('Creating departments...');
     login_as_system();
     $this->info('Creating departments...');
 
@@ -32,6 +35,7 @@ Artisan::command('docigp:sync:departments', function () {
 })->describe('Create departments');
 
 Artisan::command('docigp:sync:roles', function () {
+    info('Creating roles and abilities...');
     $this->info('Creating roles and abilities...');
     app(DataSyncService::class)->roles();
 })->describe('Create roles');
@@ -40,6 +44,7 @@ Artisan::command('docigp:budget:generate {baseDate?} {congressmanName?}', functi
     $baseDate = null,
     $congressmanName = null
 ) {
+    info('Generating budgets...');
     login_as_system();
     $this->info('Generating budgets...');
 
