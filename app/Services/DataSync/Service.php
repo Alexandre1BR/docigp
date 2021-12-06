@@ -12,15 +12,13 @@ use App\Services\HttpClient\Service as HttpClientService;
 
 class Service
 {
-    const CONGRESSMEN_ENDPOINT = 'http://apiportal.alerj.rj.gov.br/api/v1.0/proderj/api/deputadoservice';
+    const CONGRESSMEN_ENDPOINT = 'https://apiportal.alerj.rj.gov.br/api/v1.0/proderj/api/deputadoservice';
 
     const PARTIES_ENDPOINT = 'https://dadosabertos.camara.leg.br/api/v2/partidos?dataInicio=1970-01-01&itens=500&ordem=ASC&ordenarPor=sigla&pagina=%s';
 
     public function congressmen()
     {
-        $result = app(HttpClientService::class)->readJson(
-            static::CONGRESSMEN_ENDPOINT
-        );
+        $result = app(HttpClientService::class)->readJson(static::CONGRESSMEN_ENDPOINT);
 
         if ($result instanceof Coollection) {
             app(Congressmen::class)->sync($result['data']);
@@ -36,10 +34,7 @@ class Service
                 sprintf(static::PARTIES_ENDPOINT, $page++)
             );
 
-            if (
-                $result instanceof Coollection &&
-                count($result['data']['dados']) > 0
-            ) {
+            if ($result instanceof Coollection && count($result['data']['dados']) > 0) {
                 app(Parties::class)->sync($result['data']['dados']);
             } else {
                 break;
@@ -59,10 +54,10 @@ class Service
         collect(config('roles.roles'))->each(function ($role) {
             Bouncer::role()->updateOrCreate(
                 [
-                    'name' => $role['name']
+                    'name' => $role['name'],
                 ],
                 [
-                    'title' => $role['title']
+                    'title' => $role['title'],
                 ]
             );
         });
@@ -97,10 +92,7 @@ class Service
 
     public function findOrCreateAbility($title, $ability)
     {
-        $model = BouncerAbility::where(
-            'name',
-            $this->guessAbilityName($title, $ability)
-        )->first();
+        $model = BouncerAbility::where('name', $this->guessAbilityName($title, $ability))->first();
 
         return $model ? [$model->title, $model->name] : [$title, $ability];
     }
@@ -108,13 +100,8 @@ class Service
     public function rolesAbilities()
     {
         collect(config('roles.grants'))->each(function ($grant) {
-            collect($grant['abilities'])->each(function ($title, $ability) use (
-                $grant
-            ) {
-                list($title, $ability) = $this->findOrCreateAbility(
-                    $title,
-                    $ability
-                );
+            collect($grant['abilities'])->each(function ($title, $ability) use ($grant) {
+                list($title, $ability) = $this->findOrCreateAbility($title, $ability);
 
                 if (in($ability, 'everything', '*')) {
                     //If it is administrator
@@ -122,10 +109,10 @@ class Service
                 } else {
                     Bouncer::ability()->updateOrCreate(
                         [
-                            'name' => $ability
+                            'name' => $ability,
                         ],
                         [
-                            'title' => $title
+                            'title' => $title,
                         ]
                     );
                     Bouncer::allow($grant['group'])->to($ability);
