@@ -101,15 +101,15 @@ Artisan::command('queue:clear {name?}', function ($name = null) {
     $this->info("Queue '{$name}' was cleared");
 })->describe('Clear queue {name?}');
 
-Artisan::command('docigp:entries:update-transport', function () {
+Artisan::command('docigp:entries:update-transport {id?}', function ($id = null) {
     login_as_system();
 
     CongressmanBudget::disableGlobalScopes();
-    CongressmanBudget::disableEvents();
     Entry::disableGlobalScopes();
-    Entry::disableEvents();
 
-    CongressmanBudget::each(function (CongressmanBudget $budget) {
+    CongressmanBudget::when($id, function ($query) use ($id) {
+        return $query->where('id', $id);
+    })->each(function (CongressmanBudget $budget) {
         if (
             $entry = $budget
                 ->entries()
@@ -122,8 +122,6 @@ Artisan::command('docigp:entries:update-transport', function () {
         }
     });
 
-    Entry::enableEvents();
     Entry::enableGlobalScopes();
-    CongressmanBudget::enableEvents();
     CongressmanBudget::enableGlobalScopes();
 })->describe('Update transport entries touching them');
