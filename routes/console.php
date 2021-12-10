@@ -125,3 +125,23 @@ Artisan::command('docigp:entries:update-transport {id?}', function ($id = null) 
     Entry::enableGlobalScopes();
     CongressmanBudget::enableGlobalScopes();
 })->describe('Update transport entries touching them');
+
+Artisan::command('docigp:budget:remove:month {id}?', function ($id = null){
+
+    login_as_system();
+
+    CongressmanBudget::disableGlobalScopes();
+    Entry::disableGlobalScopes();
+
+    $count = DB::delete("delete from entries where congressman_budget_id={$id}");
+
+    $this->info('Removing ' . $count . ' entries');
+
+    $count = DB::delete("delete from congressman_budgets where id={$id}");
+    $this->info('Removing ' . $count . ' congressman_budgets');
+
+
+    Entry::enableGlobalScopes();
+    CongressmanBudget::enableGlobalScopes();
+})->describe('Deleting CongressmanBudget');
+
