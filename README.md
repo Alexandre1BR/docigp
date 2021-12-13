@@ -16,9 +16,7 @@
 - [PostgreSQL](https://www.postgresql.org/)
 - [Pusher](https://pusher.com/)
 
-### Instalação e atualização
-
-#### Instalação
+### Instalação
 
 - Clonar o repositório (branch: staging [homologação] or production [produção])
 - Configurar servidor web para apontar para a **`<pasta-aonde-o-site-foi-instalado>`/public**
@@ -56,33 +54,38 @@ php artisan docigp:budget:generate
 
 ### Atualização
 
-- Entrar na `<pasta-aonde-o-site-foi-instalado>`
-- Baixar as atualizações de código fonte usando Git (git pull)
-- Executar os comandos em sequência:
 ```
+Executar, para o DOCIGP de produção, os itens (1), (2) e (3)
+
+------------------------------------
+
+(1) Executar o comando a partir da pasta de produção do DOCIGP para entrar em modo de manutenção
+
+php artisan down
+
+------------------------------------
+
+(2) Atualizar a versão de produção do DOCIGP. Executar os comandos
+
+Após o 'git pull', rodar os comandos:
 composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
-php artisan cache:clear
-php artisan config:clear
-php artisan route:clear
-php artisan view:clear
 php artisan migrate --force
 php artisan docigp:sync:roles
-```
-- Reiniciar o Horizon
-- Dar permissão de owner do usuário web(exemplo: www-data) para a pasta do projeto
+php artisan horizon:terminate
+php artisan cache:clear
+php artisan config:clear
+php artisan view:clear
+php artisan route:clear
 
-#### Passos extras específicos desta aplicação
+Reiniciar o Horizon
 
-##### Configurar [scheduler](https://laravel.com/docs/5.8/scheduling)
-Colocar no cron a seguinte linha de comando, respeitando o path da aplicação:
-```
-* * * * * cd /path-to-your-project && php artisan schedule:run >> /dev/null 2>&1
-```
+Dar permissionamento de owner para a pasta e todos os arquivos internos (Exemplo: sudo chown -R www-data:www-data docigp/)
 
-##### Configurar o [Laravel Horizon](https://laravel.com/docs/5.8/horizon)
-Configurar o Supervisor para manter o Horizon rodando o seguinte deamon
-```
-php artisan horizon
+------------------------------------
+
+(3) Executar o comando a partir da pasta de produção do DOCIGP para sair do modo de manutenção
+
+php artisan up
 ```
 
 ### Comandos disponíveis
