@@ -2,6 +2,7 @@
 
 namespace App\Data\Repositories;
 
+use App\Models\Audit;
 use App\Support\Constants;
 use Carbon\Carbon;
 use App\Models\Entry;
@@ -167,7 +168,11 @@ class Entries extends Repository
 
     public function audits($entryId)
     {
-        $entry = Entry::findOrFail($entryId);
+        return Audit::where('auditable_type', 'like', '%\Entry%')
+            ->where('auditable_id', $entryId)
+            ->join('users', 'users.id', '=', 'audits.user_id')
+            ->get();
+        //        $entry = Entry::findOrFail($entryId);
     }
 
     public function emptyRefundForm($congressmanBudgetId)
