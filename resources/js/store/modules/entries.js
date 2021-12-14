@@ -145,6 +145,13 @@ let getters = merge_objects(gettersMixin, {
         }
     },
 
+    activityLog: (state, getters, rootState) => entry => {
+
+        return get(buildApiUrl(state.service.uri, rootState) + '/' + entry.id + '/audits')
+
+        // getters.getActivityLog(entry)
+    },
+
     getSelectedState: (state, getters) => {
         return getters.getEntryState(getters.getSelected)
     },

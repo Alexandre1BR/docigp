@@ -291,22 +291,33 @@
                         </button>
 
                         <app-action-button
-                            v-if="getEntryState(entry).buttons.delete.visible"
-                            :disabled="
+                                v-if="getEntryState(entry).buttons.delete.visible"
+                                :disabled="
                                 getEntryState(entry).buttons.delete.disabled
                             "
-                            classes="btn btn-sm btn-micro btn-danger"
-                            :title="getEntryState(entry).buttons.delete.title"
-                            :model="entry"
-                            swal-title="Deseja realmente deletar este lançamento?"
-                            label=""
-                            icon="fa fa-trash"
-                            store="entries"
-                            method="delete"
-                            :spinner-config="{ size: '0.05em' }"
-                            :swal-message="{ r200: 'Deletado com sucesso' }"
+                                classes="btn btn-sm btn-micro btn-danger"
+                                :title="getEntryState(entry).buttons.delete.title"
+                                :model="entry"
+                                swal-title="Deseja realmente deletar este lançamento?"
+                                label=""
+                                icon="fa fa-trash"
+                                store="entries"
+                                method="delete"
+                                :spinner-config="{ size: '0.05em' }"
+                                :swal-message="{ r200: 'Deletado com sucesso' }"
                         >
                         </app-action-button>
+
+
+                        <button
+                                v-if="can('audits:show')"
+                                class="btn btn-sm btn-micro btn-primary"
+                                @click="activityLog(entry)"
+                                title="Logs"
+                        >
+                            <i class="fas fa-clipboard-list"></i>
+                        </button>
+
                     </div>
                 </td>
             </tr>
@@ -488,6 +499,7 @@ export default {
             selectedCongressmanBudgetState:
                 'congressmanBudgets/getSelectedState',
             currentSummaryLabel: 'entries/currentSummaryLabel',
+            activityLog: 'entries/activityLog',
         }),
     },
 }
