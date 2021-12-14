@@ -56,6 +56,9 @@
                 }"
                 :dusk="'entrie'"
             >
+
+                <td v-if="can('tables:view-ids')" class="align-middle">{{ entry.id }}</td>
+
                 <td class="align-middle">{{ entry.date_formatted }}</td>
 
                 <td class="align-middle">
@@ -384,16 +387,27 @@ export default {
         },
 
         getTableColumns() {
-            let columns = [
-                'Data',
-                'Objeto',
-                'Favorecido',
+
+            let columns =[]
+
+            if (can('tables:view-ids')) {
+                columns.push({
+                    type: 'label',
+                    title: '#',
+                    trClass: 'text-center',
+                })
+            }
+
+            columns.push('Data')
+            columns.push('Objeto')
+            columns.push('Favorecido')
+            columns.push(
                 {
                     type: 'label',
                     title: 'Documentos',
                     trClass: 'text-right',
-                },
-            ]
+                })
+
 
             if (can('entry-comments:show')) {
                 columns.push({

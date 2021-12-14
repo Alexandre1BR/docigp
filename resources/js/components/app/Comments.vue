@@ -42,6 +42,8 @@
                     ),
                 }"
             >
+                <td v-if="can('tables:view-ids')" class="align-middle">{{ comment.id }}</td>
+
                 <td class="align-middle">
                     {{ comment.text }}
                 </td>
@@ -136,7 +138,19 @@ export default {
         ]),
 
         getTableColumns() {
-            let columns = ['Comentário', 'Autor', 'Criado em', '']
+            let columns =[]
+
+            if (can('tables:view-ids')) {
+                columns.push({
+                    type: 'label',
+                    title: '#',
+                    trClass: 'text-center',
+                })
+            }
+            columns.push('Comentário')
+            columns.push('Autor')
+            columns.push('Criado em')
+            columns.push('')
 
             return columns
         },

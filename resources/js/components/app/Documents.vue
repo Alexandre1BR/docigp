@@ -46,9 +46,7 @@
                     ),
                 }"
             >
-                <!--                <td class="align-middle">-->
-                <!--                    {{ getEntryDocumentState(document).name }}-->
-                <!--                </td>-->
+                <td v-if="can('tables:view-ids')" class="align-middle">{{ document.id }}</td>
 
                 <td class="align-middle">
                     {{ document.attached_file.original_name }}
@@ -279,7 +277,17 @@ export default {
         ]),
 
         getTableColumns() {
-            let columns = ['Nome do arquivo']
+            let columns =[]
+
+            if (can('tables:view-ids')) {
+                columns.push({
+                    type: 'label',
+                    title: '#',
+                    trClass: 'text-center',
+                })
+            }
+
+            columns.push('Nome do arquivo')
 
             if (can('entry-documents:show')) {
                 columns.push({
