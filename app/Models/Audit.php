@@ -13,7 +13,7 @@ class Audit extends Model
 
     protected $with = ['user'];
 
-    protected $dates = ['created_at'];
+    protected $dates = ['created_at', 'updated_at'];
 
     protected $appends = ['formatted_created_at', 'activity', 'route_name'];
 

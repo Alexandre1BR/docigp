@@ -1,13 +1,6 @@
 <template>
     <div>
 
-    Audits
-        {{ audits }}
-        <div v-for="audit in audits">
-            {{ audit.auditable_id }}
-        </div>
-
-
     <app-table-panel
         :title="'Lançamentos (' + pagination.total + ')'"
         titleCollapsed="Lançamento"
@@ -318,12 +311,8 @@
                         </app-action-button>
 
 
-                        <b-button v-if="can('audits:show')" class="btn btn-sm btn-micro btn-primary" @click="activityLog(entry)"
-                                  title="Logs"><i class="fas fa-clipboard-list"></i></b-button>
+                        <app-audits-button model="entries" :row="entry"></app-audits-button>
 
-                        <b-modal :show.sync="showAuditsModal" id="modal-1" title="BootstrapVue">
-                            <p class="my-4">Modal</p>
-                        </b-modal>
                     </div>
                 </td>
             </tr>
@@ -344,7 +333,6 @@ import congressmanBudgets from '../../views/mixins/congressmanBudgets'
 
 const service = {
     name: 'entries',
-
     uri:
         'congressmen/{congressmen.selected.id}/budgets/{congressmanBudgets.selected.id}/entries',
 }
@@ -357,8 +345,6 @@ export default {
             service: service,
 
             showModal: false,
-            showAuditsModal: false,
-            audits: []
         }
     },
 
@@ -498,13 +484,6 @@ export default {
             this.showModal = true
         },
 
-        activityLog(entry){
-            const $this = this
-            this.showAuditsModal = true
-            this.audits = this.getActivityLog(entry).then(response => {
-                $this.audits = response
-            })
-        }
     },
 
     computed: {

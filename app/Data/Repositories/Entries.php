@@ -166,15 +166,6 @@ class Entries extends Repository
         return $result;
     }
 
-    public function audits($entryId)
-    {
-        return Audit::where('auditable_type', 'like', '%\Entry%')
-            ->where('auditable_id', $entryId)
-            ->join('users', 'users.id', '=', 'audits.user_id')
-            ->get();
-        //        $entry = Entry::findOrFail($entryId);
-    }
-
     public function emptyRefundForm($congressmanBudgetId)
     {
         $congressmanBudget = app(CongressmanBudgets::class)->findById($congressmanBudgetId);
@@ -202,5 +193,13 @@ class Entries extends Repository
         ];
 
         return $form;
+    }
+
+    public function audits($entryId)
+    {
+        return Audit::with('user')
+            ->where('auditable_type', 'like', '%\Entry')
+            ->where('auditable_id', $entryId)
+            ->get();
     }
 }
