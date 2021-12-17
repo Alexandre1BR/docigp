@@ -200,6 +200,7 @@ class Entries extends Repository
         return Audit::with('user')
             ->where('auditable_type', 'like', '%\Entry')
             ->where('auditable_id', $entryId)
+            ->orderBy('created_at', 'desc')
             ->get();
     }
 }
