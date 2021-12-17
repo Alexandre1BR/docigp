@@ -143,6 +143,10 @@ Route::group(['prefix' => '/congressmen'], function () {
                         Route::post('/delete', [EntryComments::class, 'delete'])->name(
                             'congressmen.budgets.entries-comments.delete'
                         );
+
+                        Route::get('/audits', [EntryComments::class, 'audits'])->name(
+                            'congressmen.budgets.entries-comments.audits'
+                        );
                     });
                 });
             });
