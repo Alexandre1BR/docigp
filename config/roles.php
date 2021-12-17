@@ -54,6 +54,7 @@ return [
                 'entries:update' => 'Lançamentos: alterar',
                 'entries:publish' => 'Lançamentos: publicar',
                 'entries:delete' => 'Lançamentos: deletar',
+                'entries:delete-transport' => 'Lançamentos: deletar lançamento de transporte',
                 'entries:control-update' => 'Lançamentos: alterar lançamento de controle',
                 'entries:analyse' => 'Lançamentos: analisar',
 

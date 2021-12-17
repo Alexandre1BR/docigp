@@ -18,10 +18,7 @@ class CostCenters extends Repository
     {
         if (current_user() && !current_user()->can('entries:control-update')) {
             $this->addCustomQuery(function ($query) {
-                $query->whereNotIn(
-                    'code',
-                    Constants::COST_CENTER_CONTROL_CODE_ARRAY
-                );
+                $query->whereNotIn('code', Constants::COST_CENTER_CONTROL_CODE_ARRAY);
             });
         }
 
@@ -30,17 +27,13 @@ class CostCenters extends Repository
 
     public function getControlIdsArray()
     {
-        return array_merge(Constants::COST_CENTER_CONTROL_ID_ARRAY, [
-            $this->findByCode(4)->code
-        ]);
+        return array_merge(Constants::COST_CENTER_CONTROL_ID_ARRAY, [$this->findByCode(4)->code]);
     }
 
     public function transform($data)
     {
         $this->addTransformationPlugin(function ($costCenter) {
-            $costCenter[
-                'name'
-            ] = "{$costCenter['code']} - {$costCenter['name']}";
+            $costCenter['name'] = "{$costCenter['code']} - {$costCenter['name']}";
 
             return $costCenter;
         });
@@ -50,17 +43,19 @@ class CostCenters extends Repository
 
     public function getTransportAndCreditIdsArray()
     {
-        return Cache::remember(
-            'getTransportAndCreditIdsArray',
-            60,
-            function () {
-                return [
-                    $this->findByCode(1)->id,
-                    $this->findByCode(2)->id,
-                    $this->findByCode(3)->id
-                ];
-            }
-        );
+        return Cache::remember('getTransportAndCreditIdsArray', 60, function () {
+            return [$this->findByCode(1)->id, $this->findByCode(2)->id, $this->findByCode(3)->id];
+        });
+    }
+
+    public function getTransportIdsArray()
+    {
+        return Cache::remember('getTransportIdsArray', 60, function () {
+            return [
+                Constants::COST_CENTER_TRANSPORT_FROM_PREVIOUS_ID,
+                Constants::COST_CENTER_TRANSPORT_TO_NEXT_ID,
+            ];
+        });
     }
 
     public function costCenterLimitsTable()
@@ -78,24 +73,16 @@ class CostCenters extends Repository
                 'VIII' => 'Divulgação',
                 'IX' => 'Cursos',
                 'X' => 'Diárias',
-                'XI' => 'Tarifas'
+                'XI' => 'Tarifas',
             ];
 
             $allResponse = collect();
 
             $i = 1;
             $roman = 'I';
-            while (
-                $parent = CostCenter::where(
-                    'code',
-                    $roman = NumConvert::roman($i)
-                )->first()
-            ) {
+            while ($parent = CostCenter::where('code', $roman = NumConvert::roman($i))->first()) {
                 if ($i == 6) {
-                    $costCenters = CostCenter::where(
-                        'parent_code',
-                        $roman
-                    )->get();
+                    $costCenters = CostCenter::where('parent_code', $roman)->get();
 
                     $costCenters->each(function ($costCenter) use (
                         $abbreviations,
@@ -105,12 +92,11 @@ class CostCenters extends Repository
                         $parent
                     ) {
                         $costCenterArrayResponse = [
-                            'abbreviation' =>
-                                $abbreviations[$costCenter->code] ?? '',
+                            'abbreviation' => $abbreviations[$costCenter->code] ?? '',
                             'number' => $i,
                             'limit' => $costCenter->limit ?? null,
                             'roman' => $costCenter->code,
-                            'ids' => collect($costCenter->id)
+                            'ids' => collect($costCenter->id),
                         ];
 
                         $allResponse->push($costCenterArrayResponse);
@@ -135,7 +121,7 @@ class CostCenters extends Repository
                         'number' => $i,
                         'limit' => $limit == 0 ? null : $limit,
                         'roman' => $roman,
-                        'ids' => $collection
+                        'ids' => $collection,
                     ];
 
                     $allResponse->push($costCenterArrayResponse);
