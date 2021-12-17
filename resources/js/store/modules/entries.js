@@ -360,8 +360,16 @@ let getters = merge_objects(gettersMixin, {
                     },
                     delete: {
                         visible: can('entries:buttons') || can('entries:delete'),
-                        disabled: congressmanBudgetClosedAt || !can('entries:delete'),
-                        title: !congressmanBudgetClosedAt ? 'Apagar lançamento' : closedTitle,
+                        disabled: entry.is_transport
+                            ? !can('entries:delete-transport')
+                            : congressmanBudgetClosedAt || !can('entries:delete'),
+                        title: entry.is_transport
+                            ? !can('entries:delete-transport')
+                                ? 'Não é possível apagar um lançamento de transporte'
+                                : 'Apagar lançamento'
+                            : !congressmanBudgetClosedAt
+                            ? 'Apagar lançamento'
+                            : closedTitle,
                     },
                 },
             }
