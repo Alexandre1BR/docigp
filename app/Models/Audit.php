@@ -13,7 +13,7 @@ class Audit extends Model
 
     protected $with = ['user'];
 
-    protected $dates = ['created_at'];
+    protected $dates = ['created_at', 'updated_at'];
 
     protected $appends = ['formatted_created_at', 'activity', 'route_name'];
 
@@ -455,6 +455,7 @@ class Audit extends Model
                 }
                 break;
             case 'CongressmanBudget':
+                //TODO: [2021-10-14 14:34:11] production.ERROR: Trying to get property 'congressman' of non-object (View: /var/www/docigp/resources/views/livewire/audits/index.blade.php)
                 if ($congressman = $auditable->congressman) {
                     if (isset($congressman->name)) {
                         $array[] = [

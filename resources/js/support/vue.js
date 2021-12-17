@@ -77,3 +77,11 @@ import VueTheMask from 'vue-the-mask'
 Vue.use(VueTheMask)
 
 require('../pages/basic')
+
+import VueTranslate from 'vue-translate-plugin'
+import PtBrTranslation from '../../lang/pt-BR'
+Vue.use(VueTranslate)
+
+Vue.locales({
+    pt_BR: PtBrTranslation,
+})

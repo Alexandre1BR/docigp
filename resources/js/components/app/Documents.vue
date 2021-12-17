@@ -8,19 +8,12 @@
         @set-per-page="perPage = $event"
         :collapsedLabel="selected.name"
         :is-selected="selected.id !== null"
-        :subTitle="
-            entries.selected.object + ' - ' + entries.selected.value_formatted
-        "
+        :subTitle="entries.selected.object + ' - ' + entries.selected.value_formatted"
     >
         <template slot="buttons">
             <button
-                v-if="
-                    can('entry-documents:buttons') ||
-                    can('entry-documents:store')
-                "
-                :disabled="
-                    !can('entry-documents:store') || congressmanBudgetsClosedAt
-                "
+                v-if="can('entry-documents:buttons') || can('entry-documents:store')"
+                :disabled="!can('entry-documents:store') || congressmanBudgetsClosedAt"
                 class="btn btn-primary btn-sm pull-right"
                 @click="createDocument()"
                 title="Novo documento"
@@ -40,44 +33,30 @@
                 v-for="document in entryDocuments.data.rows"
                 :class="{
                     'cursor-pointer': true,
-                    'bg-primary-lighter text-white': isCurrent(
-                        document,
-                        selected,
-                    ),
+                    'bg-primary-lighter text-white': isCurrent(document, selected),
                 }"
             >
-                <!--                <td class="align-middle">-->
-                <!--                    {{ getEntryDocumentState(document).name }}-->
-                <!--                </td>-->
+                <td v-if="can('tables:view-ids')" class="align-middle">{{ document.id }}</td>
 
                 <td class="align-middle">
                     {{ document.attached_file.original_name }}
                 </td>
 
-                <td
-                    v-if="can('entry-documents:show')"
-                    class="align-middle text-center"
-                >
+                <td v-if="can('entry-documents:show')" class="align-middle text-center">
                     <app-active-badge
                         :value="document.verified_at"
                         :labels="['sim', 'não']"
                     ></app-active-badge>
                 </td>
 
-                <td
-                    v-if="can('entry-documents:show')"
-                    class="align-middle text-center"
-                >
+                <td v-if="can('entry-documents:show')" class="align-middle text-center">
                     <app-active-badge
                         :value="document.analysed_at"
                         :labels="['sim', 'não']"
                     ></app-active-badge>
                 </td>
 
-                <td
-                    v-if="can('entry-documents:show')"
-                    class="align-middle text-center"
-                >
+                <td v-if="can('entry-documents:show')" class="align-middle text-center">
                     <app-active-badge
                         :value="document.published_at"
                         :labels="['documento público', 'documento privado']"
@@ -86,116 +65,63 @@
 
                 <td class="align-middle text-right">
                     <button
-                        v-if="
-                            getEntryDocumentState(document).buttons.verify
-                                .visible
-                        "
-                        :disabled="
-                            getEntryDocumentState(document).buttons.verify
-                                .disabled
-                        "
+                        v-if="getEntryDocumentState(document).buttons.verify.visible"
+                        :disabled="getEntryDocumentState(document).buttons.verify.disabled"
                         class="btn btn-sm btn-micro btn-primary"
                         @click="verify(document)"
-                        :title="
-                            getEntryDocumentState(document).buttons.verify.title
-                        "
+                        :title="getEntryDocumentState(document).buttons.verify.title"
                         dusk="verify_document"
                     >
                         <i class="fa fa-check"></i> verificar
                     </button>
 
                     <button
-                        v-if="
-                            getEntryDocumentState(document).buttons.unverify
-                                .visible
-                        "
-                        :disabled="
-                            getEntryDocumentState(document).buttons.unverify
-                                .disabled
-                        "
+                        v-if="getEntryDocumentState(document).buttons.unverify.visible"
+                        :disabled="getEntryDocumentState(document).buttons.unverify.disabled"
                         class="btn btn-sm btn-micro btn-warning"
                         @click="unverify(document)"
-                        :title="
-                            getEntryDocumentState(document).buttons.unverify
-                                .title
-                        "
+                        :title="getEntryDocumentState(document).buttons.unverify.title"
                     >
                         <i class="fa fa-ban"></i> verificação
                     </button>
 
                     <button
-                        v-if="
-                            getEntryDocumentState(document).buttons.analyse
-                                .visible
-                        "
-                        :disabled="
-                            getEntryDocumentState(document).buttons.analyse
-                                .disabled
-                        "
+                        v-if="getEntryDocumentState(document).buttons.analyse.visible"
+                        :disabled="getEntryDocumentState(document).buttons.analyse.disabled"
                         class="btn btn-sm btn-micro btn-primary"
                         @click="analyse(document)"
-                        :title="
-                            getEntryDocumentState(document).buttons.analyse
-                                .title
-                        "
+                        :title="getEntryDocumentState(document).buttons.analyse.title"
                         dusk="analize_document"
                     >
                         <i class="fa fa-check"></i> analisado
                     </button>
 
                     <button
-                        v-if="
-                            getEntryDocumentState(document).buttons.unanalyse
-                                .visible
-                        "
-                        :disabled="
-                            getEntryDocumentState(document).buttons.unanalyse
-                                .disabled
-                        "
+                        v-if="getEntryDocumentState(document).buttons.unanalyse.visible"
+                        :disabled="getEntryDocumentState(document).buttons.unanalyse.disabled"
                         class="btn btn-sm btn-micro btn-danger"
                         @click="unanalyse(document)"
-                        :title="
-                            getEntryDocumentState(document).buttons.unanalyse
-                                .title
-                        "
+                        :title="getEntryDocumentState(document).buttons.unanalyse.title"
                     >
                         <i class="fa fa-ban"></i> analisado
                     </button>
 
                     <button
-                        v-if="
-                            getEntryDocumentState(document).buttons.publish
-                                .visible
-                        "
-                        :disabled="
-                            getEntryDocumentState(document).buttons.publish
-                                .disabled
-                        "
+                        v-if="getEntryDocumentState(document).buttons.publish.visible"
+                        :disabled="getEntryDocumentState(document).buttons.publish.disabled"
                         class="btn btn-sm btn-micro btn-danger"
                         @click="publish(document)"
-                        :title="
-                            getEntryDocumentState(document).buttons.publish
-                                .title
-                        "
+                        :title="getEntryDocumentState(document).buttons.publish.title"
                     >
                         <i class="fa fa-check"></i> tornar público
                     </button>
 
                     <button
-                        v-if="
-                            getEntryDocumentState(document).buttons.unpublish
-                                .visible
-                        "
-                        :disabled="
-                            getEntryDocumentState(document).buttons.unpublish
-                                .disabled
-                        "
+                        v-if="getEntryDocumentState(document).buttons.unpublish.visible"
+                        :disabled="getEntryDocumentState(document).buttons.unpublish.disabled"
                         class="btn btn-sm btn-micro btn-success"
                         @click="unpublish(document)"
-                        :title="
-                            getEntryDocumentState(document).buttons.unpublish
-                                .title
-                        "
+                        :title="getEntryDocumentState(document).buttons.unpublish.title"
                     >
                         <i class="fa fa-ban"></i> tornar privado
                     </button>
@@ -210,22 +136,16 @@
                     </a>
 
                     <button
-                        v-if="
-                            getEntryDocumentState(document).buttons.delete
-                                .visible
-                        "
-                        :disabled="
-                            getEntryDocumentState(document).buttons.delete
-                                .disabled
-                        "
+                        v-if="getEntryDocumentState(document).buttons.delete.visible"
+                        :disabled="getEntryDocumentState(document).buttons.delete.disabled"
                         class="btn btn-sm btn-micro btn-danger"
                         @click="trash(document)"
-                        :title="
-                            getEntryDocumentState(document).buttons.delete.title
-                        "
+                        :title="getEntryDocumentState(document).buttons.delete.title"
                     >
                         <i class="fa fa-trash"></i>
                     </button>
+
+                    <app-audits-button model="entryDocuments" :row="document"></app-audits-button>
                 </td>
             </tr>
         </app-table>
@@ -272,14 +192,20 @@ export default {
     },
 
     methods: {
-        ...mapActions(service.name, [
-            'clearForm',
-            'clearErrors',
-            'selectEntryDocument',
-        ]),
+        ...mapActions(service.name, ['clearForm', 'clearErrors', 'selectEntryDocument']),
 
         getTableColumns() {
-            let columns = ['Nome do arquivo']
+            let columns = []
+
+            if (can('tables:view-ids')) {
+                columns.push({
+                    type: 'label',
+                    title: '#',
+                    trClass: 'text-center',
+                })
+            }
+
+            columns.push('Nome do arquivo')
 
             if (can('entry-documents:show')) {
                 columns.push({

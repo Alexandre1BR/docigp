@@ -44,6 +44,10 @@ Route::group(['prefix' => '/congressmen'], function () {
             Route::post('/deposit', [CongressmanBudgets::class, 'deposit'])->name(
                 'congressmen.budgets.deposit'
             );
+
+            Route::get('/audits', [CongressmanBudgets::class, 'audits'])->name(
+                'congressmen.budgets.audits'
+            );
         });
 
         Route::post('/', [CongressmanBudgets::class, 'store'])->name('congressmen.budgets.store');
@@ -57,6 +61,10 @@ Route::group(['prefix' => '/congressmen'], function () {
 
             Route::group(['prefix' => '/{entryId}'], function () {
                 Route::post('/', [Entries::class, 'update'])->name('entries.update');
+
+                Route::get('/audits', [Entries::class, 'audits'])->name(
+                    'congressmen.budgets.entries.audits'
+                );
 
                 Route::post('/delete', [Entries::class, 'delete'])->name(
                     'congressmen.budgets.entries.delete'
@@ -119,6 +127,10 @@ Route::group(['prefix' => '/congressmen'], function () {
                         Route::post('/delete', [EntryDocuments::class, 'delete'])->name(
                             'congressmen.budgets.entries-documents.delete'
                         );
+
+                        Route::get('/audits', [EntryDocuments::class, 'audits'])->name(
+                            'congressmen.budgets.entries-documents.audits'
+                        );
                     });
                 });
 
@@ -134,6 +146,10 @@ Route::group(['prefix' => '/congressmen'], function () {
 
                         Route::post('/delete', [EntryComments::class, 'delete'])->name(
                             'congressmen.budgets.entries-comments.delete'
+                        );
+
+                        Route::get('/audits', [EntryComments::class, 'audits'])->name(
+                            'congressmen.budgets.entries-comments.audits'
                         );
                     });
                 });

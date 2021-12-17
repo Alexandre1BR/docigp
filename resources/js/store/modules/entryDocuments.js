@@ -1,15 +1,15 @@
-import Form from '../../classes/Form';
+import Form from '../../classes/Form'
 
-import * as mutationsMixin from './mixins/mutations.js';
-import * as actionsMixin from './mixins/actions.js';
-import * as statesMixin from './mixins/states.js';
-import * as gettersMixin from './mixins/getters.js';
+import * as mutationsMixin from './mixins/mutations.js'
+import * as actionsMixin from './mixins/actions.js'
+import * as statesMixin from './mixins/states.js'
+import * as gettersMixin from './mixins/getters.js'
 
 const __emptyModel = {
     id: null,
     name: null,
     description: null,
-};
+}
 
 let state = merge_objects(
     {
@@ -31,7 +31,7 @@ let state = merge_objects(
     },
 
     statesMixin.common,
-);
+)
 
 let actions = merge_objects(actionsMixin, {
     subscribeToModelEvents(context, payload) {
@@ -39,48 +39,48 @@ let actions = merge_objects(actionsMixin, {
     },
 
     selectEntryDocument(context, payload) {
-        context.dispatch('entryDocuments/select', payload, { root: true });
+        context.dispatch('entryDocuments/select', payload, { root: true })
     },
 
     verify(context, payload) {
-        return post(makeDataUrl(context) + '/' + payload.id + '/verify');
+        return post(makeDataUrl(context) + '/' + payload.id + '/verify')
     },
 
     unverify(context, payload) {
-        return post(makeDataUrl(context) + '/' + payload.id + '/unverify');
+        return post(makeDataUrl(context) + '/' + payload.id + '/unverify')
     },
 
     publish(context, payload) {
-        return post(makeDataUrl(context) + '/' + payload.id + '/publish');
+        return post(makeDataUrl(context) + '/' + payload.id + '/publish')
     },
 
     unpublish(context, payload) {
-        return post(makeDataUrl(context) + '/' + payload.id + '/unpublish');
+        return post(makeDataUrl(context) + '/' + payload.id + '/unpublish')
     },
 
     analyse(context, payload) {
-        return post(makeDataUrl(context) + '/' + payload.id + '/analyse');
+        return post(makeDataUrl(context) + '/' + payload.id + '/analyse')
     },
 
     unanalyse(context, payload) {
-        return post(makeDataUrl(context) + '/' + payload.id + '/unanalyse');
+        return post(makeDataUrl(context) + '/' + payload.id + '/unanalyse')
     },
 
     delete(context, payload) {
-        return post(makeDataUrl(context) + '/' + payload.id + '/delete');
+        return post(makeDataUrl(context) + '/' + payload.id + '/delete')
     },
-});
+})
 
-let mutations = mutationsMixin;
+let mutations = mutationsMixin
 let getters = merge_objects(gettersMixin, {
     getSelectedState: (state, getters) => {
-        return getters.getEntryDocumentState(getters.getSelected);
+        return getters.getEntryDocumentState(getters.getSelected)
     },
 
     getEntryDocumentState: (state, getters, rootState, rootGetters) => (document) => {
-        const congressmanBudgetClosedAt = rootGetters['congressmanBudgets/selectedClosedAt'];
+        const congressmanBudgetClosedAt = rootGetters['congressmanBudgets/selectedClosedAt']
 
-        const closedTitle = 'O orçamento mensal está fechado';
+        const closedTitle = 'O orçamento mensal está fechado'
 
         if (document.analysed_at) {
             return {
@@ -136,7 +136,7 @@ let getters = merge_objects(gettersMixin, {
                             : closedTitle,
                     },
                 },
-            };
+            }
         } else if (document.verified_at) {
             return {
                 name: 'Verificado',
@@ -191,7 +191,7 @@ let getters = merge_objects(gettersMixin, {
                             : closedTitle,
                     },
                 },
-            };
+            }
         } else if (document.published_at) {
             return {
                 name: 'Publicável',
@@ -238,7 +238,7 @@ let getters = merge_objects(gettersMixin, {
                         title: !congressmanBudgetClosedAt ? 'Apagar documento' : closedTitle,
                     },
                 },
-            };
+            }
         } else {
             return {
                 name: 'Salvo',
@@ -285,10 +285,10 @@ let getters = merge_objects(gettersMixin, {
                         title: !congressmanBudgetClosedAt ? 'Apagar documento' : closedTitle,
                     },
                 },
-            };
+            }
         }
     },
-});
+})
 
 export default {
     state,
@@ -296,4 +296,4 @@ export default {
     mutations,
     getters,
     namespaced: true,
-};
+}

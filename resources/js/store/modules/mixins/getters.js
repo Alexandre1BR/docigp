@@ -37,3 +37,9 @@ export function getSelected(state, getters) {
         return state.selected
     }
 }
+
+export function activityLog(state, getters, rootState) {
+    return function (entity) {
+        return get(buildApiUrl(state.service.uri, rootState) + '/' + entity.id + '/audits')
+    }
+}

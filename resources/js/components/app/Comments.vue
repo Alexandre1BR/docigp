@@ -8,9 +8,7 @@
         @set-per-page="perPage = $event"
         :collapsedLabel="selected.name"
         :is-selected="selected.id !== null"
-        :subTitle="
-            entries.selected.object + ' - ' + entries.selected.value_formatted
-        "
+        :subTitle="entries.selected.object + ' - ' + entries.selected.value_formatted"
         v-if="environment.user != null"
     >
         <template slot="buttons">
@@ -36,12 +34,11 @@
                 v-for="comment in entryComments.data.rows"
                 :class="{
                     'cursor-pointer': true,
-                    'bg-primary-lighter text-white': isCurrent(
-                        comment,
-                        selected,
-                    ),
+                    'bg-primary-lighter text-white': isCurrent(comment, selected),
                 }"
             >
+                <td v-if="can('tables:view-ids')" class="align-middle">{{ comment.id }}</td>
+
                 <td class="align-middle">
                     {{ comment.text }}
                 </td>
@@ -90,6 +87,8 @@
                     >
                         <i class="fa fa-trash"></i>
                     </button>
+
+                    <app-audits-button model="entryComments" :row="comment"></app-audits-button>
                 </td>
             </tr>
         </app-table>
@@ -129,14 +128,22 @@ export default {
     },
 
     methods: {
-        ...mapActions(service.name, [
-            'clearForm',
-            'clearErrors',
-            'selectEntryComment',
-        ]),
+        ...mapActions(service.name, ['clearForm', 'clearErrors', 'selectEntryComment']),
 
         getTableColumns() {
-            let columns = ['Comentário', 'Autor', 'Criado em', '']
+            let columns = []
+
+            if (can('tables:view-ids')) {
+                columns.push({
+                    type: 'label',
+                    title: '#',
+                    trClass: 'text-center',
+                })
+            }
+            columns.push('Comentário')
+            columns.push('Autor')
+            columns.push('Criado em')
+            columns.push('')
 
             return columns
         },

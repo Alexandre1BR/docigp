@@ -10,6 +10,7 @@ use App\Http\Requests\EntryUpdate;
 use App\Http\Controllers\Controller;
 use App\Data\Repositories\Entries as EntriesRepository;
 use App\Http\Requests\EntryVerify;
+use Illuminate\Http\Request;
 
 class Entries extends Controller
 {
@@ -22,80 +23,52 @@ class Entries extends Controller
      */
     public function all($congressmanId, $congressmanBudgetId)
     {
-        return app(EntriesRepository::class)->allFor(
-            $congressmanId,
-            $congressmanBudgetId
-        );
+        return app(EntriesRepository::class)->allFor($congressmanId, $congressmanBudgetId);
     }
 
-    public function verify(
-        EntryVerify $request,
-        $congressmanId,
-        $congressmanBudgetId,
-        $entryId
-    ) {
+    public function verify(EntryVerify $request, $congressmanId, $congressmanBudgetId, $entryId)
+    {
         return app(EntriesRepository::class)->verify($entryId);
     }
 
-    public function unverify(
-        EntryVerify $request,
-        $congressmanId,
-        $congressmanBudgetId,
-        $entryId
-    ) {
+    public function unverify(EntryVerify $request, $congressmanId, $congressmanBudgetId, $entryId)
+    {
         return app(EntriesRepository::class)->unverify($entryId);
     }
 
-    public function analyse(
-        EntryAnalyse $request,
-        $congressmanId,
-        $congressmanBudgetId,
-        $entryId
-    ) {
+    public function audits(Request $request, $congressmanId, $congressmanBudgetId, $entryId)
+    {
+        return app(EntriesRepository::class)->audits($entryId);
+    }
+
+    public function analyse(EntryAnalyse $request, $congressmanId, $congressmanBudgetId, $entryId)
+    {
         return app(EntriesRepository::class)->analyse($entryId);
     }
 
-    public function unanalyse(
-        EntryAnalyse $request,
-        $congressmanId,
-        $congressmanBudgetId,
-        $entryId
-    ) {
+    public function unanalyse(EntryAnalyse $request, $congressmanId, $congressmanBudgetId, $entryId)
+    {
         return app(EntriesRepository::class)->unanalyse($entryId);
     }
 
-    public function publish(
-        EntryPublish $request,
-        $congressmanId,
-        $congressmanBudgetId,
-        $entryId
-    ) {
+    public function publish(EntryPublish $request, $congressmanId, $congressmanBudgetId, $entryId)
+    {
         return app(EntriesRepository::class)->publish($entryId);
     }
 
-    public function unpublish(
-        EntryPublish $request,
-        $congressmanId,
-        $congressmanBudgetId,
-        $entryId
-    ) {
+    public function unpublish(EntryPublish $request, $congressmanId, $congressmanBudgetId, $entryId)
+    {
         return app(EntriesRepository::class)->unpublish($entryId);
     }
 
-    public function delete(
-        EntryDelete $request,
-        $congressmanId,
-        $congressmanBudgetId,
-        $entryId
-    ) {
+    public function delete(EntryDelete $request, $congressmanId, $congressmanBudgetId, $entryId)
+    {
         app(EntriesRepository::class)->delete($entryId);
     }
 
     public function emptyRefundForm($congressmanId, $congressmanBudgetId)
     {
-        return app(EntriesRepository::class)->emptyRefundForm(
-            $congressmanBudgetId
-        );
+        return app(EntriesRepository::class)->emptyRefundForm($congressmanBudgetId);
     }
 
     /**
@@ -106,11 +79,8 @@ class Entries extends Controller
      * @param $congressmanBudgetId
      * @return mixed
      */
-    public function store(
-        EntryStore $request,
-        $congressmanId,
-        $congressmanBudgetId
-    ) {
+    public function store(EntryStore $request, $congressmanId, $congressmanBudgetId)
+    {
         return app(EntriesRepository::class)
             ->setCongressmanBudgetId($congressmanBudgetId)
             ->setData($request->all())
@@ -122,12 +92,8 @@ class Entries extends Controller
      * @param $id
      * @return mixed
      */
-    public function update(
-        EntryUpdate $request,
-        $congressmanId,
-        $congressmanBudgetId,
-        $entryId
-    ) {
+    public function update(EntryUpdate $request, $congressmanId, $congressmanBudgetId, $entryId)
+    {
         return app(EntriesRepository::class)
             ->setCongressmanBudgetId($congressmanBudgetId)
             ->setData($request->all())

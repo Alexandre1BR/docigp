@@ -11,6 +11,7 @@ use App\Http\Requests\CongressmanBudgetReopen;
 use App\Http\Requests\CongressmanBudgetPublish;
 use App\Http\Requests\CongressmanBudgetAnalyse;
 use App\Http\Requests\CongressmanBudgetDeposit;
+use Illuminate\Http\Request;
 
 class CongressmanBudgets extends Controller
 {
@@ -33,9 +34,7 @@ class CongressmanBudgets extends Controller
      */
     public function store(CongressmanStore $request)
     {
-        return app(CongressmanBudgetsRepository::class)->storeFromArray(
-            $request->all()
-        );
+        return app(CongressmanBudgetsRepository::class)->storeFromArray($request->all());
     }
 
     /**
@@ -43,15 +42,9 @@ class CongressmanBudgets extends Controller
      * @param $id
      * @return mixed
      */
-    public function update(
-        CongressmanBudgetUpdate $request,
-        $congressmanId,
-        $budgetId
-    ) {
-        return app(CongressmanBudgetsRepository::class)->update(
-            $budgetId,
-            $request->all()
-        );
+    public function update(CongressmanBudgetUpdate $request, $congressmanId, $budgetId)
+    {
+        return app(CongressmanBudgetsRepository::class)->update($budgetId, $request->all());
     }
 
     /**
@@ -61,32 +54,21 @@ class CongressmanBudgets extends Controller
      */
     public function availableCongressmanBudgets()
     {
-        return app(
-            CongressmanBudgetsRepository::class
-        )->getAvailableCongressmanBudgets();
+        return app(CongressmanBudgetsRepository::class)->getAvailableCongressmanBudgets();
     }
 
-    public function close(
-        CongressmanBudgetClose $request,
-        $congressmanId,
-        $congressmanBudgetId
-    ) {
+    public function close(CongressmanBudgetClose $request, $congressmanId, $congressmanBudgetId)
+    {
         return app(CongressmanBudgetsRepository::class)->close($congressmanBudgetId);
     }
 
-    public function reopen(
-        CongressmanBudgetReopen $request,
-        $congressmanId,
-        $congressmanBudgetId
-    ) {
+    public function reopen(CongressmanBudgetReopen $request, $congressmanId, $congressmanBudgetId)
+    {
         return app(CongressmanBudgetsRepository::class)->reopen($congressmanBudgetId);
     }
 
-    public function analyse(
-        CongressmanBudgetAnalyse $request,
-        $congressmanId,
-        $congressmanBudgetId
-    ) {
+    public function analyse(CongressmanBudgetAnalyse $request, $congressmanId, $congressmanBudgetId)
+    {
         return app(CongressmanBudgetsRepository::class)->analyse($congressmanBudgetId);
     }
 
@@ -95,16 +77,11 @@ class CongressmanBudgets extends Controller
         $congressmanId,
         $congressmanBudgetId
     ) {
-        return app(CongressmanBudgetsRepository::class)->unanalyse(
-            $congressmanBudgetId
-        );
+        return app(CongressmanBudgetsRepository::class)->unanalyse($congressmanBudgetId);
     }
 
-    public function publish(
-        CongressmanBudgetPublish $request,
-        $congressmanId,
-        $congressmanBudgetId
-    ) {
+    public function publish(CongressmanBudgetPublish $request, $congressmanId, $congressmanBudgetId)
+    {
         return app(CongressmanBudgetsRepository::class)->publish($congressmanBudgetId);
     }
 
@@ -113,16 +90,16 @@ class CongressmanBudgets extends Controller
         $congressmanId,
         $congressmanBudgetId
     ) {
-        return app(CongressmanBudgetsRepository::class)->unpublish(
-            $congressmanBudgetId
-        );
+        return app(CongressmanBudgetsRepository::class)->unpublish($congressmanBudgetId);
     }
 
-    public function deposit(
-        CongressmanBudgetDeposit $request,
-        $congressmanId,
-        $congressmanBudgetId
-    ) {
+    public function deposit(CongressmanBudgetDeposit $request, $congressmanId, $congressmanBudgetId)
+    {
         app(CongressmanBudgetsRepository::class)->deposit($congressmanBudgetId);
+    }
+
+    public function audits(Request $request, $congressmanId, $congressmanBudgetId)
+    {
+        return app(CongressmanBudgetsRepository::class)->audits($congressmanBudgetId);
     }
 }

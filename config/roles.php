@@ -23,6 +23,8 @@ return [
                 //Tem que conter todas as habilidades
                 '*' => 'PODE FAZER TUDO',
 
+                'tables:view-ids' => 'Visualizar IDs das tabelas',
+
                 'annual-reports:view' => 'Gerar relatório',
 
                 'assign:chief' => 'Atribuir perfil de Chefe',

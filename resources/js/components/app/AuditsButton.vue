@@ -1,128 +1,96 @@
 <template>
-    <div class="col text-right">
-        <!--        <input v-if="notLoading" type="button" class="btn btn-primary btn-sm" value="Gerar CSV" @click="multipleInputs()">-->
-        <!--        <pulse-loader-->
-        <!--            class="col text-right"-->
-        <!--            v-else-->
-        <!--            :loading="true"-->
-        <!--            :color="'#305bb0'"-->
-        <!--            :size="'15px'"-->
-        <!--            radius="100%"-->
-        <!--        ></pulse-loader>-->
-    </div>
+    <span>
+        <b-button
+            v-if="can('audits:show')"
+            class="btn btn-sm btn-micro btn-primary"
+            @click="activityLog(row)"
+            title="Logs"
+            ><i class="fas fa-clipboard-list"></i
+        ></b-button>
+
+        <b-modal size="xl" v-model="showAuditsModal" ok-only title="Logs">
+            <div class="table-responsive">
+                <table
+                    id="auditsTable"
+                    class="table table-striped table-bordered"
+                    cellspacing="0"
+                    width="100%"
+                >
+                    <thead>
+                        <tr>
+                            <th>Data da ação</th>
+                            <th>Usuário</th>
+                            <th>Ação</th>
+                            <th>Valores antigos</th>
+                            <th>Valores novos</th>
+                        </tr>
+                    </thead>
+
+                    <tr v-for="audit in audits">
+                        <td>
+                            {{ audit.formatted_created_at }}
+                        </td>
+                        <td>
+                            {{ audit.user.name }}
+                            <br />
+                            {{ audit.user.email }}
+                        </td>
+                        <td>
+                            {{ audit.activity }}
+                        </td>
+                        <td>
+                            <ul class="list-group list-group-flush">
+                                <li
+                                    v-for="(value, key) in audit.old_values"
+                                    class="list-group-item"
+                                >
+                                    {{ t(key) }} => {{ value }}
+                                </li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul class="list-group list-group-flush">
+                                <li
+                                    v-for="(value, key) in audit.new_values"
+                                    class="list-group-item"
+                                >
+                                    {{ t(key) }} => {{ value }}
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </b-modal>
+    </span>
 </template>
 
 <script>
+import permissions from '../../views/mixins/permissions'
+
 export default {
+    mixins: [permissions],
+
     name: 'AuditsButton',
     props: {
-        route: String,
+        model: String,
+        row: Object,
     },
 
     data() {
         return {
-            notLoading: true,
+            showAuditsModal: false,
+            audits: [],
         }
     },
 
     methods: {
-        multipleInputs() {
-            const { value: formValues } = Swal.fire({
-                title: 'Selecione o período',
-                html:
-                    '<input id="swal-input1" class="swal2-input" type = "date" name = "data_ini">' +
-                    '<input id="swal-input2" class="swal2-input" type = "date" name = "data_fim">',
+        activityLog(entity) {
+            const $this = this
+            this.showAuditsModal = true
 
-                focusConfirm: false,
-                preConfirm: () => {
-                    if (
-                        document.getElementById('swal-input1').value == '' ||
-                        document.getElementById('swal-input2').value == ''
-                    ) {
-                        Swal.close()
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Oops...',
-                            text: 'A data não pode estar vazia!',
-                        })
-                    } else if (
-                        document.getElementById('swal-input1').value >
-                        document.getElementById('swal-input2').value
-                    ) {
-                        Swal.close()
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Oops...',
-                            text: 'A data inicial tem que ser menor que a final!',
-                        })
-                    } else {
-                        const data_ini = document.getElementById('swal-input1').value
-                        const data_fim = document.getElementById('swal-input2').value
-
-                        const $this = this
-                        this.notLoading = false
-
-                        axios
-                            .get(this.route, {
-                                params: { data_ini: data_ini, data_fim: data_fim },
-                                responseType: 'arraybuffer',
-                            })
-                            .then((response) => {
-                                let blob = new Blob([response.data], {
-                                    type: 'application/vnd.ms-excel',
-                                })
-                                let link = document.createElement('a')
-                                link.href = window.URL.createObjectURL(blob)
-                                link.download = 'users.csv'
-                                link.click()
-
-                                $this.notLoading = true
-
-                                Swal.fire({
-                                    toast: true,
-                                    position: 'top-end',
-                                    showConfirmButton: false,
-                                    timer: 2000,
-                                    icon: 'success',
-                                    title: 'Relatório gerado com sucesso',
-                                })
-                            })
-                            .catch(function (error) {
-                                var title = ''
-
-                                switch (error.response.status) {
-                                    case 404:
-                                        title = 'Pagina não encontrada'
-                                        break
-                                    case 401:
-                                        title = 'Ação não autorizada'
-                                        break
-                                    case 422:
-                                        title = 'Verifique as informações'
-                                        break
-                                    case 403:
-                                        title = 'Ação não autorizada'
-                                        break
-                                    case 500:
-                                        title =
-                                            'Erro interno - Administradores já foram contactados'
-                                        break
-                                    default:
-                                        title = 'Ocorreu um erro'
-                                }
-                                $this.notLoading = true
-
-                                Swal.fire({
-                                    toast: true,
-                                    position: 'top-end',
-                                    showConfirmButton: false,
-                                    timer: 2000,
-                                    icon: 'error',
-                                    title: title,
-                                })
-                            })
-                    }
-                },
+            this.$store.getters[this.model + '/activityLog'](entity).then((response) => {
+                $this.audits = response.data
             })
         },
     },
