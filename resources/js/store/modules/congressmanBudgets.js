@@ -48,7 +48,7 @@ let actions = merge_objects(actionsMixin, {
             subscribePublicChannel(
                 context.state.model.table + '.' + payload.id,
                 '.App\\Events\\' + 'EntriesChanged',
-                event => {
+                (event) => {
                     context.dispatch('entries/load', payload, {
                         root: true,
                     })
@@ -58,37 +58,24 @@ let actions = merge_objects(actionsMixin, {
     },
 
     selectCongressmanBudget(context, payload) {
-        const performLoad =
-            !context.state.selected || context.state.selected.id != payload.id
+        const performLoad = !context.state.selected || context.state.selected.id != payload.id
 
         context.dispatch('congressmanBudgets/select', payload, { root: true })
 
         if (performLoad) {
             context.dispatch('entries/setCurrentPage', 1, { root: true })
 
-            context.commit(
-                'entries/mutateSetSelected',
-                { id: null },
-                { root: true },
-            )
+            context.commit('entries/mutateSetSelected', { id: null }, { root: true })
 
-            context.commit(
-                'entryDocuments/mutateSetSelected',
-                { id: null },
-                { root: true },
-            )
+            context.commit('entryDocuments/mutateSetSelected', { id: null }, { root: true })
 
-            context.commit(
-                'entryComments/mutateSetSelected',
-                { id: null },
-                { root: true },
-            )
+            context.commit('entryComments/mutateSetSelected', { id: null }, { root: true })
 
             context.dispatch('congressmen/markAsRead', payload, { root: true })
         }
     },
 
-    changePercentage(context, payload) { 
+    changePercentage(context, payload) {
         return post(makeDataUrl(context) + '/' + payload.congressmanBudget.id, {
             percentage: payload.percentage,
         })
@@ -128,11 +115,7 @@ let mutations = mutationsMixin
 let getters = merge_objects(gettersMixin, {
     currentSummaryLabel(state, getters) {
         if (!!state.selected.id) {
-            return (
-                format_year_date(state.selected) +
-                ' - ' +
-                state.selected.value_formatted
-            )
+            return format_year_date(state.selected) + ' - ' + state.selected.value_formatted
         } else {
             return ''
         }
@@ -146,12 +129,7 @@ let getters = merge_objects(gettersMixin, {
         return getters.getCongressmanBudgetState(getters.getSelected)
     },
 
-    getCongressmanBudgetState: (
-        state,
-        getters,
-        rootState,
-        rootGetters,
-    ) => congressmanBudget => {
+    getCongressmanBudgetState: (state, getters, rootState, rootGetters) => (congressmanBudget) => {
         if (congressmanBudget.published_at) {
             return {
                 name: 'Publicado',
@@ -164,14 +142,12 @@ let getters = merge_objects(gettersMixin, {
                     publish: {
                         visible: false,
                         disabled: true,
-                        title:
-                            'O orçamento já está publicado no Portal da Transparência',
+                        title: 'O orçamento já está publicado no Portal da Transparência',
                     },
                     unanalyse: {
                         visible: can('congressman-budgets:analyse'),
                         disabled: true,
-                        title:
-                            "Não é possível cancelar marcação de 'analisado' pois o orçamento está publicado",
+                        title: "Não é possível cancelar marcação de 'analisado' pois o orçamento está publicado",
                     },
                     analyse: {
                         visible: false,
@@ -181,16 +157,13 @@ let getters = merge_objects(gettersMixin, {
                     reopen: {
                         visible: can('congressman-budgets:reopen'),
                         disabled: true,
-                        title:
-                            'Não é possível reabrir pois o orçamento já está analisado e publicado',
+                        title: 'Não é possível reabrir pois o orçamento já está analisado e publicado',
                     },
                     close: {
                         visible:
-                            can('congressman-budgets:buttons') ||
-                            can('congressman-budgets:close'),
+                            can('congressman-budgets:buttons') || can('congressman-budgets:close'),
                         disabled: true,
-                        title:
-                            'Não é possível fechar pois o orçamento já está analisado e publicado',
+                        title: 'Não é possível fechar pois o orçamento já está analisado e publicado',
                     },
                     editPercentage: {
                         visible:
@@ -199,8 +172,7 @@ let getters = merge_objects(gettersMixin, {
                             !congressmanBudget.analysed_at &&
                             !congressmanBudget.closed_at,
                         disabled: true,
-                        title:
-                            'Não é possível alterar a porcentagem pois o orçamento já está publicado',
+                        title: 'Não é possível alterar a porcentagem pois o orçamento já está publicado',
                     },
                     deposit: {
                         visible:
@@ -209,8 +181,7 @@ let getters = merge_objects(gettersMixin, {
                             !congressmanBudget.has_deposit &&
                             congressmanBudget.percentage > 0,
                         disabled: true,
-                        title:
-                            'Não é possível depositar pois o orçamento está publicado',
+                        title: 'Não é possível depositar pois o orçamento está publicado',
                     },
                 },
             }
@@ -241,16 +212,13 @@ let getters = merge_objects(gettersMixin, {
                     reopen: {
                         visible: can('congressman-budgets:reopen'),
                         disabled: true,
-                        title:
-                            'Não é possível reabrir pois o orçamento está analisado',
+                        title: 'Não é possível reabrir pois o orçamento está analisado',
                     },
                     close: {
                         visible:
-                            can('congressman-budgets:buttons') ||
-                            can('congressman-budgets:close'),
+                            can('congressman-budgets:buttons') || can('congressman-budgets:close'),
                         disabled: true,
-                        title:
-                            'Não é possível fechar pois o orçamento está analisado',
+                        title: 'Não é possível fechar pois o orçamento está analisado',
                     },
                     editPercentage: {
                         visible:
@@ -259,8 +227,7 @@ let getters = merge_objects(gettersMixin, {
                             !congressmanBudget.analysed_at &&
                             !congressmanBudget.closed_at,
                         disabled: true,
-                        title:
-                            'Não é possível alterar a porcentagem pois o orçamento já está analisado',
+                        title: 'Não é possível alterar a porcentagem pois o orçamento já está analisado',
                     },
                     deposit: {
                         visible:
@@ -269,8 +236,7 @@ let getters = merge_objects(gettersMixin, {
                             !congressmanBudget.has_deposit &&
                             congressmanBudget.percentage > 0,
                         disabled: true,
-                        title:
-                            'Não é possível depositar pois o orçamento está analisado',
+                        title: 'Não é possível depositar pois o orçamento está analisado',
                     },
                 },
             }
@@ -286,8 +252,7 @@ let getters = merge_objects(gettersMixin, {
                     publish: {
                         visible: can('congressman-budgets:publish'),
                         disabled: true,
-                        title:
-                            'Não é possível publicar o orçamento sem que ele esteja analisado',
+                        title: 'Não é possível publicar o orçamento sem que ele esteja analisado',
                     },
                     unanalyse: {
                         visible: false,
@@ -306,8 +271,7 @@ let getters = merge_objects(gettersMixin, {
                     },
                     close: {
                         visible:
-                            can('congressman-budgets:buttons') ||
-                            can('congressman-budgets:close'),
+                            can('congressman-budgets:buttons') || can('congressman-budgets:close'),
                         disabled: true,
                         title: 'O orçamento já está fechado',
                     },
@@ -318,8 +282,7 @@ let getters = merge_objects(gettersMixin, {
                             !congressmanBudget.analysed_at &&
                             !congressmanBudget.closed_at,
                         disabled: true,
-                        title:
-                            'Não é possível alterar a porcentagem pois o orçamento já está fechado',
+                        title: 'Não é possível alterar a porcentagem pois o orçamento já está fechado',
                     },
                     deposit: {
                         visible:
@@ -328,8 +291,7 @@ let getters = merge_objects(gettersMixin, {
                             !congressmanBudget.has_deposit &&
                             congressmanBudget.percentage > 0,
                         disabled: true,
-                        title:
-                            'Não é possível depositar pois o orçamento está fechado',
+                        title: 'Não é possível depositar pois o orçamento está fechado',
                     },
                 },
             }
@@ -345,8 +307,7 @@ let getters = merge_objects(gettersMixin, {
                     publish: {
                         visible: can('congressman-budgets:publish'),
                         disabled: true,
-                        title:
-                            'Não é possível publicar o orçamento sem que ele esteja fechado e analisado',
+                        title: 'Não é possível publicar o orçamento sem que ele esteja fechado e analisado',
                     },
                     unanalyse: {
                         visible: false,
@@ -356,19 +317,16 @@ let getters = merge_objects(gettersMixin, {
                     analyse: {
                         visible: can('congressman-budgets:analyse'),
                         disabled: true,
-                        title:
-                            'Não é possível analisar o orçamento sem que ele esteja fechado',
+                        title: 'Não é possível analisar o orçamento sem que ele esteja fechado',
                     },
                     reopen: {
                         visible: can('congressman-budgets:reopen'),
                         disabled: true,
-                        title:
-                            'Não é possível reabrir o orçamento sem que ele esteja fechado',
+                        title: 'Não é possível reabrir o orçamento sem que ele esteja fechado',
                     },
                     close: {
                         visible:
-                            can('congressman-budgets:buttons') ||
-                            can('congressman-budgets:close'),
+                            can('congressman-budgets:buttons') || can('congressman-budgets:close'),
                         disabled: !can('congressman-budgets:close'),
                         title: 'Fechar este orçamento para a análise final',
                     },
@@ -402,8 +360,7 @@ let getters = merge_objects(gettersMixin, {
                     publish: {
                         visible: can('congressman-budgets:publish'),
                         disabled: true,
-                        title:
-                            'Não é possível publicar o orçamento sem que ele esteja fechado e analisado',
+                        title: 'Não é possível publicar o orçamento sem que ele esteja fechado e analisado',
                     },
                     unanalyse: {
                         visible: false,
@@ -413,19 +370,16 @@ let getters = merge_objects(gettersMixin, {
                     analyse: {
                         visible: can('congressman-budgets:analyse'),
                         disabled: true,
-                        title:
-                            'Não é possível analisar o orçamento sem que ele esteja fechado',
+                        title: 'Não é possível analisar o orçamento sem que ele esteja fechado',
                     },
                     reopen: {
                         visible: can('congressman-budgets:reopen'),
                         disabled: true,
-                        title:
-                            'Não é possível reabrir o orçamento sem que ele esteja fechado',
+                        title: 'Não é possível reabrir o orçamento sem que ele esteja fechado',
                     },
                     close: {
                         visible:
-                            can('congressman-budgets:buttons') ||
-                            can('congressman-budgets:close'),
+                            can('congressman-budgets:buttons') || can('congressman-budgets:close'),
                         disabled: !can('congressman-budgets:close'),
                         title: 'Fechar este orçamento para a análise final',
                     },

@@ -123,6 +123,10 @@ Route::group(['prefix' => '/congressmen'], function () {
                         Route::post('/delete', [EntryDocuments::class, 'delete'])->name(
                             'congressmen.budgets.entries-documents.delete'
                         );
+
+                        Route::get('/audits', [EntryDocuments::class, 'audits'])->name(
+                            'congressmen.budgets.entries-documents.audits'
+                        );
                     });
                 });
 

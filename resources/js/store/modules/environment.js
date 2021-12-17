@@ -39,7 +39,7 @@ let getters = merge_objects(gettersMixin, {
 
 const actions = {
     load(context) {
-        return get('/api/v1/environment').then(response => {
+        return get('/api/v1/environment').then((response) => {
             context.commit('mutateSetData', response.data)
         })
     },
@@ -47,7 +47,7 @@ const actions = {
     loadContactTypes(context) {
         return get('/api/v1/contact-types', {
             params: { query: context.getters.getFullQueryFilter },
-        }).then(response => {
+        }).then((response) => {
             context.commit('mutateSetContactTypes', response.data)
         })
     },
