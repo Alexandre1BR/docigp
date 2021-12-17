@@ -28,8 +28,9 @@
                 <!--                    {{ getCongressmanBudgetState(congressmanBudget).name }}-->
                 <!--                </td>-->
 
-
-                <td v-if="can('tables:view-ids')" class="align-middle">{{ congressmanBudget.id }}</td>
+                <td v-if="can('tables:view-ids')" class="align-middle">
+                    {{ congressmanBudget.id }}
+                </td>
 
                 <td class="align-middle">{{ makeDate(congressmanBudget) }}</td>
 
@@ -233,6 +234,11 @@
                         method="unpublish"
                     >
                     </app-action-button>
+
+                    <app-audits-button
+                        model="congressmanBudgets"
+                        :row="congressmanBudget"
+                    ></app-audits-button>
                 </td>
             </tr>
         </app-table>
@@ -268,7 +274,7 @@ export default {
         ...mapActions(service.name, ['selectCongressmanBudget']),
 
         getTableColumns() {
-            let columns =[]
+            let columns = []
 
             if (can('tables:view-ids')) {
                 columns.push({

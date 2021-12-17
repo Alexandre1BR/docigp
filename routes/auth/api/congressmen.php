@@ -44,6 +44,10 @@ Route::group(['prefix' => '/congressmen'], function () {
             Route::post('/deposit', [CongressmanBudgets::class, 'deposit'])->name(
                 'congressmen.budgets.deposit'
             );
+
+            Route::get('/audits', [CongressmanBudgets::class, 'audits'])->name(
+                'congressmen.budgets.audits'
+            );
         });
 
         Route::post('/', [CongressmanBudgets::class, 'store'])->name('congressmen.budgets.store');

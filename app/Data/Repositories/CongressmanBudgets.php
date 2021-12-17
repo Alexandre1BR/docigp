@@ -2,6 +2,7 @@
 
 namespace App\Data\Repositories;
 
+use App\Models\Audit;
 use App\Models\Entry;
 use Carbon\Carbon;
 use App\Models\Congressman;
@@ -167,5 +168,14 @@ class CongressmanBudgets extends Repository
                     $congressmanBudget->updateTransportEntries();
                 }
             });
+    }
+
+    public function audits($id)
+    {
+        return Audit::with('user')
+            ->where('auditable_type', 'like', '%\CongressmanBudget')
+            ->where('auditable_id', $id)
+            ->orderBy('created_at', 'desc')
+            ->get();
     }
 }
