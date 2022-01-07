@@ -73,7 +73,7 @@ function is_aci()
         return false;
     }
 
-    return $user->isA(Constants::ROLE_ACI);
+    return $user->isA(Constants::ROLE_ACI) || $user->isA(Constants::ROLE_ACI_COORDINATOR);
 }
 
 function only_numbers($string)
