@@ -356,6 +356,18 @@ function login_as_system()
     return app(\App\Data\Repositories\Users::class)->loginAsSystem();
 }
 
+function to_sql_with_bindings($query)
+{
+    return vsprintf(
+        str_replace('?', '%s', $query->toSql()),
+        collect($query->getBindings())
+            ->map(function ($binding) {
+                return is_numeric($binding) ? $binding : "'{$binding}'";
+            })
+            ->toArray()
+    );
+}
+
 class Timer
 {
     public static $starttime;
