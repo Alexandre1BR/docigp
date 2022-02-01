@@ -32,11 +32,13 @@ class Index extends BaseIndex
 
     public function additionalFilterQuery($query)
     {
-        return $query
+        $query = $query
+            ->whereNotIn('auditable_type', [
+                'App\\Models\\ChangeUnread',
+                'App\\Models\\File',
+                'App\\Models\\\AttachedFile',
+            ])
             ->where('url', 'not like', '%users/per-page%')
-            ->where('auditable_type', '<>', 'App\\Models\\ChangeUnread')
-            ->where('auditable_type', '<>', 'App\\Models\\File')
-            ->where('auditable_type', '<>', 'App\\Models\\\AttachedFile')
             ->when($this->user_id, function ($query) {
                 return $query->where('user_id', $this->user_id);
             })
@@ -54,6 +56,8 @@ class Index extends BaseIndex
                     Carbon::create($this->created_at_end)->endOfDay()
                 );
             });
+
+        return $query;
     }
 
     public function render()
