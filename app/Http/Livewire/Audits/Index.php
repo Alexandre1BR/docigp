@@ -43,6 +43,7 @@ class Index extends BaseIndex
                 return $query->where('user_id', $this->user_id);
             })
             ->when($this->created_at_start, function ($query) {
+                //                dd($this->created_at_start);
                 return $query->where(
                     'created_at',
                     '>=',
@@ -58,6 +59,14 @@ class Index extends BaseIndex
             });
 
         return $query;
+    }
+
+    public function mount()
+    {
+        $this->created_at_start = now()
+            ->startOfMonth()
+            ->subDays(30)
+            ->format('Y-m-d');
     }
 
     public function render()
