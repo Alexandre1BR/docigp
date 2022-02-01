@@ -34,9 +34,9 @@ class Index extends BaseIndex
     {
         return $query
             ->where('url', 'not like', '%users/per-page%')
-            ->where('auditable_type', 'not like', '%\ChangeUnread%')
-            ->where('auditable_type', 'not like', '%\File%')
-            ->where('auditable_type', 'not like', '%\AttachedFile%')
+            ->where('auditable_type', '<>', 'App\\Models\\ChangeUnread')
+            ->where('auditable_type', '<>', 'App\\Models\\File')
+            ->where('auditable_type', '<>', 'App\\Models\\\AttachedFile')
             ->when($this->user_id, function ($query) {
                 return $query->where('user_id', $this->user_id);
             })
