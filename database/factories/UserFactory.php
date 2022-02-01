@@ -32,18 +32,8 @@ class UserFactory extends Factory
             'username' => $username,
             'email' => $email,
             'email_verified_at' => now(),
-            'password' =>
-                '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-            'remember_token' => Str::random(10)
+            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'remember_token' => Str::random(10),
         ];
-//});
-//$factory->defineAs(User::class, Constants::ROLE_ADMINISTRATOR, function (
-//    $faker
-//) use ($factory) {
-//    $user = $factory->create(User::class);
-//    $user->assign(Constants::ROLE_ADMINISTRATOR);
-//    return $user->toArray();
-//}
-
     }
 }
