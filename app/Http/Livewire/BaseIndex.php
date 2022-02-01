@@ -57,17 +57,20 @@ abstract class BaseIndex extends Component
     {
         $query = app($this->repository)
             ->newQuery()
+
             ->where(function ($query) {
                 collect($this->searchFields)->each(function ($key, $field) use ($query) {
                     switch ($key) {
                         case 'text':
-                            $query->orWhereRaw(
-                                'unaccent(' .
-                                    $field .
-                                    ") ILIKE '%'||unaccent('" .
-                                    pg_escape_string($this->searchString) .
-                                    "')||'%' "
-                            );
+                            $query->when($this->searchString, function ($query) use ($field) {
+                                $query->orWhereRaw(
+                                    'unaccent(' .
+                                        $field .
+                                        ") ILIKE '%'||unaccent('" .
+                                        pg_escape_string($this->searchString) .
+                                        "')||'%' "
+                                );
+                            });
                             break;
                     }
                 });
