@@ -43,7 +43,6 @@ class Index extends BaseIndex
                 return $query->where('user_id', $this->user_id);
             })
             ->when($this->created_at_start, function ($query) {
-                //                dd($this->created_at_start);
                 return $query->where(
                     'created_at',
                     '>=',
