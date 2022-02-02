@@ -107,7 +107,9 @@ class CongressmanBudgets extends Repository
 
             $congressmanBudget['month'] = sprintf(
                 '%02d',
-                Carbon::parse($congressmanBudget['budget']['date'])->month
+                Carbon::parse($congressmanBudget['budget']['date'])->setTimezone(
+                    now()->timezoneName
+                )->month
             );
 
             $congressmanBudget['state_value_formatted'] = to_reais(
