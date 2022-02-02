@@ -101,7 +101,9 @@ class CongressmanBudgets extends Repository
     public function transform($data)
     {
         $this->addTransformationPlugin(function ($congressmanBudget) {
-            $congressmanBudget['year'] = Carbon::parse($congressmanBudget['budget']['date'])->year;
+            $congressmanBudget['year'] = Carbon::parse(
+                $congressmanBudget['budget']['date']
+            )->setTimezone(now()->timezoneName)->year;
 
             $congressmanBudget['month'] = sprintf(
                 '%02d',

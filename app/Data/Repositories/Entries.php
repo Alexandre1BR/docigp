@@ -63,7 +63,9 @@ class Entries extends Repository
     public function transform($data)
     {
         $this->addTransformationPlugin(function ($entry) {
-            $entry['date_formatted'] = Carbon::parse($entry['date'])->format('d/m/Y');
+            $entry['date_formatted'] = Carbon::parse($entry['date'])
+                ->setTimezone(now()->timezoneName)
+                ->format('d/m/Y');
 
             $entry['date'] = $entry['date_formatted'];
 
