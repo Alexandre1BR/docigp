@@ -16,4 +16,4 @@ storage/debugbar/*
 Vagrantfile
 .vagrantfile/*
 .vagrant/machines/default/virtualbox/*
-storage/documents/*
+/storage/documents/*
