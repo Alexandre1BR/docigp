@@ -84,7 +84,6 @@ class CostCentersTest extends DuskTestCase
                 ->type('#limit', $limiteA)
                 ->press('#can_accumulate')
                 ->type('#revoked_at', $revogadoA->format('dmY'))
-                ->screenshot('1')
                 ->press('Gravar')
                 ->assertSee($nomeA);
         });
