@@ -71,7 +71,8 @@ class CostCentersTest extends DuskTestCase
             $revogadoA,
             $administrator
         ) {
-            $browser
+            // dd($revogadoA->format('dmY'));
+                        $browser
                 ->loginAs($administrator['id'])
                 ->visit('admin/cost-centers#/')
                 ->assertSee('Novo')
@@ -82,7 +83,8 @@ class CostCentersTest extends DuskTestCase
                 ->type('#frequency', $frequenciaA)
                 ->type('#limit', $limiteA)
                 ->press('#can_accumulate')
-                ->type('#revoked_at', $revogadoA->format('d/m/Y'))
+                ->type('#revoked_at', $revogadoA->format('dmY'))
+                ->screenshot('1')
                 ->press('Gravar')
                 ->assertSee($nomeA);
         });
