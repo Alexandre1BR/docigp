@@ -75,26 +75,40 @@
                 </td>
 
                 <td class="align-middle text-right">
-                    <button
+
+                    <div>
+                    <app-action-button
                         v-if="getEntryDocumentState(document).buttons.verify.visible"
                         :disabled="getEntryDocumentState(document).buttons.verify.disabled"
-                        class="btn btn-sm btn-micro btn-primary"
-                        @click="verify(document)"
+                        classes="btn btn-sm btn-micro btn-primary"
                         :title="getEntryDocumentState(document).buttons.verify.title"
-                        dusk="verify_document"
-                    >
-                        <i class="fa fa-check"></i> verificar
-                    </button>
-
-                    <button
+                        :model="document"
+                        swal-title="Verificar este lançamento?"
+                        label="verificar"
+                        icon="fa fa-check"
+                        store="entryDocuments"
+                        method="verify"
+                        :spinner-config="{ color: 'white' }"
+                            
+                            >
+                    </app-action-button>
+                    
+                    <app-action-button
                         v-if="getEntryDocumentState(document).buttons.unverify.visible"
                         :disabled="getEntryDocumentState(document).buttons.unverify.disabled"
-                        class="btn btn-sm btn-micro btn-warning"
-                        @click="unverify(document)"
+                        classes="btn btn-sm btn-micro btn-primary"
                         :title="getEntryDocumentState(document).buttons.unverify.title"
-                    >
-                        <i class="fa fa-ban"></i> verificação
-                    </button>
+                        :model="document"
+                        swal-title="Retirar verificação deste lançamento?"
+                        label="verificado"
+                        icon="fa fa-ban"
+                        store="entryDocuments"
+                        method="unverify"
+                        :spinner-config="{ color: 'white' }"
+                            
+                            >
+                    </app-action-button>
+                    
 
                     <button
                         v-if="getEntryDocumentState(document).buttons.analyse.visible"
@@ -156,7 +170,9 @@
                         <i class="fa fa-trash"></i>
                     </button>
 
+                    
                     <app-audits-button model="entryDocuments" :row="document"></app-audits-button>
+                </div>
                 </td>
             </tr>
         </app-table>
