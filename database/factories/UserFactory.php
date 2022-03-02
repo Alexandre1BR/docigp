@@ -24,12 +24,9 @@ class UserFactory extends Factory
     public function definition()
     {
         do {
-            preg_match('/(.*?)@(.*)/', faker()->unique()->safeEmail, $output_array);
-
-            $username = $output_array[1];
-            $email = $output_array[1] . '@alerj.rj.gov.br';
+            $username = faker()->unique()->username;
+            $email = $username . '@alerj.rj.gov.br';
         } while (app(UsersRepository::class)->findByEmail($email));
-
         return [
             'name' => faker()->name,
             'username' => $username,
