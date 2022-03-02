@@ -32,6 +32,7 @@
                 </tr>
             </thead>
 
+            
             <tbody>
                 <slot></slot>
             </tbody>
@@ -48,6 +49,8 @@
 <script>
 export default {
     props: ['pagination', 'columns', 'rows'],
+
+   
 
     methods: {
         isObject(target) {

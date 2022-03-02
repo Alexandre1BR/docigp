@@ -1,6 +1,17 @@
 <template>
     <div>
-        <app-table-panel
+    <div v-if="tableLoading" class="p-5">
+    <clip-loader 
+        margin='2px'
+        v-if="tableLoading"
+        color="#0a008a"
+        :size="'4em'"
+        class="d-flex justify-content-center pt-5"
+    >
+    </clip-loader>
+    </div>
+
+        <app-table-panel v-if="!tableLoading"
             :title="'Lançamentos (' + pagination.total + ')'"
             titleCollapsed="Lançamento"
             :subTitle="congressmen.selected.name + ' - ' + congressmanBudgetsSummaryLabel"
@@ -276,7 +287,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapGetters, mapState } from 'vuex'
 import crud from '../../views/mixins/crud'
 import entries from '../../views/mixins/entries'
 import congressmen from '../../views/mixins/congressmen'
@@ -432,6 +443,7 @@ export default {
             currentSummaryLabel: 'entries/currentSummaryLabel',
             getActivityLog: 'entries/activityLog',
         }),
+        ...mapState(service.name, ['tableLoading'])
     },
 }
 </script>

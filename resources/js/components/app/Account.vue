@@ -1,4 +1,17 @@
 <template>
+    <div>
+    
+    <div v-if="tableLoading" class="p-5">
+        <clip-loader 
+            margin='2px'
+            
+            color="#0a008a"
+            :size="'4em'"
+            class="d-flex justify-content-center pt-5"
+        >
+        </clip-loader>
+    </div>
+
     <div class="row justify-content-center">
         <div class="col-12">
             <h1 class="text-center">Prestação de Contas</h1>
@@ -25,6 +38,8 @@
         <div class="col-sm-12">
             <app-comments v-if="entries.selected.id"></app-comments>
         </div>
+    </div>
+    
     </div>
 </template>
 

@@ -1,4 +1,6 @@
 export const common = {
+    tableLoading: false,
+
     service: { performLoad: true },
 
     data: {
@@ -25,4 +27,4 @@ export const common = {
     },
 
     selected: { id: null },
-}
+};

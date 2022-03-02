@@ -1,5 +1,16 @@
 <template>
-    <app-table-panel
+    <div>
+    <div v-if="tableLoading" class="p-5">
+    <clip-loader 
+        margin='2px'
+        v-if="tableLoading"
+        color="#0a008a"
+        :size="'4em'"
+        class="d-flex justify-content-center pt-5"
+    >
+    </clip-loader>
+    </div>
+    <app-table-panel v-if="!tableLoading"
         :title="'Documentos (' + pagination.total + ')'"
         titleCollapsed="Documento"
         :per-page="perPage"
@@ -152,10 +163,11 @@
 
         <app-document-form :show.sync="showModal"></app-document-form>
     </app-table-panel>
+    </div>
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapGetters, mapState } from 'vuex'
 import crud from '../../views/mixins/crud'
 import entries from '../../views/mixins/entries'
 import permissions from '../../views/mixins/permissions'
@@ -184,6 +196,7 @@ export default {
             congressmanBudgetsClosedAt: 'congressmanBudgets/selectedClosedAt',
             getEntryDocumentState: 'entryDocuments/getEntryDocumentState',
         }),
+        ...mapState(service.name, ['tableLoading'])
 
         // return this.$store.dispatch('congressmanBudgets/changePercentage', {
         //     congressmanBudget: congressmanBudget,

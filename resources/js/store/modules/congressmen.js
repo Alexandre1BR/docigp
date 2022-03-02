@@ -1,15 +1,15 @@
-import Form from '../../classes/Form'
+import Form from '../../classes/Form';
 
-import * as mutationsMixin from './mixins/mutations.js'
-import * as actionsMixin from './mixins/actions.js'
-import * as statesMixin from './mixins/states.js'
-import * as gettersMixin from './mixins/getters.js'
+import * as mutationsMixin from './mixins/mutations.js';
+import * as actionsMixin from './mixins/actions.js';
+import * as statesMixin from './mixins/states.js';
+import * as gettersMixin from './mixins/getters.js';
 
 const __emptyModel = {
     id: null,
     name: null,
     description: null,
-}
+};
 
 let state = merge_objects(
     {
@@ -61,19 +61,19 @@ let state = merge_objects(
     },
 
     statesMixin.common,
-)
+);
 
 let actions = merge_objects(actionsMixin, {
     subscribeToModelEvents(context, payload) {
-        context.dispatch('leaveModelChannel', payload)
+        context.dispatch('leaveModelChannel', payload);
 
         context.dispatch('entries/leaveModelChannel', payload, {
             root: true,
-        })
+        });
 
         context.dispatch('congressmanBudgets/leaveModelChannel', payload, {
             root: true,
-        })
+        });
 
         if (context.state.model) {
             subscribePublicChannel(
@@ -82,29 +82,31 @@ let actions = merge_objects(actionsMixin, {
                 (event) => {
                     context.dispatch('congressmanBudgets/load', payload, {
                         root: true,
-                    })
+                    });
                 },
-            )
+            );
         }
     },
 
     selectCongressman(context, payload) {
-        const performLoad = !context.state.selected || context.state.selected.id != payload.id
+        const performLoad = !context.state.selected || context.state.selected.id != payload.id;
 
-        context.dispatch('congressmen/select', payload, { root: true })
+        context.dispatch('congressmen/select', payload, { root: true });
 
         if (performLoad) {
+            context.commit('congressmanBudgets/mutateTableLoading', true, { root: true });
+
             context.dispatch('congressmanBudgets/setCurrentPage', 1, {
                 root: true,
-            })
+            });
 
-            context.commit('congressmanBudgets/mutateSetSelected', { id: null }, { root: true })
+            context.commit('congressmanBudgets/mutateSetSelected', { id: null }, { root: true });
 
-            context.commit('entries/mutateSetSelected', { id: null }, { root: true })
+            context.commit('entries/mutateSetSelected', { id: null }, { root: true });
 
-            context.commit('entryDocuments/mutateSetSelected', { id: null }, { root: true })
+            context.commit('entryDocuments/mutateSetSelected', { id: null }, { root: true });
 
-            context.commit('entryComments/mutateSetSelected', { id: null }, { root: true })
+            context.commit('entryComments/mutateSetSelected', { id: null }, { root: true });
         }
     },
 
@@ -114,13 +116,13 @@ let actions = merge_objects(actionsMixin, {
                 '/api/v1/congressmen/' +
                     context.rootState.congressmen.selected.id +
                     '/mark-as-read',
-            )
+            );
         }
     },
-})
+});
 
-let mutations = mutationsMixin
-let getters = gettersMixin
+let mutations = mutationsMixin;
+let getters = gettersMixin;
 
 export default {
     state,
@@ -128,4 +130,4 @@ export default {
     mutations,
     getters,
     namespaced: true,
-}
+};

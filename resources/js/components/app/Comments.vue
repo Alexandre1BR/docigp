@@ -1,4 +1,18 @@
 <template>
+
+    <div>
+    <div v-if="tableLoading" class="p-5">
+    <clip-loader 
+        margin='2px'
+        
+        color="#0a008a"
+        :size="'4em'"
+        class="d-flex justify-content-center pt-5"
+    >
+    </clip-loader>
+    </div>
+
+    <div v-if="!tableLoading">
     <app-table-panel
         :title="'Comentários'"
         titleCollapsed="Comentários"
@@ -95,9 +109,11 @@
 
         <app-comment-form :show.sync="showModal"></app-comment-form>
     </app-table-panel>
+    </div>
+    </div>
 </template>
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapGetters, mapState } from 'vuex'
 import crud from '../../views/mixins/crud'
 import entries from '../../views/mixins/entries'
 import permissions from '../../views/mixins/permissions'
@@ -125,6 +141,7 @@ export default {
         ...mapGetters({
             congressmanBudgetsClosedAt: 'congressmanBudgets/selectedClosedAt',
         }),
+        ...mapState(service.name, ['tableLoading'])
     },
 
     methods: {
