@@ -69,7 +69,7 @@ class EntryComments extends Controller
         $entryId,
         $entryCommentId
     ) {
-        app(EntryCommentsRepository::class)->delete($entryCommentId);
+        return app(EntryCommentsRepository::class)->delete($entryCommentId);
     }
 
     public function audits(

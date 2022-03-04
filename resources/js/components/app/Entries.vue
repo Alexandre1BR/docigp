@@ -1,18 +1,8 @@
 <template>
     <div>
-    <div v-if="tableLoading" class="p-5">
-    <clip-loader 
-        margin='2px'
-        v-if="tableLoading"
-        color="#0a008a"
-        :size="'4em'"
-        class="d-flex justify-content-center pt-5"
-    >
-    </clip-loader>
-    </div>
 
-        <app-table-panel v-if="!tableLoading"
-            :title="'Lançamentos (' + pagination.total + ')'"
+        <app-table-panel 
+            :title="'Lançamentos' + (tableLoading ? '' : '   (' + pagination.total + ')')"
             titleCollapsed="Lançamento"
             :subTitle="congressmen.selected.name + ' - ' + congressmanBudgetsSummaryLabel"
             :per-page="perPage"
@@ -50,7 +40,18 @@
                 </button>
             </template>
 
-            <app-table
+            <div v-if="tableLoading" class="p-5">
+                <clip-loader 
+                    margin='2px'
+                    v-if="tableLoading"
+                    color="#0a008a"
+                    :size="'4em'"
+                    class="d-flex justify-content-center pt-5"
+                >
+                </clip-loader>
+            </div>
+
+            <app-table v-if="!tableLoading"
                 :pagination="pagination"
                 @goto-page="gotoPage($event)"
                 :columns="getTableColumns()"

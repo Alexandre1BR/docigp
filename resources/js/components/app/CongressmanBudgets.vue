@@ -1,18 +1,9 @@
 <template>
     <div>
-    <div v-if="tableLoading" class="p-5">
-        <clip-loader 
-            margin='2px'
-            
-            color="#0a008a"
-            :size="'4em'"
-            class="d-flex justify-content-center pt-5"
-        >
-        </clip-loader>
-    </div>
     
-    <app-table-panel v-if="!tableLoading"
-        :title="'Orçamento mensal (' + pagination.total + ')'"
+    
+    <app-table-panel 
+        :title="'Orçamento mensal' + (tableLoading ? '' : '  (' + pagination.total + ')')"
         titleCollapsed="Orçamento"
         :subTitle="congressmen.selected.name"
         :per-page="perPage"
@@ -23,7 +14,18 @@
         :is-selected="selected.id !== null"
         
     >
-        <app-table
+
+    <div v-if="tableLoading" class="p-5">
+        <clip-loader 
+            margin='2px'
+            
+            color="#0a008a"
+            :size="'4em'"
+            class="d-flex justify-content-center pt-5"
+        >
+        </clip-loader>
+    </div>
+        <app-table v-if="!tableLoading"
             :pagination="pagination"
             @goto-page="gotoPage($event)"
             :columns="getTableColumns()"
@@ -400,7 +402,7 @@ export default {
         ...mapGetters(service.name, [
             'currentSummaryLabel',
             'getCongressmanBudgetState',
-            'getSelectedState',
+            'getSelectedState',     
         ]),
         ...mapState(service.name, ['tableLoading'])
     }

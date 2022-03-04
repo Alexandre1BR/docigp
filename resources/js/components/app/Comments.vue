@@ -1,18 +1,9 @@
 <template>
 
     <div>
-    <div v-if="tableLoading" class="p-5">
-    <clip-loader 
-        margin='2px'
-        
-        color="#0a008a"
-        :size="'4em'"
-        class="d-flex justify-content-center pt-5"
-    >
-    </clip-loader>
-    </div>
+    
 
-    <div v-if="!tableLoading">
+    <div >
     <app-table-panel
         :title="'Comentários'"
         titleCollapsed="Comentários"
@@ -38,7 +29,18 @@
             </button>
         </template>
 
-        <app-table
+        <div v-if="tableLoading" class="p-5">
+            <clip-loader 
+                margin='2px'
+                
+                color="#0a008a"
+                :size="'4em'"
+                class="d-flex justify-content-center pt-5"
+            >
+            </clip-loader>
+        </div>
+
+        <app-table v-if="!tableLoading"
             :pagination="pagination"
             @goto-page="gotoPage($event)"
             :columns="getTableColumns()"
@@ -101,6 +103,28 @@
                     >
                         <i class="fa fa-trash"></i>
                     </button>
+
+                    <app-action-button
+                        :disabled="!can('entry-comments:delete') ||
+                            !can(
+                                'entry-comments:delete:' +
+                                    (comment.creator_is_congressman
+                                        ? 'congressman'
+                                        : 'not-congressman'),
+                            )"
+                        classes="btn btn-sm btn-micro btn-danger"
+                        title="Deletar Comentário"
+                        :model="comment"
+                        swal-title="Deseja realmente DELETAR este comentário?"
+                        label=""
+                        icon="fa fa-trash"
+                        store="entryComments"
+                        method="delete"
+                        :spinner-config="{ size: '0.02em' }"
+                        :swal-message="{ r200: 'Deletado com sucesso' }"
+                            
+                            >
+                    </app-action-button>
 
                     <app-audits-button model="entryComments" :row="comment"></app-audits-button>
                 </td>

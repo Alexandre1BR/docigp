@@ -70,6 +70,7 @@ export default {
                         $this.$store
                             .dispatch($this.store + '/' + $this.method, model)
                             .then(response => {
+                                
                                 $this.loading = false
                                 this.$store.commit(
                                     $this.store + '/mutateSetDataRow',

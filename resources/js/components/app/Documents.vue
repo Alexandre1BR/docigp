@@ -1,17 +1,8 @@
 <template>
     <div>
-    <div v-if="tableLoading" class="p-5">
-    <clip-loader 
-        margin='2px'
-        v-if="tableLoading"
-        color="#0a008a"
-        :size="'4em'"
-        class="d-flex justify-content-center pt-5"
-    >
-    </clip-loader>
-    </div>
-    <app-table-panel v-if="!tableLoading"
-        :title="'Documentos (' + pagination.total + ')'"
+    
+    <app-table-panel 
+        :title="'Documentos' + (tableLoading ? '' : '  (' + pagination.total + ')')"
         titleCollapsed="Documento"
         :per-page="perPage"
         :filter-text="filterText"
@@ -34,7 +25,18 @@
             </button>
         </template>
 
-        <app-table
+        <div v-if="tableLoading" class="p-5">
+            <clip-loader 
+                margin='2px'
+                v-if="tableLoading"
+                color="#0a008a"
+                :size="'4em'"
+                class="d-flex justify-content-center pt-5"
+            >
+            </clip-loader>
+        </div>
+
+        <app-table v-if="!tableLoading"
             :pagination="pagination"
             @goto-page="gotoPage($event)"
             :columns="getTableColumns()"
@@ -83,7 +85,7 @@
                         classes="btn btn-sm btn-micro btn-primary"
                         :title="getEntryDocumentState(document).buttons.verify.title"
                         :model="document"
-                        swal-title="Verificar este lançamento?"
+                        swal-title="Verificar este documento?"
                         label="verificar"
                         icon="fa fa-check"
                         store="entryDocuments"
@@ -96,60 +98,83 @@
                     <app-action-button
                         v-if="getEntryDocumentState(document).buttons.unverify.visible"
                         :disabled="getEntryDocumentState(document).buttons.unverify.disabled"
-                        classes="btn btn-sm btn-micro btn-primary"
+                        classes="btn btn-sm btn-micro btn-warning"
                         :title="getEntryDocumentState(document).buttons.unverify.title"
                         :model="document"
-                        swal-title="Retirar verificação deste lançamento?"
+                        swal-title="Retirar verificação deste documento?"
                         label="verificado"
                         icon="fa fa-ban"
                         store="entryDocuments"
                         method="unverify"
+                        :spinner-config="{ color: 'black' }"
+                            
+                            >
+                    </app-action-button>
+                    
+                    <app-action-button
+                        v-if="getEntryDocumentState(document).buttons.analyse.visible"
+                        :disabled="getEntryDocumentState(document).buttons.analyse.disabled"
+                        classes="btn btn-sm btn-micro btn-success"
+                        :title="getEntryDocumentState(document).buttons.analyse.title"
+                        :model="document"
+                        swal-title="Deseja analisar este documento?"
+                        label="analisar"
+                        icon="fa fa-ban"
+                        store="entryDocuments"
+                        method="analyse"
                         :spinner-config="{ color: 'white' }"
                             
                             >
                     </app-action-button>
                     
-
-                    <button
-                        v-if="getEntryDocumentState(document).buttons.analyse.visible"
-                        :disabled="getEntryDocumentState(document).buttons.analyse.disabled"
-                        class="btn btn-sm btn-micro btn-primary"
-                        @click="analyse(document)"
-                        :title="getEntryDocumentState(document).buttons.analyse.title"
-                        dusk="analize_document"
-                    >
-                        <i class="fa fa-check"></i> analisado
-                    </button>
-
-                    <button
+                    <app-action-button
                         v-if="getEntryDocumentState(document).buttons.unanalyse.visible"
                         :disabled="getEntryDocumentState(document).buttons.unanalyse.disabled"
-                        class="btn btn-sm btn-micro btn-danger"
-                        @click="unanalyse(document)"
+                        classes="btn btn-sm btn-micro btn-danger"
                         :title="getEntryDocumentState(document).buttons.unanalyse.title"
-                    >
-                        <i class="fa fa-ban"></i> analisado
-                    </button>
+                        :model="document"
+                        swal-title="Retirar a análise deste documento?"
+                        label="analisado"
+                        icon="fa fa-ban"
+                        store="entryDocuments"
+                        method="unanalyse"
+                        :spinner-config="{ color: 'white' }"
+                            
+                            >
+                    </app-action-button>
 
-                    <button
+                      <app-action-button
                         v-if="getEntryDocumentState(document).buttons.publish.visible"
                         :disabled="getEntryDocumentState(document).buttons.publish.disabled"
-                        class="btn btn-sm btn-micro btn-danger"
-                        @click="publish(document)"
+                        classes="btn btn-sm btn-micro btn-danger"
                         :title="getEntryDocumentState(document).buttons.publish.title"
-                    >
-                        <i class="fa fa-check"></i> tornar público
-                    </button>
+                        :model="document"
+                        swal-title="Deseja tornar este documento público?"
+                        label="tornar público"
+                        icon="fa fa-check"
+                        store="entryDocuments"
+                        method="publish"
+                        :spinner-config="{ color: 'white' }"
+                            
+                            >
+                    </app-action-button>    
 
-                    <button
+                    <app-action-button
                         v-if="getEntryDocumentState(document).buttons.unpublish.visible"
                         :disabled="getEntryDocumentState(document).buttons.unpublish.disabled"
-                        class="btn btn-sm btn-micro btn-success"
-                        @click="unpublish(document)"
+                        classes="btn btn-sm btn-micro btn-success"
                         :title="getEntryDocumentState(document).buttons.unpublish.title"
-                    >
-                        <i class="fa fa-ban"></i> tornar privado
-                    </button>
+                        :model="document"
+                        swal-title="Deseja despublicar este documento?"
+                        label="tornar privado"
+                        icon="fa fa-ban"
+                        store="entryDocuments"
+                        method="unpublish"
+                        :spinner-config="{ color: 'white' }"
+                            
+                            >
+                    </app-action-button>
+
 
                     <a
                         :href="document.url"
@@ -160,15 +185,24 @@
                         <i class="fa fa-eye"></i>
                     </a>
 
-                    <button
+                    <app-action-button
                         v-if="getEntryDocumentState(document).buttons.delete.visible"
                         :disabled="getEntryDocumentState(document).buttons.delete.disabled"
-                        class="btn btn-sm btn-micro btn-danger"
-                        @click="trash(document)"
+                        classes="btn btn-sm btn-micro btn-danger"
                         :title="getEntryDocumentState(document).buttons.delete.title"
-                    >
-                        <i class="fa fa-trash"></i>
-                    </button>
+                        :model="document"
+                        swal-title="Deseja realmente DELETAR este documento?"
+                        label=""
+                        icon="fa fa-trash"
+                        store="entryDocuments"
+                        method="delete"
+                        :spinner-config="{ size: '0.02em' }"
+                        :swal-message="{ r200: 'Deletado com sucesso' }"
+                            
+                            >
+                    </app-action-button>
+
+                    
 
                     
                     <app-audits-button model="entryDocuments" :row="document"></app-audits-button>

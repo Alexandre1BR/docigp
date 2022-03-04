@@ -1,6 +1,8 @@
 <template>
-    <app-table-panel
-        :title="'Deputados (' + pagination.total + ')'"
+    <div>
+
+    <app-table-panel 
+        :title="'Deputados' + (tableLoading ? '' : ' (' + pagination.total + ')')"
         titleCollapsed="Deputado / Deputada"
         :per-page="perPage"
         :filter-text="filterText"
@@ -41,7 +43,17 @@
             </div>
         </template>
 
-        <app-table :pagination="pagination" @goto-page="gotoPage($event)" :columns="getTableColumns()">
+         <div v-if="tableLoading" class="p-5">
+            <clip-loader 
+                margin='2px'
+                color="#0a008a"
+                :size="'4em'"
+                class="d-flex justify-content-center pt-5"
+            >
+            </clip-loader>
+        </div>
+
+        <app-table v-if="!tableLoading" :pagination="pagination" @goto-page="gotoPage($event)" :columns="getTableColumns()">
             <tr
                 @click="selectCongressman(congressman)"
                 v-for="congressman in congressmen.data.rows"
@@ -85,13 +97,14 @@
             </tr>
         </app-table>
     </app-table-panel>
+    </div>
 </template>
 
 <script>
 import crud from '../../views/mixins/crud'
 import congressmen from '../../views/mixins/congressmen'
 import permissions from '../../views/mixins/permissions'
-import { mapActions } from 'vuex'
+import { mapActions, mapState} from 'vuex'
 
 const service = { name: 'congressmen', uri: 'congressmen' }
 
@@ -141,6 +154,8 @@ export default {
     },
 
     computed: {
+         ...mapState(service.name, ['tableLoading']),
+
         withMandate: {
             get() {
                 return this.$store.state['congressmen'].data.filter.checkboxes.withMandate
@@ -156,6 +171,8 @@ export default {
                     field: 'withoutMandate',
                     value: false,
                 })
+
+                this.$store.commit('congressmen/mutateTableLoading', true);
 
                 this.$store.dispatch('congressmen/load')
             },
@@ -177,6 +194,8 @@ export default {
                     value: false,
                 })
 
+                this.$store.commit('congressmen/mutateTableLoading', true);
+
                 this.$store.dispatch('congressmen/load')
             },
         },
@@ -196,6 +215,8 @@ export default {
                     field: 'withoutPendency',
                     value: false,
                 })
+
+                this.$store.commit('congressmen/mutateTableLoading', true);
 
                 this.$store.dispatch('congressmen/load')
             },
@@ -217,6 +238,8 @@ export default {
                     value: false,
                 })
 
+                this.$store.commit('congressmen/mutateTableLoading', true);
+
                 this.$store.dispatch('congressmen/load')
             },
         },
@@ -231,6 +254,8 @@ export default {
                     field: 'unread',
                     value: filter,
                 })
+
+                this.$store.commit('congressmen/mutateTableLoading', true);
 
                 this.$store.dispatch('congressmen/load')
             },
@@ -252,6 +277,8 @@ export default {
                     value: false,
                 })
 
+                this.$store.commit('congressmen/mutateTableLoading', true);
+
                 this.$store.dispatch('congressmen/load')
             },
         },
@@ -272,6 +299,9 @@ export default {
                     value: false,
                 })
 
+                this.$store.commit('congressmen/mutateTableLoading', true);
+
+
                 this.$store.dispatch('congressmen/load')
             },
         },
@@ -287,6 +317,7 @@ export default {
                 this.$store.dispatch('congressmen/load')
             })
         },
+       
     },
 }
 </script>

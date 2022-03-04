@@ -1,16 +1,5 @@
 <template>
     <div>
-    
-    <div v-if="tableLoading" class="p-5">
-        <clip-loader 
-            margin='2px'
-            
-            color="#0a008a"
-            :size="'4em'"
-            class="d-flex justify-content-center pt-5"
-        >
-        </clip-loader>
-    </div>
 
     <div class="row justify-content-center">
         <div class="col-12">
