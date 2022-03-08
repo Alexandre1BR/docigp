@@ -1,7 +1,7 @@
 <template>
     <div>
 
-    <app-table-panel 
+    <app-table-panel class="border-bottom-0 border-left-0 border-right-0 bg-light shadow-none"
         :title="'Deputados' + (tableLoading ? '' : ' (' + pagination.total + ')')"
         titleCollapsed="Deputado / Deputada"
         :per-page="perPage"
@@ -10,7 +10,9 @@
         @set-per-page="perPage = $event"
         :collapsedLabel="selected.name"
         :is-selected="selected.id !== null"
-    >
+        :isLoading="tableLoading"
+    > 
+            
         <template slot="checkboxes">
             <div class="row">
                 <div v-if="can('congressman:show')" class="col">
@@ -43,18 +45,8 @@
             </div>
         </template>
 
-         <div v-if="tableLoading" class="p-5">
-            <clip-loader 
-                margin='2px'
-                color="#0a008a"
-                :size="'4em'"
-                class="d-flex justify-content-center pt-5"
-            >
-            </clip-loader>
-        </div>
-
-        <app-table v-if="!tableLoading" :pagination="pagination" @goto-page="gotoPage($event)" :columns="getTableColumns()">
-            <tr
+        <app-table :pagination="pagination" @goto-page="gotoPage($event)" :columns="getTableColumns()">
+            <tr 
                 @click="selectCongressman(congressman)"
                 v-for="congressman in congressmen.data.rows"
                 :class="{

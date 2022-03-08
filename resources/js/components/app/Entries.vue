@@ -11,11 +11,12 @@
             @set-per-page="perPage = $event"
             :collapsedLabel="currentSummaryLabel"
             :is-selected="selected.id !== null"
+            :isLoading="tableLoading"
         >
             <template slot="widgets" v-if="can('entries:show')">
-                <div class="mr-2">
+                <div  class="mr-2" v-if="!tableLoading">
                     <span
-                        class="btn btn-sm m-2"
+                        class="btn btn-sm "
                         :class="{
                             'btn-outline-success': congressmanBudgets.selected.balance >= 0,
                             'btn-outline-danger': congressmanBudgets.selected.balance < 0,
@@ -40,18 +41,9 @@
                 </button>
             </template>
 
-            <div v-if="tableLoading" class="p-5">
-                <clip-loader 
-                    margin='2px'
-                    v-if="tableLoading"
-                    color="#0a008a"
-                    :size="'4em'"
-                    class="d-flex justify-content-center pt-5"
-                >
-                </clip-loader>
-            </div>
+            
 
-            <app-table v-if="!tableLoading"
+            <app-table 
                 :pagination="pagination"
                 @goto-page="gotoPage($event)"
                 :columns="getTableColumns()"

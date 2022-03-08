@@ -5,15 +5,46 @@
                 <div class="col-12">
                     <div class="mb-2">
                         <div class="row">
-                            <div class="col-10">
+                            <div class="col-12">
                                 <div class="row" v-if="unCollapsed">
                                     <div class="col-12">
                                         <div class="row">
-                                            <div class="col">
+                                            <div class="col-5">
                                                 <h4 class="mb-0">
-                                                    {{ title }}
+                                                    {{ title }} 
                                                 </h4>
                                             </div>
+
+                                            <div class="d-flex justify-content-end col-7 mr-0 ">
+                                            <div >
+                                            <pulse-loader
+                                                margin='3px'
+                                                color="#0a008a"
+                                                :size="'1em'"
+                                                v-if="isLoading"
+                                                class="pr-4"
+                                            >
+                                            </pulse-loader>
+                                            </div>
+                                            <div class="row">
+                                                <slot name="widgets"></slot>
+                            
+                                                <i
+                                                    v-if="isSelected"
+                                                    :v-b-toggle="unCollapsed"
+                                                    @click="unCollapsed = !unCollapsed"
+                                                    class="fa fa-2x fa-align-end"
+                                                    :class="{
+                                                        'fa-minus-square': unCollapsed,
+                                                        'fa-plus-square': collapsed,
+                                                        'text-danger': unCollapsed,
+                                                        'text-success': collapsed,
+                                                    }"
+                                                ></i>
+                                            </div>
+                                            
+                                            </div>
+                                            
                                         </div>
                                     </div>
                                 </div>
@@ -34,23 +65,9 @@
                                     </div>
                                 </div>
                             </div>
-
-                            <div class="col-2 d-flex justify-content-end">
-                                <slot name="widgets"></slot>
-
-                                <i
-                                    v-if="isSelected"
-                                    :v-b-toggle="unCollapsed"
-                                    @click="unCollapsed = !unCollapsed"
-                                    class="fa fa-2x fa-align-middle"
-                                    :class="{
-                                        'fa-minus-square': unCollapsed,
-                                        'fa-plus-square': collapsed,
-                                        'text-danger': unCollapsed,
-                                        'text-success': collapsed,
-                                    }"
-                                ></i>
-                            </div>
+                            
+                            
+                            
                         </div>
                     </div>
                 </div>
@@ -116,13 +133,14 @@
             </b-collapse>
         </div>
 
-        <b-collapse :id="makeRandomId()" v-model="unCollapsed" class="mt-2">
-            <div class="row">
-                <div class="col-12"><slot></slot></div>
+        <b-collapse  :id="makeRandomId()" v-model="unCollapsed" class="mt-2">
+            <div class="row">            
+                <div  class="col-12"><slot></slot></div>
             </div>
         </b-collapse>
 
         <b-collapse :id="makeRandomId()" v-model="collapsed" class="mt-2">
+        
             <div
                 class="row cursor-pointer"
                 :v-b-toggle="unCollapsed"
@@ -152,6 +170,7 @@ export default {
         'dont-center-filters',
         'collapsedLabel',
         'is-selected',
+        'isLoading',
     ],
 
     data() {
@@ -183,8 +202,8 @@ export default {
                 : 'nada selecionado'
         },
     },
-
-    computed: {
+    
+    computed: {      
         collapsed: {
             get() {
                 if (!this.collapsedLabel) {

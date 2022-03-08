@@ -12,20 +12,9 @@
         @set-per-page="perPage = $event"
         :collapsedLabel="currentSummaryLabel"
         :is-selected="selected.id !== null"
-        
+        :isLoading="tableLoading"    
     >
-
-    <div v-if="tableLoading" class="p-5">
-        <clip-loader 
-            margin='2px'
-            
-            color="#0a008a"
-            :size="'4em'"
-            class="d-flex justify-content-center pt-5"
-        >
-        </clip-loader>
-    </div>
-        <app-table v-if="!tableLoading"
+        <app-table 
             :pagination="pagination"
             @goto-page="gotoPage($event)"
             :columns="getTableColumns()"

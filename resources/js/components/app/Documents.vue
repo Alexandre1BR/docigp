@@ -11,6 +11,7 @@
         :collapsedLabel="selected.name"
         :is-selected="selected.id !== null"
         :subTitle="entries.selected.object + ' - ' + entries.selected.value_formatted"
+        :isLoading="tableLoading"
     >
         <template slot="buttons">
             <button
@@ -25,18 +26,8 @@
             </button>
         </template>
 
-        <div v-if="tableLoading" class="p-5">
-            <clip-loader 
-                margin='2px'
-                v-if="tableLoading"
-                color="#0a008a"
-                :size="'4em'"
-                class="d-flex justify-content-center pt-5"
-            >
-            </clip-loader>
-        </div>
-
-        <app-table v-if="!tableLoading"
+        
+        <app-table 
             :pagination="pagination"
             @goto-page="gotoPage($event)"
             :columns="getTableColumns()"
