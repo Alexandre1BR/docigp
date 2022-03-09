@@ -1,10 +1,10 @@
 <template>
     <div class="table-responsive">
-        <table
+        <table 
             class="table table-sm table-hover table-borderless table-striped card-body mb-0"
         >
             <thead>
-                <tr>
+                <tr >
                     <slot name="thead"></slot>
                     <th
                         v-if="columns"
@@ -47,10 +47,9 @@
 </template>
 
 <script>
+
 export default {
     props: ['pagination', 'columns', 'rows'],
-
-   
 
     methods: {
         isObject(target) {
