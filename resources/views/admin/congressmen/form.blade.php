@@ -93,6 +93,8 @@
 
                     @include('admin.congressman_legislatures.partials.table')
 
+                    @include('admin.congressman_legislatures.partials.form-modal-include')
+
 
                 </div>
             </div>
