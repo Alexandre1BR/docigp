@@ -28,10 +28,8 @@ class Service
      */
     protected $usersRepository;
 
-    public function __construct(
-        Users $usersRepository,
-        RemoteRequest $remoteRequest
-    ) {
+    public function __construct(Users $usersRepository, RemoteRequest $remoteRequest)
+    {
         $this->usersRepository = $usersRepository;
 
         $this->remoteRequest = $remoteRequest;
@@ -41,8 +39,7 @@ class Service
     {
         $response = $this->loginRequest($request);
 
-        return $response['success'] &&
-            $this->updateLoginUser($request, $remember, $response);
+        return $response['success'] && $this->updateLoginUser($request, $remember, $response);
     }
 
     /**
@@ -108,12 +105,7 @@ class Service
                 abort(403);
             } else {
                 //Usuário já cadastrado
-                if (
-                    Hash::check(
-                        extract_credentials($request)['password'],
-                        $user->password
-                    )
-                ) {
+                if (Hash::check(extract_credentials($request)['password'], $user->password)) {
                     //Credenciais de login conferem com as salvas no banco
                     return $this->successAuthentication($user);
                 } else {
@@ -146,9 +138,7 @@ class Service
                 $this->extractCredencialsForUsername($request)
             );
 
-            $this->usersRepository->updateCurrentUserTypeViaPermissions(
-                $permissions
-            );
+            $this->usersRepository->updateCurrentUserTypeViaPermissions($permissions);
         }
 
         return $success;
@@ -222,11 +212,7 @@ class Service
      */
     private function updateLoginUser($request, $remember, $response): bool
     {
-        $user = $this->usersRepository->updateLoginUser(
-            $request,
-            $remember,
-            $response
-        );
+        $user = $this->usersRepository->updateLoginUser($request, $remember, $response);
 
         if (filled($user)) {
             Auth::login($user, $remember);

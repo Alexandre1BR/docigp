@@ -20,13 +20,7 @@ use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
 class User extends Authenticatable implements AuditableContract
 {
-    use Notifiable,
-        Auditable,
-        Selectable,
-        HasRolesAndAbilities,
-        Filterable,
-        Eventable,
-        HasFactory;
+    use Notifiable, Auditable, Selectable, HasRolesAndAbilities, Filterable, Eventable, HasFactory;
 
     /**
      * The attributes that are mass assignable.
@@ -39,7 +33,7 @@ class User extends Authenticatable implements AuditableContract
         'password',
         'username',
         'congressman_id',
-        'last_login_at'
+        'last_login_at',
     ];
 
     protected $orderBy = ['name' => 'asc'];
@@ -57,7 +51,7 @@ class User extends Authenticatable implements AuditableContract
      * @var array
      */
     protected $casts = [
-        'email_verified_at' => 'datetime'
+        'email_verified_at' => 'datetime',
     ];
 
     protected $filterableColumns = ['name', 'email'];
@@ -120,9 +114,7 @@ class User extends Authenticatable implements AuditableContract
             $rolesToSync[] = $role['id'];
         }
 
-        Bouncer::sync($this)->roles(
-            BouncerRole::whereIn('id', $rolesToSync)->get()
-        );
+        Bouncer::sync($this)->roles(BouncerRole::whereIn('id', $rolesToSync)->get());
     }
 
     public function department()

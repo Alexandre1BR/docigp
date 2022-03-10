@@ -49,11 +49,7 @@ trait Eventable
         $eventClass = $this->getModelEventClass($model, $eventType);
 
         if (class_exists($eventClass)) {
-            event(
-                new $eventClass(
-                    $model
-                )
-            );
+            event(new $eventClass($model));
         }
     }
 
@@ -84,10 +80,6 @@ trait Eventable
 
     protected function inferEventType($model, $type)
     {
-        return filled($type)
-            ? $type
-            : ($model->wasRecentlyCreated
-                ? 'Created'
-                : 'Updated');
+        return filled($type) ? $type : ($model->wasRecentlyCreated ? 'Created' : 'Updated');
     }
 }

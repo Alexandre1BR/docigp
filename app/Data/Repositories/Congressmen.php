@@ -22,46 +22,38 @@ class Congressmen extends Repository
             'Chiquinho da Mangueira',
             'Marcus Vinicius Neskau',
             'André Correa',
-            'Marcos Abrahão'
+            'Marcos Abrahão',
         ])->contains($congressman->name);
     }
 
     private function createCongressmanFromRemote($congressman, $departmentId)
     {
         if (is_null($this->findParty($congressman['SiglaPartido']))) {
-            dump(
-                'O partido ' .
-                    $congressman['SiglaPartido'] .
-                    ' não consta no banco de dados'
-            );
+            dump('O partido ' . $congressman['SiglaPartido'] . ' não consta no banco de dados');
         }
         return $this->firstOrCreate(
             [
-                'remote_id' => $congressman['ID']
+                'remote_id' => $congressman['ID'],
             ],
             [
                 'name' => ($name = $this->normalizeName($congressman['Nome'])),
 
-                'nickname' =>
-                    $this->normalizeName($congressman['NomePolitico']) ?? $name,
+                'nickname' => $this->normalizeName($congressman['NomePolitico']) ?? $name,
 
-                'party_id' => $this->findParty($congressman['SiglaPartido'])
-                    ->id,
+                'party_id' => $this->findParty($congressman['SiglaPartido'])->id,
 
                 'photo_url' => $congressman['Foto'],
 
                 'department_id' => $departmentId,
 
-                'thumbnail_url' => $congressman['FotoPequena']
+                'thumbnail_url' => $congressman['FotoPequena'],
             ]
         );
     }
 
     private function findParty($party)
     {
-        return app(Parties::class)->findByCode(
-            $this->normalizePartyCode($party)
-        );
+        return app(Parties::class)->findByCode($this->normalizePartyCode($party));
     }
 
     /**
@@ -91,25 +83,17 @@ class Congressmen extends Repository
     {
         $this->withGlobalScopesDisabled(function () use ($data) {
             $data->each(function ($congressman) {
-                $department = app(
-                    DepartmentsRepository::class
-                )->createDepartmentFromCongressman($congressman);
-
-                $congressman = $this->createCongressmanFromRemote(
-                    $congressman,
-                    $department->id
+                $department = app(DepartmentsRepository::class)->createDepartmentFromCongressman(
+                    $congressman
                 );
 
-                if (
-                    $congressman->wasRecentlyCreated &&
-                    $this->canHaveMandate($congressman)
-                ) {
+                $congressman = $this->createCongressmanFromRemote($congressman, $department->id);
+
+                if ($congressman->wasRecentlyCreated && $this->canHaveMandate($congressman)) {
                     $legislature = CongressmanLegislature::firstOrCreate(
                         [
                             'congressman_id' => $congressman->id,
-                            'legislature_id' => app(
-                                Legislatures::class
-                            )->getCurrent()->id
+                            'legislature_id' => app(Legislatures::class)->getCurrent()->id,
                         ],
                         ['started_at' => now()]
                     );
@@ -181,11 +165,7 @@ class Congressmen extends Repository
         $search->each(function ($item) use ($columns, $query) {
             $columns->each(function ($type, $column) use ($query, $item) {
                 if ($type === 'string') {
-                    $query->orWhere(
-                        DB::raw("lower({$column})"),
-                        'like',
-                        '%' . $item . '%'
-                    );
+                    $query->orWhere(DB::raw("lower({$column})"), 'like', '%' . $item . '%');
                 } else {
                     if ($this->isDate($item)) {
                         $query->orWhere($column, '=', $item);
@@ -199,10 +179,7 @@ class Congressmen extends Repository
 
     public function associateWithUser($request)
     {
-        return app(Users::class)->associateCongressmanWithUser(
-            $request['id'],
-            $request
-        );
+        return app(Users::class)->associateCongressmanWithUser($request['id'], $request);
     }
 
     public function markAsRead($id)

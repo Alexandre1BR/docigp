@@ -24,7 +24,7 @@ class EntryCommentStore extends Request
     public function rules()
     {
         return [
-            'text' => 'required'
+            'text' => 'required',
         ];
     }
 }

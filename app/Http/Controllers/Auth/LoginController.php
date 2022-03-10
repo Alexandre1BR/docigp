@@ -91,10 +91,7 @@ class LoginController extends Controller
      */
     protected function attemptLoginAlerj(Request $request)
     {
-        return $this->authentication->attempt(
-            $request,
-            $request->filled('remember')
-        );
+        return $this->authentication->attempt($request, $request->filled('remember'));
     }
 
     private function sendDisabledResponse()

@@ -26,8 +26,6 @@ class CostCenter extends Model
 
     public function getFormattedRevokedAtAttribute()
     {
-        return $this->revoked_at
-            ? Carbon::create($this->revoked_at)->format('d/m/Y')
-            : null;
+        return $this->revoked_at ? Carbon::create($this->revoked_at)->format('d/m/Y') : null;
     }
 }

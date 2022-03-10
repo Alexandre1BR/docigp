@@ -64,11 +64,7 @@ class ResetPasswordNotification extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         if (static::$toMailCallback) {
-            return call_user_func(
-                static::$toMailCallback,
-                $notifiable,
-                $this->token
-            );
+            return call_user_func(static::$toMailCallback, $notifiable, $this->token);
         }
 
         return (new MailMessage())
@@ -80,14 +76,7 @@ class ResetPasswordNotification extends Notification implements ShouldQueue
             )
             ->action(
                 Lang::get('Trocar Senha'),
-                url(
-                    config('app.url') .
-                        route(
-                            'password.reset',
-                            ['token' => $this->token],
-                            false
-                        )
-                )
+                url(config('app.url') . route('password.reset', ['token' => $this->token], false))
             )
             ->line(
                 Lang::get('Este link irá expirar em :count minutos.', [
@@ -95,9 +84,7 @@ class ResetPasswordNotification extends Notification implements ShouldQueue
                 ])
             )
             ->line(
-                Lang::get(
-                    'Se você não solicitou a troca da senha, por favor ignore esta mensagem.'
-                )
+                Lang::get('Se você não solicitou a troca da senha, por favor ignore esta mensagem.')
             );
     }
 

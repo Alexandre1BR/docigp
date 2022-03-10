@@ -47,7 +47,6 @@ class NotRevokedCostCenter implements Rule
      */
     public function message()
     {
-        return 'Este centro de custo foi revogado em ' .
-            $this->costCenter->formatted_revoked_at;
+        return 'Este centro de custo foi revogado em ' . $this->costCenter->formatted_revoked_at;
     }
 }
