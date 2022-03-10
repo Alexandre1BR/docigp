@@ -27,7 +27,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="card-body">
                 @include('partials.alerts')
                 @if ($errors->has('email'))
@@ -83,25 +83,17 @@
                 <div class="form-group col-md-6" >
 
                     <div class="col-5 col-md-8 text-right">
-                        @if($isInCurrentLegislature)
-                            <a id="button-novo-contato" href="#" data-toggle="modal" data-target="#removeCongressmanFromLegislatures"
-                               class="btn btn-danger btn-sm pull-right">
-                                <i class="fa fa-minus"></i>
-                                Remover da Legislatura
-                            </a>
-                        @else
-                            <a id="button-novo-contato" href="#" data-toggle="modal" data-target="#includeCongressmanInLegislatures"
-                               class="btn btn-primary btn-sm pull-right">
-                                <i class="fa fa-plus"></i>
-                                Incluir na Legislatura
-                            </a>
-                        @endif
+                        <a id="button-novo-contato" href="#" data-toggle="modal" data-target="#includeCongressmanInLegislatures"
+                           class="btn btn-primary btn-sm pull-right">
+                            <i class="fa fa-plus"></i>
+                            Incluir na Legislatura
+                        </a>
                     </div>
-
-                    @include('admin.congressman_legislatures.partials.form-modal')
                     Legislaturas
 
                     @include('admin.congressman_legislatures.partials.table')
+
+
                 </div>
             </div>
         </div>

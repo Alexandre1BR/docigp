@@ -1,5 +1,5 @@
 <!-- Modal de Remover da Legislatura -->
-<div class="modal fade" id="removeCongressmanFromLegislatures"  tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="editCongressmanFromLegislatures_{{$congressmanLegislature->id}}"  tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -9,16 +9,26 @@
                 </button>
             </div>
 
-            <form class="form" id="form_insertContact" name="form_insertContact" action="{{route('congressman-legislatures.remove-from-legislature')}}" method="post">
+            <form class="form" id="form_insertContact" name="form_insertContact" action="{{route('congressman-legislatures.edit-legislature')}}" method="post">
                 <div class="modal-body">
                     {{ csrf_field() }}
 
                     <input name="congressman_id" type="hidden" value="{{ $congressman->id }}">
+                    <input name="congressmanLegislature_id" type="hidden" value="{{ $congressmanLegislature->id }}">
 
                     <div class="row">
                         <div class="col-md-5">
+                            <p><label for="ended_at">Data Início</label></p>
+                            <input type="date" name="started_at" id="started_at"
+                                   value="{{$congressmanLegislature->started_at->format('Y-m-d')}}"/>
+                        </div>
+
+                        <div class="col-md-5">
                             <p><label for="ended_at">Data Fim</label></p>
-                            <input type="date" name="ended_at" id="ended_at" />
+                            <input type="date" name="ended_at" id="ended_at"
+                                   value="{{
+                                isset($congressmanLegislature->ended_at) ?
+                                $congressmanLegislature->ended_at->format('Y-m-d'): ''}}"/>
                         </div>
                     </div>
 
@@ -55,6 +65,16 @@
                     <input name="congressman_id" type="hidden" value="{{ $congressman->id }}">
 
                     <div class="row">
+
+                        <div class="col-md-5">
+                            <p><label for="started_at">Data de início</label></p>
+
+                            <select name="legislature_id">
+                                @foreach($legislatures as $legislature)
+                                    <option value="{{$legislature->id}}"> {{$legislature->number}}° Legislatura</option>
+                                @endforeach
+                            </select>
+                        </div>
                         <div class="col-md-5">
                             <p><label for="started_at">Data de início</label></p>
                             <input type="date" name="started_at" id="started_at">
