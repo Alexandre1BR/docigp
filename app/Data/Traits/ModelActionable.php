@@ -10,7 +10,7 @@ trait ModelActionable
     {
         $this->update([
             'verified_at' => now(),
-            'verified_by_id' => auth()->user()->id
+            'verified_by_id' => auth()->user()->id,
         ]);
         return $this;
     }
@@ -36,7 +36,7 @@ trait ModelActionable
     {
         $this->update([
             'analysed_at' => now(),
-            'analysed_by_id' => auth()->user()->id
+            'analysed_by_id' => auth()->user()->id,
         ]);
         return $this;
     }
@@ -67,7 +67,7 @@ trait ModelActionable
     {
         $this->update([
             'published_at' => now(),
-            'published_by_id' => auth()->user()->id
+            'published_by_id' => auth()->user()->id,
         ]);
 
         return $this;
@@ -88,7 +88,7 @@ trait ModelActionable
     {
         $this->update([
             'closed_at' => now(),
-            'closed_by_id' => auth()->user()->id
+            'closed_by_id' => auth()->user()->id,
         ]);
         return $this;
     }
@@ -97,7 +97,7 @@ trait ModelActionable
     {
         $this->update([
             'closed_at' => null,
-            'closed_by_id' => auth()->user()->id
+            'closed_by_id' => auth()->user()->id,
         ]);
         return $this;
     }

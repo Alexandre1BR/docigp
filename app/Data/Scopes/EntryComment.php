@@ -20,10 +20,7 @@ class EntryComment extends Scope
         if (static::$enabled) {
             if (current_user() != null) {
                 if (!is_administrator() && !is_aci()) {
-                    $builder->where(
-                        $model->getTable() . '.created_by_id',
-                        current_user()->id
-                    );
+                    $builder->where($model->getTable() . '.created_by_id', current_user()->id);
                 }
             } else {
                 $builder->limit(0);

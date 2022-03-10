@@ -11,16 +11,12 @@ abstract class Event
     public function __call($method, $arguments)
     {
         if (starts_with($method, 'get')) {
-            return $this->hasProperty(
-                $property = $this->makeProperty('get', $method)
-            )
+            return $this->hasProperty($property = $this->makeProperty('get', $method))
                 ? $this->$property
                 : null;
         }
 
-        throw new \Exception(
-            "Method {$method} does not exists in " . get_class($this)
-        );
+        throw new \Exception("Method {$method} does not exists in " . get_class($this));
     }
 
     protected function hasProperty($param)

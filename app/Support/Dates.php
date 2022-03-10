@@ -29,8 +29,7 @@ trait Dates
 
     public function updated_at_formatted()
     {
-        return $this->wrappedObject->created_at ==
-            $this->wrappedObject->updated_at
+        return $this->wrappedObject->created_at == $this->wrappedObject->updated_at
             ? ''
             : $this->formatDate($this->wrappedObject->updated_at);
     }

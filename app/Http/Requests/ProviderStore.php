@@ -25,8 +25,7 @@ class ProviderStore extends Request
      */
     public function rules()
     {
-        $cpfOrCnpj =
-            $this->get('type') == 'PF' ? new ValidCPF() : new ValidCNPJ();
+        $cpfOrCnpj = $this->get('type') == 'PF' ? new ValidCPF() : new ValidCNPJ();
         return [
             'cpf_cnpj' => ['required', $cpfOrCnpj, 'unique:providers'],
             'name' => 'required',

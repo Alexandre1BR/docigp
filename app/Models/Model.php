@@ -31,10 +31,7 @@ abstract class Model extends Eloquent implements AuditableContract
     {
         $saved = parent::save();
 
-        $this->fireEvents(
-            $this,
-            $this->wasRecentlyCreated ? 'Created' : 'Updated'
-        );
+        $this->fireEvents($this, $this->wasRecentlyCreated ? 'Created' : 'Updated');
 
         return $saved;
     }
@@ -45,17 +42,13 @@ abstract class Model extends Eloquent implements AuditableContract
 
         static::updating(function ($model) {
             if ($model->controlUpdatedBy) {
-                $model->updated_by_id = ($user = auth()->user())
-                    ? $user->id
-                    : 1;
+                $model->updated_by_id = ($user = auth()->user()) ? $user->id : 1;
             }
         });
 
         static::creating(function ($model) {
             if ($model->controlCreatedBy) {
-                $model->created_by_id = ($user = auth()->user())
-                    ? $user->id
-                    : 1;
+                $model->created_by_id = ($user = auth()->user()) ? $user->id : 1;
             }
         });
 

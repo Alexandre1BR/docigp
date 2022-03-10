@@ -10,7 +10,6 @@ class File extends Model
 
     public function getUrlAttribute()
     {
-        return config("filesystems.disks.{$this->drive}.url_prefix") .
-            $this->path;
+        return config("filesystems.disks.{$this->drive}.url_prefix") . $this->path;
     }
 }

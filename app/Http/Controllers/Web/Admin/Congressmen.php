@@ -61,9 +61,7 @@ class Congressmen extends Controller
             CongressmanLegislaturesRepository::class
         )->isInCurrentLegislature($id);
 
-
-
-        $legislatures = Legislature::orderBy('number','desc')->get();
+        $legislatures = Legislature::orderBy('number', 'desc')->get();
 
         //TODO selecionar as roles possíveis
         return $this->view('admin.congressmen.form')
@@ -71,7 +69,7 @@ class Congressmen extends Controller
             ->with('congressmanLegislatures', $congressmanLegislatures)
             ->with('formDisabled', true)
             ->with('isInCurrentLegislature', $isInCurrentLegislature)
-            ->with('legislatures',$legislatures);
+            ->with('legislatures', $legislatures);
     }
 
     public function associateWithUser(CongressmanRequest $request)

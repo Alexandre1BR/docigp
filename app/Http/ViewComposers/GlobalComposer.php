@@ -33,9 +33,7 @@ class GlobalComposer
 
         $environment = app(Environment::class)->data();
 
-        app()->singleton(Environment::class, function ($app) use (
-            $environment
-        ) {
+        app()->singleton(Environment::class, function ($app) use ($environment) {
             return $environment;
         });
 

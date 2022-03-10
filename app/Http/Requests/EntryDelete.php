@@ -17,9 +17,7 @@ class EntryDelete extends Request
     {
         $entry = Entry::find($this->all()['entryId']);
 
-        return $entry &&
-            Gate::allows('entries:update:model', $entry) &&
-            allows('entries:delete');
+        return $entry && Gate::allows('entries:update:model', $entry) && allows('entries:delete');
     }
 
     /**

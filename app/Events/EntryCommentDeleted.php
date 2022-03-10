@@ -27,8 +27,6 @@ class EntryCommentDeleted extends Event
 
         $this->congressmanBudgetId = $entry->congressman_budget_id;
 
-        $this->congressmanId = CongressmanBudget::find(
-            $this->congressmanBudgetId
-        )->congressman->id;
+        $this->congressmanId = CongressmanBudget::find($this->congressmanBudgetId)->congressman->id;
     }
 }

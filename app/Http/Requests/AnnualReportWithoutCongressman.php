@@ -8,7 +8,7 @@ class AnnualReportWithoutCongressman extends Request
     {
         return allows('annual-reports:generate');
     }
-    
+
     /**
      * Get the validation rules that apply to the request.
      *

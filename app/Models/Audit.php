@@ -56,7 +56,8 @@ class Audit extends Model
             $activity = 'Logout';
         }
 
-        if (Str::endsWith($route, 'congressman-legislatures.edit-legislature') ||
+        if (
+            Str::endsWith($route, 'congressman-legislatures.edit-legislature') ||
             Str::endsWith($route, 'congressman-legislatures.remove-from-legislature')
         ) {
             $activity = 'Modificação das datas de deputado em legislaturas';

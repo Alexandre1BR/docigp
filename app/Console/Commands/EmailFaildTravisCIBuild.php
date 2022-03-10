@@ -6,8 +6,6 @@ use Illuminate\Console\Command;
 use App\Mail\DuskFailure;
 use Illuminate\Support\Facades\Mail;
 
-
-
 class EmailFaildTravisCIBuild extends Command
 {
     /**
