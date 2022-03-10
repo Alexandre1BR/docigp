@@ -18,16 +18,11 @@ class CongressmanBudgetChangeState extends Request
      */
     public function authorize()
     {
-        $congressmanBudget = CongressmanBudget::find(
-            $this->all()['congressmanBudgetId']
-        );
+        $congressmanBudget = CongressmanBudget::find($this->all()['congressmanBudgetId']);
 
         return $congressmanBudget &&
             $congressmanBudget->{$this->ableFunction}() &&
-            Gate::allows(
-                'congressman-budgets:update:model',
-                $congressmanBudget
-            ) &&
+            Gate::allows('congressman-budgets:update:model', $congressmanBudget) &&
             allows('congressman-budgets:' . $this->action);
     }
 

@@ -18,7 +18,7 @@ class AnnualReport extends Controller
         return view('admin.annual-reports.index')->with([
             'congressmen' => Congressman::withoutGlobalScopes()
                 ->orderBy('name', 'asc')
-                ->get()
+                ->get(),
         ]);
     }
 
@@ -26,23 +26,20 @@ class AnnualReport extends Controller
     {
         set_time_limit(0);
         $year = $request->get('year');
-        $congressman = Congressman::withoutGlobalScopes()->find(
-            $request->get('congressman_id')
-        );
+        $congressman = Congressman::withoutGlobalScopes()->find($request->get('congressman_id'));
 
         return app(PDF::class)
             ->initialize(
                 view('admin.annual-reports.pdf')
                     ->with(
-                        $parameters = app(
-                            AnnualReportCongressmanService::class
-                        )->getMainTable($year, $congressman)
+                        $parameters = app(AnnualReportCongressmanService::class)->getMainTable(
+                            $year,
+                            $congressman
+                        )
                     )
                     ->with(
                         'logoBlob',
-                        base64_encode(
-                            file_get_contents(public_path('img/logo-alerj.png'))
-                        )
+                        base64_encode(file_get_contents(public_path('img/logo-alerj.png')))
                     )
                     ->render(),
                 'A4',
@@ -55,27 +52,27 @@ class AnnualReport extends Controller
     {
         $year = $request->get('year');
 
-//        return view('admin.annual-reports.general')->with(
-//            'logoBlob',
-//            base64_encode(
-//                file_get_contents(public_path('img/logo-alerj.png'))
-//            )
-//        )->with('year',$year);
+        //        return view('admin.annual-reports.general')->with(
+        //            'logoBlob',
+        //            base64_encode(
+        //                file_get_contents(public_path('img/logo-alerj.png'))
+        //            )
+        //        )->with('year',$year);
         return app(PDF::class)
             ->initialize(
-                view('admin.annual-reports.general')->with(
-                    'logoBlob',
-                    base64_encode(
-                        file_get_contents(public_path('img/logo-alerj.png'))
+                view('admin.annual-reports.general')
+                    ->with(
+                        'logoBlob',
+                        base64_encode(file_get_contents(public_path('img/logo-alerj.png')))
                     )
-                )->with(
-                    $parameters = app(
-                        AnnualReportGeneralService::class
-                    )->getMainTable($year)
-                )->with('year', $year)
+                    ->with(
+                        $parameters = app(AnnualReportGeneralService::class)->getMainTable($year)
+                    )
+                    ->with('year', $year)
                     ->render(),
                 'A4',
                 'landscape'
-            )->download(make_pdf_filename('Relatorio Anual de Todos os Centro de Custo'));
+            )
+            ->download(make_pdf_filename('Relatorio Anual de Todos os Centro de Custo'));
     }
 }

@@ -31,11 +31,7 @@ trait DataProcessing
 
     public function processTransformationPlugins($data)
     {
-        return $this->processPlugins(
-            $data,
-            $this->plugins['transformation'],
-            true
-        );
+        return $this->processPlugins($data, $this->plugins['transformation'], true);
     }
 
     public function processDataPlugins($data)
@@ -50,15 +46,8 @@ trait DataProcessing
                 ? $paginated->getCollection()
                 : collect($paginated);
 
-        $transformable->transform(function ($model, $key) use (
-            $plugins,
-            $convertToArray
-        ) {
-            coollect($plugins)->each(function ($plugin) use (
-                &$model,
-                $key,
-                $convertToArray
-            ) {
+        $transformable->transform(function ($model, $key) use ($plugins, $convertToArray) {
+            coollect($plugins)->each(function ($plugin) use (&$model, $key, $convertToArray) {
                 if ($convertToArray && $model instanceof Model) {
                     $model = $model->toArray();
                 }
@@ -69,15 +58,11 @@ trait DataProcessing
             return $model;
         });
 
-        return $paginated instanceof LengthAwarePaginator
-            ? $paginated
-            : $transformable;
+        return $paginated instanceof LengthAwarePaginator ? $paginated : $transformable;
     }
 
     public function transform($data)
     {
-        return $this->processTransformationPlugins(
-            $this->processDataPlugins($data)
-        );
+        return $this->processTransformationPlugins($this->processDataPlugins($data));
     }
 }

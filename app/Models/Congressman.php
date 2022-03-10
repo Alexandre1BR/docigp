@@ -23,7 +23,7 @@ class Congressman extends Model
         'party_id',
         'photo_url',
         'thumbnail_url',
-        'department_id'
+        'department_id',
     ];
 
     protected $with = ['party', 'user'];
@@ -39,7 +39,7 @@ class Congressman extends Model
     protected $selectColumnsRaw = [
         '(select count(*) from congressman_legislatures cl where cl.congressman_id = congressmen.id and cl.ended_at is null) > 0 as has_mandate',
         '(select count(*) from congressman_budgets cb join congressman_legislatures cl on cb.congressman_legislature_id = cl.id where cl.congressman_id = congressmen.id and cb.published_at is null) > 0 as has_pendency',
-        '(select count(*) from congressman_budgets cb join congressman_legislatures cl on cb.congressman_legislature_id = cl.id where cl.congressman_id = congressmen.id and cb.published_at is not null) > 0 as is_published'
+        '(select count(*) from congressman_budgets cb join congressman_legislatures cl on cb.congressman_legislature_id = cl.id where cl.congressman_id = congressmen.id and cb.published_at is not null) > 0 as is_published',
     ];
 
     public function legislatures()
@@ -54,10 +54,7 @@ class Congressman extends Model
 
     public function congressmanBudgets()
     {
-        return $this->hasManyThrough(
-            CongressmanBudget::class,
-            CongressmanLegislature::class
-        );
+        return $this->hasManyThrough(CongressmanBudget::class, CongressmanLegislature::class);
     }
 
     protected function joinCongressmanLegislatures($query)
@@ -74,9 +71,7 @@ class Congressman extends Model
 
     public function scopeActive($query)
     {
-        return $this->joinCongressmanLegislatures($query)->whereNull(
-            'cgl.ended_at'
-        );
+        return $this->joinCongressmanLegislatures($query)->whereNull('cgl.ended_at');
     }
 
     public function scopeNonActive($query)
@@ -87,9 +82,7 @@ class Congressman extends Model
                 $query
                     ->select(DB::raw(1))
                     ->from('congressman_legislatures')
-                    ->whereRaw(
-                        'congressman_legislatures.congressman_id = congressmen.id'
-                    )
+                    ->whereRaw('congressman_legislatures.congressman_id = congressmen.id')
                     ->whereNull('congressman_legislatures.ended_at');
             });
     }
@@ -141,12 +134,7 @@ class Congressman extends Model
     public function getCurrentBudgetAttribute()
     {
         return $this->congressmanBudgets()
-            ->join(
-                'budgets',
-                'budgets.id',
-                '=',
-                'congressman_budgets.budget_id'
-            )
+            ->join('budgets', 'budgets.id', '=', 'congressman_budgets.budget_id')
             ->orderBy('budgets.date', 'desc')
             ->first();
     }
@@ -159,17 +147,8 @@ class Congressman extends Model
     {
         return $this->congressmanBudgets()
             ->orderBy('budgets.date', 'desc')
-            ->join(
-                'budgets',
-                'budgets.id',
-                '=',
-                'congressman_budgets.budget_id'
-            )
-            ->where(
-                'budgets.date',
-                '<',
-                $congressmanBudget->budget->date->startOfMonth()
-            )
+            ->join('budgets', 'budgets.id', '=', 'congressman_budgets.budget_id')
+            ->where('budgets.date', '<', $congressmanBudget->budget->date->startOfMonth())
             ->first();
     }
 
@@ -181,17 +160,8 @@ class Congressman extends Model
     {
         return $this->congressmanBudgets()
             ->orderBy('budgets.date', 'asc')
-            ->join(
-                'budgets',
-                'budgets.id',
-                '=',
-                'congressman_budgets.budget_id'
-            )
-            ->where(
-                'budgets.date',
-                '>',
-                $congressmanBudget->budget->date->endOfMonth()
-            )
+            ->join('budgets', 'budgets.id', '=', 'congressman_budgets.budget_id')
+            ->where('budgets.date', '>', $congressmanBudget->budget->date->endOfMonth())
             ->first();
     }
 
@@ -241,16 +211,12 @@ class Congressman extends Model
 
     public function getThumbnailUrlLinkableAttribute()
     {
-        return filled($this->thumbnail_url)
-            ? 'http://' . trim($this->thumbnail_url)
-            : null;
+        return filled($this->thumbnail_url) ? 'http://' . trim($this->thumbnail_url) : null;
     }
 
     public function getPhotoUrlLinkableAttribute()
     {
-        return filled($this->photo_url)
-            ? 'http://' . trim($this->photo_url)
-            : null;
+        return filled($this->photo_url) ? 'http://' . trim($this->photo_url) : null;
     }
 
     public function getSelectColumnsRaw()

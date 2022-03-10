@@ -29,10 +29,7 @@ class UploadFiles extends Controller
 
     public function store(UploadFileRequest $request)
     {
-        app(FilesRepository::class)->uploadFile(
-            $request->all(),
-            CongressmanBudget::class
-        );
+        app(FilesRepository::class)->uploadFile($request->all(), CongressmanBudget::class);
 
         return redirect()
             ->route('upload-files.index')

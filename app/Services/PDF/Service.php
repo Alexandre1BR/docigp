@@ -17,7 +17,7 @@ class Service
         $this->pdf = PDF::setOptions(
             array_merge(
                 [
-                    'defaultFont' => 'Helvetica'
+                    'defaultFont' => 'Helvetica',
                 ],
                 $extraOptions
             )

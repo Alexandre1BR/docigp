@@ -38,9 +38,7 @@ class WithinBudgetDate implements Rule
      */
     public function passes($attribute, $value)
     {
-        $congressmanBbudget = app(CongressmanBudgets::class)->findById(
-            $this->congressmanBudgetId
-        );
+        $congressmanBbudget = app(CongressmanBudgets::class)->findById($this->congressmanBudgetId);
 
         $this->date = $value;
 

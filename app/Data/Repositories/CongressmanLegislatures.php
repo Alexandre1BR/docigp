@@ -11,7 +11,6 @@ class CongressmanLegislatures extends Repository
      */
     protected $model = CongressmanLegislature::class;
 
-
     public function includeInLegislature($legislature_id, $congressman_id, $started_at)
     {
         $model = $this->model();
@@ -30,10 +29,7 @@ class CongressmanLegislatures extends Repository
     {
         $model = $this->model
             ::where('congressman_id', $congressman_id)
-            ->where(
-                'legislature_id',
-                app(Legislatures::class)->getCurrent()->id
-            )
+            ->where('legislature_id', app(Legislatures::class)->getCurrent()->id)
             ->whereNull('ended_at')
             ->first();
         return !is_null($model);

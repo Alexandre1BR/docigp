@@ -23,9 +23,7 @@ class EntryStore extends Request
 
     private function getQueryValue(string $string)
     {
-        return request()->segment(
-            collect(request()->segments())->search($string) + 2
-        );
+        return request()->segment(collect(request()->segments())->search($string) + 2);
     }
 
     /**
@@ -35,25 +33,22 @@ class EntryStore extends Request
      */
     public function rules()
     {
-
         return [
             'date' => [
                 'bail',
                 'date',
                 'required',
-                new WithinBudgetDate($this->getQueryValue('budgets'))
+                new WithinBudgetDate($this->getQueryValue('budgets')),
             ],
             'value_abs' => 'required',
             'object' => 'required',
             'to' => 'required',
-            'cost_center_id' => [
-                'bail',
+            'cost_center_id' => ['bail', 'required', new NotRevokedCostCenter($this->get('date'))],
+            'provider_cpf_cnpj' => [
                 'required',
-                new NotRevokedCostCenter($this->get('date'))
+                new CheckCpforCnpj($this->get('provider_cpf_cnpj')),
             ],
-            'provider_cpf_cnpj' => ['required',
-              new CheckCpforCnpj($this->get('provider_cpf_cnpj'))],
-            'entry_type_id' => 'required'
+            'entry_type_id' => 'required',
         ];
     }
 
@@ -69,10 +64,7 @@ class EntryStore extends Request
 
         if (
             isset($all['cost_center_id']) &&
-            in_array(
-                $all['cost_center_id'],
-                Constants::COST_CENTER_CREDIT_ID_ARRAY
-            )
+            in_array($all['cost_center_id'], Constants::COST_CENTER_CREDIT_ID_ARRAY)
         ) {
             $all['value'] = $all['value_abs'];
         } else {

@@ -27,7 +27,7 @@ trait MarkAsUnread
                 ->each(function ($user) {
                     ChangeUnread::firstOrCreate([
                         'user_id' => $user->id,
-                        'congressman_id' => $this->congressman->id
+                        'congressman_id' => $this->congressman->id,
                     ]);
                 });
         }

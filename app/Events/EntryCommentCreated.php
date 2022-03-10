@@ -22,12 +22,8 @@ class EntryCommentCreated extends Event
         $this->entryCommentId = $entryComment->id;
         $this->entryId = $entryComment->entry_id;
 
-        $this->congressmanBudgetId = Entry::find(
-            $entryComment->entry_id
-        )->congressman_budget_id;
+        $this->congressmanBudgetId = Entry::find($entryComment->entry_id)->congressman_budget_id;
 
-        $this->congressmanId = CongressmanBudget::find(
-            $this->congressmanBudgetId
-        )->congressman->id;
+        $this->congressmanId = CongressmanBudget::find($this->congressmanBudgetId)->congressman->id;
     }
 }

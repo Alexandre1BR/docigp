@@ -27,19 +27,18 @@ class CongressmanLegislatures extends Controller
 
     public function editLegislature(Request $request)
     {
-        $this->congressmanLegislaturesRepository
-            ->update($request['congressmanLegislature_id'], $request->except('token'));
+        $this->congressmanLegislaturesRepository->update(
+            $request['congressmanLegislature_id'],
+            $request->except('token')
+        );
 
         return redirect()
-            ->route('congressmen.show',$request['congressman_id'])
-            ->with(
-                $this->getSuccessMessage('Atualizado com Sucesso')
-            );
+            ->route('congressmen.show', $request['congressman_id'])
+            ->with($this->getSuccessMessage('Atualizado com Sucesso'));
     }
 
     public function includeInLegislature(Request $request)
     {
-
         $this->congressmanLegislaturesRepository->includeInLegislature(
             $request['legislature_id'],
             $request['congressman_id'],
@@ -48,8 +47,6 @@ class CongressmanLegislatures extends Controller
 
         return redirect()
             ->route('congressmen.index')
-            ->with(
-                $this->getSuccessMessage('Removido da Legislatura com Sucesso')
-            );
+            ->with($this->getSuccessMessage('Removido da Legislatura com Sucesso'));
     }
 }

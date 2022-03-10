@@ -20,9 +20,7 @@ class NotTransportOrCreditEntry extends Scope
         if (static::$enabled && !($user = current_user())) {
             $builder->whereNotIn(
                 $model->getTable() . '.cost_center_id',
-                app(
-                    CostCentersRepository::class
-                )->getTransportAndCreditIdsArray()
+                app(CostCentersRepository::class)->getTransportAndCreditIdsArray()
             );
         }
     }

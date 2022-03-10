@@ -37,9 +37,7 @@ class Legislatures extends Controller
     {
         return $this->view('admin.legislatures.form')
             ->with([
-                'legislature' => app(LegislaturesRepository::class)->findById(
-                    $id
-                ),
+                'legislature' => app(LegislaturesRepository::class)->findById($id),
             ])
             ->with([
                 'congressmanLegislatures' => app(

@@ -8,7 +8,6 @@ use Carbon\Carbon;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Illuminate\Http\Request;
 
-
 class UsersExport implements FromCollection
 {
     /**
@@ -17,7 +16,6 @@ class UsersExport implements FromCollection
 
     protected $data_ini;
     protected $data_fim;
-
 
     public function __construct($data_ini, $data_fim)
     {
@@ -30,7 +28,6 @@ class UsersExport implements FromCollection
         $users = Users::all();
 
         $period = \Carbon\CarbonPeriod::create($this->data_ini, $this->data_fim);
-
 
         $periodCollection = collect($period->toArray());
 
@@ -46,7 +43,6 @@ class UsersExport implements FromCollection
             )
         );
 
-
         $allLinesCollection = collect();
         $allLinesCollection->push($firstline);
 
@@ -60,7 +56,6 @@ class UsersExport implements FromCollection
                     Audits::where('user_id', $user->id)
                         ->whereDate('created_at', $date)
                         ->count()
-
                 );
             });
 
@@ -69,4 +64,4 @@ class UsersExport implements FromCollection
 
         return $allLinesCollection;
     }
-};
+}
