@@ -30,10 +30,6 @@ class CongressmanLegislatures extends Controller
         $this->congressmanLegislaturesRepository
             ->update($request['congressmanLegislature_id'], $request->except('token'));
 
-
-
-
-
         return redirect()
             ->route('congressmen.show',$request['congressman_id'])
             ->with(
