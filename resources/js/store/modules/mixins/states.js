@@ -27,4 +27,4 @@ export const common = {
     },
 
     selected: { id: null },
-};
+}

@@ -1,9 +1,9 @@
-import Form from '../../classes/Form';
+import Form from '../../classes/Form'
 
-import * as mutationsMixin from './mixins/mutations.js';
-import * as actionsMixin from './mixins/actions.js';
-import * as statesMixin from './mixins/states.js';
-import * as gettersMixin from './mixins/getters.js';
+import * as mutationsMixin from './mixins/mutations.js'
+import * as actionsMixin from './mixins/actions.js'
+import * as statesMixin from './mixins/states.js'
+import * as gettersMixin from './mixins/getters.js'
 
 const __emptyModel = {
     id: null,
@@ -17,7 +17,7 @@ const __emptyModel = {
     provider_name: null,
     provider_cpf_cnpj: null,
     cost_center_id: null,
-};
+}
 
 let state = merge_objects(
     {
@@ -39,11 +39,11 @@ let state = merge_objects(
     },
 
     statesMixin.common,
-);
+)
 
 let actions = merge_objects(actionsMixin, {
     subscribeToModelEvents(context, payload) {
-        context.dispatch('leaveModelChannel', payload);
+        context.dispatch('leaveModelChannel', payload)
 
         if (context.state.model) {
             subscribePublicChannel(
@@ -52,9 +52,9 @@ let actions = merge_objects(actionsMixin, {
                 (event) => {
                     context.dispatch('entryDocuments/load', payload, {
                         root: true,
-                    });
+                    })
                 },
-            );
+            )
 
             subscribePublicChannel(
                 'entries.' + payload.id,
@@ -62,66 +62,66 @@ let actions = merge_objects(actionsMixin, {
                 (event) => {
                     context.dispatch('entryComments/load', payload, {
                         root: true,
-                    });
+                    })
                 },
-            );
+            )
         }
     },
 
     selectEntry(context, payload) {
-        const performLoad = !context.state.selected || context.state.selected.id != payload.id;
+        const performLoad = !context.state.selected || context.state.selected.id != payload.id
 
-        context.dispatch('entries/select', payload, { root: true });
-        context.commit('mutateFormData', payload);
+        context.dispatch('entries/select', payload, { root: true })
+        context.commit('mutateFormData', payload)
 
         if (performLoad) {
-            context.commit('entryDocuments/mutateTableLoading', true, { root: true });
-            context.commit('entryComments/mutateTableLoading', true, { root: true });
-            context.dispatch('entryDocuments/setCurrentPage', 1, { root: true });
-            context.commit('entryDocuments/mutateSetSelected', { id: null }, { root: true });
-            context.dispatch('entryComments/setCurrentPage', 1, { root: true });
-            context.commit('entryComments/mutateSetSelected', { id: null }, { root: true });
+            context.commit('entryDocuments/mutateTableLoading', true, { root: true })
+            context.commit('entryComments/mutateTableLoading', true, { root: true })
+            context.dispatch('entryDocuments/setCurrentPage', 1, { root: true })
+            context.commit('entryDocuments/mutateSetSelected', { id: null }, { root: true })
+            context.dispatch('entryComments/setCurrentPage', 1, { root: true })
+            context.commit('entryComments/mutateSetSelected', { id: null }, { root: true })
         }
     },
 
     verify(context, payload) {
-        return post(makeDataUrl(context) + '/' + payload.id + '/verify');
+        return post(makeDataUrl(context) + '/' + payload.id + '/verify')
     },
 
     unverify(context, payload) {
-        return post(makeDataUrl(context) + '/' + payload.id + '/unverify');
+        return post(makeDataUrl(context) + '/' + payload.id + '/unverify')
     },
 
     analyse(context, payload) {
-        return post(makeDataUrl(context) + '/' + payload.id + '/analyse');
+        return post(makeDataUrl(context) + '/' + payload.id + '/analyse')
     },
 
     unanalyse(context, payload) {
-        return post(makeDataUrl(context) + '/' + payload.id + '/unanalyse');
+        return post(makeDataUrl(context) + '/' + payload.id + '/unanalyse')
     },
 
     publish(context, payload) {
-        return post(makeDataUrl(context) + '/' + payload.id + '/publish');
+        return post(makeDataUrl(context) + '/' + payload.id + '/publish')
     },
 
     unpublish(context, payload) {
-        return post(makeDataUrl(context) + '/' + payload.id + '/unpublish');
+        return post(makeDataUrl(context) + '/' + payload.id + '/unpublish')
     },
 
     delete(context, payload) {
-        return post(makeDataUrl(context) + '/' + payload.id + '/delete');
+        return post(makeDataUrl(context) + '/' + payload.id + '/delete')
     },
 
     fillFormForRefund(context) {
-        const url = buildApiUrl(context.state.service.uri, context.rootState);
+        const url = buildApiUrl(context.state.service.uri, context.rootState)
 
         get(url + '/empty-refund-form', {}).then((response) => {
-            context.commit('mutateFormData', response.data);
-        });
+            context.commit('mutateFormData', response.data)
+        })
     },
-});
+})
 
-let mutations = mutationsMixin;
+let mutations = mutationsMixin
 
 let getters = merge_objects(gettersMixin, {
     currentSummaryLabel(state, getters) {
@@ -132,20 +132,20 @@ let getters = merge_objects(gettersMixin, {
                 state.selected.object +
                 ' - ' +
                 state.selected.value_formatted
-            );
+            )
         } else {
-            return '';
+            return ''
         }
     },
 
     getSelectedState: (state, getters) => {
-        return getters.getEntryState(getters.getSelected);
+        return getters.getEntryState(getters.getSelected)
     },
 
     getEntryState: (state, getters, rootState, rootGetters) => (entry) => {
-        const congressmanBudgetClosedAt = rootGetters['congressmanBudgets/selectedClosedAt'];
+        const congressmanBudgetClosedAt = rootGetters['congressmanBudgets/selectedClosedAt']
 
-        const closedTitle = 'O orçamento mensal está fechado';
+        const closedTitle = 'O orçamento mensal está fechado'
 
         if (entry.published_at) {
             return {
@@ -202,7 +202,7 @@ let getters = merge_objects(gettersMixin, {
                             : closedTitle,
                     },
                 },
-            };
+            }
         } else if (entry.analysed_at) {
             return {
                 name: 'Analisado',
@@ -258,7 +258,7 @@ let getters = merge_objects(gettersMixin, {
                             : closedTitle,
                     },
                 },
-            };
+            }
         } else if (entry.verified_at) {
             return {
                 name: 'Verificado',
@@ -314,7 +314,7 @@ let getters = merge_objects(gettersMixin, {
                             : closedTitle,
                     },
                 },
-            };
+            }
         } else {
             return {
                 name: 'Salvo',
@@ -374,10 +374,10 @@ let getters = merge_objects(gettersMixin, {
                             : closedTitle,
                     },
                 },
-            };
+            }
         }
     },
-});
+})
 
 export default {
     state,
@@ -385,4 +385,4 @@ export default {
     mutations,
     getters,
     namespaced: true,
-};
+}
