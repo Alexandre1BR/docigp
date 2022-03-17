@@ -1,7 +1,7 @@
 <template>
     <div>
 
-    <app-table-panel class="border-bottom-0 border-left-0 border-right-0 bg-light shadow-none"
+    <app-table-panel 
         :title="'Deputados' + (tableLoading ? '' : ' (' + pagination.total + ')')"
         titleCollapsed="Deputado / Deputada"
         :per-page="perPage"
