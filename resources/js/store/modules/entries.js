@@ -75,6 +75,8 @@ let actions = merge_objects(actionsMixin, {
         context.commit('mutateFormData', payload)
 
         if (performLoad) {
+            context.commit('entryDocuments/mutateTableLoading', true, { root: true })
+            context.commit('entryComments/mutateTableLoading', true, { root: true })
             context.dispatch('entryDocuments/setCurrentPage', 1, { root: true })
             context.commit('entryDocuments/mutateSetSelected', { id: null }, { root: true })
             context.dispatch('entryComments/setCurrentPage', 1, { root: true })

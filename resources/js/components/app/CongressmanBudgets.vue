@@ -1,6 +1,9 @@
 <template>
-    <app-table-panel
-        :title="'Orçamento mensal (' + pagination.total + ')'"
+    <div>
+    
+    
+    <app-table-panel 
+        :title="'Orçamento mensal' + (tableLoading ? '' : '  (' + pagination.total + ')')"
         titleCollapsed="Orçamento"
         :subTitle="congressmen.selected.name"
         :per-page="perPage"
@@ -9,8 +12,9 @@
         @set-per-page="perPage = $event"
         :collapsedLabel="currentSummaryLabel"
         :is-selected="selected.id !== null"
+        :isLoading="tableLoading"    
     >
-        <app-table
+        <app-table 
             :pagination="pagination"
             @goto-page="gotoPage($event)"
             :columns="getTableColumns()"
@@ -245,11 +249,16 @@
 
         <app-entry-form :show.sync="showModal" :refund="true"></app-entry-form>
     </app-table-panel>
+
+
+    </div>
+
+    
 </template>
 
 <script>
 import crud from '../../views/mixins/crud'
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapGetters, mapState } from 'vuex'
 import congressmen from '../../views/mixins/congressmen'
 import permissions from '../../views/mixins/permissions'
 import congressmanBudgets from '../../views/mixins/congressmanBudgets'
@@ -265,11 +274,14 @@ export default {
     data() {
         return {
             service: service,
-
             showModal: false,
+            
         }
     },
 
+
+    
+    
     methods: {
         ...mapActions(service.name, ['selectCongressmanBudget']),
 
@@ -379,8 +391,11 @@ export default {
         ...mapGetters(service.name, [
             'currentSummaryLabel',
             'getCongressmanBudgetState',
-            'getSelectedState',
+            'getSelectedState',     
         ]),
-    },
+        ...mapState(service.name, ['tableLoading'])
+    }
+    
 }
 </script>
+

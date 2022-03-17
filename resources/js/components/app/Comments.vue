@@ -1,4 +1,9 @@
 <template>
+
+    <div>
+    
+
+    <div >
     <app-table-panel
         :title="'Comentários'"
         titleCollapsed="Comentários"
@@ -10,6 +15,7 @@
         :is-selected="selected.id !== null"
         :subTitle="entries.selected.object + ' - ' + entries.selected.value_formatted"
         v-if="environment.user != null"
+        :isLoading="tableLoading"
     >
         <template slot="buttons">
             <button
@@ -24,7 +30,9 @@
             </button>
         </template>
 
-        <app-table
+        
+
+        <app-table 
             :pagination="pagination"
             @goto-page="gotoPage($event)"
             :columns="getTableColumns()"
@@ -88,6 +96,28 @@
                         <i class="fa fa-trash"></i>
                     </button>
 
+                    <app-action-button
+                        :disabled="!can('entry-comments:delete') ||
+                            !can(
+                                'entry-comments:delete:' +
+                                    (comment.creator_is_congressman
+                                        ? 'congressman'
+                                        : 'not-congressman'),
+                            )"
+                        classes="btn btn-sm btn-micro btn-danger"
+                        title="Deletar Comentário"
+                        :model="comment"
+                        swal-title="Deseja realmente DELETAR este comentário?"
+                        label=""
+                        icon="fa fa-trash"
+                        store="entryComments"
+                        method="delete"
+                        :spinner-config="{ size: '0.02em' }"
+                        :swal-message="{ r200: 'Deletado com sucesso' }"
+                            
+                            >
+                    </app-action-button>
+
                     <app-audits-button model="entryComments" :row="comment"></app-audits-button>
                 </td>
             </tr>
@@ -95,9 +125,11 @@
 
         <app-comment-form :show.sync="showModal"></app-comment-form>
     </app-table-panel>
+    </div>
+    </div>
 </template>
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapGetters, mapState } from 'vuex'
 import crud from '../../views/mixins/crud'
 import entries from '../../views/mixins/entries'
 import permissions from '../../views/mixins/permissions'
@@ -125,6 +157,7 @@ export default {
         ...mapGetters({
             congressmanBudgetsClosedAt: 'congressmanBudgets/selectedClosedAt',
         }),
+        ...mapState(service.name, ['tableLoading'])
     },
 
     methods: {

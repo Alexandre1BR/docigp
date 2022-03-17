@@ -1,7 +1,8 @@
 <template>
     <div>
-        <app-table-panel
-            :title="'Lançamentos (' + pagination.total + ')'"
+
+        <app-table-panel 
+            :title="'Lançamentos' + (tableLoading ? '' : '   (' + pagination.total + ')')"
             titleCollapsed="Lançamento"
             :subTitle="congressmen.selected.name + ' - ' + congressmanBudgetsSummaryLabel"
             :per-page="perPage"
@@ -10,11 +11,12 @@
             @set-per-page="perPage = $event"
             :collapsedLabel="currentSummaryLabel"
             :is-selected="selected.id !== null"
+            :isLoading="tableLoading"
         >
             <template slot="widgets" v-if="can('entries:show')">
-                <div class="mr-2">
+                <div  class="mr-2" v-if="!tableLoading">
                     <span
-                        class="btn btn-sm m-2"
+                        class="btn btn-sm "
                         :class="{
                             'btn-outline-success': congressmanBudgets.selected.balance >= 0,
                             'btn-outline-danger': congressmanBudgets.selected.balance < 0,
@@ -39,7 +41,9 @@
                 </button>
             </template>
 
-            <app-table
+            
+
+            <app-table 
                 :pagination="pagination"
                 @goto-page="gotoPage($event)"
                 :columns="getTableColumns()"
@@ -276,7 +280,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapGetters, mapState } from 'vuex'
 import crud from '../../views/mixins/crud'
 import entries from '../../views/mixins/entries'
 import congressmen from '../../views/mixins/congressmen'
@@ -432,6 +436,7 @@ export default {
             currentSummaryLabel: 'entries/currentSummaryLabel',
             getActivityLog: 'entries/activityLog',
         }),
+        ...mapState(service.name, ['tableLoading'])
     },
 }
 </script>
