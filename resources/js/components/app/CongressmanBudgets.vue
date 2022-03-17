@@ -195,7 +195,7 @@
                         :model="congressmanBudget"
                         swal-title="Deseja remover o status ANALISADO deste lançamento?"
                         label="analisado"
-                        icon="fa fa-file"
+                        icon="fa fa-ban"
                         store="congressmanBudgets"
                         method="unanalyse"
                         :spinner-config="{ color: 'black' }"
