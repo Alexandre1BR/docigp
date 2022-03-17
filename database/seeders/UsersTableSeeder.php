@@ -2,9 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Repositories\UsersRepository;
+use App\Data\Repositories\Users as UsersRepository;
 use Illuminate\Database\Seeder;
-
 use App\Models\User as UserModel;
 
 class UsersTableSeeder extends Seeder
