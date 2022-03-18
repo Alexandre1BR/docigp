@@ -6,7 +6,7 @@
                     <div class="mb-2">
                         <div class="row">
                             <div class="col-12">
-                                <div class="row" v-if="unCollapsed">
+                                <div class="row">
                                     <div class="col-12">
                                         <div class="row">
                                             <div class="col-7">
@@ -15,20 +15,20 @@
                                                 </h4>
                                             </div>
 
-                                            <div class="d-flex justify-content-end col-5 mr-0 ">
+                                            <div class="d-flex justify-content-end col-5 mr-0 pr-4 ">
                                             <div >
                                             <pulse-loader
                                                 margin='3px'
                                                 color="#0a008a"
                                                 :size="'1em'"
                                                 v-if="isLoading"
-                                                class="pr-4"
+                                                class="pr-2"
                                             >
                                             </pulse-loader>
                                             </div>
                                             <div class="row">
-                                                <slot name="widgets"></slot>
-                                                <div v-if="!isLoading">
+                                            <slot name="widgets"></slot>
+                                               <div v-if="!isLoading">
                                                 <i
                                                     v-if="isSelected"
                                                     :v-b-toggle="unCollapsed"
@@ -50,14 +50,6 @@
                                     </div>
                                 </div>
 
-                                <div class="row" v-if="collapsed">
-                                    <div class="col-12">
-                                        <h4 class="mb-0">
-                                            {{ titleCollapsed }}
-                                        </h4>
-                                    </div>
-                                </div>
-
                                 <div class="row">
                                     <div class="col-12" v-if="!isLoading">
                                         <p class="m-0">
@@ -66,8 +58,6 @@
                                     </div>
                                 </div>
                             </div>
-                            
-                            
                             
                         </div>
                     </div>
