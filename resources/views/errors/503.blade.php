@@ -36,7 +36,7 @@
 <article>
     <h1>Site em Manutenção!</h1>
     <div>
-        <img src="img/manutencao.png" alt="manutencao">
+        <img src="../img/manutencao.png" alt="manutencao">
         <p>Retornaremos em breve ...</p>
         <p>&mdash; Subdiretoria Geral de Informática</p>
     </div>
