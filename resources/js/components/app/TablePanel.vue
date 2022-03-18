@@ -50,29 +50,6 @@
                                     </div>
                                 </div>
 
-                                <!-- <div v-if="!isLoading">
-                                        <i
-                                            v-if="isSelected"
-                                            :v-b-toggle="unCollapsed"
-                                            @click="unCollapsed = !unCollapsed"
-                                            class="fa fa-2x fa-align-end"
-                                            :class="{
-                                                'fa-minus-square': unCollapsed,
-                                                'fa-plus-square': collapsed,
-                                                'text-danger': unCollapsed,
-                                                'text-success': collapsed,
-                                            }"
-                                        ></i>
-                                        </div>
- -->
-                                <!-- <div class="row" v-if="collapsed">
-                                    <div class="col-12">
-                                        <h4 class="mb-0">
-                                            {{ titleCollapsed }}
-                                        </h4>
-                                    </div>
-                                </div> -->
-
                                 <div class="row">
                                     <div class="col-12" v-if="!isLoading">
                                         <p class="m-0">
@@ -81,8 +58,6 @@
                                     </div>
                                 </div>
                             </div>
-                            
-                            
                             
                         </div>
                     </div>
