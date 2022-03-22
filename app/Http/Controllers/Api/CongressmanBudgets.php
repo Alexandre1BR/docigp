@@ -95,7 +95,7 @@ class CongressmanBudgets extends Controller
 
     public function deposit(CongressmanBudgetDeposit $request, $congressmanId, $congressmanBudgetId)
     {
-        app(CongressmanBudgetsRepository::class)->deposit($congressmanBudgetId);
+        return app(CongressmanBudgetsRepository::class)->deposit($congressmanBudgetId);
     }
 
     public function audits(Request $request, $congressmanId, $congressmanBudgetId)

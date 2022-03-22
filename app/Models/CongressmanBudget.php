@@ -210,7 +210,7 @@ class CongressmanBudget extends Model
     public function deposit()
     {
         if ($this->has_deposit) {
-            return;
+            return $this;
         }
 
         Entry::create([
@@ -223,6 +223,7 @@ class CongressmanBudget extends Model
             'date' => $this->budget->date->startOfMonth() ?? now(),
             'value' => $this->value,
         ]);
+        return app(CongressmanBudgets::class)->findById($this->id);
     }
 
     public function isDepositable()

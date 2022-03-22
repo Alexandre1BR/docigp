@@ -108,7 +108,7 @@ let actions = merge_objects(actionsMixin, {
     },
 
     deposit(context, payload) {
-        post(makeDataUrl(context) + '/' + payload.id + '/deposit')
+        return post(makeDataUrl(context) + '/' + payload.id + '/deposit')
     },
 })
 
