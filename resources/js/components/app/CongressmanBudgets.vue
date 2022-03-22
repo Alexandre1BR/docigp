@@ -95,17 +95,23 @@
                 </td>
 
                 <td v-if="can('congressman-budgets:show')" class="align-middle text-right">
-                    <button
+                    <app-action-button
                         v-if="getCongressmanBudgetState(congressmanBudget).buttons.deposit.visible"
                         :disabled="
                             getCongressmanBudgetState(congressmanBudget).buttons.deposit.disabled
                         "
-                        @click="deposit(congressmanBudget)"
-                        class="btn btn-sm btn-micro btn-success"
-                        :title="getCongressmanBudgetState(congressmanBudget).buttons.deposit.title"
+                        classes="btn btn-sm btn-micro btn-success"
+                        :title="getCongressmanBudgetState(congressmanBudget).buttons.deposit.title" 
+                        :model="congressmanBudget"
+                        :swal-title="getCongressmanBudgetState(congressmanBudget).buttons.deposit.title" 
+                        label="depositar"
+                        icon="fa fa-dollar-sign"
+                        store="congressmanBudgets"
+                        method="deposit"
+                        dusk="deeposit_budget_button"
                     >
-                        <i class="fa fa-dollar-sign"></i> depositar
-                    </button>
+                    </app-action-button>
+                    
 
                     <app-percentage-button
                         v-if="
@@ -152,6 +158,7 @@
                         :disabled="
                             getCongressmanBudgetState(congressmanBudget).buttons.reopen.disabled
                         "
+                        
                         classes="btn btn-sm btn-micro btn-danger"
                         :title="getCongressmanBudgetState(congressmanBudget).buttons.reopen.title"
                         :model="congressmanBudget"

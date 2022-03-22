@@ -139,7 +139,7 @@ class CongressmanBudgets extends Repository
 
     public function deposit($modelId)
     {
-        $this->findById($modelId)->deposit();
+        return $this->findById($modelId)->deposit();
     }
 
     /**
