@@ -64,7 +64,7 @@ class Index extends BaseIndex
     {
         $this->created_at_start = now()
             ->startOfMonth()
-            ->subDays(30)
+            ->subDays(2)
             ->format('Y-m-d');
     }
 
