@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div >
         <app-table-panel
             :title="'Documentos' + (tableLoading ? '' : '  (' + pagination.total + ')')"
             titleCollapsed="Documento"
@@ -11,6 +11,7 @@
             :is-selected="selected.id !== null"
             :subTitle="entries.selected.object + ' - ' + entries.selected.value_formatted"
             :isLoading="tableLoading"
+            
         >
             <template slot="buttons">
                 <button
@@ -24,7 +25,7 @@
                     <i class="fa fa-plus"></i>
                 </button>
             </template>
-
+            
             <app-table
                 :pagination="pagination"
                 @goto-page="gotoPage($event)"
@@ -224,6 +225,7 @@ export default {
             service: service,
 
             showModal: false,
+
         }
     },
 
@@ -232,7 +234,7 @@ export default {
             congressmanBudgetsClosedAt: 'congressmanBudgets/selectedClosedAt',
             getEntryDocumentState: 'entryDocuments/getEntryDocumentState',
         }),
-        ...mapState(service.name, ['tableLoading']),
+        ...mapState(service.name, ['tableLoading', 'showComponent']),
 
         // return this.$store.dispatch('congressmanBudgets/changePercentage', {
         //     congressmanBudget: congressmanBudget,

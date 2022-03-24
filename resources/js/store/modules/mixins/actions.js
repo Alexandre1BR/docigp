@@ -23,6 +23,17 @@ export function load(context) {
     }
 }
 
+export function additionalSuccessActions(context, payload) {
+    let data = context.state.data
+    if (
+        (data.links.pagination.current_page - 1) * data.links.pagination.per_page + 1 >=
+        data.links.pagination.total
+    ) {
+        data.links.pagination.current_page -= 1
+    }
+    console.log(payload)
+}
+
 export function setDataAfterLoad(context, payload) {
     payload.filter.text = context.state.data.filter.text
 

@@ -77,6 +77,8 @@ export default {
                                     response.data,
                                 )
 
+                                //this.additionalSuccessActions()
+
                                 $this.$swal({
                                     toast: true,
                                     position: 'top-end',

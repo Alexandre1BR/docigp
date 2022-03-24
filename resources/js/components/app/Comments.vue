@@ -1,9 +1,7 @@
 <template>
 
     <div>
-    
-
-    <div >
+    <div>
     <app-table-panel
         :title="'Comentários'"
         titleCollapsed="Comentários"
@@ -157,7 +155,7 @@ export default {
         ...mapGetters({
             congressmanBudgetsClosedAt: 'congressmanBudgets/selectedClosedAt',
         }),
-        ...mapState(service.name, ['tableLoading'])
+        ...mapState(service.name, ['tableLoading', 'showComponent'])
     },
 
     methods: {

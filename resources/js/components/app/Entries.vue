@@ -71,6 +71,10 @@
                         </span>
                     </td>
 
+                    <td class="align-middle text-right">
+                    {{ entries.data.links.pagination.total }}
+                </td>
+
                     <td class="align-middle">
                         {{ entry.name }}
                         <span v-if="entry.cpf_cnpj">
@@ -265,6 +269,8 @@
                                 method="delete"
                                 :spinner-config="{ size: '0.05em' }"
                                 :swal-message="{ r200: 'Deletado com sucesso' }"
+                                
+                            
                             >
                             </app-action-button>
 
@@ -300,11 +306,13 @@ export default {
             service: service,
 
             showModal: false,
+
+         
         }
     },
 
     methods: {
-        ...mapActions(service.name, ['selectEntry', 'clearForm', 'clearErrors']),
+        ...mapActions(service.name, ['selectEntry', 'clearForm', 'clearErrors', 'additionalSuccessActions']),
 
         getEntryType(entry) {
             if (entry.cost_center_code == 2) {
@@ -436,7 +444,8 @@ export default {
             currentSummaryLabel: 'entries/currentSummaryLabel',
             getActivityLog: 'entries/activityLog',
         }),
-        ...mapState(service.name, ['tableLoading'])
+        ...mapState(service.name, ['tableLoading']),
+    
     },
 }
 </script>

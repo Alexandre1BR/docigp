@@ -2,6 +2,10 @@ export function mutateTableLoading(state, payload) {
     state.tableLoading = payload
 }
 
+export function mutateForcedUpdate(state, payload) {
+    state.showComponent = payload
+}
+
 export function mutateSetData(state, payload) {
     state.data = payload
 
