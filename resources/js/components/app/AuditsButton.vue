@@ -1,7 +1,7 @@
 <template>
     <span>
         <b-button
-            v-if="can('audits:show')"
+            v-if="can('audits:buttons-show')"
             class="btn btn-sm btn-micro btn-primary"
             @click="activityLog(row)"
             title="Logs"
