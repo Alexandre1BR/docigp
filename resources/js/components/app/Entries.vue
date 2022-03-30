@@ -286,61 +286,20 @@ import entries from '../../views/mixins/entries'
 import congressmen from '../../views/mixins/congressmen'
 import permissions from '../../views/mixins/permissions'
 import congressmanBudgets from '../../views/mixins/congressmanBudgets'
-
 const service = {
     name: 'entries',
     uri: 'congressmen/{congressmen.selected.id}/budgets/{congressmanBudgets.selected.id}/entries',
 }
-
 export default {
-  mixins: [crud, entries, permissions, congressmanBudgets, congressmen],
-
-  data() {
-    return {
-      service: service,
-
-      showModal: false,
-    };
-  },
-
-  methods: {
-    ...mapActions(service.name, ["selectEntry", "clearForm", "clearErrors"]),
-
-    getEntryType(entry) {
-      if (entry.cost_center_code == 2) {
+    mixins: [crud, entries, permissions, congressmanBudgets, congressmen],
+    data() {
         return {
-          name: "transporte",
-          class: entry.value > 0 ? "badge badge-danger" : "badge badge-success",
-        };
-      } else if (entry.cost_center_code == 3) {
-        return {
-          name: "transporte",
-          class:
-            entry.value >= 0 ? "badge badge-success" : "badge badge-danger",
-        };
-      } else if (entry.cost_center_code == 4) {
-        return {
-          name: "devolução",
-          class: "badge badge-warning",
-        };
-      } else {
-        if (entry.value > 0) {
-          return {
-            name: "crédito",
-            class: "badge badge-success",
-          };
-        } else {
-          return {
-            name: "débito",
-            class: "badge badge-dark",
-          };
+            service: service,
+            showModal: false,
         }
-      }
     },
-
     methods: {
         ...mapActions(service.name, ['selectEntry', 'clearForm', 'clearErrors']),
-
         getEntryType(entry) {
             if (entry.cost_center_code == 2) {
                 return {
@@ -371,10 +330,8 @@ export default {
                 }
             }
         },
-
         getTableColumns() {
             let columns = []
-
             if (can('tables:view-ids')) {
                 columns.push({
                     type: 'label',
@@ -382,7 +339,6 @@ export default {
                     trClass: 'text-center',
                 })
             }
-
             columns.push('Data')
             columns.push('Objeto')
             columns.push('Favorecido')
@@ -391,7 +347,6 @@ export default {
                 title: 'Documentos',
                 trClass: 'text-right',
             })
-
             if (can('entry-comments:show')) {
                 columns.push({
                     type: 'label',
@@ -399,122 +354,56 @@ export default {
                     trClass: 'text-right',
                 })
             }
-
             columns.push({
                 type: 'label',
                 title: 'Valor',
                 trClass: 'text-right',
             })
-
             if (can('entries:show')) {
                 columns.push({
                     type: 'label',
                     title: 'Tipo',
                     trClass: 'text-center',
                 })
-
                 columns.push({
                     type: 'label',
                     title: 'Meio',
                     trClass: 'text-center',
                 })
-
                 columns.push({
                     type: 'label',
                     title: 'Pendências',
                     trClass: 'text-center',
                 })
-
                 columns.push({
                     type: 'label',
                     title: 'Verificado',
                     trClass: 'text-center',
                 })
-
                 columns.push({
                     type: 'label',
                     title: 'Analisado',
                     trClass: 'text-center',
                 })
-
                 columns.push({
                     type: 'label',
                     title: 'Publicidade',
                     trClass: 'text-center',
                 })
             }
-
             columns.push('')
-
             return columns
         },
-      ];
-
-      if (can("entry-comments:show")) {
-        columns.push({
-          type: "label",
-          title: "Comentários",
-          trClass: "text-right",
-        });
-      }
-
-      columns.push({
-        type: "label",
-        title: "Valor",
-        trClass: "text-right",
-      });
-
-      if (can("entries:show")) {
-        columns.push({
-          type: "label",
-          title: "Tipo",
-          trClass: "text-center",
-        });
-
-        columns.push({
-          type: "label",
-          title: "Meio",
-          trClass: "text-center",
-        });
-
-        columns.push({
-          type: "label",
-          title: "Pendências",
-          trClass: "text-center",
-        });
-
-        columns.push({
-          type: "label",
-          title: "Verificado",
-          trClass: "text-center",
-        });
-
-        columns.push({
-          type: "label",
-          title: "Analisado",
-          trClass: "text-center",
-        });
-
-        columns.push({
-          type: "label",
-          title: "Publicidade",
-          trClass: "text-center",
-        });
-      }
-
-      columns.push("");
-
-      return columns;
+        createEntry() {
+            if (filled(this.form.id)) {
+                this.clearForm()
+            }
+            this.showModal = true
+        },
+        editEntry(entry) {
+            this.showModal = true
+        },
     },
-
-    createEntry() {
-      if (filled(this.form.id)) {
-        this.clearForm();
-      }
-
-      this.showModal = true;
-    },
-
     computed: {
         ...mapGetters({
             congressmanBudgetsSummaryLabel: 'congressmanBudgets/currentSummaryLabel',
@@ -526,16 +415,5 @@ export default {
         }),
         ...mapState(service.name, ['tableLoading'])
     },
-  },
-
-  computed: {
-    ...mapGetters({
-      congressmanBudgetsSummaryLabel: "congressmanBudgets/currentSummaryLabel",
-      congressmanBudgetsClosedAt: "congressmanBudgets/selectedClosedAt",
-      getEntryState: "entries/getEntryState",
-      selectedCongressmanBudgetState: "congressmanBudgets/getSelectedState",
-      currentSummaryLabel: "entries/currentSummaryLabel",
-    }),
-  },
-};
+}
 </script>
