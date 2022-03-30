@@ -11,24 +11,31 @@ use Illuminate\Support\Facades\Password;
 use App\Services\DataSync\Service as DataSyncService;
 
 Artisan::command('docigp:sync:congressmen', function () {
+    info('Synchronizing congressmen...');
+    login_as_system();
     $this->info('Synchronizing congressmen...');
 
     app(DataSyncService::class)->congressmen();
 })->describe('Sync congressmen data');
 
 Artisan::command('docigp:sync:parties', function () {
+    info('Synchronizing parties...');
+    login_as_system();
     $this->info('Synchronizing parties...');
 
     app(DataSyncService::class)->parties();
 })->describe('Sync congressmen data');
 
 Artisan::command('docigp:sync:departments', function () {
+    info('Creating departments...');
+    login_as_system();
     $this->info('Creating departments...');
 
     app(DataSyncService::class)->departments();
 })->describe('Create departments');
 
 Artisan::command('docigp:sync:roles', function () {
+    info('Creating roles and abilities...');
     $this->info('Creating roles and abilities...');
     app(DataSyncService::class)->roles();
 })->describe('Create roles');
@@ -37,12 +44,15 @@ Artisan::command('docigp:budget:generate {baseDate?} {congressmanName?}', functi
     $baseDate = null,
     $congressmanName = null
 ) {
+    info('Generating budgets...');
+    login_as_system();
     $this->info('Generating budgets...');
 
     app(Budgets::class)->generate($baseDate, $congressmanName);
 })->describe('Generate budgets {baseDate?} {congressmanName?}');
 
 Artisan::command('docigp:role:assign {role} {email}', function ($role, $email) {
+    login_as_system();
     if (!($user = app(Users::class)->findByEmail($email))) {
         return $this->info('E-mail não encontrado.');
     }
@@ -52,10 +62,8 @@ Artisan::command('docigp:role:assign {role} {email}', function ($role, $email) {
     $this->info("{$user->name} is now '{$role}'");
 })->describe('Add role to user {role} {email}');
 
-Artisan::command('docigp:role:retract {role} {email}', function (
-    $role,
-    $email
-) {
+Artisan::command('docigp:role:retract {role} {email}', function ($role, $email) {
+    login_as_system();
     if (!($user = app(Users::class)->findByEmail($email))) {
         return $this->info('E-mail não encontrado.');
     }
@@ -65,10 +73,8 @@ Artisan::command('docigp:role:retract {role} {email}', function (
     $this->info("{$user->name} is not '{$role}' anymore");
 })->describe('Remove role from user {role} {email}');
 
-Artisan::command('docigp:users:create {email} {name}', function (
-    $email,
-    $name
-) {
+Artisan::command('docigp:users:create {email} {name}', function ($email, $name) {
+    login_as_system();
     $user = app(Users::class)->firstOrCreate(
         ['email' => $email],
         [
@@ -82,6 +88,8 @@ Artisan::command('docigp:users:create {email} {name}', function (
 })->describe('Create user {email} {name}');
 
 Artisan::command('docigp:users:reset-password {email}', function ($email) {
+    login_as_system();
+
     Password::sendResetLink(['email' => $email]);
 
     $this->info("Password reset for {$email} was sent");
@@ -93,29 +101,47 @@ Artisan::command('queue:clear {name?}', function ($name = null) {
     $this->info("Queue '{$name}' was cleared");
 })->describe('Clear queue {name?}');
 
-Artisan::command('docigp:entries:update-transport', function () {
-    CongressmanBudget::disableGlobalScopes();
-    CongressmanBudget::disableEvents();
-    Entry::disableGlobalScopes();
-    Entry::disableEvents();
+Artisan::command('docigp:entries:update-transport {id?}', function ($id = null) {
+    login_as_system();
 
-    CongressmanBudget::each(function (CongressmanBudget $budget) {
+    CongressmanBudget::disableGlobalScopes();
+    Entry::disableGlobalScopes();
+
+    CongressmanBudget::when($id, function ($query) use ($id) {
+        return $query->where('id', $id);
+    })->each(function (CongressmanBudget $budget) {
         if (
             $entry = $budget
                 ->entries()
                 ->orderBy('date', 'asc')
                 ->first()
         ) {
-            $this->info(
-                sprintf('Updating: %s - %s', $entry->id, $entry->object)
-            );
+            $this->info(sprintf('Updating: %s - %s', $entry->id, $entry->object));
 
             $entry->save();
         }
     });
 
-    Entry::enableEvents();
     Entry::enableGlobalScopes();
-    CongressmanBudget::enableEvents();
     CongressmanBudget::enableGlobalScopes();
 })->describe('Update transport entries touching them');
+
+Artisan::command('docigp:budget:remove:month {id}?', function ($id = null){
+
+    login_as_system();
+
+    CongressmanBudget::disableGlobalScopes();
+    Entry::disableGlobalScopes();
+
+    $count = DB::delete("delete from entries where congressman_budget_id={$id}");
+
+    $this->info('Removing ' . $count . ' entries');
+
+    $count = DB::delete("delete from congressman_budgets where id={$id}");
+    $this->info('Removing ' . $count . ' congressman_budgets');
+
+
+    Entry::enableGlobalScopes();
+    CongressmanBudget::enableGlobalScopes();
+})->describe('Deleting CongressmanBudget');
+

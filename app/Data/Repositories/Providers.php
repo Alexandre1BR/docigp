@@ -32,7 +32,6 @@ class Providers extends Repository
 
     public function allBlocked()
     {
-
-        return Provider::where('is_blocked','=','false')->get();
+        return Provider::where('is_blocked', '=', 'false')->get();
     }
 }

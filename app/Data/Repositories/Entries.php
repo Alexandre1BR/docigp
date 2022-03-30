@@ -2,6 +2,7 @@
 
 namespace App\Data\Repositories;
 
+use App\Models\Audit;
 use App\Support\Constants;
 use Carbon\Carbon;
 use App\Models\Entry;
@@ -35,10 +36,7 @@ class Entries extends Repository
                     'congressman_legislatures.id',
                     'congressman_budgets.congressman_legislature_id'
                 )
-                ->where(
-                    'congressman_legislatures.congressman_id',
-                    $congressmanId
-                )
+                ->where('congressman_legislatures.congressman_id', $congressmanId)
                 ->where('congressman_budgets.id', $congressmanBudgetId)
         );
     }
@@ -50,7 +48,6 @@ class Entries extends Repository
             ['name' => $to]
         );
     }
-
 
     /**
      * @param mixed $congressmanBudgetId
@@ -65,11 +62,10 @@ class Entries extends Repository
 
     public function transform($data)
     {
-
         $this->addTransformationPlugin(function ($entry) {
-            $entry['date_formatted'] = Carbon::parse($entry['date'])->format(
-                'd/m/Y'
-            );
+            $entry['date_formatted'] = Carbon::parse($entry['date'])
+                ->setTimezone(now()->timezoneName)
+                ->format('d/m/Y');
 
             $entry['date'] = $entry['date_formatted'];
 
@@ -122,10 +118,7 @@ class Entries extends Repository
             $pendencies[] = 'analisar lançamento';
         }
 
-        if (
-            blank($entry['published_at']) &&
-            !$entry['is_transport_or_credit']
-        ) {
+        if (blank($entry['published_at']) && !$entry['is_transport_or_credit']) {
             $pendencies[] = 'publicar';
         }
 
@@ -177,16 +170,11 @@ class Entries extends Repository
 
     public function emptyRefundForm($congressmanBudgetId)
     {
-        $congressmanBudget = app(CongressmanBudgets::class)->findById(
-            $congressmanBudgetId
-        );
+        $congressmanBudget = app(CongressmanBudgets::class)->findById($congressmanBudgetId);
 
         $date = $congressmanBudget->budget->date;
 
-        $date->day =
-            now()->month == $date->month
-                ? now()->day
-                : $date->endOfMonth()->day;
+        $date->day = now()->month == $date->month ? now()->day : $date->endOfMonth()->day;
 
         $provider = app(Providers::class)->getAlerj();
 
@@ -203,9 +191,18 @@ class Entries extends Repository
             'provider_id' => $provider->id,
             'provider_name' => $provider->name,
             'value' => 0,
-            'value_abs' => 0
+            'value_abs' => 0,
         ];
 
         return $form;
+    }
+
+    public function audits($entryId)
+    {
+        return Audit::with('user')
+            ->where('auditable_type', 'like', '%\Entry')
+            ->where('auditable_id', $entryId)
+            ->orderBy('created_at', 'desc')
+            ->get();
     }
 }

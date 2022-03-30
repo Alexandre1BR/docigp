@@ -10,9 +10,7 @@ trait WithRouteParams
      */
     public function sanitize(array $all)
     {
-        $this->replace(
-            $all = array_replace_recursive($all, $this->route()->parameters())
-        );
+        $this->replace($all = array_replace_recursive($all, $this->route()->parameters()));
 
         return $all;
     }

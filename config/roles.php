@@ -23,6 +23,8 @@ return [
                 //Tem que conter todas as habilidades
                 '*' => 'PODE FAZER TUDO',
 
+                'tables:view-ids' => 'Visualizar IDs das tabelas',
+
                 'annual-reports:view' => 'Gerar relatório',
 
                 'assign:chief' => 'Atribuir perfil de Chefe',
@@ -32,7 +34,8 @@ return [
                 'assign:congressman' => 'Atribuir perfil de Deputado',
                 'assign:verifier' => 'Atribuir perfil de Verificador',
 
-                'audits:show' => 'Visualizar auditorias',
+                'audits:buttons-show' => 'Visualizar log de atividades a partir dos botões',
+                'audits:all-show' => 'Visualizar log de atividades',
 
                 'congressman:buttons' => 'Deputados: mostra todos os botões',
                 'congressman:show' => 'Deputados: ver',
@@ -52,6 +55,7 @@ return [
                 'entries:update' => 'Lançamentos: alterar',
                 'entries:publish' => 'Lançamentos: publicar',
                 'entries:delete' => 'Lançamentos: deletar',
+                'entries:delete-transport' => 'Lançamentos: deletar lançamento de transporte',
                 'entries:control-update' => 'Lançamentos: alterar lançamento de controle',
                 'entries:analyse' => 'Lançamentos: analisar',
 
@@ -104,7 +108,10 @@ return [
                 'annual-reports:generate' => 'Criação de relatório anual',
             ],
         ],
-
+        [
+            'group' => 'buttons-auditor',
+            'abilities' => ['audits:buttons-show'],
+        ],
         [
             'group' => Constants::ROLE_CONGRESSMAN,
 
@@ -192,7 +199,8 @@ return [
 
                 'annual-reports:generate',
 
-                'audits:show',
+                'audits:buttons-show',
+                'audits:all-show',
             ],
         ],
 
@@ -319,6 +327,10 @@ return [
         [
             'title' => 'Visualizador',
             'name' => 'viewer',
+        ],
+        [
+            'title' => 'Auditor da prestação de contas',
+            'name' => 'buttons-auditor',
         ],
         [
             'title' => 'Financeiro',

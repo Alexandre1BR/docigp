@@ -14,7 +14,7 @@ class Service
                 'name' => config('app.name'),
                 'key' => auth()->user() ? auth()->user()->client_key : config('app.client_key'),
                 'id' => auth()->user() ? auth()->user()->email : csrf_token(),
-                'version' => '1.0',//Version::format('compact'),
+                'version' => '1.0', //Version::format('compact'),
             ],
 
             'env' => ['default_joined_checkbox' => config('app.default_joined_checkbox')],

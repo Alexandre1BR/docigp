@@ -4,6 +4,7 @@ namespace App\Data\Repositories;
 
 use App\Data\Traits\RepositoryActionable;
 use App\Data\Repositories\Files as FilesRepository;
+use App\Models\Audit;
 use App\Models\EntryComment as EntryComment;
 
 class EntryComments extends Repository
@@ -35,10 +36,7 @@ class EntryComments extends Repository
                     'congressman_legislatures.id',
                     'congressman_budgets.congressman_legislature_id'
                 )
-                ->where(
-                    'congressman_legislatures.congressman_id',
-                    $congressmanId
-                )
+                ->where('congressman_legislatures.congressman_id', $congressmanId)
                 ->where('congressman_budgets.id', $congressmanBudgetId)
                 ->where('entry_comments.entry_id', $entryId)
         );
@@ -66,5 +64,14 @@ class EntryComments extends Repository
     {
         $this->data['entry_id'] = $this->entryId;
         $this->storeFromArray($this->data);
+    }
+
+    public function audits($id)
+    {
+        return Audit::with('user')
+            ->where('auditable_type', 'like', '%\EntryComment')
+            ->where('auditable_id', $id)
+            ->orderBy('created_at', 'desc')
+            ->get();
     }
 }

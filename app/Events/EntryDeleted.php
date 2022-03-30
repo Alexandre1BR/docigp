@@ -17,7 +17,7 @@ class EntryDeleted extends Event
      */
     public function __construct($entry)
     {
-        $entry = (object)$entry->toArray();
+        $entry = (object) $entry->toArray();
 
         $this->entryId = $entry->id;
         $this->congressmanBudgetId = $entry->congressman_budget_id;

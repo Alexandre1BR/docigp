@@ -15,6 +15,8 @@ class CongressmanBudgetDeleted extends Event
      */
     public function __construct($congressmanBudget)
     {
-        $this->congressmanId = CongressmanLegislature::find($congressmanBudget->congressman_legislature_id)->congressman_id;
+        $this->congressmanId = CongressmanLegislature::find(
+            $congressmanBudget->congressman_legislature_id
+        )->congressman_id;
     }
 }

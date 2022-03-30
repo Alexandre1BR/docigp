@@ -1,11 +1,12 @@
+export function mutateTableLoading(state, payload) {
+    state.tableLoading = payload
+}
+
 export function mutateSetData(state, payload) {
     state.data = payload
 
     if (state.selected.id) {
-        const found = _.find(
-            state.data.rows,
-            row => row.id === state.selected.id,
-        )
+        const found = _.find(state.data.rows, (row) => row.id === state.selected.id)
 
         if (typeof found === 'object') {
             state.selected = found

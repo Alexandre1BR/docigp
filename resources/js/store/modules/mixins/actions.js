@@ -1,3 +1,5 @@
+import { mutateTableLoading } from './mutations'
+
 let debouncedByUrl = {}
 
 export function load(context) {
@@ -10,7 +12,8 @@ export function load(context) {
             debouncedByUrl[urlHash] = _.debounce((targetUrl, targetContext) => {
                 get(targetUrl, {
                     params: { query: targetContext.getters.getQueryFilter },
-                }).then(response => {
+                }).then((response) => {
+                    context.commit('mutateTableLoading', false)
                     context.dispatch('setDataAfterLoad', response.data)
                 })
             }, 450)
@@ -102,9 +105,7 @@ export function mutateFilterSelect(context, payload) {
 
 export function leaveModelChannel(context, payload) {
     if (context.state.selected.id) {
-        leavePublicChannel(
-            context.state.model.table + '.' + context.state.selected.id,
-        )
+        leavePublicChannel(context.state.model.table + '.' + context.state.selected.id)
     }
 }
 

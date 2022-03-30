@@ -91,7 +91,7 @@
                                 </a>
                             @endCan
 
-                            @can('audits:show')
+                            @can('audits:all-show')
                                 <a class="dropdown-item" href="{{ route('audits.index') }}">
                                     Logs de atividades
                                 </a>

@@ -19,8 +19,12 @@ if (document.getElementById(appName) !== null) {
 
         computed: {
             ...mapState({
-                environment: state => state.environment,
+                environment: (state) => state.environment,
             }),
+        },
+
+        mounted() {
+            this.$translate.setLang('pt_BR')
         },
     })
 }

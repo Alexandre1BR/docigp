@@ -5,8 +5,8 @@ use App\Http\Controllers\Web\Admin\CongressmanLegislatures as CongressmanLegisla
 Route::group(['prefix' => '/congressman-legislatures'], function () {
     Route::post(
         '/remove',
-        [CongressmanLegislatures::class,'removeFromLegislature']
-    )->name('congressman-legislatures.remove-from-legislature');
+        [CongressmanLegislatures::class,'editLegislature']
+    )->name('congressman-legislatures.edit-legislature');
 
     Route::post(
         '/include',

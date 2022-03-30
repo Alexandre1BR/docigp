@@ -44,7 +44,6 @@ class Budget extends Model
 
     protected function percentageChanged()
     {
-        return blank($this->value) ||
-            ($this->isDirty('percentage') && !$this->isDirty('value'));
+        return blank($this->value) || ($this->isDirty('percentage') && !$this->isDirty('value'));
     }
 }

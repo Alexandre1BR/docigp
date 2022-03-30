@@ -8,17 +8,13 @@ trait Selectable
 {
     public function getSelectColumns()
     {
-        return coollect(
-            isset($this->selectColumns) ? $this->selectColumns : []
-        );
+        return coollect(isset($this->selectColumns) ? $this->selectColumns : []);
     }
 
     public function getSelectColumnsRaw()
     {
         return $this->replaceWheres(
-            coollect(
-                isset($this->selectColumnsRaw) ? $this->selectColumnsRaw : []
-            )
+            coollect(isset($this->selectColumnsRaw) ? $this->selectColumnsRaw : [])
         );
     }
 
@@ -49,9 +45,7 @@ trait Selectable
                 ? 'and cost_center_id not in (' .
                     implode(
                         ', ',
-                        app(
-                            CostCentersRepository::class
-                        )->getTransportAndCreditIdsArray()
+                        app(CostCentersRepository::class)->getTransportAndCreditIdsArray()
                     ) .
                     ')'
                 : '',

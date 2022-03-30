@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Data\Repositories\EntryDocuments as EntryDocumentsRepository;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EntryCommentDelete;
 use App\Http\Requests\EntryCommentStore;
 use App\Data\Repositories\EntryComments as EntryCommentsRepository;
 use App\Http\Requests\EntryCommentUpdate;
+use Illuminate\Http\Request;
 
 class EntryComments extends Controller
 {
@@ -67,6 +69,16 @@ class EntryComments extends Controller
         $entryId,
         $entryCommentId
     ) {
-        app(EntryCommentsRepository::class)->delete($entryCommentId);
+        return app(EntryCommentsRepository::class)->delete($entryCommentId);
+    }
+
+    public function audits(
+        Request $request,
+        $congressmanId,
+        $congressmanBudgetId,
+        $entryId,
+        $entryCommentId
+    ) {
+        return app(EntryCommentsRepository::class)->audits($entryCommentId);
     }
 }

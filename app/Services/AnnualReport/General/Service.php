@@ -59,15 +59,9 @@ class Service
             ->where('year_end', '>=', $year)
             ->first();
 
-        $this->period = CarbonPeriod::create(
-            $year . '-01-01',
-            '1 month',
-            $year . '-12-01'
-        );
+        $this->period = CarbonPeriod::create($year . '-01-01', '1 month', $year . '-12-01');
 
-        $this->costCentersRows = app(
-            CostCentersRepository::class
-        )->costCenterLimitsTable();
+        $this->costCentersRows = app(CostCentersRepository::class)->costCenterLimitsTable();
     }
 
     public function fillFirstRow($table)
@@ -214,12 +208,9 @@ class Service
                 'creditTotal' => to_reais($this->creditTotal),
                 'refundTotal' => to_reais($this->refundTotal),
                 'spentTotal' => to_reais($this->spentTotal),
-                'spentAndRefundTotal' => to_reais(
-                    $this->spentTotal + $this->refundTotal
-                ),
+                'spentAndRefundTotal' => to_reais($this->spentTotal + $this->refundTotal),
                 'situation' =>
-                    to_reais($this->creditTotal) ==
-                    to_reais($this->refundTotal + $this->spentTotal)
+                    to_reais($this->creditTotal) == to_reais($this->refundTotal + $this->spentTotal)
                         ? 'REGULAR'
                         : 'IRREGULAR',
             ],

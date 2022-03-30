@@ -28,11 +28,11 @@ class Users extends Controller
     public function export(Request $request)
     {
         set_time_limit(0);
-        return Excel::download(new UsersExport($request->data_ini, $request->data_fim), 'users.csv');
+        return Excel::download(
+            new UsersExport($request->data_ini, $request->data_fim),
+            'users.csv'
+        );
     }
-
-
-
 
     public function __construct(UsersRepository $usersRepository)
     {
@@ -71,9 +71,7 @@ class Users extends Controller
         preg_match('/(.*?)@(.*)/', $request->get('email'), $output_array);
 
         if (isset($output_array[1])) {
-            $userResponse = app(
-                AuthenticationService::class
-            )->userInfoByUsername($output_array[1]);
+            $userResponse = app(AuthenticationService::class)->userInfoByUsername($output_array[1]);
 
             $request->merge([
                 'email' => strtolower($userResponse['email'][0]),
@@ -91,10 +89,8 @@ class Users extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(
-        UserStoreRequest $request,
-        UsersRepository $repository
-    ) {
+    public function store(UserStoreRequest $request, UsersRepository $repository)
+    {
         $user = app(UsersRepository::class)->storeFromArray($request->all());
 
         $user->syncRoles($request->get('roles_array'));

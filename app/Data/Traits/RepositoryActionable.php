@@ -25,9 +25,9 @@ trait RepositoryActionable
     }
 
     public function analyse($modelId)
-    {	    
+    {
         return $this->transformSingleRow($this->findById($modelId)->analyse());
-    }	   
+    }
 
     public function unanalyse($modelId)
     {

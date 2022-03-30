@@ -39,7 +39,12 @@ class Entry extends Model
         'updated_by_id',
     ];
 
-    protected $appends = ['is_transport_or_credit', 'comments_count', 'provider_is_blocked'];
+    protected $appends = [
+        'is_transport',
+        'is_transport_or_credit',
+        'comments_count',
+        'provider_is_blocked',
+    ];
 
     protected $dates = ['date', 'verified_at', 'analysed_at', 'published_at'];
 
@@ -179,6 +184,14 @@ class Entry extends Model
         return in_array(
             $this->cost_center_id,
             app(CostCentersRepository::class)->getTransportAndCreditIdsArray()
+        );
+    }
+
+    public function getIsTransportAttribute()
+    {
+        return in_array(
+            $this->cost_center_id,
+            app(CostCentersRepository::class)->getTransportIdsArray()
         );
     }
 

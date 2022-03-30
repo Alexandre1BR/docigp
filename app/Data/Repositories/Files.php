@@ -92,10 +92,7 @@ class Files extends Repository
      */
     public function storePhysicalFile($uploadedFile): File
     {
-        $this->storeFile(
-            $file = $this->findOrCreateFile($uploadedFile),
-            $uploadedFile
-        );
+        $this->storeFile($file = $this->findOrCreateFile($uploadedFile), $uploadedFile);
 
         return $file;
     }
@@ -112,9 +109,7 @@ class Files extends Repository
      */
     private function makeFileName($hash, $uploadedFile): string
     {
-        return $hash .
-            '.' .
-            Str::lower($uploadedFile->getClientOriginalExtension());
+        return $hash . '.' . Str::lower($uploadedFile->getClientOriginalExtension());
     }
 
     /**

@@ -1,24 +1,27 @@
-import Vue from 'vue'
-import 'livewire-vue'
+import Vue from 'vue';
+import 'livewire-vue';
 
 /**
  * Vue & Vuex
  */
-window.Vue = Vue
-window.Vuex = require('vuex')
+window.Vue = Vue;
+window.Vuex = require('vuex');
 
 // ClipLoader
-Vue.component('clip-loader', require('vue-spinner/src/ClipLoader.vue').default)
+Vue.component('clip-loader', require('vue-spinner/src/ClipLoader.vue').default);
 
 // PulseLoader
-Vue.component('pulse-loader', require('vue-spinner/src/PulseLoader.vue').default)
+Vue.component('pulse-loader', require('vue-spinner/src/PulseLoader.vue').default);
+
+// BounceLoader
+Vue.component('bounce-loader', require('vue-spinner/src/BounceLoader.vue').default);
 /**
  * SweetAlert
  */
-import VueSweetalert2 from 'vue-sweetalert2'
+import VueSweetalert2 from 'vue-sweetalert2';
 
 // If you don't need the styles, do not connect
-import 'sweetalert2/dist/sweetalert2.min.css'
+import 'sweetalert2/dist/sweetalert2.min.css';
 
 const options = {
     cancelButtonColor: '#E3352E',
@@ -26,14 +29,14 @@ const options = {
     confirmButtonText: 'confirmar',
     cancelButtonText: 'cancelar',
     showCancelButton: true,
-}
+};
 
-Vue.use(VueSweetalert2, options)
+Vue.use(VueSweetalert2, options);
 // Loading ClipLoader
-Vue.component('clip-loader', require('vue-spinner/src/ClipLoader.vue').default)
+Vue.component('clip-loader', require('vue-spinner/src/ClipLoader.vue').default);
 
 // Loading PulseLoader
-Vue.component('pulse-loader', require('vue-spinner/src/PulseLoader.vue').default)
+Vue.component('pulse-loader', require('vue-spinner/src/PulseLoader.vue').default);
 
 /**
  * Vue Bootstrap
@@ -51,29 +54,37 @@ Vue.component('pulse-loader', require('vue-spinner/src/PulseLoader.vue').default
 // Vue.use(FormGroup)
 // Vue.use(FormInput)
 
-import BootstrapVue from 'bootstrap-vue'
-Vue.use(BootstrapVue)
+import BootstrapVue from 'bootstrap-vue';
+Vue.use(BootstrapVue);
 
 /**
  * Autoload Vue components
  */
-const file = require.context('../components/app/', true, /\.vue$/i)
+const file = require.context('../components/app/', true, /\.vue$/i);
 file.keys().map((file) => {
-    const name = 'App' + _.last(file.split('/')).split('.')[0]
+    const name = 'App' + _.last(file.split('/')).split('.')[0];
 
-    return Vue.component(name, () => import('../components/app/' + basename(file)))
-})
+    return Vue.component(name, () => import('../components/app/' + basename(file)));
+});
 
 /**
  * VueSelect
  */
-Vue.component('vue-select', () => import('vue-select'))
-Vue.use(Vue.component('vue-select', () => import('vue-select')))
+Vue.component('vue-select', () => import('vue-select'));
+Vue.use(Vue.component('vue-select', () => import('vue-select')));
 
 /**
  * Vue The Mask
  */
-import VueTheMask from 'vue-the-mask'
-Vue.use(VueTheMask)
+import VueTheMask from 'vue-the-mask';
+Vue.use(VueTheMask);
 
-require('../pages/basic')
+require('../pages/basic');
+
+import VueTranslate from 'vue-translate-plugin';
+import PtBrTranslation from '../../lang/pt-BR';
+Vue.use(VueTranslate);
+
+Vue.locales({
+    pt_BR: PtBrTranslation,
+});

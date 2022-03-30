@@ -49,7 +49,7 @@ let actions = merge_objects(actionsMixin, {
             subscribePublicChannel(
                 'entries.' + payload.id,
                 '.App\\Events\\' + 'EntryDocumentsChanged',
-                event => {
+                (event) => {
                     context.dispatch('entryDocuments/load', payload, {
                         root: true,
                     })
@@ -59,7 +59,7 @@ let actions = merge_objects(actionsMixin, {
             subscribePublicChannel(
                 'entries.' + payload.id,
                 '.App\\Events\\' + 'EntryCommentsChanged',
-                event => {
+                (event) => {
                     context.dispatch('entryComments/load', payload, {
                         root: true,
                     })
@@ -69,25 +69,18 @@ let actions = merge_objects(actionsMixin, {
     },
 
     selectEntry(context, payload) {
-        const performLoad =
-            !context.state.selected || context.state.selected.id != payload.id
+        const performLoad = !context.state.selected || context.state.selected.id != payload.id
 
         context.dispatch('entries/select', payload, { root: true })
         context.commit('mutateFormData', payload)
 
         if (performLoad) {
+            context.commit('entryDocuments/mutateTableLoading', true, { root: true })
+            context.commit('entryComments/mutateTableLoading', true, { root: true })
             context.dispatch('entryDocuments/setCurrentPage', 1, { root: true })
-            context.commit(
-                'entryDocuments/mutateSetSelected',
-                { id: null },
-                { root: true },
-            )
+            context.commit('entryDocuments/mutateSetSelected', { id: null }, { root: true })
             context.dispatch('entryComments/setCurrentPage', 1, { root: true })
-            context.commit(
-                'entryComments/mutateSetSelected',
-                { id: null },
-                { root: true },
-            )
+            context.commit('entryComments/mutateSetSelected', { id: null }, { root: true })
         }
     },
 
@@ -116,13 +109,13 @@ let actions = merge_objects(actionsMixin, {
     },
 
     delete(context, payload) {
-       return post(makeDataUrl(context) + '/' + payload.id + '/delete')
+        return post(makeDataUrl(context) + '/' + payload.id + '/delete')
     },
 
     fillFormForRefund(context) {
         const url = buildApiUrl(context.state.service.uri, context.rootState)
 
-        get(url + '/empty-refund-form', {}).then(response => {
+        get(url + '/empty-refund-form', {}).then((response) => {
             context.commit('mutateFormData', response.data)
         })
     },
@@ -149,9 +142,8 @@ let getters = merge_objects(gettersMixin, {
         return getters.getEntryState(getters.getSelected)
     },
 
-    getEntryState: (state, getters, rootState, rootGetters) => entry => {
-        const congressmanBudgetClosedAt =
-            rootGetters['congressmanBudgets/selectedClosedAt']
+    getEntryState: (state, getters, rootState, rootGetters) => (entry) => {
+        const congressmanBudgetClosedAt = rootGetters['congressmanBudgets/selectedClosedAt']
 
         const closedTitle = 'O orçamento mensal está fechado'
 
@@ -160,20 +152,14 @@ let getters = merge_objects(gettersMixin, {
                 name: 'Publicável',
                 buttons: {
                     unpublish: {
-                        visible:
-                            can('entries:publish') &&
-                            !entry.is_transport_or_credit,
-                        disabled: !(
-                            can('entries:publish') &&
-                            !entry.is_transport_or_credit
-                        ),
+                        visible: can('entries:publish') && !entry.is_transport_or_credit,
+                        disabled: !(can('entries:publish') && !entry.is_transport_or_credit),
                         title: 'Remover do Portal da Transparência',
                     },
                     publish: {
                         visible: false,
                         disabled: true,
-                        title:
-                            'O lançamento já está publicado no Portal da Transparência',
+                        title: 'O lançamento já está publicado no Portal da Transparência',
                     },
                     unanalyse: {
                         visible: can('entries:analyse'),
@@ -186,8 +172,7 @@ let getters = merge_objects(gettersMixin, {
                         title: 'O lançamento já está analisado',
                     },
                     unverify: {
-                        visible:
-                            can('entries:buttons') || can('entries:verify'),
+                        visible: can('entries:buttons') || can('entries:verify'),
                         disabled: true,
                         title: !congressmanBudgetClosedAt
                             ? 'Não é possível cancelar a marcação de verificado pois o documento está publicado'
@@ -201,8 +186,7 @@ let getters = merge_objects(gettersMixin, {
                             : closedTitle,
                     },
                     edit: {
-                        visible:
-                            can('entries:buttons') || can('entries:update'),
+                        visible: can('entries:buttons') || can('entries:update'),
                         disabled: !can('entries:buttons'),
                         title: can('entries:update')
                             ? !congressmanBudgetClosedAt
@@ -211,12 +195,8 @@ let getters = merge_objects(gettersMixin, {
                             : 'Visualizar lançamento',
                     },
                     delete: {
-                        visible:
-                            can('entries:buttons') || can('entries:delete'),
-                        disabled:
-                            !can('entries:delete') ||
-                            entry.analysed_at ||
-                            entry.verified_at,
+                        visible: can('entries:buttons') || can('entries:delete'),
+                        disabled: !can('entries:delete') || entry.analysed_at || entry.verified_at,
                         title: !congressmanBudgetClosedAt
                             ? 'Não é possível apagar o lançamento pois ele já está publicado'
                             : closedTitle,
@@ -233,15 +213,9 @@ let getters = merge_objects(gettersMixin, {
                         title: 'Remover do Portal da Transparência',
                     },
                     publish: {
-                        visible:
-                            can('entries:publish') &&
-                            !entry.is_transport_or_credit,
-                        disabled: !(
-                            can('entries:publish') &&
-                            !entry.is_transport_or_credit
-                        ),
-                        title:
-                            'Publicar o lançamento no Portal da Transparência',
+                        visible: can('entries:publish') && !entry.is_transport_or_credit,
+                        disabled: !(can('entries:publish') && !entry.is_transport_or_credit),
+                        title: 'Publicar o lançamento no Portal da Transparência',
                     },
                     unanalyse: {
                         visible: can('entries:analyse'),
@@ -254,8 +228,7 @@ let getters = merge_objects(gettersMixin, {
                         title: 'O lançamento já está analisado',
                     },
                     unverify: {
-                        visible:
-                            can('entries:buttons') || can('entries:verify'),
+                        visible: can('entries:buttons') || can('entries:verify'),
                         disabled: true,
                         title: !congressmanBudgetClosedAt
                             ? 'Não é possível cancelar a marcação de verificado pois o documento está analisado'
@@ -269,8 +242,7 @@ let getters = merge_objects(gettersMixin, {
                             : closedTitle,
                     },
                     edit: {
-                        visible:
-                            can('entries:buttons') || can('entries:update'),
+                        visible: can('entries:buttons') || can('entries:update'),
                         disabled: !can('entries:buttons'),
                         title: can('entries:update')
                             ? !congressmanBudgetClosedAt
@@ -279,8 +251,7 @@ let getters = merge_objects(gettersMixin, {
                             : 'Visualizar lançamento',
                     },
                     delete: {
-                        visible:
-                            can('entries:buttons') || can('entries:delete'),
+                        visible: can('entries:buttons') || can('entries:delete'),
                         disabled: true,
                         title: !congressmanBudgetClosedAt
                             ? 'Não é possível apagar o lançamento pois ele já está analisado'
@@ -298,12 +269,9 @@ let getters = merge_objects(gettersMixin, {
                         title: 'Remover do Portal da Transparência',
                     },
                     publish: {
-                        visible:
-                            can('entries:publish') &&
-                            !entry.is_transport_or_credit,
+                        visible: can('entries:publish') && !entry.is_transport_or_credit,
                         disabled: true,
-                        title:
-                            'Não é possível publicar o lançamento pois ele não está analisado',
+                        title: 'Não é possível publicar o lançamento pois ele não está analisado',
                     },
                     unanalyse: {
                         visible: false,
@@ -316,10 +284,8 @@ let getters = merge_objects(gettersMixin, {
                         title: "Marcar orçamento como 'analisado'",
                     },
                     unverify: {
-                        visible:
-                            can('entries:buttons') || can('entries:verify'),
-                        disabled:
-                            !can('entries:verify') || congressmanBudgetClosedAt,
+                        visible: can('entries:buttons') || can('entries:verify'),
+                        disabled: !can('entries:verify') || congressmanBudgetClosedAt,
                         title: !congressmanBudgetClosedAt
                             ? "Cancelar marcação de 'verificado'"
                             : closedTitle,
@@ -332,8 +298,7 @@ let getters = merge_objects(gettersMixin, {
                             : closedTitle,
                     },
                     edit: {
-                        visible:
-                            can('entries:buttons') || can('entries:update'),
+                        visible: can('entries:buttons') || can('entries:update'),
                         disabled: !can('entries:buttons'),
                         title: can('entries:update')
                             ? !congressmanBudgetClosedAt
@@ -342,8 +307,7 @@ let getters = merge_objects(gettersMixin, {
                             : 'Visualizar lançamento',
                     },
                     delete: {
-                        visible:
-                            can('entries:buttons') || can('entries:delete'),
+                        visible: can('entries:buttons') || can('entries:delete'),
                         disabled: true,
                         title: !congressmanBudgetClosedAt
                             ? 'Não é possível apagar o lançamento pois ele já está verificado'
@@ -361,12 +325,9 @@ let getters = merge_objects(gettersMixin, {
                         title: 'Remover do Portal da Transparência',
                     },
                     publish: {
-                        visible:
-                            can('entries:publish') &&
-                            !entry.is_transport_or_credit,
+                        visible: can('entries:publish') && !entry.is_transport_or_credit,
                         disabled: true,
-                        title:
-                            'Não é possível publicar o lançamento pois ele não está analisado',
+                        title: 'Não é possível publicar o lançamento pois ele não está analisado',
                     },
                     unanalyse: {
                         visible: false,
@@ -376,8 +337,7 @@ let getters = merge_objects(gettersMixin, {
                     analyse: {
                         visible: can('entries:analyse'),
                         disabled: true,
-                        title:
-                            'Não é possível analisar o lançamento pois ele não está verificado',
+                        title: 'Não é possível analisar o lançamento pois ele não está verificado',
                     },
                     unverify: {
                         visible: false,
@@ -385,17 +345,14 @@ let getters = merge_objects(gettersMixin, {
                         title: "'Cancelar marcação de 'verificado'",
                     },
                     verify: {
-                        visible:
-                            can('entries:buttons') || can('entries:verify'),
-                        disabled:
-                            !can('entries:verify') || congressmanBudgetClosedAt,
+                        visible: can('entries:buttons') || can('entries:verify'),
+                        disabled: !can('entries:verify') || congressmanBudgetClosedAt,
                         title: !congressmanBudgetClosedAt
                             ? "Marcar orçamento como 'verificado'"
                             : closedTitle,
                     },
                     edit: {
-                        visible:
-                            can('entries:buttons') || can('entries:update'),
+                        visible: can('entries:buttons') || can('entries:update'),
                         disabled: false,
                         title: can('entries:update')
                             ? !congressmanBudgetClosedAt
@@ -404,11 +361,15 @@ let getters = merge_objects(gettersMixin, {
                             : 'Visualizar lançamento',
                     },
                     delete: {
-                        visible:
-                            can('entries:buttons') || can('entries:delete'),
-                        disabled:
-                            congressmanBudgetClosedAt || !can('entries:delete'),
-                        title: !congressmanBudgetClosedAt
+                        visible: can('entries:buttons') || can('entries:delete'),
+                        disabled: entry.is_transport
+                            ? !can('entries:delete-transport')
+                            : congressmanBudgetClosedAt || !can('entries:delete'),
+                        title: entry.is_transport
+                            ? !can('entries:delete-transport')
+                                ? 'Não é possível apagar um lançamento de transporte'
+                                : 'Apagar lançamento'
+                            : !congressmanBudgetClosedAt
                             ? 'Apagar lançamento'
                             : closedTitle,
                     },

@@ -2,6 +2,7 @@
 
 namespace App\Data\Repositories;
 
+use App\Models\Audit;
 use App\Models\Entry;
 use Carbon\Carbon;
 use App\Models\Congressman;
@@ -100,11 +101,15 @@ class CongressmanBudgets extends Repository
     public function transform($data)
     {
         $this->addTransformationPlugin(function ($congressmanBudget) {
-            $congressmanBudget['year'] = Carbon::parse($congressmanBudget['budget']['date'])->year;
+            $congressmanBudget['year'] = Carbon::parse(
+                $congressmanBudget['budget']['date']
+            )->setTimezone(now()->timezoneName)->year;
 
             $congressmanBudget['month'] = sprintf(
                 '%02d',
-                Carbon::parse($congressmanBudget['budget']['date'])->month
+                Carbon::parse($congressmanBudget['budget']['date'])->setTimezone(
+                    now()->timezoneName
+                )->month
             );
 
             $congressmanBudget['state_value_formatted'] = to_reais(
@@ -134,7 +139,7 @@ class CongressmanBudgets extends Repository
 
     public function deposit($modelId)
     {
-        $this->findById($modelId)->deposit();
+        return $this->findById($modelId)->deposit();
     }
 
     /**
@@ -167,5 +172,14 @@ class CongressmanBudgets extends Repository
                     $congressmanBudget->updateTransportEntries();
                 }
             });
+    }
+
+    public function audits($id)
+    {
+        return Audit::with('user')
+            ->where('auditable_type', 'like', '%\CongressmanBudget')
+            ->where('auditable_id', $id)
+            ->orderBy('created_at', 'desc')
+            ->get();
     }
 }

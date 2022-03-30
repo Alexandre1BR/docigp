@@ -1,6 +1,8 @@
 <template>
-    <div class="row">
-        <div class="col-12 pt-3">
+    <div>
+
+    <div class="row justify-content-center">
+        <div class="col-12">
             <h1 class="text-center">Prestação de Contas</h1>
         </div>
 
@@ -25,6 +27,8 @@
         <div class="col-12">
             <app-comments v-if="entries.selected.id"></app-comments>
         </div>
+    </div>
+    
     </div>
 </template>
 

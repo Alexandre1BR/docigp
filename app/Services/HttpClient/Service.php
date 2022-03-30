@@ -51,11 +51,8 @@ class Service
      * @param array $options
      * @return mixed
      */
-    public function request(
-        string $method,
-        string $uri = '',
-        array $options = []
-    ) {
+    public function request(string $method, string $uri = '', array $options = [])
+    {
         return $this->guzzle->request($method, $uri, $options);
     }
 
@@ -74,9 +71,7 @@ class Service
         ];
 
         if ($success) {
-            $data['data'] = $this->toCollection(
-                $this->bodyToArray((string) $response->getBody())
-            );
+            $data['data'] = $this->toCollection($this->bodyToArray((string) $response->getBody()));
         }
 
         return coollect($data);
@@ -109,6 +104,7 @@ class Service
         return $this->request('GET', $url, [
             'connect_timeout' => $this->getTimeout(),
             'read_timeout' => $this->getTimeout(),
+            'verify' => false,
         ]);
     }
 

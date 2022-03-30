@@ -138,9 +138,7 @@ class CpfCnpj
             return false;
         }
 
-        return $this->detect() === self::CPF_TYPE
-            ? $this->validateCpf()
-            : $this->validateCnpj();
+        return $this->detect() === self::CPF_TYPE ? $this->validateCpf() : $this->validateCnpj();
     }
 
     /**

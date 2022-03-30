@@ -94,6 +94,8 @@ let actions = merge_objects(actionsMixin, {
         context.dispatch('congressmen/select', payload, { root: true })
 
         if (performLoad) {
+            context.commit('congressmanBudgets/mutateTableLoading', true, { root: true })
+
             context.dispatch('congressmanBudgets/setCurrentPage', 1, {
                 root: true,
             })

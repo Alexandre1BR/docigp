@@ -26,22 +26,13 @@
                     @include('partials.save-button', ['model' => $congressman, 'backUrl' => 'congressmen.index'])
                 </div>
             </div>
-        </div>
 
-        <div class="card-body">
-            @include('partials.alerts')
-            @if ($errors->has('email'))
-            <div class="alert alert-danger" role="alert">
-                {{ $errors->first('email') }}
-            </div>
-            @endif
-
-            @if ($congressman->photo_url_linkable)
-            <div class="form-row justify-content-center">
-                <div class="col-lg-2 col-md-3 col-sm-6">
-                    <img class="card-img" src="{{ $congressman->photo_url_linkable }}">
-                </div>
-
+            <div class="card-body">
+                @include('partials.alerts')
+                @if ($errors->has('email'))
+                    <div class="alert alert-danger" role="alert">
+                        {{ $errors->first('email') }}
+                    </div>
                 @endif
 
                 <div class="col-lg-10 col-md-9 col-sm-12 pt-3">
@@ -78,33 +69,27 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </form>
+        </form>
 
-    <hr>
+        <div class="card-body">
+            <div class="row">
+                <div class="form-group col-md-6" >
 
-    <div class="card-body">
-        <div class="row">
-            <div class="form-group col-md-12">
+                    <div class="col-5 col-md-8 text-right">
+                        <a id="button-novo-contato" href="#" data-toggle="modal" data-target="#includeCongressmanInLegislatures"
+                           class="btn btn-primary btn-sm pull-right">
+                            <i class="fa fa-plus"></i>
+                            Incluir na Legislatura
+                        </a>
+                    </div>
+                    Legislaturas
 
-                <div class="col-md-12 text-center pb-3">
-                    @if($isInCurrentLegislature)
-                    <a id="button-novo-contato" href="#" data-toggle="modal" data-target="#removeCongressmanFromLegislatures" class="btn btn-danger btn-md">
-                        <i class="fa fa-minus"></i>
-                        Remover da Legislatura
-                    </a>
-                    @else
-                    <a id="button-novo-contato" href="#" data-toggle="modal" data-target="#includeCongressmanInLegislatures" class="btn btn-primary btn-md pb-3">
-                        <i class="fa fa-plus"></i>
-                        Incluir na Legislatura
-                    </a>
-                    @endif
+                    @include('admin.congressman_legislatures.partials.table')
+
+                    @include('admin.congressman_legislatures.partials.form-modal-include')
+
+
                 </div>
-
-                @include('admin.congressman_legislatures.partials.form-modal')
-                <h4>Legislaturas</h4>
-
-                @include('admin.congressman_legislatures.partials.table')
             </div>
         </div>
     </div>

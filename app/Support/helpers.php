@@ -73,7 +73,7 @@ function is_aci()
         return false;
     }
 
-    return $user->isA(Constants::ROLE_ACI);
+    return $user->isA(Constants::ROLE_ACI) || $user->isA(Constants::ROLE_ACI_COORDINATOR);
 }
 
 function only_numbers($string)
@@ -349,6 +349,23 @@ function is_br_date($date)
 function mask_zipcode($zipcode)
 {
     return preg_replace('/(\d\d\d\d\d)(\d\d\d)/', '$1-$2', $zipcode);
+}
+
+function login_as_system()
+{
+    return app(\App\Data\Repositories\Users::class)->loginAsSystem();
+}
+
+function to_sql_with_bindings($query)
+{
+    return vsprintf(
+        str_replace('?', '%s', $query->toSql()),
+        collect($query->getBindings())
+            ->map(function ($binding) {
+                return is_numeric($binding) ? $binding : "'{$binding}'";
+            })
+            ->toArray()
+    );
 }
 
 class Timer
