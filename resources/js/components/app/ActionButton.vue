@@ -32,6 +32,7 @@ export default {
         'swal-title',
         'spinner-config',
         'swal-message',
+        'is-delete',
         'dusk'
     ],
 
@@ -76,8 +77,11 @@ export default {
                                     $this.store + '/mutateSetDataRow',
                                     response.data,
                                 )
-
-                                //this.additionalSuccessActions()
+                                
+                                if($this.isDelete){
+                                    $this.$store.dispatch($this.store + '/additionalSuccessActions')
+                                }
+                                
 
                                 $this.$swal({
                                     toast: true,

@@ -71,9 +71,6 @@
                         </span>
                     </td>
 
-                    <td class="align-middle text-right">
-                    {{ entries.data.links.pagination.total }}
-                </td>
 
                     <td class="align-middle">
                         {{ entry.name }}
@@ -269,6 +266,7 @@
                                 method="delete"
                                 :spinner-config="{ size: '0.05em' }"
                                 :swal-message="{ r200: 'Deletado com sucesso' }"
+                                :is-delete="true"
                                 
                             
                             >

@@ -25,13 +25,16 @@ export function load(context) {
 
 export function additionalSuccessActions(context, payload) {
     let data = context.state.data
-    if (
-        (data.links.pagination.current_page - 1) * data.links.pagination.per_page + 1 >=
-        data.links.pagination.total
-    ) {
+    console.log(data.links.pagination.current_page)
+    console.log(data.links.pagination.per_page)
+    console.log(data.links.pagination.total)
+
+    /* if (data.links.pagination.total % data.links.pagination.per_page == 0) {
         data.links.pagination.current_page -= 1
-    }
-    console.log(payload)
+    } */
+
+    context.commit('entryDocuments/mutateForcedUpdate', false, { root: true })
+    context.commit('entryComments/mutateForcedUpdate', false, { root: true })
 }
 
 export function setDataAfterLoad(context, payload) {

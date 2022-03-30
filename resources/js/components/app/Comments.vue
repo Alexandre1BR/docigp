@@ -1,7 +1,7 @@
 <template>
 
     <div>
-    <div>
+    <div v-if="showComponent">
     <app-table-panel
         :title="'Comentários'"
         titleCollapsed="Comentários"

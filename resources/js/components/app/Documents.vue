@@ -1,6 +1,6 @@
 <template>
-    <div >
-        <app-table-panel
+    <div v-if="showComponent">
+        <app-table-panel 
             :title="'Documentos' + (tableLoading ? '' : '  (' + pagination.total + ')')"
             titleCollapsed="Documento"
             :per-page="perPage"

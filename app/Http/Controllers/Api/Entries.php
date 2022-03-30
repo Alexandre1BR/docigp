@@ -63,7 +63,7 @@ class Entries extends Controller
 
     public function delete(EntryDelete $request, $congressmanId, $congressmanBudgetId, $entryId)
     {
-        app(EntriesRepository::class)->delete($entryId);
+        return app(EntriesRepository::class)->delete($entryId);
     }
 
     public function emptyRefundForm($congressmanId, $congressmanBudgetId)
