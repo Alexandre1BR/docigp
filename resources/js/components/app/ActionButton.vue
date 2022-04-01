@@ -32,7 +32,7 @@ export default {
         'swal-title',
         'spinner-config',
         'swal-message',
-        'is-delete',
+        'is-delete-entry',
         'dusk'
     ],
 
@@ -66,6 +66,9 @@ export default {
                     icon: 'warning',
                 })
                 .then(result => {
+                    if($this.method == 'delete'){
+                        $this.$store.dispatch($this.store + '/setDataAfterDelete')
+                        }  
                     if (result.value) {
                         $this.loading = true
                         $this.$store
@@ -78,10 +81,11 @@ export default {
                                     response.data,
                                 )
                                 
-                                if($this.isDelete){
-                                    $this.$store.dispatch($this.store + '/additionalSuccessActions')
+                                if($this.isDeleteEntry){
+                                    $this.$store.dispatch($this.store + '/setShowComponent')
                                 }
-                                
+
+                                                               
 
                                 $this.$swal({
                                     toast: true,

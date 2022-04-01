@@ -128,6 +128,7 @@ abstract class Repository
 
     protected function allElements($queryFilter)
     {
+
         $array = $queryFilter->toArray();
 
         $array['pagination']['per_page'] = $this->count();
@@ -158,9 +159,9 @@ abstract class Repository
                 $this->getPageSize($queryFilter),
                 ['*'],
                 'page',
-                $queryFilter->pagination && $queryFilter->pagination->currentPage || ($queryFilter->pagination->currentPage <= $queryFilter->pagination->lastPage) 
+                $queryFilter->pagination && $queryFilter->pagination->currentPage 
                     ? $queryFilter->pagination->currentPage
-                    : $queryFilter->pagination->currentPage -1
+                    : 1 
             )
         );
     }

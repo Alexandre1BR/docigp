@@ -8,7 +8,6 @@ export function mutateForcedUpdate(state, payload) {
 
 export function mutateSetData(state, payload) {
     state.data = payload
-
     if (state.selected.id) {
         const found = _.find(state.data.rows, (row) => row.id === state.selected.id)
 
@@ -16,6 +15,13 @@ export function mutateSetData(state, payload) {
             state.selected = found
         }
     }
+}
+
+export function mutateSetDelete(state, payload) {
+    console.log(state.data)
+    console.log(payload.id)
+    var entry = findById(state.data, payload.id)
+    console.log(entry)
 }
 
 export function mutateSetDataRow(state, payload) {

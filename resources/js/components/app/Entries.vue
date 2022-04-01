@@ -266,7 +266,7 @@
                                 method="delete"
                                 :spinner-config="{ size: '0.05em' }"
                                 :swal-message="{ r200: 'Deletado com sucesso' }"
-                                :is-delete="true"
+                                :is-delete-entry="true"
                                 
                             
                             >

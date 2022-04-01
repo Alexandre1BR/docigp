@@ -1,5 +1,3 @@
-import { mutateTableLoading } from './mutations'
-
 let debouncedByUrl = {}
 
 export function load(context) {
@@ -10,11 +8,13 @@ export function load(context) {
 
         if (typeof debouncedByUrl[urlHash] === 'undefined') {
             debouncedByUrl[urlHash] = _.debounce((targetUrl, targetContext) => {
+                //console.log(targetUrl)
                 get(targetUrl, {
                     params: { query: targetContext.getters.getQueryFilter },
                 }).then((response) => {
                     context.commit('mutateTableLoading', false)
                     context.dispatch('setDataAfterLoad', response.data)
+                    //console.log(targetContext.getters.getQueryFilter)
                 })
             }, 450)
         }
@@ -23,23 +23,24 @@ export function load(context) {
     }
 }
 
-export function additionalSuccessActions(context, payload) {
-    let data = context.state.data
-    console.log(data.links.pagination.current_page)
-    console.log(data.links.pagination.per_page)
-    console.log(data.links.pagination.total)
-
-    /* if (data.links.pagination.total % data.links.pagination.per_page == 0) {
-        data.links.pagination.current_page -= 1
-    } */
+export function setShowComponent(context, payload) {
+    console.log(context.state.data.links.pagination.current_page)
+    console.log(context.state.data.links.pagination.per_page)
+    console.log(context.state.data.links.pagination.total)
 
     context.commit('entryDocuments/mutateForcedUpdate', false, { root: true })
     context.commit('entryComments/mutateForcedUpdate', false, { root: true })
 }
-
+export function setDataAfterDelete(context, payload) {
+    if (
+        context.state.data.links.pagination.total % context.state.data.links.pagination.per_page ==
+        1
+    ) {
+        context.state.data.links.pagination.current_page -= 1
+    }
+}
 export function setDataAfterLoad(context, payload) {
     payload.filter.text = context.state.data.filter.text
-
     context.commit('mutateSetData', payload)
 }
 

@@ -42,6 +42,7 @@ let actions = merge_objects(actionsMixin, {
     },
 
     delete(context, payload) {
+        //context.dispatch('setDataAfterDelete', payload)
         post(makeDataUrl(context) + '/' + payload.id + '/delete')
     },
 })

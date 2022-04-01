@@ -76,23 +76,6 @@
                         <i class="fa fa-edit"></i>
                     </button>
 
-                    <button
-                        :disabled="
-                            !can('entry-comments:delete') ||
-                            !can(
-                                'entry-comments:delete:' +
-                                    (comment.creator_is_congressman
-                                        ? 'congressman'
-                                        : 'not-congressman'),
-                            )
-                        "
-                        class="btn btn-sm btn-micro btn-danger"
-                        @click="trash(comment)"
-                        title="Deletar Comentário"
-                        dusk="deleteComment"
-                    >
-                        <i class="fa fa-trash"></i>
-                    </button>
 
                     <app-action-button
                         :disabled="!can('entry-comments:delete') ||
