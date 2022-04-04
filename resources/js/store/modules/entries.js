@@ -110,13 +110,6 @@ let actions = merge_objects(actionsMixin, {
     },
 
     delete(context, payload) {
-        /* console.log('Deletado')
-        console.log(getters.getShowComponent(state)) */
-
-        /* context.dispatch('entryDocuments/load', false, { root: true })
-        context.dispatch('entryComments/load', false, { root: true }) */
-        //context.dispatch('additionalSuccessActions', payload)
-
         return post(makeDataUrl(context) + '/' + payload.id + '/delete')
     },
 

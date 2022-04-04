@@ -68,7 +68,8 @@ export default {
                 .then(result => {
                     if($this.method == 'delete'){
                         $this.$store.dispatch($this.store + '/setDataAfterDelete')
-                        }  
+                        } 
+                    //console.log(model) 
                     if (result.value) {
                         $this.loading = true
                         $this.$store

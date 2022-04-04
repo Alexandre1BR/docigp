@@ -88,7 +88,7 @@
                         classes="btn btn-sm btn-micro btn-danger"
                         title="Deletar Comentário"
                         :model="comment"
-                        swal-title="Deseja realmente DELETAR este comentário?"
+                        swal-title="Deseja realmente DELETAR este comentários?"
                         label=""
                         icon="fa fa-trash"
                         store="entryComments"

@@ -17,13 +17,6 @@ export function mutateSetData(state, payload) {
     }
 }
 
-export function mutateSetDelete(state, payload) {
-    console.log(state.data)
-    console.log(payload.id)
-    var entry = findById(state.data, payload.id)
-    console.log(entry)
-}
-
 export function mutateSetDataRow(state, payload) {
     var entry = findById(state.data, payload.id)
 

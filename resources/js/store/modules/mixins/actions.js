@@ -8,13 +8,11 @@ export function load(context) {
 
         if (typeof debouncedByUrl[urlHash] === 'undefined') {
             debouncedByUrl[urlHash] = _.debounce((targetUrl, targetContext) => {
-                //console.log(targetUrl)
                 get(targetUrl, {
                     params: { query: targetContext.getters.getQueryFilter },
                 }).then((response) => {
                     context.commit('mutateTableLoading', false)
                     context.dispatch('setDataAfterLoad', response.data)
-                    //console.log(targetContext.getters.getQueryFilter)
                 })
             }, 450)
         }
@@ -24,10 +22,6 @@ export function load(context) {
 }
 
 export function setShowComponent(context, payload) {
-    console.log(context.state.data.links.pagination.current_page)
-    console.log(context.state.data.links.pagination.per_page)
-    console.log(context.state.data.links.pagination.total)
-
     context.commit('entryDocuments/mutateForcedUpdate', false, { root: true })
     context.commit('entryComments/mutateForcedUpdate', false, { root: true })
 }
