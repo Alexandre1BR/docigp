@@ -75,7 +75,9 @@ export default {
                                 $this.loading = false
 
                                 if($this.method == 'delete'){
+                                    $this.$store.commit($this.store + '/mutateForcedUpdate', null)
                                     $this.$store.dispatch($this.store + '/setDataAfterDelete', $this.modelId)
+                                    
                                 }else {
                                     this.$store.commit(
                                         $this.store + '/mutateSetDataRow',

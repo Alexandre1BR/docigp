@@ -3,7 +3,8 @@ export function mutateTableLoading(state, payload) {
 }
 
 export function mutateForcedUpdate(state, payload) {
-    state.showComponent = payload
+    console.log('mutate')
+    state.selected.id = payload
 }
 
 export function mutateSetData(state, payload) {
@@ -32,8 +33,8 @@ export function mutateSetQuery(state, payload) {
 }
 
 export function mutateDeleteRow(state, payload) {
-    state.data.rows = state.data.rows.filter(function( obj ) {
-        return obj.id !== payload;
+    state.data.rows = state.data.rows.filter(function (obj) {
+        return obj.id !== payload
     })
 }
 

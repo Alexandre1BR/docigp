@@ -110,6 +110,7 @@ let actions = merge_objects(actionsMixin, {
     },
 
     delete(context, payload) {
+        console.log('entries')
         return post(makeDataUrl(context) + '/' + payload.id + '/delete')
     },
 

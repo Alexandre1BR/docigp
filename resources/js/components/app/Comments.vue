@@ -1,7 +1,7 @@
 <template>
 
     <div>
-    <div v-if="showComponent">
+    <div v-if="entries.selected.id">
     <app-table-panel
         :title="'Comentários'"
         titleCollapsed="Comentários"

@@ -1,5 +1,5 @@
 <template>
-    <div v-if="showComponent">
+    <div v-if="entries.selected.id">
         <app-table-panel 
             :title="'Documentos' + (tableLoading ? '' : '  (' + pagination.total + ')')"
             titleCollapsed="Documento"
