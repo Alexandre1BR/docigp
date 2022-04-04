@@ -26,13 +26,18 @@ export function setShowComponent(context, payload) {
     context.commit('entryComments/mutateForcedUpdate', false, { root: true })
 }
 export function setDataAfterDelete(context, payload) {
+    context.commit('mutateDeleteRow', payload)
+    context.dispatch('fixCurrentPage')
+}
+
+export function fixCurrentPage(context, payload) {
     if (
-        context.state.data.links.pagination.total % context.state.data.links.pagination.per_page ==
-        1
+        context.state.data.links.pagination.total % context.state.data.links.pagination.per_page == 1
     ) {
-        context.state.data.links.pagination.current_page -= 1
+        context.dispatch('setCurrentPage',context.state.data.links.pagination.current_page -1)
     }
 }
+
 export function setDataAfterLoad(context, payload) {
     payload.filter.text = context.state.data.filter.text
     context.commit('mutateSetData', payload)
