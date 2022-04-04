@@ -33,6 +33,7 @@ export default {
         'spinner-config',
         'swal-message',
         'is-delete-entry',
+        'model-id',
         'dusk'
     ],
 
@@ -66,27 +67,21 @@ export default {
                     icon: 'warning',
                 })
                 .then(result => {
-                    if($this.method == 'delete'){
-                        $this.$store.dispatch($this.store + '/setDataAfterDelete')
-                        } 
-                    //console.log(model) 
                     if (result.value) {
                         $this.loading = true
                         $this.$store
                             .dispatch($this.store + '/' + $this.method, model)
                             .then(response => {
-                                
                                 $this.loading = false
-                                this.$store.commit(
-                                    $this.store + '/mutateSetDataRow',
-                                    response.data,
-                                )
-                                
-                                if($this.isDeleteEntry){
-                                    $this.$store.dispatch($this.store + '/setShowComponent')
-                                }
 
-                                                               
+                                if($this.method == 'delete'){
+                                    $this.$store.dispatch($this.store + '/setDataAfterDelete', $this.modelId)
+                                }else {
+                                    this.$store.commit(
+                                        $this.store + '/mutateSetDataRow',
+                                        response.data,
+                                    )
+                                }
 
                                 $this.$swal({
                                     toast: true,

@@ -28,9 +28,9 @@
             </button>
         </template>
 
-        
 
-        <app-table 
+
+        <app-table
             :pagination="pagination"
             @goto-page="gotoPage($event)"
             :columns="getTableColumns()"
@@ -95,7 +95,7 @@
                         method="delete"
                         :spinner-config="{ size: '0.02em' }"
                         :swal-message="{ r200: 'Deletado com sucesso' }"
-                            
+                            :model-id="comment.id"
                             >
                     </app-action-button>
 

@@ -31,6 +31,12 @@ export function mutateSetQuery(state, payload) {
     state.query = payload
 }
 
+export function mutateDeleteRow(state, payload) {
+    state.data.rows = state.data.rows.filter(function( obj ) {
+        return obj.id !== payload;
+    })
+}
+
 export function mutateSetFormField(state, payload) {
     let formField = '{form.fields'
 
