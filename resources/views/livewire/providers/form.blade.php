@@ -332,10 +332,10 @@
                         </div>
                         <!-- Modal -->
                         <div class="card-body">
-                            <div>
+                           
                                 @if(isset($this->provider->blockedPeriods) && $this->provider->blockedPeriods && $this->provider->blockedPeriods->count() > 0)
 
-                                <div class="form-group col-md-12">
+                                <div class="form-group col-md-12 pb-0">
                                     <div class="table-responsive">
                                         <table id="providersTable" class="table table-striped table-bordered" cellspacing="0">
                                             <tr>
@@ -383,7 +383,7 @@
 
                                 @endif
 
-                            </div>
+                            
 
                         </div>
 

@@ -35,7 +35,7 @@
                     </div>
                 @endif
 
-                <div class="col-lg-10 col-md-9 col-sm-12 pt-3">
+                <div class="col-12">
 
 
                     <div class="form-row">
@@ -73,16 +73,16 @@
 
         <div class="card-body">
             <div class="row">
-                <div class="form-group col-md-6" >
+                <div class="form-group col-12" >
 
-                    <div class="col-5 col-md-8 text-right">
+                    <div class="col-12 text-center">
                         <a id="button-novo-contato" href="#" data-toggle="modal" data-target="#includeCongressmanInLegislatures"
-                           class="btn btn-primary btn-sm pull-right">
+                           class="btn btn-primary btn-md">
                             <i class="fa fa-plus"></i>
                             Incluir na Legislatura
                         </a>
                     </div>
-                    Legislaturas
+                    <h4>Legislaturas</h4>
 
                     @include('admin.congressman_legislatures.partials.table')
 
