@@ -6,11 +6,11 @@
             <h1 class="text-center">Prestação de Contas</h1>
         </div>
 
-        <div class="col-sm-12 col-lg-6">
+        <div class="col-sm-12 col-xl-4">
             <app-congressmen></app-congressmen>
         </div>
 
-        <div class="col-12">
+        <div class="col-sm-12 col-xl-8">
             <app-congressman-budgets
                 v-if="congressmen.selected.id"
             ></app-congressman-budgets>

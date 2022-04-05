@@ -85,7 +85,7 @@
                                 ></app-per-page>
                             </div>
 
-                            <div class="col-2 text-center mt-1">
+                            <div class="col-2 d-flex justify-content-end mt-1">
                                 <slot name="buttons"></slot>
 
                                 <router-link

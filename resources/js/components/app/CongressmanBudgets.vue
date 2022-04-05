@@ -78,30 +78,32 @@
                     v-if="can('congressman-budgets:show')"
                     class="align-middle text-center text-uppercase"
                 >
+                 <app-badge
+                    color="#e3342f,#FFFFFF"
+                    padding="1"
+                >
                     <app-active-badge
                         :value="congressmanBudget.closed_at"
+                        title='Fechado'
                         :labels="['sim', 'não']"
+                        class="text-uppercase"
                     ></app-active-badge>
-                </td>
-
-                <td
-                    v-if="can('congressman-budgets:show')"
-                    class="align-middle text-center text-uppercase"
-                >
+                    
+                     
                     <app-active-badge
                         :value="congressmanBudget.analysed_at"
+                        title='Analisado'
                         :labels="['sim', 'não']"
+                        class="text-uppercase"
                     ></app-active-badge>
-                </td>
-
-                <td
-                    v-if="can('congressman-budgets:show')"
-                    class="align-middle text-center text-uppercase"
-                >
+                    
                     <app-active-badge
                         :value="congressmanBudget.published_at"
+                        title='Publicidade'
                         :labels="['público', 'privado']"
+                        class="text-uppercase"
                     ></app-active-badge>
+                 </app-badge>
                 </td>
 
                 <td v-if="can('congressman-budgets:show')" class="align-middle text-right">
@@ -348,23 +350,15 @@ export default {
 
                 columns.push({
                     type: 'label',
-                    title: 'Fechado',
+                    title: 'Status',
                     trClass: 'text-center',
                 })
-
                 columns.push({
                     type: 'label',
-                    title: 'Analisado',
+                    title: 'Ações',
                     trClass: 'text-center',
                 })
 
-                columns.push({
-                    type: 'label',
-                    title: 'Publicidade',
-                    trClass: 'text-center',
-                })
-
-                columns.push('')
             }
 
             return columns
