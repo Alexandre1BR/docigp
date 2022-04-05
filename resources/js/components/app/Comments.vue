@@ -68,7 +68,7 @@
                                         : 'not-congressman'),
                             )
                         "
-                        class="btn btn-sm btn-micro btn-primary"
+                        class="btn btn-sm  btn-primary"
                         @click="editComment(comment)"
                         title="Editar comentário"
                         dusk="editComment"
@@ -85,7 +85,7 @@
                                         ? 'congressman'
                                         : 'not-congressman'),
                             )"
-                        classes="btn btn-sm btn-micro btn-danger"
+                        classes="btn btn-sm  btn-danger"
                         title="Deletar Comentário"
                         :model="comment"
                         swal-title="Deseja realmente DELETAR este comentários?"

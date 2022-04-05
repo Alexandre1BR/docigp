@@ -71,7 +71,7 @@
                             <app-action-button
                                 v-if="getEntryDocumentState(document).buttons.verify.visible"
                                 :disabled="getEntryDocumentState(document).buttons.verify.disabled"
-                                classes="btn btn-sm btn-micro btn-primary"
+                                classes="btn btn-sm  btn-primary"
                                 :title="getEntryDocumentState(document).buttons.verify.title"
                                 :model="document"
                                 swal-title="Verificar este documento?"
@@ -88,7 +88,7 @@
                                 :disabled="
                                     getEntryDocumentState(document).buttons.unverify.disabled
                                 "
-                                classes="btn btn-sm btn-micro btn-warning"
+                                classes="btn btn-sm  btn-warning"
                                 :title="getEntryDocumentState(document).buttons.unverify.title"
                                 :model="document"
                                 swal-title="Retirar verificação deste documento?"
@@ -103,7 +103,7 @@
                             <app-action-button
                                 v-if="getEntryDocumentState(document).buttons.analyse.visible"
                                 :disabled="getEntryDocumentState(document).buttons.analyse.disabled"
-                                classes="btn btn-sm btn-micro btn-success"
+                                classes="btn btn-sm  btn-success"
                                 :title="getEntryDocumentState(document).buttons.analyse.title"
                                 :model="document"
                                 swal-title="Deseja analisar este documento?"
@@ -120,7 +120,7 @@
                                 :disabled="
                                     getEntryDocumentState(document).buttons.unanalyse.disabled
                                 "
-                                classes="btn btn-sm btn-micro btn-danger"
+                                classes="btn btn-sm  btn-danger"
                                 :title="getEntryDocumentState(document).buttons.unanalyse.title"
                                 :model="document"
                                 swal-title="Retirar a análise deste documento?"
@@ -135,7 +135,7 @@
                             <app-action-button
                                 v-if="getEntryDocumentState(document).buttons.publish.visible"
                                 :disabled="getEntryDocumentState(document).buttons.publish.disabled"
-                                classes="btn btn-sm btn-micro btn-danger"
+                                classes="btn btn-sm  btn-danger"
                                 :title="getEntryDocumentState(document).buttons.publish.title"
                                 :model="document"
                                 swal-title="Deseja tornar este documento público?"
@@ -152,7 +152,7 @@
                                 :disabled="
                                     getEntryDocumentState(document).buttons.unpublish.disabled
                                 "
-                                classes="btn btn-sm btn-micro btn-success"
+                                classes="btn btn-sm  btn-success"
                                 :title="getEntryDocumentState(document).buttons.unpublish.title"
                                 :model="document"
                                 swal-title="Deseja despublicar este documento?"
@@ -168,7 +168,7 @@
                                 :href="document.url"
                                 target="_blank"
                                 title="Visualizar documento"
-                                class="btn btn-sm btn-micro btn-warning cursor-pointer"
+                                class="btn btn-sm  btn-warning cursor-pointer"
                             >
                                 <i class="fa fa-eye"></i>
                             </a>
@@ -176,7 +176,7 @@
                             <app-action-button
                                 v-if="getEntryDocumentState(document).buttons.delete.visible"
                                 :disabled="getEntryDocumentState(document).buttons.delete.disabled"
-                                classes="btn btn-sm btn-micro btn-danger"
+                                classes="btn btn-sm  btn-danger"
                                 :title="getEntryDocumentState(document).buttons.delete.title"
                                 :model="document"
                                 swal-title="Deseja realmente DELETAR este documento?"

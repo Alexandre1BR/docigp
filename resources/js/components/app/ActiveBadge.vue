@@ -1,6 +1,6 @@
 <template>
     <div>
-        <span class="badge" :class="getColor()">
+        <span class="badge btn btn-sm" :class="getColor()">
             {{title}} 
             {{ labels[!value ? 1 : 0] }}
         </span>
