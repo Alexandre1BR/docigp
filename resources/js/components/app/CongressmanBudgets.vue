@@ -1,6 +1,5 @@
 <template>
     <div>
-<<<<<<< HEAD
         <app-table-panel
             :title="'Orçamento mensal' + (tableLoading ? '' : '  (' + pagination.total + ')')"
             titleCollapsed="Orçamento"
@@ -12,26 +11,6 @@
             :collapsedLabel="currentSummaryLabel"
             :is-selected="selected.id !== null"
             :isLoading="tableLoading"
-=======
-
-
-    <app-table-panel
-        :title="'Orçamento mensal' + (tableLoading ? '' : '  (' + pagination.total + ')')"
-        titleCollapsed="Orçamento"
-        :subTitle="congressmen.selected.name"
-        :per-page="perPage"
-        :filter-text="filterText"
-        @input-filter-text="filterText = $event.target.value"
-        @set-per-page="perPage = $event"
-        :collapsedLabel="currentSummaryLabel"
-        :is-selected="selected.id !== null"
-        :isLoading="tableLoading"
-    >
-        <app-table
-            :pagination="pagination"
-            @goto-page="gotoPage($event)"
-            :columns="getTableColumns()"
->>>>>>> Verify sesssion expiration for GET method and show swal message on session expiration
         >
             <app-table
                 :pagination="pagination"
@@ -61,7 +40,6 @@
 
                     <!-- <td class="align-middle text-right">
                     {{ congressmanBudget.state_value_formatted }}
-<<<<<<< HEAD
                 </td> -->
 
                     <td class="align-middle text-right">
@@ -101,135 +79,6 @@
                     <td
                         v-if="can('congressman-budgets:show')"
                         class="align-middle text-center text-uppercase"
-=======
-                </td>
-
-                <td class="align-middle text-right">
-                    {{ congressmanBudget.percentage_formatted }}
-                </td>
-
-                <td class="align-middle text-right">
-                    {{ congressmanBudget.value_formatted }}
-                </td>
-
-                <td class="align-middle text-right">
-                    {{ congressmanBudget.entries_count }}
-                </td>
-
-                <td v-if="can('congressman-budgets:show')" class="align-middle text-center">
-                    <app-badge
-                        v-if="congressmanBudget.pendencies.length === 0"
-                        caption="não"
-                        color="#38c172,#FFFFFF"
-                        padding="1"
-                    ></app-badge>
-
-                    <app-badge
-                        v-if="congressmanBudget.pendencies.length > 0"
-                        color="#e3342f,#FFFFFF"
-                        padding="1"
-                    >
-                        <div v-for="pendency in congressmanBudget.pendencies">
-                            &bull; {{ pendency }}<br />
-                        </div>
-                    </app-badge>
-                </td>
-
-                <td v-if="can('congressman-budgets:show')" class="align-middle text-center">
-                    <app-active-badge
-                        :value="congressmanBudget.closed_at"
-                        :labels="['sim', 'não']"
-                    ></app-active-badge>
-                </td>
-
-                <td v-if="can('congressman-budgets:show')" class="align-middle text-center">
-                    <app-active-badge
-                        :value="congressmanBudget.analysed_at"
-                        :labels="['sim', 'não']"
-                    ></app-active-badge>
-                </td>
-
-                <td v-if="can('congressman-budgets:show')" class="align-middle text-center">
-                    <app-active-badge
-                        :value="congressmanBudget.published_at"
-                        :labels="['público', 'privado']"
-                    ></app-active-badge>
-                </td>
-
-                <td v-if="can('congressman-budgets:show')" class="align-middle text-right">
-                    <app-action-button
-                        v-if="getCongressmanBudgetState(congressmanBudget).buttons.deposit.visible"
-                        :disabled="
-                            getCongressmanBudgetState(congressmanBudget).buttons.deposit.disabled
-                        "
-                        classes="btn btn-sm btn-micro btn-success"
-                        :title="getCongressmanBudgetState(congressmanBudget).buttons.deposit.title"
-                        :model="congressmanBudget"
-                        :swal-title="getCongressmanBudgetState(congressmanBudget).buttons.deposit.title"
-                        label="depositar"
-                        icon="fa fa-dollar-sign"
-                        store="congressmanBudgets"
-                        method="deposit"
-                        dusk="deeposit_budget_button"
-                    >
-                    </app-action-button>
-
-
-                    <app-percentage-button
-                        v-if="
-                            getCongressmanBudgetState(congressmanBudget).buttons.editPercentage
-                                .visible
-                        "
-                        :disabled="
-                            getCongressmanBudgetState(congressmanBudget).buttons.editPercentage
-                                .disabled
-                        "
-                        classes="btn btn-sm btn-micro btn-primary"
-                        :title="
-                            getCongressmanBudgetState(congressmanBudget).buttons.editPercentage
-                                .title
-                        "
-                        :model="congressmanBudget"
-                        label="percentual"
-                        icon="fa fa-edit"
-                        store="congressmanBudgets"
-                        method="editPercentage"
-                        dusk="percentageButton"
-                    >
-                    </app-percentage-button>
-
-                    <app-action-button
-                        v-if="getCongressmanBudgetState(congressmanBudget).buttons.close.visible"
-                        :disabled="
-                            getCongressmanBudgetState(congressmanBudget).buttons.close.disabled
-                        "
-                        classes="btn btn-sm btn-micro btn-danger"
-                        :title="getCongressmanBudgetState(congressmanBudget).buttons.close.title"
-                        :model="congressmanBudget"
-                        swal-title="Deseja realmente FECHAR esse Orçamento Mensal?"
-                        label="fechar"
-                        icon="fa fa-ban"
-                        store="congressmanBudgets"
-                        method="close"
-                        dusk="close_budget_button"
-                    >
-                    </app-action-button>
-
-                    <app-action-button
-                        v-if="getCongressmanBudgetState(congressmanBudget).buttons.reopen.visible"
-                        :disabled="
-                            getCongressmanBudgetState(congressmanBudget).buttons.reopen.disabled
-                        "
-
-                        classes="btn btn-sm btn-micro btn-danger"
-                        :title="getCongressmanBudgetState(congressmanBudget).buttons.reopen.title"
-                        :model="congressmanBudget"
-                        swal-title="Deseja REABRIR esse Orçamento Mensal?"
-                        label="reabrir"
-                        icon="fa fa-check"
-                        store="congressmanBudgets"
-                        method="reopen"
->>>>>>> Verify sesssion expiration for GET method and show swal message on session expiration
                     >
                         <app-status-badge
                             class="text-uppercase"
