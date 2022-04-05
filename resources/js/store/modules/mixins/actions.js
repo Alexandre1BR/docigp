@@ -34,7 +34,8 @@ export function setDataAfterDelete(context, payload) {
 export function fixCurrentPage(context, payload) {
     if (
         context.state.data.links.pagination.total % context.state.data.links.pagination.per_page ==
-        1
+            1 &&
+        context.state.data.links.pagination.per_page > 1
     ) {
         context.dispatch('setCurrentPage', context.state.data.links.pagination.current_page - 1)
     }
