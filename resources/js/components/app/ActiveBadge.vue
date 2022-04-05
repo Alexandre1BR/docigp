@@ -1,6 +1,7 @@
 <template>
     <div>
         <span class="badge" :class="getColor()">
+            {{title}} 
             {{ labels[!value ? 1 : 0] }}
         </span>
     </div>
@@ -8,7 +9,7 @@
 
 <script>
 export default {
-    props: ['value', 'labels', 'color'],
+    props: ['value', 'labels', 'color', 'title'],
 
     methods: {
         getColor() {

@@ -1,9 +1,5 @@
 {
-<<<<<<< HEAD
-    "/js/app.js": "/js/app.js?id=ca6636f56e659b39c500",
-=======
-    "/js/app.js": "/js/app.js?id=ac27245e8f977c3ebc5b",
->>>>>>> 00a6fff61324b0cf157e9af2a3cec056752a9a0b
-    "/js/alpine.js": "/js/alpine.js?id=0e27c85de400a8eb3cb2",
-    "/css/app.css": "/css/app.css?id=522583ce97dfb5694acb"
+    "/js/app.js": "/js/app.js?id=28667ec16f9f5f4f3acb",
+    "/js/alpine.js": "/js/alpine.js?id=e7601de70f9afdcbba26",
+    "/css/app.css": "/css/app.css?id=d1ae5c4a30547bbcdb73"
 }

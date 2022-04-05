@@ -14,23 +14,28 @@
         :is-selected="selected.id !== null"
         :isLoading="tableLoading"    
     >
+
         <app-table 
             :pagination="pagination"
             @goto-page="gotoPage($event)"
             :columns="getTableColumns()"
-        >
-            <tr
-                @click="selectCongressmanBudget(congressmanBudget)"
+            
+        > 
+        
+            
+            <tr @click="selectCongressmanBudget(congressmanBudget)"
                 v-for="congressmanBudget in congressmanBudgets.data.rows"
                 :class="{
                     'cursor-pointer': true,
                     'bg-primary-lighter text-white': isCurrent(congressmanBudget, selected),
-                }"
-            >
+                }">  
+               
+            
                 <!--                State DEBUG-->
                 <!--                <td class="align-middle">-->
                 <!--                    {{ getCongressmanBudgetState(congressmanBudget).name }}-->
                 <!--                </td>-->
+                
 
                 <td v-if="can('tables:view-ids')" class="align-middle">
                     {{ congressmanBudget.id }}
@@ -60,12 +65,14 @@
                         caption="não"
                         color="#38c172,#FFFFFF"
                         padding="1"
+                        font-size='10px'
                     ></app-badge>
 
                     <app-badge
                         v-if="congressmanBudget.pendencies.length > 0"
                         color="#e3342f,#FFFFFF"
                         padding="1"
+                        font-size='10px'
                     >
                         <div v-for="pendency in congressmanBudget.pendencies">
                             &bull; {{ pendency }}<br />
@@ -73,25 +80,32 @@
                     </app-badge>
                 </td>
 
+                
+                
+               
                 <td v-if="can('congressman-budgets:show')" class="align-middle text-center">
+                <app-badge  font-size='15px' color="ccc" >
                     <app-active-badge
+                        
+
                         :value="congressmanBudget.closed_at"
+                        title='Fechado'
                         :labels="['sim', 'não']"
                     ></app-active-badge>
-                </td>
-
-                <td v-if="can('congressman-budgets:show')" class="align-middle text-center">
+                    
                     <app-active-badge
                         :value="congressmanBudget.analysed_at"
+                        title='Analisado'
                         :labels="['sim', 'não']"
                     ></app-active-badge>
-                </td>
-
-                <td v-if="can('congressman-budgets:show')" class="align-middle text-center">
+                    
                     <app-active-badge
                         :value="congressmanBudget.published_at"
+                        title='Publicidade'
                         :labels="['público', 'privado']"
                     ></app-active-badge>
+                </app-badge>
+
                 </td>
 
                 <td v-if="can('congressman-budgets:show')" class="align-middle text-right">
@@ -251,7 +265,12 @@
                         :row="congressmanBudget"
                     ></app-audits-button>
                 </td>
-            </tr>
+           
+
+            
+           </tr>
+
+            
         </app-table>
 
         <app-entry-form :show.sync="showModal" :refund="true"></app-entry-form>
@@ -290,6 +309,7 @@ export default {
     
     
     methods: {
+
         ...mapActions(service.name, ['selectCongressmanBudget']),
 
         getTableColumns() {
@@ -338,23 +358,16 @@ export default {
 
                 columns.push({
                     type: 'label',
-                    title: 'Fechado',
+                    title: 'Status',
                     trClass: 'text-center',
                 })
-
                 columns.push({
                     type: 'label',
-                    title: 'Analisado',
+                    title: 'Ações',
                     trClass: 'text-center',
                 })
 
-                columns.push({
-                    type: 'label',
-                    title: 'Publicidade',
-                    trClass: 'text-center',
-                })
-
-                columns.push('')
+                
             }
 
             return columns
