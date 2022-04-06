@@ -20,10 +20,19 @@ class CustomSessionHandler extends FileSessionHandler
         return '';
     }
 
+    public function getDataFromSession($sessionId)
+    {
+        return @unserialize($this->forceRead($sessionId));
+    }
+
     public function getLoggedUserFromSession($sessionId)
     {
-        $data = @unserialize($this->forceRead($sessionId));
-        return $data[auth()->guard()->getName()] ?? null;
+        return $this->getDataFromSession($sessionId)[auth()->guard()->getName()] ?? null;
+    }
+
+    public function getTokenSession($sessionId)
+    {
+        return $this->getDataFromSession($sessionId)['_token'] ?? null;
     }
 
     /**
@@ -38,8 +47,8 @@ class CustomSessionHandler extends FileSessionHandler
             ->date('<= now - '.$lifetime.' seconds');
 
         foreach ($files as $file) {
-            if($userId = $this->getLoggedUserFromSession($file->getFilenameWithoutExtension())){
-                event(new SessionExpired($userId));
+            if($token = $this->getTokenSession($file->getFilenameWithoutExtension())){
+                event(new SessionExpired($token));
             }
 
             $this->files->delete($file->getRealPath());

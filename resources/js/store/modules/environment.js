@@ -67,7 +67,7 @@ const actions = {
     subscribeToChannels(context) {
         if (context.state.user != null) {
             subscribePublicChannel(
-                'user.'+context.state.user.id,
+                'token.'+context.state.token,
                 '.App\\Events\\SessionExpired',
                 (event) => {
                     window.location.href = '/login'

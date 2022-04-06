@@ -13,22 +13,22 @@ class SessionExpired extends Broadcastable
     /**
      * @var int
      */
-    public $userId;
+    public $token;
 
     /**
      * Create a new event instance.
      *
      * @param int
      */
-    public function __construct($userId = null)
+    public function __construct($token = null)
     {
-        $this->userId = $userId;
+        $this->token = $token;
     }
 
     public function broadcastChannelName()
     {
-        if($this->userId) {
-            return 'user.' . $this->userId;
+        if($this->token) {
+            return 'token.' . $this->token;
         }
     }
 }
