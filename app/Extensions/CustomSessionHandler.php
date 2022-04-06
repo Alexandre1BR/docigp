@@ -4,10 +4,33 @@ namespace App\Extensions;
 
 use App\Events\SessionExpired;
 use Illuminate\Session\FileSessionHandler;
+use Illuminate\Support\Carbon;
 use Symfony\Component\Finder\Finder;
 
 class CustomSessionHandler extends FileSessionHandler
 {
+    /**
+     * {@inheritdoc}
+     */
+    public function destroy($sessionId)
+    {
+        $this->eventIfloggedSessionExpired($sessionId);
+        $this->files->delete($this->path.'/'.$sessionId);
+        return true;
+    }
+
+    public function eventIfloggedSessionExpired($sessionId)
+    {
+        if (($userId = $this->getLoggedUserFromSession($sessionId)) && ($token = $this->getTokenSession($sessionId))) {
+            event(new SessionExpired($token));
+        }
+
+        return [
+            'userId' => $userId ?? null,
+            'token' => $token ?? null
+        ];
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -47,10 +70,7 @@ class CustomSessionHandler extends FileSessionHandler
             ->date('<= now - '.$lifetime.' seconds');
 
         foreach ($files as $file) {
-            if($token = $this->getTokenSession($file->getFilenameWithoutExtension())){
-                event(new SessionExpired($token));
-            }
-
+            $this->eventIfloggedSessionExpired($file->getFilenameWithoutExtension());
             $this->files->delete($file->getRealPath());
         }
     }

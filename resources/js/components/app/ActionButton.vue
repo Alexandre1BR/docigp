@@ -102,6 +102,11 @@ export default {
                                     case 401:
                                         title = $this.swalMessage?.r401 ?? 'Ação não autorizada'
                                         break
+                                    case 419:
+                                        title =
+                                            $this.swalMessage?.r419 ??
+                                            'Sessão expirada. Recarregue a página'
+                                        break
                                     case 422:
                                         title =
                                             $this.swalMessage?.r422 ?? 'Verifique as informações'
