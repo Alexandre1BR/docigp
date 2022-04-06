@@ -23,6 +23,7 @@
                 @click="createComment()"
                 title="Novo Comentário"
                 dusk="newEntryComment"
+                id="commentButton"
             >
                 <i class="fa fa-plus"></i>
             </button>
@@ -181,9 +182,9 @@ export default {
             if (filled(this.form.id)) {
                 this.clearForm()
             }
-
             this.showModal = true
         },
     },
 }
 </script>
+

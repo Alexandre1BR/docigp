@@ -1,9 +1,10 @@
 <template>
-    <div>
-        <span class="badge btn btn-sm" :class="getColor()">
+    <div class="p-1">
+        <span class="badge text-uppercase" :class="getColor()">
             {{title}} 
             {{ labels[!value ? 1 : 0] }}
         </span>
+        
     </div>
 </template>
 

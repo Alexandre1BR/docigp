@@ -65,17 +65,29 @@
                         caption="não"
                         color="#38c172,#FFFFFF"
                         padding="1"
-                        font-size='10px'
+                        font-size='12px'
+                        
+                        
                     ></app-badge>
 
                     <app-badge
                         v-if="congressmanBudget.pendencies.length > 0"
-                        color="#e3342f,#FFFFFF"
+                        color="ccc, ccc"
                         padding="1"
-                        font-size='10px'
+                        font-size='12px'
+                        
+                        
+                        
                     >
-                        <div v-for="pendency in congressmanBudget.pendencies">
-                            &bull; {{ pendency }}<br />
+                    <div v-for="pendency in congressmanBudget.pendencies">
+                    <app-active-badge 
+                    
+                       :title="pendency"
+                       :labels="['', '']"
+
+                       
+                    >
+                    </app-active-badge> 
                         </div>
                     </app-badge>
                 </td>
@@ -84,13 +96,14 @@
                 
                
                 <td v-if="can('congressman-budgets:show')" class="align-middle text-center">
-                <app-badge  font-size='15px' color="ccc" >
+                <app-badge  font-size='12px' color="ccc">
                     <app-active-badge
                         
 
                         :value="congressmanBudget.closed_at"
                         title='Fechado'
                         :labels="['sim', 'não']"
+                        
                     ></app-active-badge>
                     
                     <app-active-badge
