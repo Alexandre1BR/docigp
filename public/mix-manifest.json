@@ -1,9 +1,13 @@
 {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "/js/app.js": "/js/app.js?id=2a0923131527e646e256",
 =======
     "/js/app.js": "/js/app.js?id=3f20df8c4ba0b375377c",
 >>>>>>> Fixed after-delete
+=======
+    "/js/app.js": "/js/app.js?id=2dfc11abd51959f08b9f",
+>>>>>>> Session Expiration
     "/js/alpine.js": "/js/alpine.js?id=0e27c85de400a8eb3cb2",
     "/css/app.css": "/css/app.css?id=1927cc6fde8a1c1c9fec"
 }

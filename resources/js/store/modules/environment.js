@@ -65,13 +65,15 @@ const actions = {
     },
 
     subscribeToChannels(context) {
-        // subscribePublicChannel(
-        //     'addresses',
-        //     '.App\\Events\\AddressesChanged',
-        //     () => {
-        //         context.dispatch('loadAvailableAddresses')
-        //     },
-        // )
+        if (context.state.user != null) {
+            subscribePublicChannel(
+                'user.'+context.state.user.id,
+                '.App\\Events\\SessionExpired',
+                (event) => {
+                    window.location.href = '/login'
+                },
+            )
+        }
     },
 }
 
