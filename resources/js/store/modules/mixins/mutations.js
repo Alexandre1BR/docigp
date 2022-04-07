@@ -31,7 +31,7 @@ export function mutateDeleteRow(state, payload) {
     state.data.rows = state.data.rows.filter(function (obj) {
         return obj.id !== payload
     })
-    if(state.selected.id === payload.id){
+    if(state.selected.id === payload){
         state.selected = {id: null}
     }
 }

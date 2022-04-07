@@ -21,9 +21,14 @@ export function load(context) {
     }
 }
 
-export function setDataAfterDelete(context, payload) {
+export function deleteRow(context,payload){
     context.commit('mutateDeleteRow', payload)
-    context.dispatch('fixCurrentPage')
+}
+
+export function setDataAfterDelete(context, payload) {
+    context.dispatch('deleteRow',payload).then(function () {
+        context.dispatch('fixCurrentPage')
+    })
 }
 
 export function fixCurrentPage(context, payload) {
@@ -32,8 +37,9 @@ export function fixCurrentPage(context, payload) {
             1 &&
         context.state.data.links.pagination.current_page > 1
     ) {
-        dd('context.dispatch(\'setCurrentPage\', context.state.data.links.pagination.current_page - 1)')
-        context.dispatch('setCurrentPage', context.state.data.links.pagination.current_page - 1)
+       context.dispatch('setCurrentPage', context.state.data.links.pagination.current_page - 1)
+    }else{
+        loadDebounced(context)
     }
 }
 
