@@ -3,6 +3,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     "/js/app.js": "/js/app.js?id=2a0923131527e646e256",
 =======
     "/js/app.js": "/js/app.js?id=3f20df8c4ba0b375377c",
@@ -16,6 +17,9 @@
 =======
     "/js/app.js": "/js/app.js?id=e4ec33aca8706f45b82b",
 >>>>>>> SessionExpire event when receiving request with expired token
+=======
+    "/js/app.js": "/js/app.js?id=30709f40d65930a3fb13",
+>>>>>>> Verify sesssion expiration for GET method and show swal message on session expiration
     "/js/alpine.js": "/js/alpine.js?id=0e27c85de400a8eb3cb2",
     "/css/app.css": "/css/app.css?id=1927cc6fde8a1c1c9fec"
 }

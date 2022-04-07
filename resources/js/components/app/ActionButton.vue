@@ -103,9 +103,6 @@ export default {
                                         title = $this.swalMessage?.r401 ?? 'Ação não autorizada'
                                         break
                                     case 419:
-                                        title =
-                                            $this.swalMessage?.r419 ??
-                                            'Sessão expirada. Recarregue a página'
                                         break
                                     case 422:
                                         title =
@@ -125,15 +122,17 @@ export default {
 
                                 $this.loading = false
 
-                                $this.$swal({
-                                    toast: true,
-                                    position: 'top-end',
-                                    showConfirmButton: false,
-                                    showCancelButton: false,
-                                    timer: 2000,
-                                    icon: 'error',
-                                    title: title,
-                                })
+                                if(title) {
+                                    $this.$swal({
+                                        toast: true,
+                                        position: 'top-end',
+                                        showConfirmButton: false,
+                                        showCancelButton: false,
+                                        timer: 2000,
+                                        icon: 'error',
+                                        title: title,
+                                    })
+                                }
                             })
                     }
                 })

@@ -65,12 +65,25 @@ const actions = {
     },
 
     subscribeToChannels(context) {
+        const $this = this
+
         if (context.state.user != null) {
             subscribePublicChannel(
                 'token.'+context.state.token,
                 '.App\\Events\\SessionExpired',
                 (event) => {
-                    window.location.href = '/login'
+                    Swal.fire({
+                        title: 'Sessão expirada',
+                        text: "Por conta da inatividade, é necessário realizar login novamente para voltar a usar o sistema.",
+                        icon: 'warning',
+                        showCancelButton: false,
+                        confirmButtonColor: '#38c172',
+                        confirmButtonText: 'OK',
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href='/login'
+                        }
+                    })
                 },
             )
         }

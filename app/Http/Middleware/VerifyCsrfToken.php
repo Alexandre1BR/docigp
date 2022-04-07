@@ -27,6 +27,12 @@ class VerifyCsrfToken extends Middleware
 
     public function handle($request, Closure $next)
     {
+        if($request->method() == 'GET' && ($token = $this->getTokenFromRequest($request)) && !(is_string($sessionToken = $request->session()->token()) &&
+                is_string($token) &&
+                hash_equals($sessionToken, $token))){
+            event(new SessionExpired($token));
+        }
+
         try {
             return parent::handle($request, $next);
         }catch (TokenMismatchException $exception){
