@@ -120,16 +120,26 @@
                         <app-badge
                             v-if="entry.pendencies.length === 0"
                             caption="não"
-                            color="#38c172,#FFFFFF"
+                            color="#38c172,#fff"
                             padding="1"
+                            font-size='12px'
+
                         ></app-badge>
 
                         <app-badge
                             v-if="entry.pendencies.length > 0"
-                            color="#e3342f,#FFFFFF"
+                            color="ccc, ccc"
                             padding="1"
+                            font-size='12px'
                         >
-                            <div v-for="pendency in entry.pendencies">&bull; {{ pendency }}</div>
+                            <div v-for="pendency in entry.pendencies">
+                            <app-active-badge 
+                      :title="pendency"
+                       :labels="['', '']"   
+                    >
+                    </app-active-badge> 
+                            
+                            </div>
                         </app-badge>
                     </td>
 

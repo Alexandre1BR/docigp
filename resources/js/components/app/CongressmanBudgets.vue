@@ -43,9 +43,9 @@
 
                 <td class="align-middle">{{ makeDate(congressmanBudget) }}</td>
 
-                <td class="align-middle text-right">
+                <!-- <td class="align-middle text-right">
                     {{ congressmanBudget.state_value_formatted }}
-                </td>
+                </td> -->
 
                 <td class="align-middle text-right">
                     {{ congressmanBudget.percentage_formatted }}
@@ -75,17 +75,11 @@
                         color="ccc, ccc"
                         padding="1"
                         font-size='12px'
-                        
-                        
-                        
                     >
                     <div v-for="pendency in congressmanBudget.pendencies">
                     <app-active-badge 
-                    
-                       :title="pendency"
-                       :labels="['', '']"
-
-                       
+                      :title="pendency"
+                       :labels="['', '']"   
                     >
                     </app-active-badge> 
                         </div>
@@ -338,11 +332,11 @@ export default {
 
             columns.push('Ano / Mês')
 
-            columns.push({
+            /* columns.push({
                 type: 'label',
                 title: 'Referência',
                 trClass: 'text-right',
-            })
+            }) */
 
             columns.push({
                 type: 'label',

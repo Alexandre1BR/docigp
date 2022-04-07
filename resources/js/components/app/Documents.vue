@@ -41,28 +41,31 @@
                 >
                     <td v-if="can('tables:view-ids')" class="align-middle">{{ document.id }}</td>
 
-                    <td class="align-middle">
+                    <td class="align-middle d-inline-block text-truncate" style="max-width: 300px;">
                         {{ document.attached_file.original_name }}
                     </td>
 
                     <td v-if="can('entry-documents:show')" class="align-middle text-center">
                         <app-active-badge
                             :value="document.verified_at"
+                            title='Fechado'
                             :labels="['sim', 'não']"
                         ></app-active-badge>
-                    </td>
+                    
 
-                    <td v-if="can('entry-documents:show')" class="align-middle text-center">
+                    
                         <app-active-badge
                             :value="document.analysed_at"
+                            title='Analisado'
                             :labels="['sim', 'não']"
                         ></app-active-badge>
-                    </td>
+                    
 
-                    <td v-if="can('entry-documents:show')" class="align-middle text-center">
+                    
                         <app-active-badge
                             :value="document.published_at"
                             :labels="['documento público', 'documento privado']"
+                            
                         ></app-active-badge>
                     </td>
 
@@ -259,7 +262,7 @@ export default {
             columns.push('Nome do arquivo')
 
             if (can('entry-documents:show')) {
-                columns.push({
+                /* columns.push({
                     type: 'label',
                     title: 'Verificado',
                     trClass: 'text-center',
@@ -274,6 +277,11 @@ export default {
                 columns.push({
                     type: 'label',
                     title: 'Publicidade',
+                    trClass: 'text-center',
+                }) */
+                columns.push({
+                    type: 'label',
+                    title: 'Status',
                     trClass: 'text-center',
                 })
             }
