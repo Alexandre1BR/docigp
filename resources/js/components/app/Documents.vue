@@ -40,7 +40,7 @@
                 >
                     <td v-if="can('tables:view-ids')" class="align-middle">{{ document.id }}</td>
 
-                    <td class="align-middle">
+                    <td class="align-middle d-inline-block text-truncate" style="max-width: 300px;">
                         {{ document.attached_file.original_name }}
                     </td>
 
