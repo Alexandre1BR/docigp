@@ -21,11 +21,6 @@ export function load(context) {
     }
 }
 
-export function setShowComponent(context, payload) {
-    context.commit('entryDocuments/mutateForcedUpdate', null)
-    context.commit('entryComments/mutateForcedUpdate', null)
-}
-
 export function setDataAfterDelete(context, payload) {
     context.commit('mutateDeleteRow', payload)
     context.dispatch('fixCurrentPage')
@@ -35,8 +30,9 @@ export function fixCurrentPage(context, payload) {
     if (
         context.state.data.links.pagination.total % context.state.data.links.pagination.per_page ==
             1 &&
-        context.state.data.links.pagination.per_page > 1
+        context.state.data.links.pagination.current_page > 1
     ) {
+        dd('context.dispatch(\'setCurrentPage\', context.state.data.links.pagination.current_page - 1)')
         context.dispatch('setCurrentPage', context.state.data.links.pagination.current_page - 1)
     }
 }
@@ -77,12 +73,7 @@ export function mutateSetQueryFilterText(context, payload) {
 }
 
 export function setCurrentPage(context, payload) {
-    let data = context.state.data
-
-    data.links.pagination.current_page = payload
-
-    context.commit('mutateSetData', data)
-
+    context.state.data.links.pagination.current_page = payload
     context.dispatch('load')
 }
 

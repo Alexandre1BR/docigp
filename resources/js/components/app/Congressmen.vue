@@ -1,7 +1,7 @@
 <template>
     <div>
 
-    <app-table-panel 
+    <app-table-panel
         :title="'Deputados' + (tableLoading ? '' : ' (' + pagination.total + ')')"
         titleCollapsed="Deputado / Deputada"
         :per-page="perPage"
@@ -11,8 +11,8 @@
         :collapsedLabel="selected.name"
         :is-selected="selected.id !== null"
         :isLoading="tableLoading"
-    > 
-            
+    >
+
         <template slot="checkboxes">
             <div class="row">
                 <div v-if="can('congressman:show')" class="col">
@@ -46,7 +46,7 @@
         </template>
 
         <app-table :pagination="pagination" @goto-page="gotoPage($event)" :columns="getTableColumns()">
-            <tr 
+            <tr
                 @click="selectCongressman(congressman)"
                 v-for="congressman in congressmen.data.rows"
                 :class="{
@@ -300,16 +300,10 @@ export default {
 
         onBoot() {
             subscribePublicChannel('congressmen', '.App\\Events\\' + 'CongressmenChanged', event => {
-                // console.log(event)
-                //
-                // console.log(
-                //     'Received event and need to update congressmen table',
-                // )
-
                 this.$store.dispatch('congressmen/load')
             })
         },
-       
+
     },
 }
 </script>

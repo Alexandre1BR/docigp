@@ -68,7 +68,7 @@ let actions = merge_objects(actionsMixin, {
     },
 
     selectEntry(context, payload) {
-        const performLoad = !context.state.selected || context.state.selected.id != payload.id
+        const performLoad = payload.id && (!context.state.selected || context.state.selected.id != payload.id)
 
         context.dispatch('entries/select', payload, { root: true })
         context.commit('mutateFormData', payload)
@@ -76,8 +76,6 @@ let actions = merge_objects(actionsMixin, {
         if (performLoad) {
             context.commit('entryDocuments/mutateTableLoading', true, { root: true })
             context.commit('entryComments/mutateTableLoading', true, { root: true })
-            context.commit('entryDocuments/mutateForcedUpdate', true, { root: true })
-            context.commit('entryComments/mutateForcedUpdate', true, { root: true })
             context.dispatch('entryDocuments/setCurrentPage', 1, { root: true })
             context.commit('entryDocuments/mutateSetSelected', { id: null }, { root: true })
             context.dispatch('entryComments/setCurrentPage', 1, { root: true })
@@ -110,7 +108,6 @@ let actions = merge_objects(actionsMixin, {
     },
 
     delete(context, payload) {
-        console.log('entries')
         return post(makeDataUrl(context) + '/' + payload.id + '/delete')
     },
 

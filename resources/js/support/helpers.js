@@ -10,21 +10,6 @@ window.dd = (...args) => {
     }
 }
 
-window.findById = (items, id) => {
-    console.log('aqui dentro')
-    if (!this.items) {
-        return { name: null, id: null }
-    }
-
-    console.log('aqui dentro2')
-
-    return _.find(items, value => {
-        console.log(id)
-        console.log(value)
-        return value.id === id
-    })
-}
-
 window.is_url = str => {
     let pattern = new RegExp(
         '^(https?:\\/\\/)?' + // protocol
@@ -307,8 +292,6 @@ window.subscribePublicChannel = (channelName, eventClassName, callable) => {
 }
 
 window.leavePublicChannel = channelName => {
-    // console.log('Leaving ' + channelName + ' channel')
-
     window.Echo.leave(channelName)
 }
 

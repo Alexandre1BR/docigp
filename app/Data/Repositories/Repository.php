@@ -146,22 +146,22 @@ abstract class Repository
         $this->order($query);
 
         $this->processCustomQueries($query);
-        
+
         if (
             isset($queryFilter->toArray()['pagination']['current_page']) &&
             $queryFilter->toArray()['pagination']['current_page'] == 0
         ) {
             $queryFilter = $this->allElements($queryFilter);
         }
-        
+
         return $this->makePaginationResult(
             $query->paginate(
                 $this->getPageSize($queryFilter),
                 ['*'],
                 'page',
-                $queryFilter->pagination && $queryFilter->pagination->currentPage 
+                $queryFilter->pagination && $queryFilter->pagination->currentPage
                     ? $queryFilter->pagination->currentPage
-                    : 1 
+                    : 1
             )
         );
     }
@@ -223,8 +223,8 @@ abstract class Repository
     }
 
     protected function generatePages(LengthAwarePaginator $data)
-    {   
-        
+    {
+
         $pageLimit = 4;
 
         $firstPage = $data->lastPage() > $pageLimit ? max($data->currentPage() - 2, 1) : 1;
@@ -252,11 +252,11 @@ abstract class Repository
 
     protected function getQueryFilter()
     {
-        
+
         $queryFilter = is_array(request()->get('query'))
             ? request()->get('query')
             : json_decode(request()->get('query'), true);
-        
+
         $queryFilter['search'] = request()->get('search');
 
         $queryFilter['pagination'] = $queryFilter['pagination'] ?? [];
@@ -375,7 +375,7 @@ abstract class Repository
      * @return array
      */
     protected function makePaginationResult(LengthAwarePaginator $data)
-    {  
+    {
         info($data);
         return !request()->expectsJson()
             ? $this->transform($data)
@@ -384,7 +384,7 @@ abstract class Repository
                     'pagination' => [
                         'total' => $data->total(),
                         'per_page' => $data->perPage(),
-                        'current_page' => $data->currentPage() > $data->lastPage() ? $data->lastPage()  : $data->currentPage(),
+                        'current_page' => $data->currentPage(),
                         'last_page' => $data->lastPage(),
                         'from' => ($from = ($data->currentPage() - 1) * $data->perPage() + 1),
                         'to' => $from + count($data->items()) - 1,

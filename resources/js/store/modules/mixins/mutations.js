@@ -2,11 +2,6 @@ export function mutateTableLoading(state, payload) {
     state.tableLoading = payload
 }
 
-export function mutateForcedUpdate(state, payload) {
-    console.log('mutate')
-    state.selected.id = payload
-}
-
 export function mutateSetData(state, payload) {
     state.data = payload
     if (state.selected.id) {
@@ -36,6 +31,9 @@ export function mutateDeleteRow(state, payload) {
     state.data.rows = state.data.rows.filter(function (obj) {
         return obj.id !== payload
     })
+    if(state.selected.id === payload.id){
+        state.selected = {id: null}
+    }
 }
 
 export function mutateSetFormField(state, payload) {

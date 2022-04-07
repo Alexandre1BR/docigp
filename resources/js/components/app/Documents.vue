@@ -234,7 +234,7 @@ export default {
             congressmanBudgetsClosedAt: 'congressmanBudgets/selectedClosedAt',
             getEntryDocumentState: 'entryDocuments/getEntryDocumentState',
         }),
-        ...mapState(service.name, ['tableLoading', 'showComponent']),
+        ...mapState(service.name, ['tableLoading']),
 
         // return this.$store.dispatch('congressmanBudgets/changePercentage', {
         //     congressmanBudget: congressmanBudget,

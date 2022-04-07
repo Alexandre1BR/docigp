@@ -265,7 +265,7 @@
                                 icon="fa fa-trash"
                                 store="entries"
                                 method="delete"
-                                :spinner-config="{ size: '0.05em' }"
+                                :spinner-config="{ size: '0.02em' }"
                                 :swal-message="{ r200: 'Deletado com sucesso' }"
                                 :is-delete-entry="true"
                             >
@@ -302,12 +302,7 @@ export default {
         }
     },
     methods: {
-        ...mapActions(service.name, [
-            'selectEntry',
-            'clearForm',
-            'clearErrors',
-            'additionalSuccessActions',
-        ]),
+        ...mapActions(service.name, ['selectEntry', 'clearForm', 'clearErrors']),
 
         getEntryType(entry) {
             if (entry.cost_center_code == 2) {

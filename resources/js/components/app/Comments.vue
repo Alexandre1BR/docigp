@@ -1,7 +1,7 @@
 <template>
 
     <div>
-    <div v-if="entries.selected.id">
+    <div>
     <app-table-panel
         :title="'Comentários'"
         titleCollapsed="Comentários"
@@ -96,7 +96,6 @@
                         method="delete"
                         :spinner-config="{ size: '0.02em' }"
                         :swal-message="{ r200: 'Deletado com sucesso' }"
-                            :model-id="comment.id"
                             >
                     </app-action-button>
 
@@ -139,7 +138,7 @@ export default {
         ...mapGetters({
             congressmanBudgetsClosedAt: 'congressmanBudgets/selectedClosedAt',
         }),
-        ...mapState(service.name, ['tableLoading', 'showComponent'])
+        ...mapState(service.name, ['tableLoading'])
     },
 
     methods: {

@@ -1,7 +1,3 @@
-export function getShowComponent(state, getters) {
-    return state.showComponent
-}
-
 export function getQueryFilter(state, getters) {
     return {
         filter: state.data ? state.data.filter : null,
