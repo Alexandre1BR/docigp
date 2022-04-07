@@ -376,7 +376,6 @@ abstract class Repository
      */
     protected function makePaginationResult(LengthAwarePaginator $data)
     {
-        info($data);
         return !request()->expectsJson()
             ? $this->transform($data)
             : [
