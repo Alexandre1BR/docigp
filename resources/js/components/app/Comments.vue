@@ -46,7 +46,7 @@
             >
                 <td v-if="can('tables:view-ids')" class="align-middle">{{ comment.id }}</td>
 
-                <td class="align-middle d-inline-block text-truncate" style="max-width: 300px;">
+                <td class="align-middle">
                     {{ comment.text }}
                 </td>
 
