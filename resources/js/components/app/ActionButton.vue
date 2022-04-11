@@ -5,6 +5,7 @@
         :title="title"
         @click="pressButton(model)"
         :dusk="dusk"
+        
     >
         <pulse-loader
             v-if="loading"
@@ -32,7 +33,11 @@ export default {
         'swal-title',
         'spinner-config',
         'swal-message',
-        'dusk'
+        'is-delete-entry',
+        'model-id',
+        'dusk',
+        
+        
     ],
 
     data() {
@@ -70,12 +75,18 @@ export default {
                         $this.$store
                             .dispatch($this.store + '/' + $this.method, model)
                             .then(response => {
-                                
                                 $this.loading = false
-                                this.$store.commit(
-                                    $this.store + '/mutateSetDataRow',
-                                    response.data,
-                                )
+
+                                if($this.method == 'delete'){
+                                    $this.$store.commit($this.store + '/mutateForcedUpdate', null)
+                                    $this.$store.dispatch($this.store + '/setDataAfterDelete', $this.modelId)
+                                    
+                                }else {
+                                    this.$store.commit(
+                                        $this.store + '/mutateSetDataRow',
+                                        response.data,
+                                    )
+                                }
 
                                 $this.$swal({
                                     toast: true,

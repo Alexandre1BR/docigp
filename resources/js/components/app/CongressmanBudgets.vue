@@ -14,23 +14,28 @@
         :is-selected="selected.id !== null"
         :isLoading="tableLoading"    
     >
+
         <app-table 
             :pagination="pagination"
             @goto-page="gotoPage($event)"
             :columns="getTableColumns()"
-        >
-            <tr
-                @click="selectCongressmanBudget(congressmanBudget)"
+            
+        > 
+        
+            
+            <tr @click="selectCongressmanBudget(congressmanBudget)"
                 v-for="congressmanBudget in congressmanBudgets.data.rows"
                 :class="{
                     'cursor-pointer': true,
                     'bg-primary-lighter text-white': isCurrent(congressmanBudget, selected),
-                }"
-            >
+                }">  
+               
+            
                 <!--                State DEBUG-->
                 <!--                <td class="align-middle">-->
                 <!--                    {{ getCongressmanBudgetState(congressmanBudget).name }}-->
                 <!--                </td>-->
+                
 
                 <td v-if="can('tables:view-ids')" class="align-middle">
                     {{ congressmanBudget.id }}
@@ -38,9 +43,9 @@
 
                 <td class="align-middle">{{ makeDate(congressmanBudget) }}</td>
 
-                <td class="align-middle text-right">
+                <!-- <td class="align-middle text-right">
                     {{ congressmanBudget.state_value_formatted }}
-                </td>
+                </td> -->
 
                 <td class="align-middle text-right">
                     {{ congressmanBudget.percentage_formatted }}
@@ -59,14 +64,21 @@
                         v-if="congressmanBudget.pendencies.length === 0"
                         color="#38c172,#FFFFFF"
                         padding="1"
-                    >
-                    <span class="text-uppercase">não</span>
-                    </app-badge>
+                        font-size='12px'
+                        
+                        
+                    ></app-badge>
 
                     <app-badge
                         v-if="congressmanBudget.pendencies.length > 0"
-                        color="#e3342f,#FFFFFF"
+                        color="ccc, ccc"
                         padding="1"
+                        font-size='12px'
+                    >
+                    <div v-for="pendency in congressmanBudget.pendencies">
+                    <app-active-badge 
+                      :title="pendency"
+                       :labels="['', '']"   
                     >
                         <div class="text-uppercase mb-1 mt-1" v-for="pendency in congressmanBudget.pendencies">
                             &bull; {{ pendency }}<br />
@@ -104,7 +116,7 @@
                 
                 </td>
 
-                <td v-if="can('congressman-budgets:show')" class="align-middle text-right">
+                <td  v-if="can('congressman-budgets:show')" class="align-middle text-right">
                     <app-action-button
                         v-if="getCongressmanBudgetState(congressmanBudget).buttons.deposit.visible"
                         :disabled="
@@ -261,7 +273,12 @@
                         :row="congressmanBudget"
                     ></app-audits-button>
                 </td>
-            </tr>
+           
+
+            
+           </tr>
+
+            
         </app-table>
 
         <app-entry-form :show.sync="showModal" :refund="true"></app-entry-form>
@@ -300,6 +317,7 @@ export default {
     
     
     methods: {
+
         ...mapActions(service.name, ['selectCongressmanBudget']),
 
         getTableColumns() {
@@ -315,11 +333,11 @@ export default {
 
             columns.push('Ano / Mês')
 
-            columns.push({
+            /* columns.push({
                 type: 'label',
                 title: 'Referência',
                 trClass: 'text-right',
-            })
+            }) */
 
             columns.push({
                 type: 'label',

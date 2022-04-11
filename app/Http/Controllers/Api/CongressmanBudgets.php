@@ -44,7 +44,7 @@ class CongressmanBudgets extends Controller
      */
     public function update(CongressmanBudgetUpdate $request, $congressmanId, $budgetId)
     {
-        return app(CongressmanBudgetsRepository::class)->update($budgetId, $request->all());
+        return app(CongressmanBudgetsRepository::class)->transformSingleRow(app(CongressmanBudgetsRepository::class)->update($budgetId, $request->all()));
     }
 
     /**

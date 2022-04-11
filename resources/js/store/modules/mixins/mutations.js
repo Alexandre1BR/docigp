@@ -2,9 +2,13 @@ export function mutateTableLoading(state, payload) {
     state.tableLoading = payload
 }
 
+export function mutateForcedUpdate(state, payload) {
+    console.log('mutate')
+    state.selected.id = payload
+}
+
 export function mutateSetData(state, payload) {
     state.data = payload
-
     if (state.selected.id) {
         const found = _.find(state.data.rows, (row) => row.id === state.selected.id)
 
@@ -26,6 +30,12 @@ export function mutateSetDataRow(state, payload) {
 
 export function mutateSetQuery(state, payload) {
     state.query = payload
+}
+
+export function mutateDeleteRow(state, payload) {
+    state.data.rows = state.data.rows.filter(function (obj) {
+        return obj.id !== payload
+    })
 }
 
 export function mutateSetFormField(state, payload) {

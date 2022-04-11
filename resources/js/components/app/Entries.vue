@@ -71,6 +71,7 @@
                         </span>
                     </td>
 
+
                     <td class="align-middle">
                         {{ entry.name }}
                         <span v-if="entry.cpf_cnpj">
@@ -119,43 +120,51 @@
                         <app-badge
                             v-if="entry.pendencies.length === 0"
                             caption="não"
-                            color="#38c172,#FFFFFF"
+                            color="#38c172,#fff"
                             padding="1"
+                            font-size='12px'
+
                         ></app-badge>
 
                         <app-badge
                             v-if="entry.pendencies.length > 0"
-                            color="#e3342f,#FFFFFF"
+                            color="ccc, ccc"
                             padding="1"
+                            font-size='12px'
                         >
                             <div class="text-uppercase" v-for="pendency in entry.pendencies">&bull; {{ pendency }}</div>
                         </app-badge>
                     </td>
 
                     <td v-if="can('entries:show')" class="align-middle text-center">
+                    <app-badge  font-size='15px' color="ccc" >
                         <app-active-badge
                             class="text-uppercase"
                             :value="entry.verified_at"
+                            title='Verificado: '
                             :labels="['sim', 'não']"
                         ></app-active-badge>
-                    </td>
+                    
 
-                    <td v-if="can('entries:show')" class="align-middle text-center">
+                    
                         <app-active-badge
                             class="text-uppercase"
                             :value="entry.analysed_at"
+                            title='Analisado: '
                             :labels="['sim', 'não']"
                         ></app-active-badge>
-                    </td>
+                    
 
-                    <td v-if="can('entries:show')" class="align-middle text-center">
+                    
                         <app-active-badge
                             class="text-uppercase"
                             :value="entry.published_at && !entry.is_transport_or_credit"
+                            title='Publicado: '
                             :labels="['público', 'privado']"
                         ></app-active-badge>
+                        </app-badge>
+                    
                     </td>
-
                     <td class="align-middle text-right">
                         <div>
                             <app-action-button
@@ -176,7 +185,7 @@
                             <app-action-button
                                 v-if="getEntryState(entry).buttons.unverify.visible"
                                 :disabled="getEntryState(entry).buttons.unverify.disabled"
-                                classes="btn btn-sm btn-warning"
+                                classes="btn btn-sm  btn-warning"
                                 :title="getEntryState(entry).buttons.unverify.title"
                                 :model="entry"
                                 swal-title="Remover verificação deste lançamento?"
@@ -191,7 +200,7 @@
                             <app-action-button
                                 v-if="getEntryState(entry).buttons.analyse.visible"
                                 :disabled="getEntryState(entry).buttons.analyse.disabled"
-                                classes="btn btn-sm btn-success"
+                                classes="btn btn-sm  btn-success"
                                 :title="getEntryState(entry).buttons.analyse.title"
                                 :model="entry"
                                 swal-title="Analisar este lançamento?"
@@ -206,7 +215,7 @@
                             <app-action-button
                                 v-if="getEntryState(entry).buttons.unanalyse.visible"
                                 :disabled="getEntryState(entry).buttons.unanalyse.disabled"
-                                classes="btn btn-sm btn-danger"
+                                classes="btn btn-sm  btn-danger"
                                 :title="getEntryState(entry).buttons.unanalyse.title"
                                 :model="entry"
                                 swal-title="Remover análise deste lançamento?"
@@ -220,7 +229,7 @@
                             <app-action-button
                                 v-if="getEntryState(entry).buttons.publish.visible"
                                 :disabled="getEntryState(entry).buttons.publish.disabled"
-                                classes="btn btn-sm btn-danger"
+                                classes="btn btn-sm  btn-danger"
                                 :title="getEntryState(entry).buttons.publish.title"
                                 :model="entry"
                                 swal-title="Publicar este lançamento?"
@@ -234,7 +243,7 @@
                             <app-action-button
                                 v-if="getEntryState(entry).buttons.unpublish.visible"
                                 :disabled="getEntryState(entry).buttons.unpublish.disabled"
-                                classes="btn btn-sm btn-danger"
+                                classes="btn btn-sm  btn-danger"
                                 :title="getEntryState(entry).buttons.unpublish.title"
                                 :model="entry"
                                 swal-title="Despublicar este lançamento?"
@@ -248,7 +257,7 @@
                             <button
                                 v-if="getEntryState(entry).buttons.edit.visible"
                                 :disabled="getEntryState(entry).buttons.edit.disabled"
-                                class="btn btn-sm btn-primary"
+                                class="btn btn-sm  btn-primary"
                                 @click="editEntry(entry)"
                                 :title="getEntryState(entry).buttons.edit.title"
                             >
@@ -258,7 +267,7 @@
                             <app-action-button
                                 v-if="getEntryState(entry).buttons.delete.visible"
                                 :disabled="getEntryState(entry).buttons.delete.disabled"
-                                classes="btn btn-sm btn-danger"
+                                classes="btn btn-sm  btn-danger"
                                 :title="getEntryState(entry).buttons.delete.title"
                                 :model="entry"
                                 swal-title="Deseja realmente deletar este lançamento?"
@@ -268,6 +277,9 @@
                                 method="delete"
                                 :spinner-config="{ size: '0.05em' }"
                                 :swal-message="{ r200: 'Deletado com sucesso' }"
+                                :is-delete-entry="true"
+                                
+                            
                             >
                             </app-action-button>
 
@@ -299,10 +311,13 @@ export default {
         return {
             service: service,
             showModal: false,
+
+         
         }
     },
     methods: {
-        ...mapActions(service.name, ['selectEntry', 'clearForm', 'clearErrors']),
+        ...mapActions(service.name, ['selectEntry', 'clearForm', 'clearErrors', 'additionalSuccessActions']),
+
         getEntryType(entry) {
             if (entry.cost_center_code == 2) {
                 return {
@@ -380,21 +395,20 @@ export default {
                 })
                 columns.push({
                     type: 'label',
-                    title: 'Verificado',
+                    title: 'Status',
                     trClass: 'text-center',
                 })
                 columns.push({
                     type: 'label',
-                    title: 'Analisado',
+                    title: 'Ações',
                     trClass: 'text-center',
                 })
-                columns.push({
-                    type: 'label',
-                    title: 'Publicidade',
-                    trClass: 'text-center',
-                })
+
+                
             }
-            columns.push('')
+
+            
+
             return columns
         },
         createEntry() {
@@ -416,7 +430,8 @@ export default {
             currentSummaryLabel: 'entries/currentSummaryLabel',
             getActivityLog: 'entries/activityLog',
         }),
-        ...mapState(service.name, ['tableLoading'])
+        ...mapState(service.name, ['tableLoading']),
+    
     },
 }
 </script>

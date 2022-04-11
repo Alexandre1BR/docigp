@@ -72,9 +72,13 @@ export default {
                     $this.loading = true
 
                     $this.changePercentage(model, value.value)
-
                     .then(response => {
                         $this.loading = false
+
+                        $this.$store.commit(
+                            $this.store + '/mutateSetDataRow',
+                            response.data,
+                        )
 
                         $this.$swal({
                                         toast: true,

@@ -1,5 +1,4 @@
 import Form from '../../classes/Form'
-
 import * as mutationsMixin from './mixins/mutations.js'
 import * as actionsMixin from './mixins/actions.js'
 import * as statesMixin from './mixins/states.js'
@@ -77,6 +76,8 @@ let actions = merge_objects(actionsMixin, {
         if (performLoad) {
             context.commit('entryDocuments/mutateTableLoading', true, { root: true })
             context.commit('entryComments/mutateTableLoading', true, { root: true })
+            context.commit('entryDocuments/mutateForcedUpdate', true, { root: true })
+            context.commit('entryComments/mutateForcedUpdate', true, { root: true })
             context.dispatch('entryDocuments/setCurrentPage', 1, { root: true })
             context.commit('entryDocuments/mutateSetSelected', { id: null }, { root: true })
             context.dispatch('entryComments/setCurrentPage', 1, { root: true })
@@ -109,6 +110,7 @@ let actions = merge_objects(actionsMixin, {
     },
 
     delete(context, payload) {
+        console.log('entries')
         return post(makeDataUrl(context) + '/' + payload.id + '/delete')
     },
 

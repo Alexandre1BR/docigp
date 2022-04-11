@@ -150,8 +150,10 @@ class Entries extends Repository
         )->id;
 
         $this->fillAndSave($array ?? $this->data, $this->findById($id));
+        
         return parent::update($id, $array);
     }
+
 
     /**
      * @param $callable

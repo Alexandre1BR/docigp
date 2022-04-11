@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <app-table-panel
+    <div v-if="entries.selected.id">
+        <app-table-panel 
             :title="'Documentos' + (tableLoading ? '' : '  (' + pagination.total + ')')"
             titleCollapsed="Documento"
             :per-page="perPage"
@@ -11,6 +11,7 @@
             :is-selected="selected.id !== null"
             :subTitle="entries.selected.object + ' - ' + entries.selected.value_formatted"
             :isLoading="tableLoading"
+            
         >
             <template slot="buttons">
                 <button
@@ -24,7 +25,7 @@
                     <i class="fa fa-plus"></i>
                 </button>
             </template>
-
+            
             <app-table
                 :pagination="pagination"
                 @goto-page="gotoPage($event)"
@@ -47,24 +48,26 @@
                     <td v-if="can('entry-documents:show')" class="align-middle text-center">
                         <app-active-badge
                             :value="document.verified_at"
+                            title='Fechado'
                             :labels="['sim', 'não']"
                             class="text-uppercase"
                         ></app-active-badge>
-                    </td>
+                    
 
-                    <td v-if="can('entry-documents:show')" class="align-middle text-center">
+                    
                         <app-active-badge
                             :value="document.analysed_at"
+                            title='Analisado'
                             :labels="['sim', 'não']"
                             class="text-uppercase"
                         ></app-active-badge>
-                    </td>
+                    
 
-                    <td v-if="can('entry-documents:show')" class="align-middle text-center">
+                    
                         <app-active-badge
                             :value="document.published_at"
                             :labels="['documento público', 'documento privado']"
-                            class="text-uppercase"
+                            
                         ></app-active-badge>
                     </td>
 
@@ -73,7 +76,7 @@
                             <app-action-button
                                 v-if="getEntryDocumentState(document).buttons.verify.visible"
                                 :disabled="getEntryDocumentState(document).buttons.verify.disabled"
-                                classes="btn btn-sm btn-primary"
+                                classes="btn btn-sm  btn-primary"
                                 :title="getEntryDocumentState(document).buttons.verify.title"
                                 :model="document"
                                 swal-title="Verificar este documento?"
@@ -90,7 +93,7 @@
                                 :disabled="
                                     getEntryDocumentState(document).buttons.unverify.disabled
                                 "
-                                classes="btn btn-sm btn-warning"
+                                classes="btn btn-sm  btn-warning"
                                 :title="getEntryDocumentState(document).buttons.unverify.title"
                                 :model="document"
                                 swal-title="Retirar verificação deste documento?"
@@ -105,7 +108,7 @@
                             <app-action-button
                                 v-if="getEntryDocumentState(document).buttons.analyse.visible"
                                 :disabled="getEntryDocumentState(document).buttons.analyse.disabled"
-                                classes="btn btn-sm btn-success"
+                                classes="btn btn-sm  btn-success"
                                 :title="getEntryDocumentState(document).buttons.analyse.title"
                                 :model="document"
                                 swal-title="Deseja analisar este documento?"
@@ -122,7 +125,7 @@
                                 :disabled="
                                     getEntryDocumentState(document).buttons.unanalyse.disabled
                                 "
-                                classes="btn btn-sm btn-danger"
+                                classes="btn btn-sm  btn-danger"
                                 :title="getEntryDocumentState(document).buttons.unanalyse.title"
                                 :model="document"
                                 swal-title="Retirar a análise deste documento?"
@@ -137,7 +140,7 @@
                             <app-action-button
                                 v-if="getEntryDocumentState(document).buttons.publish.visible"
                                 :disabled="getEntryDocumentState(document).buttons.publish.disabled"
-                                classes="btn btn-sm btn-danger"
+                                classes="btn btn-sm  btn-danger"
                                 :title="getEntryDocumentState(document).buttons.publish.title"
                                 :model="document"
                                 swal-title="Deseja tornar este documento público?"
@@ -154,7 +157,7 @@
                                 :disabled="
                                     getEntryDocumentState(document).buttons.unpublish.disabled
                                 "
-                                classes="btn btn-sm btn-success"
+                                classes="btn btn-sm  btn-success"
                                 :title="getEntryDocumentState(document).buttons.unpublish.title"
                                 :model="document"
                                 swal-title="Deseja despublicar este documento?"
@@ -170,7 +173,7 @@
                                 :href="document.url"
                                 target="_blank"
                                 title="Visualizar documento"
-                                class="btn btn-sm btn-warning cursor-pointer"
+                                class="btn btn-sm  btn-warning cursor-pointer"
                             >
                                 <i class="fa fa-eye"></i>
                             </a>
@@ -178,7 +181,7 @@
                             <app-action-button
                                 v-if="getEntryDocumentState(document).buttons.delete.visible"
                                 :disabled="getEntryDocumentState(document).buttons.delete.disabled"
-                                classes="btn btn-sm btn-danger"
+                                classes="btn btn-sm  btn-danger"
                                 :title="getEntryDocumentState(document).buttons.delete.title"
                                 :model="document"
                                 swal-title="Deseja realmente DELETAR este documento?"
@@ -227,6 +230,7 @@ export default {
             service: service,
 
             showModal: false,
+
         }
     },
 
@@ -235,7 +239,7 @@ export default {
             congressmanBudgetsClosedAt: 'congressmanBudgets/selectedClosedAt',
             getEntryDocumentState: 'entryDocuments/getEntryDocumentState',
         }),
-        ...mapState(service.name, ['tableLoading']),
+        ...mapState(service.name, ['tableLoading', 'showComponent']),
 
         // return this.$store.dispatch('congressmanBudgets/changePercentage', {
         //     congressmanBudget: congressmanBudget,
@@ -260,7 +264,7 @@ export default {
             columns.push('Nome do arquivo')
 
             if (can('entry-documents:show')) {
-                columns.push({
+                /* columns.push({
                     type: 'label',
                     title: 'Verificado',
                     trClass: 'text-center',
@@ -275,6 +279,11 @@ export default {
                 columns.push({
                     type: 'label',
                     title: 'Publicidade',
+                    trClass: 'text-center',
+                }) */
+                columns.push({
+                    type: 'label',
+                    title: 'Status',
                     trClass: 'text-center',
                 })
             }

@@ -127,6 +127,8 @@ class CongressmanBudgets extends Repository
 
             $congressmanBudget['balance_formatted'] = to_reais($congressmanBudget['balance']);
 
+            $congressmanBudget['percentage'] = number_format($congressmanBudget['percentage'],2);
+
             $congressmanBudget['percentage_formatted'] = $congressmanBudget['percentage'] . '%';
 
             $congressmanBudget['pendencies'] = $this->buildPendenciesArray($congressmanBudget);

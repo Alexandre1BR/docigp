@@ -1,9 +1,7 @@
 <template>
 
     <div>
-    
-
-    <div >
+    <div v-if="entries.selected.id">
     <app-table-panel
         :title="'Comentários'"
         titleCollapsed="Comentários"
@@ -25,14 +23,15 @@
                 @click="createComment()"
                 title="Novo Comentário"
                 dusk="newEntryComment"
+                id="commentButton"
             >
                 <i class="fa fa-plus"></i>
             </button>
         </template>
 
-        
 
-        <app-table 
+
+        <app-table
             :pagination="pagination"
             @goto-page="gotoPage($event)"
             :columns="getTableColumns()"
@@ -70,7 +69,7 @@
                                         : 'not-congressman'),
                             )
                         "
-                        class="btn btn-sm btn-primary mb-1"
+                        class="btn btn-sm  btn-primary"
                         @click="editComment(comment)"
                         title="Editar comentário"
                         dusk="editComment"
@@ -78,23 +77,6 @@
                         <i class="fa fa-edit"></i>
                     </button>
 
-                    <button
-                        :disabled="
-                            !can('entry-comments:delete') ||
-                            !can(
-                                'entry-comments:delete:' +
-                                    (comment.creator_is_congressman
-                                        ? 'congressman'
-                                        : 'not-congressman'),
-                            )
-                        "
-                        class="btn btn-sm btn-danger mb-1"
-                        @click="trash(comment)"
-                        title="Deletar Comentário"
-                        dusk="deleteComment"
-                    >
-                        <i class="fa fa-trash"></i>
-                    </button>
 
                     <app-action-button
                         :disabled="!can('entry-comments:delete') ||
@@ -104,17 +86,17 @@
                                         ? 'congressman'
                                         : 'not-congressman'),
                             )"
-                        classes="btn btn-sm btn-micro btn-danger"
+                        classes="btn btn-sm  btn-danger"
                         title="Deletar Comentário"
                         :model="comment"
-                        swal-title="Deseja realmente DELETAR este comentário?"
+                        swal-title="Deseja realmente DELETAR este comentários?"
                         label=""
                         icon="fa fa-trash"
                         store="entryComments"
                         method="delete"
                         :spinner-config="{ size: '0.02em' }"
                         :swal-message="{ r200: 'Deletado com sucesso' }"
-                            
+                            :model-id="comment.id"
                             >
                     </app-action-button>
 
@@ -157,7 +139,7 @@ export default {
         ...mapGetters({
             congressmanBudgetsClosedAt: 'congressmanBudgets/selectedClosedAt',
         }),
-        ...mapState(service.name, ['tableLoading'])
+        ...mapState(service.name, ['tableLoading', 'showComponent'])
     },
 
     methods: {
@@ -200,9 +182,9 @@ export default {
             if (filled(this.form.id)) {
                 this.clearForm()
             }
-
             this.showModal = true
         },
     },
 }
 </script>
+
