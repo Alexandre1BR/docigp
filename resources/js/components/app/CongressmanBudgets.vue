@@ -78,32 +78,30 @@
                     v-if="can('congressman-budgets:show')"
                     class="align-middle text-center text-uppercase"
                 >
-                 <app-badge
-                    color="#e3342f,#FFFFFF"
-                    padding="1"
-                >
-                    <app-active-badge
+                
+                    <app-status-badge
                         :value="congressmanBudget.closed_at"
                         title='Fechado'
                         :labels="['sim', 'não']"
                         class="text-uppercase"
-                    ></app-active-badge>
+                    ></app-status-badge>
                     
                      
-                    <app-active-badge
+                    <app-status-badge
                         :value="congressmanBudget.analysed_at"
                         title='Analisado'
                         :labels="['sim', 'não']"
                         class="text-uppercase"
-                    ></app-active-badge>
+                    ></app-status-badge>
                     
-                    <app-active-badge
+                    <app-status-badge
                         :value="congressmanBudget.published_at"
                         title='Publicidade'
                         :labels="['público', 'privado']"
                         class="text-uppercase"
-                    ></app-active-badge>
-                 </app-badge>
+                        style="border-radius=0.1px"
+                    ></app-status-badge>
+                
                 </td>
 
                 <td v-if="can('congressman-budgets:show')" class="align-middle text-right">
