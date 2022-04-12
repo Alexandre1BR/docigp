@@ -1,23 +1,31 @@
 <template>
     <div>
-        <span class="badge d-block rounded-0" :class="getColor()">
-            {{ labels[!value ? 1 : 0] }}
-        </span>
+        <div v-for="(item, key) in rows" :class="getColor(item)" style="font-size: 9.6px; font-weight: 700">
+             &bull;
+            {{ item.title }}
+            {{ item.labels[!item.value ? 1 : 0] }}
+             
+            <!-- <span class="badge d-block" :class="getColor()">
+                {{title}} 
+                {{ key == 0 ? "first" : key == rows.length - 1 ? "last" : "mid" }}
+                {{ labels[!value ? 1 : 0] }}        
+            </span> !-->
+        </div>
     </div>
 </template>
 
 <script>
 export default {
-    props: ['value', 'labels', 'color'],
+    props: ["rows"],
 
     methods: {
-        getColor() {
-            if (!this.color) {
-                return !this.value ? 'badge-danger' : 'badge-success'
+        getColor(row) {
+            if (!row.color) {
+                return !row.value ? "badge-danger" : "badge-success";
             }
 
-            return 'badge-' + this.color
-        },
-    },
-}
+            return "badge-" + row.color;
+        }
+    }
+};
 </script>

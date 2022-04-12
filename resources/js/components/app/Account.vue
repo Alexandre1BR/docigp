@@ -20,11 +20,11 @@
             <app-entries v-if="congressmanBudgets.selected.id"></app-entries>
         </div>
 
-        <div class="col-12">
+        <div class="col-md-6">
             <app-documents v-if="entries.selected.id"></app-documents>
         </div>
 
-        <div class="col-12">
+        <div class="col-md-6">
             <app-comments v-if="entries.selected.id"></app-comments>
         </div>
     </div>
