@@ -1,75 +1,80 @@
-
 // Custom Code
-
-
 
 // Styles
 
 .navbar-laravel {
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
 
-
-
-
-td:first-child, th:first-child {
-  padding-left: 15px !important;
+td:first-child,
+th:first-child {
+    padding-left: 15px !important;
 }
-td:last-child, th:last-child {
-  padding-right: 15px !important;
+td:last-child,
+th:last-child {
+    padding-right: 15px !important;
 }
 th {
-  background-color: #0a008a;
-  color: white;
+    background-color: #0a008a;
+    color: white;
 }
 .cursor-pointer {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 .bg-filters {
-  background: $grey-lighter03;
+    background: $grey-lighter03;
 }
 .bg-primary {
-  background: $blue-lighter02;
+    background: $blue-lighter02;
 }
 .bg-cyan {
-  background-color: $cyan-light;
+    background-color: $cyan-light;
 }
 
-
 .form-check-input {
-  position: relative;
-  margin-left: 0 !important;
+    position: relative;
+    margin-left: 0 !important;
 }
 
 .fa-align-middle {
-  vertical-align: middle;
+    vertical-align: middle;
 }
 
-.btn.disabled, .btn:disabled {
-  opacity: 0.35;
+.btn.disabled,
+.btn:disabled {
+    opacity: 0.35;
 }
 
 .modal-backdrop {
-  opacity: 0.6 !important;
+    opacity: 0.6 !important;
 
-  // Fade for backdrop
-  &.fade { opacity: 0.6; }
-  &.show { opacity: 0.6; }
+    // Fade for backdrop
+    &.fade {
+        opacity: 0.6;
+    }
+    &.show {
+        opacity: 0.6;
+    }
 }
-
-
-
-
 
 // Breno´s Mods
 
 .long-name {
-  background: #92a345;
-  color: #ffffff;
-  padding: 3px;
+    background: #92a345;
+    color: #ffffff;
+    padding: 3px;
 }
-h1, .h1 {
-  color: #212E52;
+h1,
+.h1 {
+    color: #212e52;
+}
+
+.btn-block2 {
+    display: block;
+    width: 100%;
+}
+.btn-block2 + .btn-block2 {
+    margin-top: 1px;
 }

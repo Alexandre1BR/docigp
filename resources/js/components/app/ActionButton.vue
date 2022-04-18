@@ -5,14 +5,9 @@
         :title="title"
         @click="pressButton(model)"
         :dusk="dusk"
-        
+        class="btn-block2"
     >
-        <pulse-loader
-            v-if="loading"
-            :color="spinnerColor"
-            :loading="true"
-            :size="spinnerSize"
-        >
+        <pulse-loader v-if="loading" :color="spinnerColor" :loading="true" :size="spinnerSize">
         </pulse-loader>
         <span v-else :class="icon"> {{ label }}</span>
     </button>
@@ -36,8 +31,6 @@ export default {
         'is-delete-entry',
         'model-id',
         'dusk',
-        
-        
     ],
 
     data() {
@@ -69,19 +62,21 @@ export default {
                     title: $this.swalTitle,
                     icon: 'warning',
                 })
-                .then(result => {
+                .then((result) => {
                     if (result.value) {
                         $this.loading = true
                         $this.$store
                             .dispatch($this.store + '/' + $this.method, model)
-                            .then(response => {
+                            .then((response) => {
                                 $this.loading = false
 
-                                if($this.method == 'delete'){
+                                if ($this.method == 'delete') {
                                     $this.$store.commit($this.store + '/mutateForcedUpdate', null)
-                                    $this.$store.dispatch($this.store + '/setDataAfterDelete', $this.modelId)
-                                    
-                                }else {
+                                    $this.$store.dispatch(
+                                        $this.store + '/setDataAfterDelete',
+                                        $this.modelId,
+                                    )
+                                } else {
                                     this.$store.commit(
                                         $this.store + '/mutateSetDataRow',
                                         response.data,
@@ -95,33 +90,24 @@ export default {
                                     showCancelButton: false,
                                     timer: 2000,
                                     icon: 'success',
-                                    title:
-                                        $this.swalMessage?.r200 ??
-                                        'Salvo com sucesso',
+                                    title: $this.swalMessage?.r200 ?? 'Salvo com sucesso',
                                 })
                             })
-                            .catch(error => {
+                            .catch((error) => {
                                 var title = ''
                                 switch (error.response.status) {
                                     case 404:
-                                        title =
-                                            $this.swalMessage?.r404 ??
-                                            'Pagina não encontrada'
+                                        title = $this.swalMessage?.r404 ?? 'Pagina não encontrada'
                                         break
                                     case 401:
-                                        title =
-                                            $this.swalMessage?.r401 ??
-                                            'Ação não autorizada'
+                                        title = $this.swalMessage?.r401 ?? 'Ação não autorizada'
                                         break
                                     case 422:
                                         title =
-                                            $this.swalMessage?.r422 ??
-                                            'Verifique as informações'
+                                            $this.swalMessage?.r422 ?? 'Verifique as informações'
                                         break
                                     case 403:
-                                        title =
-                                            $this.swalMessage?.r403 ??
-                                            'Ação não autorizada'
+                                        title = $this.swalMessage?.r403 ?? 'Ação não autorizada'
                                         break
                                     case 500:
                                         title =
