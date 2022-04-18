@@ -120,15 +120,15 @@
                             caption="não"
                             color="#38c172,#fff"
                             padding="1"
-                            font-size='12px'
+                            
 
                         ></app-badge>
 
                         <app-badge
                             v-if="entry.pendencies.length > 0"
-                            color="ccc, ccc"
+                            color="#e3342f,#FFFFFF"
                             padding="1"
-                            font-size='12px'
+                            
                         >
                             <div class="text-uppercase" v-for="pendency in entry.pendencies">
                                 &bull; {{ pendency }}

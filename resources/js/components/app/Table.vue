@@ -88,17 +88,8 @@ export default {
             return (
                 component.hasOwnProperty("type") &&
                 component.type == componentName
-<<<<<<< HEAD
             );
         }
     }
 };
-=======
-            )
-        },
-        
-
-    },
-}
->>>>>>> fronEnd
 </script>
