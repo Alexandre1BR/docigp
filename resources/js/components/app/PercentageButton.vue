@@ -5,7 +5,7 @@
         :title="title"
         @click="editPercentage(model)"
         :dusk="dusk"
-        class="btn-block2"
+        class="col-xl-5 button"
     >
         <pulse-loader v-if="loading" color="white" :loading="true" :size="'0.4em'"> </pulse-loader>
         <span v-else :class="icon"> {{ label }}</span>

@@ -78,7 +78,7 @@
 
                     <td
                         v-if="can('congressman-budgets:show')"
-                        class="align-middle text-center text-uppercase"
+                        class="align-middle text-center"
                     >
                         <app-status-badge
                             class="text-uppercase"
@@ -102,7 +102,8 @@
                         ></app-status-badge>
                     </td>
 
-                    <td v-if="can('congressman-budgets:show')" class="align-middle text-right">
+                    <td v-if="can('congressman-budgets:show')" class="align-middle">
+                        <div class="form-row justify-content-center">
                         <app-action-button
                             v-if="
                                 getCongressmanBudgetState(congressmanBudget).buttons.deposit.visible
@@ -285,6 +286,7 @@
                             model="congressmanBudgets"
                             :row="congressmanBudget"
                         ></app-audits-button>
+                        </div>
                     </td>
                 </tr>
             </app-table>

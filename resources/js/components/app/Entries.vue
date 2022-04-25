@@ -158,8 +158,8 @@
                             ]"
                         ></app-status-badge>
                     </td>
-                    <td class="align-middle text-right">
-                        <div>
+                    <td class="align-middle">
+                         <div class="form-row justify-content-center">
                             <app-action-button
                                 v-if="getEntryState(entry).buttons.verify.visible"
                                 :disabled="getEntryState(entry).buttons.verify.disabled"
@@ -178,7 +178,7 @@
                             <app-action-button
                                 v-if="getEntryState(entry).buttons.unverify.visible"
                                 :disabled="getEntryState(entry).buttons.unverify.disabled"
-                                classes="btn btn-micro  btn-warning"
+                                classes="btn btn-micro btn-warning"
                                 :title="getEntryState(entry).buttons.unverify.title"
                                 :model="entry"
                                 swal-title="Remover verificação deste lançamento?"
@@ -193,7 +193,7 @@
                             <app-action-button
                                 v-if="getEntryState(entry).buttons.analyse.visible"
                                 :disabled="getEntryState(entry).buttons.analyse.disabled"
-                                classes="btn btn-micro  btn-success"
+                                classes="btn btn-micro btn-success"
                                 :title="getEntryState(entry).buttons.analyse.title"
                                 :model="entry"
                                 swal-title="Analisar este lançamento?"
@@ -208,7 +208,7 @@
                             <app-action-button
                                 v-if="getEntryState(entry).buttons.unanalyse.visible"
                                 :disabled="getEntryState(entry).buttons.unanalyse.disabled"
-                                classes="btn btn-micro  btn-danger"
+                                classes="btn btn-micro btn-danger"
                                 :title="getEntryState(entry).buttons.unanalyse.title"
                                 :model="entry"
                                 swal-title="Remover análise deste lançamento?"
@@ -222,7 +222,7 @@
                             <app-action-button
                                 v-if="getEntryState(entry).buttons.publish.visible"
                                 :disabled="getEntryState(entry).buttons.publish.disabled"
-                                classes="btn btn-micro  btn-danger"
+                                classes="btn btn-micro btn-danger"
                                 :title="getEntryState(entry).buttons.publish.title"
                                 :model="entry"
                                 swal-title="Publicar este lançamento?"
@@ -236,7 +236,7 @@
                             <app-action-button
                                 v-if="getEntryState(entry).buttons.unpublish.visible"
                                 :disabled="getEntryState(entry).buttons.unpublish.disabled"
-                                classes="btn btn-micro  btn-danger"
+                                classes="btn btn-micro btn-danger"
                                 :title="getEntryState(entry).buttons.unpublish.title"
                                 :model="entry"
                                 swal-title="Despublicar este lançamento?"
@@ -247,20 +247,10 @@
                             >
                             </app-action-button>
 
-                            <button
-                                v-if="getEntryState(entry).buttons.edit.visible"
-                                :disabled="getEntryState(entry).buttons.edit.disabled"
-                                class="btn btn-micro btn-primary btn-block2"
-                                @click="editEntry(entry)"
-                                :title="getEntryState(entry).buttons.edit.title"
-                            >
-                                <i class="fa fa-edit"></i>
-                            </button>
-
                             <app-action-button
                                 v-if="getEntryState(entry).buttons.delete.visible"
                                 :disabled="getEntryState(entry).buttons.delete.disabled"
-                                classes="btn btn-micro  btn-danger"
+                                classes="btn btn-micro btn-danger"
                                 :title="getEntryState(entry).buttons.delete.title"
                                 :model="entry"
                                 swal-title="Deseja realmente deletar este lançamento?"
@@ -273,6 +263,16 @@
                                 :is-delete-entry="true"
                             >
                             </app-action-button>
+
+                            <button
+                                v-if="getEntryState(entry).buttons.edit.visible"
+                                :disabled="getEntryState(entry).buttons.edit.disabled"
+                                class="col-lg-5 btn btn-micro btn-primary button"
+                                @click="editEntry(entry)"
+                                :title="getEntryState(entry).buttons.edit.title"
+                            >
+                                <i class="fa fa-edit"></i>
+                            </button>
 
                             <app-audits-button model="entries" :row="entry"></app-audits-button>
                         </div>

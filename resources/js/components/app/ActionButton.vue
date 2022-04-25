@@ -5,7 +5,7 @@
         :title="title"
         @click="pressButton(model)"
         :dusk="dusk"
-        class="btn-block2"
+        class="col-xl-5 button"
     >
         <pulse-loader v-if="loading" :color="spinnerColor" :loading="true" :size="spinnerSize">
         </pulse-loader>

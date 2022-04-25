@@ -1,8 +1,8 @@
 <template>
-    <span>
+    <span class="col-xl-5 text-center button">
         <b-button
             v-if="can('audits:show')"
-            class="btn btn-micro btn-primary btn-block2"
+            class="btn-micro btn-block btn-primary"
             @click="activityLog(row)"
             title="Logs"
             ><i class="fas fa-clipboard-list"></i

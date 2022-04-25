@@ -2,7 +2,7 @@
     <div>
         <div class="table-responsive">
             <table
-                class="table table-md table-hover table-borderless table-striped card-body mb-0"
+                class="table table-sm table-hover table-borderless table-striped card-body mb-0"
             >
                 <thead>
                     <tr>
