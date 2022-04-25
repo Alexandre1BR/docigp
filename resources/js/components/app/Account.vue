@@ -1,7 +1,7 @@
 <template>
     <div>
 
-    <div class="row justify-content-center">
+    <div class="row justify-content-center pt-2">
         <div class="col-12">
             <h1 class="text-center">Prestação de Contas</h1>
         </div>

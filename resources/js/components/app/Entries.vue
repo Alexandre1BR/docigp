@@ -250,7 +250,7 @@
                             <app-action-button
                                 v-if="getEntryState(entry).buttons.delete.visible"
                                 :disabled="getEntryState(entry).buttons.delete.disabled"
-                                classes="btn btn-micro btn-danger"
+                                classes="btn btn-micro  btn-danger"
                                 :title="getEntryState(entry).buttons.delete.title"
                                 :model="entry"
                                 swal-title="Deseja realmente deletar este lançamento?"
@@ -267,7 +267,7 @@
                             <button
                                 v-if="getEntryState(entry).buttons.edit.visible"
                                 :disabled="getEntryState(entry).buttons.edit.disabled"
-                                class="col-lg-5 btn btn-micro btn-primary button"
+                                class="col-xl-5 btn btn-micro btn-primary button"
                                 @click="editEntry(entry)"
                                 :title="getEntryState(entry).buttons.edit.title"
                             >
