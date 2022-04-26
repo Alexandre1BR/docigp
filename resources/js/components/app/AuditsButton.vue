@@ -1,12 +1,11 @@
 <template>
-    <span class="col-xl-5 text-center button">
-        <b-button
-            v-if="can('audits:show')"
-            class="btn-micro btn-block btn-primary"
-            @click="activityLog(row)"
-            title="Logs"
-            ><i class="fas fa-clipboard-list"></i
-        ></b-button>
+    <b-button
+        v-if="can('audits:show')"
+        class="justify-content-center btn btn-micro btn-primary button"
+        @click="activityLog(row)"
+        title="Logs"
+    >
+        <i class="fas fa-clipboard-list"></i>
 
         <b-modal size="xl" v-model="showAuditsModal" ok-only title="Logs">
             <div class="table-responsive">
@@ -62,7 +61,7 @@
                 </table>
             </div>
         </b-modal>
-    </span>
+    </b-button>
 </template>
 
 <script>

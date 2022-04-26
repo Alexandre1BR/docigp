@@ -1,112 +1,113 @@
 <template>
-
     <div>
-    <div>
-    <app-table-panel
-        :title="'Comentários'"
-        titleCollapsed="Comentários"
-        :per-page="perPage"
-        :filter-text="filterText"
-        @input-filter-text="filterText = $event.target.value"
-        @set-per-page="perPage = $event"
-        :collapsedLabel="selected.name"
-        :is-selected="selected.id !== null"
-        :subTitle="entries.selected.object + ' - ' + entries.selected.value_formatted"
-        v-if="environment.user != null"
-        :isLoading="tableLoading"
-    >
-        <template slot="buttons">
-            <button
-                v-if="can('entry-comments:store')"
-                :disabled="!can('entry-comments:store')"
-                class="btn btn-primary btn-sm pull-right"
-                @click="createComment()"
-                title="Novo Comentário"
-                dusk="newEntryComment"
-                id="commentButton"
+        <div>
+            <app-table-panel
+                :title="'Comentários'"
+                titleCollapsed="Comentários"
+                :per-page="perPage"
+                :filter-text="filterText"
+                @input-filter-text="filterText = $event.target.value"
+                @set-per-page="perPage = $event"
+                :collapsedLabel="selected.name"
+                :is-selected="selected.id !== null"
+                :subTitle="entries.selected.object + ' - ' + entries.selected.value_formatted"
+                v-if="environment.user != null"
+                :isLoading="tableLoading"
             >
-                <i class="fa fa-plus"></i>
-            </button>
-        </template>
-
-
-
-        <app-table
-            :pagination="pagination"
-            @goto-page="gotoPage($event)"
-            :columns="getTableColumns()"
-        >
-            <tr
-                @click="selectEntryComment(comment)"
-                v-for="comment in entryComments.data.rows"
-                :class="{
-                    'cursor-pointer': true,
-                    'bg-primary-lighter text-white': isCurrent(comment, selected),
-                }"
-            >
-                <td v-if="can('tables:view-ids')" class="align-middle">{{ comment.id }}</td>
-
-                <td class="align-middle">
-                    {{ comment.text }}
-                </td>
-
-                <td class="align-middle text-left">
-                    {{ comment.user.name }}
-                </td>
-
-                <td class="align-middle text-left">
-                    {{ comment.formatted_created_at }}
-                </td>
-
-                <td class="align-middle text-center">
+                <template slot="buttons">
                     <button
-                        :disabled="
-                            !can('entry-comments:update') ||
-                            !can(
-                                'entry-comments:update:' +
-                                    (comment.creator_is_congressman
-                                        ? 'congressman'
-                                        : 'not-congressman'),
-                            )
-                        "
-                        class="btn btn-sm  btn-primary"
-                        @click="editComment(comment)"
-                        title="Editar comentário"
-                        dusk="editComment"
+                        v-if="can('entry-comments:store')"
+                        :disabled="!can('entry-comments:store')"
+                        class="btn btn-primary btn-sm pull-right"
+                        @click="createComment()"
+                        title="Novo Comentário"
+                        dusk="newEntryComment"
+                        id="commentButton"
                     >
-                        <i class="fa fa-edit"></i>
+                        <i class="fa fa-plus"></i>
                     </button>
+                </template>
 
+                <app-table
+                    :pagination="pagination"
+                    @goto-page="gotoPage($event)"
+                    :columns="getTableColumns()"
+                >
+                    <tr
+                        @click="selectEntryComment(comment)"
+                        v-for="comment in entryComments.data.rows"
+                        :class="{
+                            'cursor-pointer': true,
+                            'bg-primary-lighter text-white': isCurrent(comment, selected),
+                        }"
+                    >
+                        <td v-if="can('tables:view-ids')" class="align-middle">{{ comment.id }}</td>
 
-                    <app-action-button
-                        :disabled="!can('entry-comments:delete') ||
-                            !can(
-                                'entry-comments:delete:' +
-                                    (comment.creator_is_congressman
-                                        ? 'congressman'
-                                        : 'not-congressman'),
-                            )"
-                        classes="btn btn-sm  btn-danger"
-                        title="Deletar Comentário"
-                        :model="comment"
-                        swal-title="Deseja realmente DELETAR este comentários?"
-                        label=""
-                        icon="fa fa-trash"
-                        store="entryComments"
-                        method="delete"
-                        :spinner-config="{ size: '0.02em' }"
-                        :swal-message="{ r200: 'Deletado com sucesso' }"
+                        <td class="align-middle">
+                            {{ comment.text }}
+                        </td>
+
+                        <td class="align-middle text-left">
+                            {{ comment.user.name }}
+                        </td>
+
+                        <td class="align-middle text-left">
+                            {{ comment.formatted_created_at }}
+                        </td>
+
+                        <td class="align-middle text-center">
+                            <button
+                                :disabled="
+                                    !can('entry-comments:update') ||
+                                    !can(
+                                        'entry-comments:update:' +
+                                            (comment.creator_is_congressman
+                                                ? 'congressman'
+                                                : 'not-congressman'),
+                                    )
+                                "
+                                class="btn btn-micro btn-primary"
+                                @click="editComment(comment)"
+                                title="Editar comentário"
+                                dusk="editComment"
                             >
-                    </app-action-button>
+                                <i class="fa fa-edit"></i>
+                            </button>
 
-                    <app-audits-button model="entryComments" :row="comment"></app-audits-button>
-                </td>
-            </tr>
-        </app-table>
+                            <app-action-button
+                                :disabled="
+                                    !can('entry-comments:delete') ||
+                                    !can(
+                                        'entry-comments:delete:' +
+                                            (comment.creator_is_congressman
+                                                ? 'congressman'
+                                                : 'not-congressman'),
+                                    )
+                                "
+                                classes="btn btn-micro btn-danger"
+                                title="Deletar Comentário"
+                                :model="comment"
+                                swal-title="Deseja realmente DELETAR este comentários?"
+                                label=""
+                                icon="fa fa-trash"
+                                store="entryComments"
+                                method="delete"
+                                :spinner-config="{ size: '0.02em' }"
+                                :swal-message="{ r200: 'Deletado com sucesso' }"
+                            >
+                            </app-action-button>
 
-        <app-comment-form :show.sync="showModal"></app-comment-form>
-    </app-table-panel>
-    </div>
+                            <app-audits-button
+                                model="entryComments"
+                                :row="comment"
+                            ></app-audits-button>
+                        </td>
+                    </tr>
+                </app-table>
+
+                <app-comment-form :show.sync="showModal"></app-comment-form>
+            </app-table-panel>
+        </div>
     </div>
 </template>
 <script>
@@ -138,7 +139,7 @@ export default {
         ...mapGetters({
             congressmanBudgetsClosedAt: 'congressmanBudgets/selectedClosedAt',
         }),
-        ...mapState(service.name, ['tableLoading'])
+        ...mapState(service.name, ['tableLoading']),
     },
 
     methods: {
@@ -186,4 +187,3 @@ export default {
     },
 }
 </script>
-
