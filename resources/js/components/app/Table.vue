@@ -1,26 +1,28 @@
 <template>
     <div>
         <div class="table-responsive">
-            <table
-                class="table table-sm table-hover table-borderless table-striped card-body mb-0"
-            >
+            <table class="table table-sm table-hover table-borderless table-striped card-body mb-0">
                 <thead>
                     <tr>
                         <slot name="thead"></slot>
                         <th
                             v-if="columns"
                             v-for="column in columns"
-                            :class="isObject(column) ? column.trClass : ''"
+                            :class="
+                                isObject(column)
+                                    ? column.title === 'Status'
+                                        ? 'col-' + statusSize + ' ' + column.trClass
+                                        : column.title === 'Ações'
+                                        ? 'col-' + actionsSize + ' ' + column.trClass
+                                        : column.trClass
+                                    : ''
+                            "
                         >
                             <span v-if="!isObject(column)">
                                 {{ column }}
                             </span>
 
-                            <span
-                                v-if="isComponent(column, 'label')"
-                                v-html="column.title"
-                            >
-                            </span>
+                            <span v-if="isComponent(column, 'label')" v-html="column.title"> </span>
 
                             <span v-if="column.title === 'Solicitado'">
                                 <b-button
@@ -47,12 +49,7 @@
 
                             <span v-if="isComponent(column, 'checkbox')">
                                 <input
-                                    @change="
-                                        $emit(
-                                            'input-checkbox-' + column.id,
-                                            $event
-                                        )
-                                    "
+                                    @change="$emit('input-checkbox-' + column.id, $event)"
                                     type="checkbox"
                                     :id="column.id"
                                 />
@@ -77,19 +74,16 @@
 
 <script>
 export default {
-    props: ["pagination", "columns", "rows"],
+    props: ['pagination', 'columns', 'rows', 'statusSize', 'actionsSize'],
 
     methods: {
         isObject(target) {
-            return is_object(target);
+            return is_object(target)
         },
 
         isComponent(component, componentName) {
-            return (
-                component.hasOwnProperty("type") &&
-                component.type == componentName
-            );
-        }
-    }
-};
+            return component.hasOwnProperty('type') && component.type == componentName
+        },
+    },
+}
 </script>

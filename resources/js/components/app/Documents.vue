@@ -29,6 +29,8 @@
                 :pagination="pagination"
                 @goto-page="gotoPage($event)"
                 :columns="getTableColumns()"
+                statusSize="2"
+                actionsSize="5"
             >
                 <tr
                     @click="selectEntryDocument(document)"
@@ -72,7 +74,7 @@
                             <app-action-button
                                 v-if="getEntryDocumentState(document).buttons.verify.visible"
                                 :disabled="getEntryDocumentState(document).buttons.verify.disabled"
-                                classes="btn btn-micro  btn-primary col-xl-5 col-sm-6"
+                                classes="btn btn-micro  btn-primary col-xl-3 col-sm-6"
                                 :title="getEntryDocumentState(document).buttons.verify.title"
                                 :model="document"
                                 swal-title="Verificar este documento?"
@@ -89,7 +91,7 @@
                                 :disabled="
                                     getEntryDocumentState(document).buttons.unverify.disabled
                                 "
-                                classes="btn btn-micro  btn-warning col-xl-5 col-sm-6"
+                                classes="btn btn-micro  btn-warning col-xl-3 col-sm-6"
                                 :title="getEntryDocumentState(document).buttons.unverify.title"
                                 :model="document"
                                 swal-title="Retirar verificação deste documento?"
@@ -104,7 +106,7 @@
                             <app-action-button
                                 v-if="getEntryDocumentState(document).buttons.analyse.visible"
                                 :disabled="getEntryDocumentState(document).buttons.analyse.disabled"
-                                classes="btn btn-micro  btn-success col-xl-5 col-sm-6"
+                                classes="btn btn-micro  btn-success col-xl-3 col-sm-6"
                                 :title="getEntryDocumentState(document).buttons.analyse.title"
                                 :model="document"
                                 swal-title="Deseja analisar este documento?"
@@ -121,7 +123,7 @@
                                 :disabled="
                                     getEntryDocumentState(document).buttons.unanalyse.disabled
                                 "
-                                classes="btn btn-micro  btn-danger col-xl-5 col-sm-6"
+                                classes="btn btn-micro  btn-danger col-xl-3 col-sm-6"
                                 :title="getEntryDocumentState(document).buttons.unanalyse.title"
                                 :model="document"
                                 swal-title="Retirar a análise deste documento?"
@@ -136,7 +138,7 @@
                             <app-action-button
                                 v-if="getEntryDocumentState(document).buttons.publish.visible"
                                 :disabled="getEntryDocumentState(document).buttons.publish.disabled"
-                                classes="btn btn-micro  btn-danger col-xl-5 col-sm-6"
+                                classes="btn btn-micro  btn-danger col-xl-3 col-sm-6"
                                 :title="getEntryDocumentState(document).buttons.publish.title"
                                 :model="document"
                                 swal-title="Deseja tornar este documento público?"
@@ -153,7 +155,7 @@
                                 :disabled="
                                     getEntryDocumentState(document).buttons.unpublish.disabled
                                 "
-                                classes="btn btn-micro  btn-success col-xl-5 col-sm-6"
+                                classes="btn btn-micro  btn-success col-xl-3 col-sm-6"
                                 :title="getEntryDocumentState(document).buttons.unpublish.title"
                                 :model="document"
                                 swal-title="Deseja despublicar este documento?"

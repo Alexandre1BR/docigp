@@ -44,6 +44,8 @@
                 :pagination="pagination"
                 @goto-page="gotoPage($event)"
                 :columns="getTableColumns()"
+                statusSize="1"
+                actionsSize="2"
             >
                 <tr
                     @click="selectEntry(entry)"
@@ -160,7 +162,7 @@
                             <app-action-button
                                 v-if="getEntryState(entry).buttons.verify.visible"
                                 :disabled="getEntryState(entry).buttons.verify.disabled"
-                                classes="col-xl-5 btn btn-micro btn-primary"
+                                classes="col-xl-3 col-lg-5 btn btn-micro btn-primary"
                                 :title="getEntryState(entry).buttons.verify.title"
                                 :model="entry"
                                 swal-title="Verificar este lançamento?"
@@ -175,7 +177,7 @@
                             <app-action-button
                                 v-if="getEntryState(entry).buttons.unverify.visible"
                                 :disabled="getEntryState(entry).buttons.unverify.disabled"
-                                classes="col-xl-5 btn btn-micro btn-warning"
+                                classes="col-xl-3 col-lg-5 btn btn-micro btn-warning"
                                 :title="getEntryState(entry).buttons.unverify.title"
                                 :model="entry"
                                 swal-title="Remover verificação deste lançamento?"
@@ -190,7 +192,7 @@
                             <app-action-button
                                 v-if="getEntryState(entry).buttons.analyse.visible"
                                 :disabled="getEntryState(entry).buttons.analyse.disabled"
-                                classes="col-xl-5 btn btn-micro btn-success"
+                                classes="col-xl-3 col-lg-5 btn btn-micro btn-success"
                                 :title="getEntryState(entry).buttons.analyse.title"
                                 :model="entry"
                                 swal-title="Analisar este lançamento?"
@@ -205,7 +207,7 @@
                             <app-action-button
                                 v-if="getEntryState(entry).buttons.unanalyse.visible"
                                 :disabled="getEntryState(entry).buttons.unanalyse.disabled"
-                                classes="col-xl-5 btn btn-micro btn-danger"
+                                classes="col-xl-3 col-lg-5 btn btn-micro btn-danger"
                                 :title="getEntryState(entry).buttons.unanalyse.title"
                                 :model="entry"
                                 swal-title="Remover análise deste lançamento?"
@@ -219,7 +221,7 @@
                             <app-action-button
                                 v-if="getEntryState(entry).buttons.publish.visible"
                                 :disabled="getEntryState(entry).buttons.publish.disabled"
-                                classes="col-xl-5 btn btn-micro btn-danger"
+                                classes="col-xl-3 col-lg-5 btn btn-micro btn-danger"
                                 :title="getEntryState(entry).buttons.publish.title"
                                 :model="entry"
                                 swal-title="Publicar este lançamento?"
@@ -233,7 +235,7 @@
                             <app-action-button
                                 v-if="getEntryState(entry).buttons.unpublish.visible"
                                 :disabled="getEntryState(entry).buttons.unpublish.disabled"
-                                classes="col-xl-5 btn btn-micro btn-danger"
+                                classes="col-xl-3 col-lg-5 btn btn-micro btn-danger"
                                 :title="getEntryState(entry).buttons.unpublish.title"
                                 :model="entry"
                                 swal-title="Despublicar este lançamento?"
@@ -243,11 +245,11 @@
                                 method="unpublish"
                             >
                             </app-action-button>
-                            <div class="col-md-12 button text-center">
+                            <div class="col-md-12 text-center">
                                 <app-action-button
                                     v-if="getEntryState(entry).buttons.delete.visible"
                                     :disabled="getEntryState(entry).buttons.delete.disabled"
-                                    classes="btn btn-micro  btn-danger"
+                                    classes="btn btn-micro  btn-danger smallButton"
                                     :title="getEntryState(entry).buttons.delete.title"
                                     :model="entry"
                                     swal-title="Deseja realmente deletar este lançamento?"
@@ -264,7 +266,7 @@
                                 <button
                                     v-if="getEntryState(entry).buttons.edit.visible"
                                     :disabled="getEntryState(entry).buttons.edit.disabled"
-                                    class="btn btn-micro btn-primary button"
+                                    class="btn btn-micro btn-primary button smallButton"
                                     @click="editEntry(entry)"
                                     :title="getEntryState(entry).buttons.edit.title"
                                 >
@@ -272,7 +274,7 @@
                                 </button>
 
                                 <app-audits-button
-                                    class=""
+                                    class="smallButton"
                                     model="entries"
                                     :row="entry"
                                 ></app-audits-button>
