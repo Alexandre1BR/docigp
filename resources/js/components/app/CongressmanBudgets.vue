@@ -352,7 +352,7 @@
                     :refund="true"
                 ></app-entry-form>
             </div>
-            
+
             <div class="d-lg-none">
                 <app-table
                     :pagination="pagination"
@@ -376,129 +376,190 @@
                                 <div class="card-header" id="headingOne">
                                     <h5 class="mb-0">
                                         <button
-                                            class="btn"
+                                            class="btn w-100"
                                             data-toggle="collapse"
                                             data-target="#collapseOne"
                                             aria-expanded="true"
                                             aria-controls="collapseOne"
                                         >
-                                            <td
-                                                v-if="can('tables:view-ids')"
-                                                class="align-middle"
-                                            >
-                                                {{ congressmanBudget.id }}
-                                            </td>
-
-                                            <td class="align-middle">
-                                                {{
-                                                    makeDate(congressmanBudget)
-                                                }}
-                                            </td>
-
-                                            <!-- <td class="align-middle text-right">
-                    {{ congressmanBudget.state_value_formatted }}
-                </td> -->
-
-                                            <td class="align-middle text-right">
-                                                {{
-                                                    congressmanBudget.percentage_formatted
-                                                }}
-                                            </td>
-
-                                            <td class="align-middle text-right">
-                                                {{
-                                                    congressmanBudget.value_formatted
-                                                }}
-                                            </td>
-
-                                            <td class="align-middle text-right">
-                                                {{
-                                                    congressmanBudget.entries_count
-                                                }}
-                                            </td>
-
-                                            <td
-                                                v-if="
-                                                    can(
-                                                        'congressman-budgets:show'
-                                                    )
-                                                "
-                                                class="align-middle text-center"
-                                            >
-                                                <app-badge
-                                                    v-if="
-                                                        congressmanBudget
-                                                            .pendencies
-                                                            .length === 0
-                                                    "
-                                                    caption="não"
-                                                    color="#38c172,#FFFFFF"
-                                                    padding="1"
-                                                ></app-badge>
-
-                                                <app-badge
-                                                    v-if="
-                                                        congressmanBudget
-                                                            .pendencies.length >
-                                                            0
-                                                    "
-                                                    color="#e3342f,#FFFFFF"
-                                                    padding="1"
-                                                >
-                                                    <div
-                                                        class="text-uppercase"
-                                                        v-for="pendency in congressmanBudget.pendencies"
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-center">
+                                                        <span>#</span>
+                                                    </th>
+                                                    <th class="">
+                                                        <span>
+                                                            Ano / Mês
+                                                        </span>
+                                                    </th>
+                                                    <th class="text-right">
+                                                        <span>%</span>
+                                                    </th>
+                                                    <th class="text-right">
+                                                        <span>Solicitado</span>
+                                                        <span
+                                                            ><button
+                                                                data-toggle="tooltip"
+                                                                data-placement="top"
+                                                                title="Valor de referencia R$ 26.819,98"
+                                                                type="button"
+                                                                class="btn btn btn-micro btn-secondary"
+                                                            >
+                                                                <svg
+                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                    width="12"
+                                                                    height="12"
+                                                                    fill="currentColor"
+                                                                    viewBox="0 0 16 16"
+                                                                    class="bi bi-info-circle"
+                                                                >
+                                                                    <path
+                                                                        d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
+                                                                    ></path>
+                                                                    <path
+                                                                        d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"
+                                                                    ></path>
+                                                                </svg></button
+                                                        ></span>
+                                                    </th>
+                                                    <th class="text-right">
+                                                        <span>Lançamentos</span>
+                                                    </th>
+                                                    <th class="text-center">
+                                                        <span>Pendências</span>
+                                                    </th>
+                                                    <th
+                                                        class="col-2 text-center"
                                                     >
-                                                        &bull; {{ pendency
-                                                        }}<br />
-                                                    </div>
-                                                </app-badge>
-                                            </td>
+                                                        <span>Status</span>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <td
+                                                    v-if="
+                                                        can('tables:view-ids')
+                                                    "
+                                                    class="align-middle"
+                                                >
+                                                    {{ congressmanBudget.id }}
+                                                </td>
 
-                                            <td
-                                                v-if="
-                                                    can(
-                                                        'congressman-budgets:show'
-                                                    )
-                                                "
-                                                class="align-middle text-center"
-                                            >
-                                                <app-status-badge
-                                                    class="text-uppercase"
-                                                    :rows="[
-                                                        {
-                                                            value:
-                                                                congressmanBudget.closed_at,
-                                                            title:
-                                                                'Verificado: ',
-                                                            labels: [
-                                                                'sim',
-                                                                'não'
-                                                            ]
-                                                        },
-                                                        {
-                                                            value:
-                                                                congressmanBudget.analysed_at,
-                                                            title:
-                                                                'Analisado: ',
-                                                            labels: [
-                                                                'sim',
-                                                                'não'
-                                                            ]
-                                                        },
-                                                        {
-                                                            value:
-                                                                congressmanBudget.published_at,
-                                                            title:
-                                                                'Publicidade: ',
-                                                            labels: [
-                                                                'público',
-                                                                'privado'
-                                                            ]
-                                                        }
-                                                    ]"
-                                                ></app-status-badge>
-                                            </td>
+                                                <td class="align-middle">
+                                                    {{
+                                                        makeDate(
+                                                            congressmanBudget
+                                                        )
+                                                    }}
+                                                </td>
+
+                                                <td
+                                                    class="align-middle text-right"
+                                                >
+                                                    {{
+                                                        congressmanBudget.percentage_formatted
+                                                    }}
+                                                </td>
+
+                                                <td
+                                                    class="align-middle text-right"
+                                                >
+                                                    {{
+                                                        congressmanBudget.value_formatted
+                                                    }}
+                                                </td>
+
+                                                <td
+                                                    class="align-middle text-right"
+                                                >
+                                                    {{
+                                                        congressmanBudget.entries_count
+                                                    }}
+                                                </td>
+
+                                                <td
+                                                    v-if="
+                                                        can(
+                                                            'congressman-budgets:show'
+                                                        )
+                                                    "
+                                                    class="align-middle text-center"
+                                                >
+                                                    <app-badge
+                                                        v-if="
+                                                            congressmanBudget
+                                                                .pendencies
+                                                                .length === 0
+                                                        "
+                                                        caption="não"
+                                                        color="#38c172,#FFFFFF"
+                                                        padding="1"
+                                                    ></app-badge>
+
+                                                    <app-badge
+                                                        v-if="
+                                                            congressmanBudget
+                                                                .pendencies
+                                                                .length > 0
+                                                        "
+                                                        color="#e3342f,#FFFFFF"
+                                                        padding="1"
+                                                    >
+                                                        <div
+                                                            class="text-uppercase"
+                                                            v-for="pendency in congressmanBudget.pendencies"
+                                                        >
+                                                            &bull; {{ pendency
+                                                            }}<br />
+                                                        </div>
+                                                    </app-badge>
+                                                </td>
+
+                                                <td
+                                                    v-if="
+                                                        can(
+                                                            'congressman-budgets:show'
+                                                        )
+                                                    "
+                                                    class="align-middle text-center"
+                                                >
+                                                    <app-status-badge
+                                                        class="text-uppercase"
+                                                        :rows="[
+                                                            {
+                                                                value:
+                                                                    congressmanBudget.closed_at,
+                                                                title:
+                                                                    'Verificado: ',
+                                                                labels: [
+                                                                    'sim',
+                                                                    'não'
+                                                                ]
+                                                            },
+                                                            {
+                                                                value:
+                                                                    congressmanBudget.analysed_at,
+                                                                title:
+                                                                    'Analisado: ',
+                                                                labels: [
+                                                                    'sim',
+                                                                    'não'
+                                                                ]
+                                                            },
+                                                            {
+                                                                value:
+                                                                    congressmanBudget.published_at,
+                                                                title:
+                                                                    'Publicidade: ',
+                                                                labels: [
+                                                                    'público',
+                                                                    'privado'
+                                                                ]
+                                                            }
+                                                        ]"
+                                                    ></app-status-badge>
+                                                </td>
+                                            </tbody>
                                         </button>
                                     </h5>
                                 </div>
