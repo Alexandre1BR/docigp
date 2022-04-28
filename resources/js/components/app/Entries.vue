@@ -39,251 +39,615 @@
                     <i class="fa fa-plus"></i>
                 </button>
             </template>
-
-            <app-table
-                :pagination="pagination"
-                @goto-page="gotoPage($event)"
-                :columns="getTableColumns()"
-                statusSize="1"
-                actionsSize="2"
-            >
-                <tr
-                    @click="selectEntry(entry)"
-                    v-for="entry in entries.data.rows"
-                    :class="{
-                        'cursor-pointer': true,
-                        'bg-primary-lighter text-white': isCurrent(entry, selected),
-                    }"
-                    :dusk="'entrie'"
+            <div class="d-lg-none">
+                <app-table
+                    :pagination="pagination"
+                    @goto-page="gotoPage($event)"
+                    statusSize="1"
+                    actionsSize="2"
                 >
-                    <td v-if="can('tables:view-ids')" class="align-middle">
-                        {{ entry.id }}
-                    </td>
+                    <div
+                        @click="selectEntry(entry)"
+                        v-for="entry in entries.data.rows"
+                        :class="{
+                            'cursor-pointer': true,
+                            'bg-primary-lighter text-white': isCurrent(entry, selected),
+                        }"
+                        :dusk="'entrie'"
+                    >
+                        <div class="accordion">
+                            <div class="card">
+                                <div class="card-header" id="headingOne">
+                                    <h5 class="mb-0">
+                                        <button
+                                            class="btn w-100 collapsed"
+                                            data-toggle="collapse"
+                                            :data-target="'#x' + entry.id"
+                                            aria-expanded="false"
+                                            :aria-controls="'#x' + entry.id"
+                                        >
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-center">
+                                                        <span>#</span>
+                                                    </th>
+                                                    <th class="">
+                                                        <span> Data </span>
+                                                    </th>
+                                                    <th class="">
+                                                        <span> Objeto </span>
+                                                    </th>
+                                                    <th class="">
+                                                        <span> Favorecido </span>
+                                                    </th>
+                                                    <th class="text-right">
+                                                        <span>Documentos</span>
+                                                    </th>
+                                                    <th class="text-right">
+                                                        <span>Comentários</span>
+                                                    </th>
+                                                    <th class="text-right">
+                                                        <span>Valor</span>
+                                                    </th>
+                                                    <th class="text-center">
+                                                        <span>Tipo</span>
+                                                    </th>
+                                                    <th class="text-center">
+                                                        <span>Meio</span>
+                                                    </th>
+                                                    <th class="text-center">
+                                                        <span>Pendências</span>
+                                                    </th>
+                                                    <th class="col-1 text-center">
+                                                        <span>Status</span>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <td
+                                                    v-if="can('tables:view-ids')"
+                                                    class="align-middle"
+                                                >
+                                                    {{ entry.id }}
+                                                </td>
+                                                <td class="align-middle">
+                                                    {{ entry.date_formatted }}
+                                                </td>
 
-                    <td class="align-middle">{{ entry.date_formatted }}</td>
+                                                <td class="align-middle">
+                                                    {{ entry.object }}<br />
+                                                    <span>
+                                                        <small class="text-primary">
+                                                            {{ entry.cost_center_code }} -
+                                                            {{ entry.cost_center_name_formatted }}
+                                                        </small>
+                                                    </span>
+                                                </td>
 
-                    <td class="align-middle">
-                        {{ entry.object }}<br />
-                        <span>
-                            <small class="text-primary">
-                                {{ entry.cost_center_code }} -
-                                {{ entry.cost_center_name_formatted }}
-                            </small>
-                        </span>
-                    </td>
+                                                <td class="align-middle">
+                                                    {{ entry.name }}
+                                                    <span v-if="entry.cpf_cnpj">
+                                                        <br />
+                                                        <small class="text-primary">
+                                                            {{ entry.cpf_cnpj }}
+                                                            <b class="text-danger">
+                                                                {{
+                                                                    can('entries:show') &&
+                                                                    entry.provider_is_blocked
+                                                                        ? '- Bloqueado pela DOCIGP'
+                                                                        : ''
+                                                                }}
+                                                            </b>
+                                                        </small>
+                                                    </span>
+                                                </td>
 
-                    <td class="align-middle">
-                        {{ entry.name }}
-                        <span v-if="entry.cpf_cnpj">
-                            <br />
-                            <small class="text-primary">
-                                {{ entry.cpf_cnpj }}
-                                <b class="text-danger">
-                                    {{
-                                        can('entries:show') && entry.provider_is_blocked
-                                            ? '- Bloqueado pela DOCIGP'
-                                            : ''
-                                    }}
-                                </b>
-                            </small>
-                        </span>
-                    </td>
+                                                <td class="align-middle text-right">
+                                                    {{ entry.documents_count }}
+                                                </td>
 
-                    <td class="align-middle text-right">
-                        {{ entry.documents_count }}
-                    </td>
+                                                <td
+                                                    v-if="can('entry-comments:show')"
+                                                    class="align-middle text-right"
+                                                >
+                                                    {{ entry.comments_count }}
+                                                </td>
 
-                    <td v-if="can('entry-comments:show')" class="align-middle text-right">
-                        {{ entry.comments_count }}
-                    </td>
+                                                <td class="align-middle text-right">
+                                                    {{ entry.value_formatted }}
+                                                </td>
 
-                    <td class="align-middle text-right">
-                        {{ entry.value_formatted }}
-                    </td>
+                                                <td
+                                                    v-if="can('entries:show')"
+                                                    class="align-middle text-center"
+                                                >
+                                                    <span :class="getEntryType(entry).class">
+                                                        {{ getEntryType(entry).name }}
+                                                    </span>
+                                                </td>
 
-                    <td v-if="can('entries:show')" class="align-middle text-center">
-                        <span :class="getEntryType(entry).class">
-                            {{ getEntryType(entry).name }}
-                        </span>
-                    </td>
+                                                <td
+                                                    v-if="can('entries:show')"
+                                                    class="align-middle text-center"
+                                                >
+                                                    <span
+                                                        class="badge badge-primary text-uppercase"
+                                                    >
+                                                        {{
+                                                            entry.entry_type_name +
+                                                            (entry.document_number
+                                                                ? ': ' + entry.document_number
+                                                                : '')
+                                                        }}
+                                                    </span>
+                                                </td>
 
-                    <td v-if="can('entries:show')" class="align-middle text-center">
-                        <span class="badge badge-primary text-uppercase">
-                            {{
-                                entry.entry_type_name +
-                                (entry.document_number ? ': ' + entry.document_number : '')
-                            }}
-                        </span>
-                    </td>
+                                                <td
+                                                    v-if="can('congressman-budgets:show')"
+                                                    class="align-middle text-center"
+                                                >
+                                                    <app-badge
+                                                        v-if="entry.pendencies.length === 0"
+                                                        caption="não"
+                                                        color="#38c172,#fff"
+                                                        padding="1"
+                                                    ></app-badge>
 
-                    <td v-if="can('congressman-budgets:show')" class="align-middle text-center">
-                        <app-badge
-                            v-if="entry.pendencies.length === 0"
-                            caption="não"
-                            color="#38c172,#fff"
-                            padding="1"
-                        ></app-badge>
+                                                    <app-badge
+                                                        v-if="entry.pendencies.length > 0"
+                                                        color="#e3342f,#FFFFFF"
+                                                        padding="1"
+                                                    >
+                                                        <div
+                                                            class="text-uppercase"
+                                                            v-for="pendency in entry.pendencies"
+                                                        >
+                                                            &bull; {{ pendency }}
+                                                        </div>
+                                                    </app-badge>
+                                                </td>
 
-                        <app-badge
-                            v-if="entry.pendencies.length > 0"
-                            color="#e3342f,#FFFFFF"
-                            padding="1"
-                        >
-                            <div class="text-uppercase" v-for="pendency in entry.pendencies">
-                                &bull; {{ pendency }}
+                                                <td
+                                                    v-if="can('entries:show')"
+                                                    class="align-middle text-center"
+                                                >
+                                                    <app-status-badge
+                                                        class="text-uppercase"
+                                                        :rows="[
+                                                            {
+                                                                value: entry.verified_at,
+                                                                title: 'Verificado: ',
+                                                                labels: ['sim', 'não'],
+                                                            },
+                                                            {
+                                                                value: entry.analysed_at,
+                                                                title: 'Analisado: ',
+                                                                labels: ['sim', 'não'],
+                                                            },
+                                                            {
+                                                                value:
+                                                                    entry.published_at &&
+                                                                    !entry.is_transport_or_credit,
+                                                                title: 'Publicidade: ',
+                                                                labels: ['público', 'privado'],
+                                                            },
+                                                        ]"
+                                                    ></app-status-badge>
+                                                </td>
+                                            </tbody>
+                                        </button>
+                                    </h5>
+                                </div>
+                                <div
+                                    :id="'x' + entry.id"
+                                    class="collapse"
+                                    aria-labelledby="headingOne"
+                                    data-parent="#accordion"
+                                >
+                                    <div class="align-middle">
+                                        <div class="form-row justify-content-center pb-2">
+                                            <app-action-button
+                                                v-if="getEntryState(entry).buttons.verify.visible"
+                                                :disabled="
+                                                    getEntryState(entry).buttons.verify.disabled
+                                                "
+                                                classes="col-xl-3 col-lg-5 btn btn-micro btn-primary"
+                                                :title="getEntryState(entry).buttons.verify.title"
+                                                :model="entry"
+                                                swal-title="Verificar este lançamento?"
+                                                label="verificar"
+                                                icon="fa fa-check"
+                                                store="entries"
+                                                method="verify"
+                                                dusk="verify_entry_button"
+                                            >
+                                            </app-action-button>
+
+                                            <app-action-button
+                                                v-if="getEntryState(entry).buttons.unverify.visible"
+                                                :disabled="
+                                                    getEntryState(entry).buttons.unverify.disabled
+                                                "
+                                                classes="col-xl-3 col-lg-5 btn btn-micro btn-warning"
+                                                :title="getEntryState(entry).buttons.unverify.title"
+                                                :model="entry"
+                                                swal-title="Remover verificação deste lançamento?"
+                                                label="verificado"
+                                                icon="fa fa-ban"
+                                                store="entries"
+                                                method="unverify"
+                                                :spinner-config="{ color: 'black' }"
+                                            >
+                                            </app-action-button>
+
+                                            <app-action-button
+                                                v-if="getEntryState(entry).buttons.analyse.visible"
+                                                :disabled="
+                                                    getEntryState(entry).buttons.analyse.disabled
+                                                "
+                                                classes="col-xl-3 col-lg-5 btn btn-micro btn-success"
+                                                :title="getEntryState(entry).buttons.analyse.title"
+                                                :model="entry"
+                                                swal-title="Analisar este lançamento?"
+                                                label="analisar"
+                                                icon="fa fa-check"
+                                                store="entries"
+                                                method="analyse"
+                                                dusk="analize_entry_button"
+                                            >
+                                            </app-action-button>
+
+                                            <app-action-button
+                                                v-if="
+                                                    getEntryState(entry).buttons.unanalyse.visible
+                                                "
+                                                :disabled="
+                                                    getEntryState(entry).buttons.unanalyse.disabled
+                                                "
+                                                classes="col-xl-3 col-lg-5 btn btn-micro btn-danger"
+                                                :title="
+                                                    getEntryState(entry).buttons.unanalyse.title
+                                                "
+                                                :model="entry"
+                                                swal-title="Remover análise deste lançamento?"
+                                                label="analisado"
+                                                icon="fa fa-ban"
+                                                store="entries"
+                                                method="unanalyse"
+                                            >
+                                            </app-action-button>
+
+                                            <app-action-button
+                                                v-if="getEntryState(entry).buttons.publish.visible"
+                                                :disabled="
+                                                    getEntryState(entry).buttons.publish.disabled
+                                                "
+                                                classes="col-xl-3 col-lg-5 btn btn-micro btn-danger"
+                                                :title="getEntryState(entry).buttons.publish.title"
+                                                :model="entry"
+                                                swal-title="Publicar este lançamento?"
+                                                label="publicar"
+                                                icon="fa fa-check"
+                                                store="entries"
+                                                method="publish"
+                                            >
+                                            </app-action-button>
+
+                                            <app-action-button
+                                                v-if="
+                                                    getEntryState(entry).buttons.unpublish.visible
+                                                "
+                                                :disabled="
+                                                    getEntryState(entry).buttons.unpublish.disabled
+                                                "
+                                                classes="col-xl-3 col-lg-5 btn btn-micro btn-danger"
+                                                :title="
+                                                    getEntryState(entry).buttons.unpublish.title
+                                                "
+                                                :model="entry"
+                                                swal-title="Despublicar este lançamento?"
+                                                label="despublicar"
+                                                icon="fa fa-ban"
+                                                store="entries"
+                                                method="unpublish"
+                                            >
+                                            </app-action-button>
+                                            <div class="col-md-12 text-center">
+                                                <app-action-button
+                                                    v-if="
+                                                        getEntryState(entry).buttons.delete.visible
+                                                    "
+                                                    :disabled="
+                                                        getEntryState(entry).buttons.delete.disabled
+                                                    "
+                                                    classes="btn btn-micro  btn-danger smallButton"
+                                                    :title="
+                                                        getEntryState(entry).buttons.delete.title
+                                                    "
+                                                    :model="entry"
+                                                    swal-title="Deseja realmente deletar este lançamento?"
+                                                    label=""
+                                                    icon="fa fa-trash"
+                                                    store="entries"
+                                                    method="delete"
+                                                    :spinner-config="{ size: '0.02em' }"
+                                                    :swal-message="{ r200: 'Deletado com sucesso' }"
+                                                    :is-delete-entry="true"
+                                                >
+                                                </app-action-button>
+
+                                                <button
+                                                    v-if="getEntryState(entry).buttons.edit.visible"
+                                                    :disabled="
+                                                        getEntryState(entry).buttons.edit.disabled
+                                                    "
+                                                    class="btn btn-micro btn-primary button smallButton"
+                                                    @click="editEntry(entry)"
+                                                    :title="getEntryState(entry).buttons.edit.title"
+                                                >
+                                                    <i class="fa fa-edit"></i>
+                                                </button>
+
+                                                <app-audits-button
+                                                    class="smallButton"
+                                                    model="entries"
+                                                    :row="entry"
+                                                ></app-audits-button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </app-badge>
-                    </td>
+                        </div>
+                    </div>
+                </app-table>
+            </div>
 
-                    <td v-if="can('entries:show')" class="align-middle text-center">
-                        <app-status-badge
-                            class="text-uppercase"
-                            :rows="[
-                                {
-                                    value: entry.verified_at,
-                                    title: 'Verificado: ',
-                                    labels: ['sim', 'não'],
-                                },
-                                {
-                                    value: entry.analysed_at,
-                                    title: 'Analisado: ',
-                                    labels: ['sim', 'não'],
-                                },
-                                {
-                                    value: entry.published_at && !entry.is_transport_or_credit,
-                                    title: 'Publicidade: ',
-                                    labels: ['público', 'privado'],
-                                },
-                            ]"
-                        ></app-status-badge>
-                    </td>
-                    <td class="align-middle">
-                        <div class="form-row justify-content-center">
-                            <app-action-button
-                                v-if="getEntryState(entry).buttons.verify.visible"
-                                :disabled="getEntryState(entry).buttons.verify.disabled"
-                                classes="col-xl-3 col-lg-5 btn btn-micro btn-primary"
-                                :title="getEntryState(entry).buttons.verify.title"
-                                :model="entry"
-                                swal-title="Verificar este lançamento?"
-                                label="verificar"
-                                icon="fa fa-check"
-                                store="entries"
-                                method="verify"
-                                dusk="verify_entry_button"
-                            >
-                            </app-action-button>
+            <div class="d-none d-lg-block">
+                <app-table
+                    :pagination="pagination"
+                    @goto-page="gotoPage($event)"
+                    :columns="getTableColumns()"
+                    statusSize="1"
+                    actionsSize="2"
+                >
+                    <tr
+                        @click="selectEntry(entry)"
+                        v-for="entry in entries.data.rows"
+                        :class="{
+                            'cursor-pointer': true,
+                            'bg-primary-lighter text-white': isCurrent(entry, selected),
+                        }"
+                        :dusk="'entrie'"
+                    >
+                        <td v-if="can('tables:view-ids')" class="align-middle">
+                            {{ entry.id }}
+                        </td>
 
-                            <app-action-button
-                                v-if="getEntryState(entry).buttons.unverify.visible"
-                                :disabled="getEntryState(entry).buttons.unverify.disabled"
-                                classes="col-xl-3 col-lg-5 btn btn-micro btn-warning"
-                                :title="getEntryState(entry).buttons.unverify.title"
-                                :model="entry"
-                                swal-title="Remover verificação deste lançamento?"
-                                label="verificado"
-                                icon="fa fa-ban"
-                                store="entries"
-                                method="unverify"
-                                :spinner-config="{ color: 'black' }"
-                            >
-                            </app-action-button>
+                        <td class="align-middle">{{ entry.date_formatted }}</td>
 
-                            <app-action-button
-                                v-if="getEntryState(entry).buttons.analyse.visible"
-                                :disabled="getEntryState(entry).buttons.analyse.disabled"
-                                classes="col-xl-3 col-lg-5 btn btn-micro btn-success"
-                                :title="getEntryState(entry).buttons.analyse.title"
-                                :model="entry"
-                                swal-title="Analisar este lançamento?"
-                                label="analisar"
-                                icon="fa fa-check"
-                                store="entries"
-                                method="analyse"
-                                dusk="analize_entry_button"
-                            >
-                            </app-action-button>
+                        <td class="align-middle">
+                            {{ entry.object }}<br />
+                            <span>
+                                <small class="text-primary">
+                                    {{ entry.cost_center_code }} -
+                                    {{ entry.cost_center_name_formatted }}
+                                </small>
+                            </span>
+                        </td>
 
-                            <app-action-button
-                                v-if="getEntryState(entry).buttons.unanalyse.visible"
-                                :disabled="getEntryState(entry).buttons.unanalyse.disabled"
-                                classes="col-xl-3 col-lg-5 btn btn-micro btn-danger"
-                                :title="getEntryState(entry).buttons.unanalyse.title"
-                                :model="entry"
-                                swal-title="Remover análise deste lançamento?"
-                                label="analisado"
-                                icon="fa fa-ban"
-                                store="entries"
-                                method="unanalyse"
-                            >
-                            </app-action-button>
+                        <td class="align-middle">
+                            {{ entry.name }}
+                            <span v-if="entry.cpf_cnpj">
+                                <br />
+                                <small class="text-primary">
+                                    {{ entry.cpf_cnpj }}
+                                    <b class="text-danger">
+                                        {{
+                                            can('entries:show') && entry.provider_is_blocked
+                                                ? '- Bloqueado pela DOCIGP'
+                                                : ''
+                                        }}
+                                    </b>
+                                </small>
+                            </span>
+                        </td>
 
-                            <app-action-button
-                                v-if="getEntryState(entry).buttons.publish.visible"
-                                :disabled="getEntryState(entry).buttons.publish.disabled"
-                                classes="col-xl-3 col-lg-5 btn btn-micro btn-danger"
-                                :title="getEntryState(entry).buttons.publish.title"
-                                :model="entry"
-                                swal-title="Publicar este lançamento?"
-                                label="publicar"
-                                icon="fa fa-check"
-                                store="entries"
-                                method="publish"
-                            >
-                            </app-action-button>
+                        <td class="align-middle text-right">
+                            {{ entry.documents_count }}
+                        </td>
 
-                            <app-action-button
-                                v-if="getEntryState(entry).buttons.unpublish.visible"
-                                :disabled="getEntryState(entry).buttons.unpublish.disabled"
-                                classes="col-xl-3 col-lg-5 btn btn-micro btn-danger"
-                                :title="getEntryState(entry).buttons.unpublish.title"
-                                :model="entry"
-                                swal-title="Despublicar este lançamento?"
-                                label="despublicar"
-                                icon="fa fa-ban"
-                                store="entries"
-                                method="unpublish"
+                        <td v-if="can('entry-comments:show')" class="align-middle text-right">
+                            {{ entry.comments_count }}
+                        </td>
+
+                        <td class="align-middle text-right">
+                            {{ entry.value_formatted }}
+                        </td>
+
+                        <td v-if="can('entries:show')" class="align-middle text-center">
+                            <span :class="getEntryType(entry).class">
+                                {{ getEntryType(entry).name }}
+                            </span>
+                        </td>
+
+                        <td v-if="can('entries:show')" class="align-middle text-center">
+                            <span class="badge badge-primary text-uppercase">
+                                {{
+                                    entry.entry_type_name +
+                                    (entry.document_number ? ': ' + entry.document_number : '')
+                                }}
+                            </span>
+                        </td>
+
+                        <td v-if="can('congressman-budgets:show')" class="align-middle text-center">
+                            <app-badge
+                                v-if="entry.pendencies.length === 0"
+                                caption="não"
+                                color="#38c172,#fff"
+                                padding="1"
+                            ></app-badge>
+
+                            <app-badge
+                                v-if="entry.pendencies.length > 0"
+                                color="#e3342f,#FFFFFF"
+                                padding="1"
                             >
-                            </app-action-button>
-                            <div class="col-md-12 text-center">
+                                <div class="text-uppercase" v-for="pendency in entry.pendencies">
+                                    &bull; {{ pendency }}
+                                </div>
+                            </app-badge>
+                        </td>
+
+                        <td v-if="can('entries:show')" class="align-middle text-center">
+                            <app-status-badge
+                                class="text-uppercase"
+                                :rows="[
+                                    {
+                                        value: entry.verified_at,
+                                        title: 'Verificado: ',
+                                        labels: ['sim', 'não'],
+                                    },
+                                    {
+                                        value: entry.analysed_at,
+                                        title: 'Analisado: ',
+                                        labels: ['sim', 'não'],
+                                    },
+                                    {
+                                        value: entry.published_at && !entry.is_transport_or_credit,
+                                        title: 'Publicidade: ',
+                                        labels: ['público', 'privado'],
+                                    },
+                                ]"
+                            ></app-status-badge>
+                        </td>
+                        <td class="align-middle">
+                            <div class="form-row justify-content-center">
                                 <app-action-button
-                                    v-if="getEntryState(entry).buttons.delete.visible"
-                                    :disabled="getEntryState(entry).buttons.delete.disabled"
-                                    classes="btn btn-micro  btn-danger smallButton"
-                                    :title="getEntryState(entry).buttons.delete.title"
+                                    v-if="getEntryState(entry).buttons.verify.visible"
+                                    :disabled="getEntryState(entry).buttons.verify.disabled"
+                                    classes="col-xl-3 col-lg-5 btn btn-micro btn-primary"
+                                    :title="getEntryState(entry).buttons.verify.title"
                                     :model="entry"
-                                    swal-title="Deseja realmente deletar este lançamento?"
-                                    label=""
-                                    icon="fa fa-trash"
+                                    swal-title="Verificar este lançamento?"
+                                    label="verificar"
+                                    icon="fa fa-check"
                                     store="entries"
-                                    method="delete"
-                                    :spinner-config="{ size: '0.02em' }"
-                                    :swal-message="{ r200: 'Deletado com sucesso' }"
-                                    :is-delete-entry="true"
+                                    method="verify"
+                                    dusk="verify_entry_button"
                                 >
                                 </app-action-button>
 
-                                <button
-                                    v-if="getEntryState(entry).buttons.edit.visible"
-                                    :disabled="getEntryState(entry).buttons.edit.disabled"
-                                    class="btn btn-micro btn-primary button smallButton"
-                                    @click="editEntry(entry)"
-                                    :title="getEntryState(entry).buttons.edit.title"
+                                <app-action-button
+                                    v-if="getEntryState(entry).buttons.unverify.visible"
+                                    :disabled="getEntryState(entry).buttons.unverify.disabled"
+                                    classes="col-xl-3 col-lg-5 btn btn-micro btn-warning"
+                                    :title="getEntryState(entry).buttons.unverify.title"
+                                    :model="entry"
+                                    swal-title="Remover verificação deste lançamento?"
+                                    label="verificado"
+                                    icon="fa fa-ban"
+                                    store="entries"
+                                    method="unverify"
+                                    :spinner-config="{ color: 'black' }"
                                 >
-                                    <i class="fa fa-edit"></i>
-                                </button>
+                                </app-action-button>
 
-                                <app-audits-button
-                                    class="smallButton"
-                                    model="entries"
-                                    :row="entry"
-                                ></app-audits-button>
+                                <app-action-button
+                                    v-if="getEntryState(entry).buttons.analyse.visible"
+                                    :disabled="getEntryState(entry).buttons.analyse.disabled"
+                                    classes="col-xl-3 col-lg-5 btn btn-micro btn-success"
+                                    :title="getEntryState(entry).buttons.analyse.title"
+                                    :model="entry"
+                                    swal-title="Analisar este lançamento?"
+                                    label="analisar"
+                                    icon="fa fa-check"
+                                    store="entries"
+                                    method="analyse"
+                                    dusk="analize_entry_button"
+                                >
+                                </app-action-button>
+
+                                <app-action-button
+                                    v-if="getEntryState(entry).buttons.unanalyse.visible"
+                                    :disabled="getEntryState(entry).buttons.unanalyse.disabled"
+                                    classes="col-xl-3 col-lg-5 btn btn-micro btn-danger"
+                                    :title="getEntryState(entry).buttons.unanalyse.title"
+                                    :model="entry"
+                                    swal-title="Remover análise deste lançamento?"
+                                    label="analisado"
+                                    icon="fa fa-ban"
+                                    store="entries"
+                                    method="unanalyse"
+                                >
+                                </app-action-button>
+
+                                <app-action-button
+                                    v-if="getEntryState(entry).buttons.publish.visible"
+                                    :disabled="getEntryState(entry).buttons.publish.disabled"
+                                    classes="col-xl-3 col-lg-5 btn btn-micro btn-danger"
+                                    :title="getEntryState(entry).buttons.publish.title"
+                                    :model="entry"
+                                    swal-title="Publicar este lançamento?"
+                                    label="publicar"
+                                    icon="fa fa-check"
+                                    store="entries"
+                                    method="publish"
+                                >
+                                </app-action-button>
+
+                                <app-action-button
+                                    v-if="getEntryState(entry).buttons.unpublish.visible"
+                                    :disabled="getEntryState(entry).buttons.unpublish.disabled"
+                                    classes="col-xl-3 col-lg-5 btn btn-micro btn-danger"
+                                    :title="getEntryState(entry).buttons.unpublish.title"
+                                    :model="entry"
+                                    swal-title="Despublicar este lançamento?"
+                                    label="despublicar"
+                                    icon="fa fa-ban"
+                                    store="entries"
+                                    method="unpublish"
+                                >
+                                </app-action-button>
+                                <div class="col-md-12 text-center">
+                                    <app-action-button
+                                        v-if="getEntryState(entry).buttons.delete.visible"
+                                        :disabled="getEntryState(entry).buttons.delete.disabled"
+                                        classes="btn btn-micro  btn-danger smallButton"
+                                        :title="getEntryState(entry).buttons.delete.title"
+                                        :model="entry"
+                                        swal-title="Deseja realmente deletar este lançamento?"
+                                        label=""
+                                        icon="fa fa-trash"
+                                        store="entries"
+                                        method="delete"
+                                        :spinner-config="{ size: '0.02em' }"
+                                        :swal-message="{ r200: 'Deletado com sucesso' }"
+                                        :is-delete-entry="true"
+                                    >
+                                    </app-action-button>
+
+                                    <button
+                                        v-if="getEntryState(entry).buttons.edit.visible"
+                                        :disabled="getEntryState(entry).buttons.edit.disabled"
+                                        class="btn btn-micro btn-primary button smallButton"
+                                        @click="editEntry(entry)"
+                                        :title="getEntryState(entry).buttons.edit.title"
+                                    >
+                                        <i class="fa fa-edit"></i>
+                                    </button>
+
+                                    <app-audits-button
+                                        class="smallButton"
+                                        model="entries"
+                                        :row="entry"
+                                    ></app-audits-button>
+                                </div>
                             </div>
-                        </div>
-                    </td>
-                </tr>
-            </app-table>
-
+                        </td>
+                    </tr>
+                </app-table>
+            </div>
             <app-entry-form :show.sync="showModal"></app-entry-form>
         </app-table-panel>
     </div>
