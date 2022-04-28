@@ -484,7 +484,7 @@
                                                     getCongressmanBudgetState(congressmanBudget)
                                                         .buttons.deposit.disabled
                                                 "
-                                                classes="btn btn-micro btn-success col-lg-5 col-xl-3 col-sm-2"
+                                                classes="btn btn-micro btn-success col-lg-5 col-xl-3 col-sm-2 col-2"
                                                 :title="
                                                     getCongressmanBudgetState(congressmanBudget)
                                                         .buttons.deposit.title
@@ -511,7 +511,7 @@
                                                     getCongressmanBudgetState(congressmanBudget)
                                                         .buttons.editPercentage.disabled
                                                 "
-                                                classes="btn btn-micro btn-primary col-lg-5 col-xl-3 col-sm-2"
+                                                classes="btn btn-micro btn-primary col-lg-5 col-xl-3 col-sm-2 col-2"
                                                 :title="
                                                     getCongressmanBudgetState(congressmanBudget)
                                                         .buttons.editPercentage.title
@@ -534,7 +534,7 @@
                                                     getCongressmanBudgetState(congressmanBudget)
                                                         .buttons.close.disabled
                                                 "
-                                                classes="btn btn-micro btn-danger col-lg-5 col-xl-3 col-sm-2"
+                                                classes="btn btn-micro btn-danger col-lg-5 col-xl-3 col-sm-2 col-2"
                                                 :title="
                                                     getCongressmanBudgetState(congressmanBudget)
                                                         .buttons.close.title
@@ -558,7 +558,7 @@
                                                     getCongressmanBudgetState(congressmanBudget)
                                                         .buttons.reopen.disabled
                                                 "
-                                                classes="btn btn-micro btn-danger col-lg-5 col-xl-3 col-sm-2"
+                                                classes="btn btn-micro btn-danger col-lg-5 col-xl-3 col-sm-2 col-2"
                                                 :title="
                                                     getCongressmanBudgetState(congressmanBudget)
                                                         .buttons.reopen.title
@@ -581,7 +581,7 @@
                                                     getCongressmanBudgetState(congressmanBudget)
                                                         .buttons.analyse.disabled
                                                 "
-                                                classes="btn btn-micro btn-warning col-lg-5 col-xl-3 col-sm-2"
+                                                classes="btn btn-micro btn-warning col-lg-5 col-xl-3 col-sm-2 col-2"
                                                 :title="
                                                     getCongressmanBudgetState(congressmanBudget)
                                                         .buttons.analyse.title
@@ -608,7 +608,7 @@
                                                     getCongressmanBudgetState(congressmanBudget)
                                                         .buttons.unanalyse.disabled
                                                 "
-                                                classes="btn btn-micro btn-warning col-lg-5 col-xl-3 col-sm-2"
+                                                classes="btn btn-micro btn-warning col-lg-5 col-xl-3 col-sm-2 col-2"
                                                 :title="
                                                     getCongressmanBudgetState(congressmanBudget)
                                                         .buttons.unanalyse.title
@@ -634,7 +634,7 @@
                                                     getCongressmanBudgetState(congressmanBudget)
                                                         .buttons.publish.disabled
                                                 "
-                                                classes="btn btn-micro btn-danger col-lg-5 col-xl-3 col-sm-2"
+                                                classes="btn btn-micro btn-danger col-lg-5 col-xl-3 col-sm-2 col-2"
                                                 :title="
                                                     getCongressmanBudgetState(congressmanBudget)
                                                         .buttons.publish.title
@@ -658,7 +658,7 @@
                                                     getCongressmanBudgetState(congressmanBudget)
                                                         .buttons.unpublish.disabled
                                                 "
-                                                classes="btn btn-micro btn-danger col-lg-5 col-xl-3 col-sm-2"
+                                                classes="btn btn-micro btn-danger col-lg-5 col-xl-3 col-sm-2 col-2"
                                                 :title="
                                                     getCongressmanBudgetState(congressmanBudget)
                                                         .buttons.unpublish.title
@@ -674,7 +674,7 @@
 
                                             <app-audits-button
                                                 model="congressmanBudgets"
-                                                class="col-lg-5 col-xl-3 col-sm-2"
+                                                class="col-lg-5 col-xl-3 col-sm-2 col-2"
                                                 :row="congressmanBudget"
                                             ></app-audits-button>
                                         </div>

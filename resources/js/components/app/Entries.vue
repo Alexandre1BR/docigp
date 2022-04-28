@@ -244,14 +244,14 @@
                                     aria-labelledby="headingOne"
                                     data-parent="#accordion"
                                 >
-                                    <div class="align-middle">
+                                    <div class="card-body align-middle">
                                         <div class="form-row justify-content-center pb-2">
                                             <app-action-button
                                                 v-if="getEntryState(entry).buttons.verify.visible"
                                                 :disabled="
                                                     getEntryState(entry).buttons.verify.disabled
                                                 "
-                                                classes="col-xl-3 col-lg-5 btn btn-micro btn-primary"
+                                                classes="col-xl-3 col-lg-5 col-sm-2 col-2 btn btn-micro btn-primary"
                                                 :title="getEntryState(entry).buttons.verify.title"
                                                 :model="entry"
                                                 swal-title="Verificar este lançamento?"
@@ -268,7 +268,7 @@
                                                 :disabled="
                                                     getEntryState(entry).buttons.unverify.disabled
                                                 "
-                                                classes="col-xl-3 col-lg-5 btn btn-micro btn-warning"
+                                                classes="col-xl-3 col-lg-5 col-sm-2 col-2 btn btn-micro btn-warning"
                                                 :title="getEntryState(entry).buttons.unverify.title"
                                                 :model="entry"
                                                 swal-title="Remover verificação deste lançamento?"
@@ -285,7 +285,7 @@
                                                 :disabled="
                                                     getEntryState(entry).buttons.analyse.disabled
                                                 "
-                                                classes="col-xl-3 col-lg-5 btn btn-micro btn-success"
+                                                classes="col-xl-3 col-lg-5 col-sm-2 col-2 btn btn-micro btn-success"
                                                 :title="getEntryState(entry).buttons.analyse.title"
                                                 :model="entry"
                                                 swal-title="Analisar este lançamento?"
@@ -304,7 +304,7 @@
                                                 :disabled="
                                                     getEntryState(entry).buttons.unanalyse.disabled
                                                 "
-                                                classes="col-xl-3 col-lg-5 btn btn-micro btn-danger"
+                                                classes="col-xl-3 col-lg-5 col-sm-2 col-2 btn btn-micro btn-danger"
                                                 :title="
                                                     getEntryState(entry).buttons.unanalyse.title
                                                 "
@@ -322,7 +322,7 @@
                                                 :disabled="
                                                     getEntryState(entry).buttons.publish.disabled
                                                 "
-                                                classes="col-xl-3 col-lg-5 btn btn-micro btn-danger"
+                                                classes="col-xl-3 col-lg-5 col-sm-2 col-2 btn btn-micro btn-danger"
                                                 :title="getEntryState(entry).buttons.publish.title"
                                                 :model="entry"
                                                 swal-title="Publicar este lançamento?"
@@ -340,7 +340,7 @@
                                                 :disabled="
                                                     getEntryState(entry).buttons.unpublish.disabled
                                                 "
-                                                classes="col-xl-3 col-lg-5 btn btn-micro btn-danger"
+                                                classes="col-xl-3 col-lg-5 col-sm-2 col-2 btn btn-micro btn-danger"
                                                 :title="
                                                     getEntryState(entry).buttons.unpublish.title
                                                 "
@@ -352,7 +352,7 @@
                                                 method="unpublish"
                                             >
                                             </app-action-button>
-                                            <div class="col-md-12 text-center">
+                                           
                                                 <app-action-button
                                                     v-if="
                                                         getEntryState(entry).buttons.delete.visible
@@ -360,7 +360,7 @@
                                                     :disabled="
                                                         getEntryState(entry).buttons.delete.disabled
                                                     "
-                                                    classes="btn btn-micro  btn-danger smallButton"
+                                                    classes="btn btn-micro col-xl-3 col-lg-5 col-sm-2 col-2 btn-danger"
                                                     :title="
                                                         getEntryState(entry).buttons.delete.title
                                                     "
@@ -381,7 +381,7 @@
                                                     :disabled="
                                                         getEntryState(entry).buttons.edit.disabled
                                                     "
-                                                    class="btn btn-micro btn-primary button smallButton"
+                                                    class="btn btn-micro col-xl-3 col-lg-5 col-sm-2 col-2 btn-primary button"
                                                     @click="editEntry(entry)"
                                                     :title="getEntryState(entry).buttons.edit.title"
                                                 >
@@ -389,11 +389,11 @@
                                                 </button>
 
                                                 <app-audits-button
-                                                    class="smallButton"
+                                                    class="col-xl-3 col-lg-5 col-sm-2 col-2"
                                                     model="entries"
                                                     :row="entry"
                                                 ></app-audits-button>
-                                            </div>
+                                            
                                         </div>
                                     </div>
                                 </div>
