@@ -360,9 +360,9 @@
                     :pagination="pagination"
                     @goto-page="gotoPage($event)"
                     statusSize="2"
+                    
                 >
                     <tr
-                        class="w-100"
                         @click="selectCongressmanBudget(congressmanBudget)"
                         v-for="congressmanBudget in congressmanBudgets.data
                             .rows"
@@ -390,16 +390,16 @@
                                     >
                                         <thead>
                                             <tr>
-                                                <th class="text-center">
+                                                <th class="text-center" style="width:300px;">
                                                     <span>#</span>
                                                 </th>
-                                                <th class="">
+                                                <th class="text-center" style="width:300px;">
                                                     <span> Ano / Mês </span>
                                                 </th>
-                                                <th class="text-right">
+                                                <th class="text-center" style="width:300px;">
                                                     <span>%</span>
                                                 </th>
-                                                <th class="text-right">
+                                                <th class="text-center" style="width:300px;">
                                                     <span>Solicitado</span>
                                                     <span
                                                         ><button
@@ -432,24 +432,24 @@
                                         <tbody>
                                             <td
                                                 v-if="can('tables:view-ids')"
-                                                class="align-middle"
+                                                class="align-middle text-center"
                                             >
                                                 {{ congressmanBudget.id }}
                                             </td>
 
-                                            <td class="align-middle">
+                                            <td class="align-middle text-center">
                                                 {{
                                                     makeDate(congressmanBudget)
                                                 }}
                                             </td>
 
-                                            <td class="align-middle text-right">
+                                            <td class="align-middle text-center">
                                                 {{
                                                     congressmanBudget.percentage_formatted
                                                 }}
                                             </td>
 
-                                            <td class="align-middle text-right">
+                                            <td class="align-middle text-center">
                                                 {{
                                                     congressmanBudget.value_formatted
                                                 }}
