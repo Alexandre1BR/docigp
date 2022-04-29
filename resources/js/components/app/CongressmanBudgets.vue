@@ -311,14 +311,14 @@
 
             <!-- Mobile Version -->
 
-            <div class="d-lg-none">
+            <div class="d-lg-none w-100">
                 <app-table :pagination="pagination" @goto-page="gotoPage($event)" statusSize="2">
-                    <tr
+                    <tr class='w-100'
                         @click="selectCongressmanBudget(congressmanBudget)"
                         v-for="congressmanBudget in congressmanBudgets.data.rows"
                         :class="{
                             'cursor-pointer': true,
-                            'bg-primary-lighter text-white': isCurrent(congressmanBudget, selected),
+                            'bg-primary-lighter ': isCurrent(congressmanBudget, selected), 
                         }"
                     >
                         <div id="accordion">
@@ -370,7 +370,7 @@
                                                                 </svg></button
                                                         ></span>
                                                     </th>
-                                                    <th class="text-right">
+                                                    <!-- <th class="text-right">
                                                         <span>Lançamentos</span>
                                                     </th>
                                                     <th class="text-center">
@@ -378,7 +378,7 @@
                                                     </th>
                                                     <th class="col-2 text-center">
                                                         <span>Status</span>
-                                                    </th>
+                                                    </th> -->
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -400,15 +400,28 @@
                                                 <td class="align-middle text-right">
                                                     {{ congressmanBudget.value_formatted }}
                                                 </td>
+                                            </tbody>
+                                        </button>
+                                    </h5>
+                                </div>
 
-                                                <td class="align-middle text-right">
-                                                    {{ congressmanBudget.entries_count }}
-                                                </td>
+                                <div
+                                    :id="'x' + congressmanBudget.id"
+                                    class="collapse"
+                                    aria-labelledby="headingOne"
+                                    data-parent="#accordion"
+                                >
+                                    <div class="card">
+                                        <div class="card-body text-center w-100">
+                                            <h5 class="card-title">Lançamentos</h5>
+                                            <p class="card-text">
+                                                {{ congressmanBudget.entries_count }}
+                                            </p>
+                                            <hr />
 
-                                                <td
-                                                    v-if="can('congressman-budgets:show')"
-                                                    class="align-middle text-center"
-                                                >
+                                            <div v-if="can('congressman-budgets:show')">
+                                                <h5 class="card-title">Pendências</h5>
+                                                <p class="card-text">
                                                     <app-badge
                                                         v-if="
                                                             congressmanBudget.pendencies.length ===
@@ -430,52 +443,45 @@
                                                             class="text-uppercase"
                                                             v-for="pendency in congressmanBudget.pendencies"
                                                         >
-                                                            &bull; {{ pendency }}<br />
+                                                            &bull;{{ pendency }}<br />
                                                         </div>
                                                     </app-badge>
-                                                </td>
-
-                                                <td
-                                                    v-if="can('congressman-budgets:show')"
-                                                    class="align-middle text-center"
-                                                >
-                                                    <app-status-badge
-                                                        class="text-uppercase"
-                                                        :rows="[
-                                                            {
-                                                                value: congressmanBudget.closed_at,
-                                                                title: 'Verificado: ',
-                                                                labels: ['sim', 'não'],
-                                                            },
-                                                            {
-                                                                value: congressmanBudget.analysed_at,
-                                                                title: 'Analisado: ',
-                                                                labels: ['sim', 'não'],
-                                                            },
-                                                            {
-                                                                value: congressmanBudget.published_at,
-                                                                title: 'Publicidade: ',
-                                                                labels: ['público', 'privado'],
-                                                            },
-                                                        ]"
-                                                    ></app-status-badge>
-                                                </td>
-                                            </tbody>
-                                        </button>
-                                    </h5>
-                                </div>
-                                <div
-                                    :id="'x' + congressmanBudget.id"
-                                    class="collapse"
-                                    aria-labelledby="headingOne"
-                                    data-parent="#accordion"
-                                >
-                                    <div
-                                        v-if="can('congressman-budgets:show')"
-                                        class="card-body align-middle"
-                                    >
-                                        <div class="form-row justify-content-center">
-                                            <app-action-button
+                                                </p>
+                                                <hr />
+                                            </div>
+                                            <div v-if="can('congressman-budgets:show')">
+                                            <h5 class="card-title">Status</h5>
+                                            <p class="card-text">
+                                                <div class="d-flex justify-content-center ">
+                                                <app-status-badge
+                                                    class="text-uppercase w-75" 
+                                                    :rows="[
+                                                        {
+                                                            value: congressmanBudget.closed_at,
+                                                            title: 'Verificado: ',
+                                                            labels: ['sim', 'não'],
+                                                        },
+                                                        {
+                                                            value: congressmanBudget.analysed_at,
+                                                            title: 'Analisado: ',
+                                                            labels: ['sim', 'não'],
+                                                        },
+                                                        {
+                                                            value: congressmanBudget.published_at,
+                                                            title: 'Publicidade: ',
+                                                            labels: ['público', 'privado'],
+                                                        },
+                                                    ]"
+                                                ></app-status-badge>
+                                                </div>
+                                            </p>
+                                                
+                                            
+                                        </div>
+                                        <hr>
+                                        
+                                         <div v-if="can('congressman-budgets:show')" class='p-2'>
+                                        <app-action-button
                                                 v-if="
                                                     getCongressmanBudgetState(congressmanBudget)
                                                         .buttons.deposit.visible
@@ -484,7 +490,7 @@
                                                     getCongressmanBudgetState(congressmanBudget)
                                                         .buttons.deposit.disabled
                                                 "
-                                                classes="btn btn-micro btn-success col-lg-5 col-xl-3 col-sm-2 col-2"
+                                                classes="btn btn-micro btn-success col-sm-4"
                                                 :title="
                                                     getCongressmanBudgetState(congressmanBudget)
                                                         .buttons.deposit.title
@@ -511,7 +517,7 @@
                                                     getCongressmanBudgetState(congressmanBudget)
                                                         .buttons.editPercentage.disabled
                                                 "
-                                                classes="btn btn-micro btn-primary col-lg-5 col-xl-3 col-sm-2 col-2"
+                                                classes="btn btn-micro btn-primary col-sm-4"
                                                 :title="
                                                     getCongressmanBudgetState(congressmanBudget)
                                                         .buttons.editPercentage.title
@@ -534,7 +540,7 @@
                                                     getCongressmanBudgetState(congressmanBudget)
                                                         .buttons.close.disabled
                                                 "
-                                                classes="btn btn-micro btn-danger col-lg-5 col-xl-3 col-sm-2 col-2"
+                                                classes="btn btn-micro btn-danger col-sm-4"
                                                 :title="
                                                     getCongressmanBudgetState(congressmanBudget)
                                                         .buttons.close.title
@@ -558,7 +564,7 @@
                                                     getCongressmanBudgetState(congressmanBudget)
                                                         .buttons.reopen.disabled
                                                 "
-                                                classes="btn btn-micro btn-danger col-lg-5 col-xl-3 col-sm-2 col-2"
+                                                classes="btn btn-micro btn-danger col-sm-4"
                                                 :title="
                                                     getCongressmanBudgetState(congressmanBudget)
                                                         .buttons.reopen.title
@@ -581,7 +587,7 @@
                                                     getCongressmanBudgetState(congressmanBudget)
                                                         .buttons.analyse.disabled
                                                 "
-                                                classes="btn btn-micro btn-warning col-lg-5 col-xl-3 col-sm-2 col-2"
+                                                classes="btn btn-micro btn-warning col-sm-4"
                                                 :title="
                                                     getCongressmanBudgetState(congressmanBudget)
                                                         .buttons.analyse.title
@@ -608,7 +614,7 @@
                                                     getCongressmanBudgetState(congressmanBudget)
                                                         .buttons.unanalyse.disabled
                                                 "
-                                                classes="btn btn-micro btn-warning col-lg-5 col-xl-3 col-sm-2 col-2"
+                                                classes="btn btn-micro btn-warning col-sm-4"
                                                 :title="
                                                     getCongressmanBudgetState(congressmanBudget)
                                                         .buttons.unanalyse.title
@@ -634,7 +640,7 @@
                                                     getCongressmanBudgetState(congressmanBudget)
                                                         .buttons.publish.disabled
                                                 "
-                                                classes="btn btn-micro btn-danger col-lg-5 col-xl-3 col-sm-2 col-2"
+                                                classes="btn btn-micro btn-danger col-sm-4"
                                                 :title="
                                                     getCongressmanBudgetState(congressmanBudget)
                                                         .buttons.publish.title
@@ -658,7 +664,7 @@
                                                     getCongressmanBudgetState(congressmanBudget)
                                                         .buttons.unpublish.disabled
                                                 "
-                                                classes="btn btn-micro btn-danger col-lg-5 col-xl-3 col-sm-2 col-2"
+                                                classes="btn btn-micro btn-danger col-sm-4"
                                                 :title="
                                                     getCongressmanBudgetState(congressmanBudget)
                                                         .buttons.unpublish.title
@@ -674,11 +680,12 @@
 
                                             <app-audits-button
                                                 model="congressmanBudgets"
-                                                class="col-lg-5 col-xl-3 col-sm-2 col-2"
+                                                class="col-sm-4"
                                                 :row="congressmanBudget"
                                             ></app-audits-button>
-                                        </div>
                                     </div>
+                                    </div></div>
+                                    
                                 </div>
                             </div>
                         </div>
