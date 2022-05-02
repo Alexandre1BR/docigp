@@ -68,7 +68,8 @@ let actions = merge_objects(actionsMixin, {
     },
 
     selectEntry(context, payload) {
-        const performLoad = payload.id && (!context.state.selected || context.state.selected.id != payload.id)
+        const performLoad =
+            payload.id && (!context.state.selected || context.state.selected.id != payload.id)
 
         context.dispatch('entries/select', payload, { root: true })
         context.commit('mutateFormData', payload)

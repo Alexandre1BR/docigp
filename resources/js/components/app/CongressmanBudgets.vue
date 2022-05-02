@@ -390,7 +390,7 @@
                                     >
                                         <thead>
                                             <tr>
-                                                <th class="text-center" style="width:300px;">
+                                                <th v-if="can('tables:view-ids')" class="text-center" style="width:300px;">
                                                     <span>#</span>
                                                 </th>
                                                 <th class="text-center" style="width:300px;">
