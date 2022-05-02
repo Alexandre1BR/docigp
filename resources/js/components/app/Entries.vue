@@ -51,6 +51,8 @@
                 </button>
             </template>
 
+            <!-- Mobile Version -->
+
             <div class="d-lg-none">
                 <app-table
                     :pagination="pagination"
@@ -82,8 +84,7 @@
                                     >
                                         <thead>
                                             <tr>
-                                                <th
-                                                    v-if="can('tables:view-ids')"
+                                                <th v-if="can('tables:view-ids')"
                                                     class="text-center"
                                                     style="width:300px;"
                                                 >

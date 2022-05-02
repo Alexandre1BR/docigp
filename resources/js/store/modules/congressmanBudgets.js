@@ -74,6 +74,8 @@ let actions = merge_objects(actionsMixin, {
             context.commit('entryComments/mutateSetSelected', { id: null }, { root: true })
 
             context.dispatch('congressmen/markAsRead', payload, { root: true })
+
+            context.dispatch('removeShowClass')
         }
     },
 

@@ -21,13 +21,21 @@ export function load(context) {
     }
 }
 
-export function deleteRow(context,payload){
+export function deleteRow(context, payload) {
     context.commit('mutateDeleteRow', payload)
 }
 
 export function setDataAfterDelete(context, payload) {
-    context.dispatch('deleteRow',payload).then(function () {
+    context.dispatch('deleteRow', payload).then(function () {
         context.dispatch('fixCurrentPage')
+    })
+}
+
+export function removeShowClass() {
+    var elements = document.querySelectorAll("[data-parent='#accordion']")
+    console.log(elements)
+    Array.from(elements).forEach((element) => {
+        element.classList.remove('show')
     })
 }
 
@@ -37,8 +45,8 @@ export function fixCurrentPage(context, payload) {
             1 &&
         context.state.data.links.pagination.current_page > 1
     ) {
-       context.dispatch('setCurrentPage', context.state.data.links.pagination.current_page - 1)
-    }else{
+        context.dispatch('setCurrentPage', context.state.data.links.pagination.current_page - 1)
+    } else {
         loadDebounced(context)
     }
 }
@@ -80,6 +88,7 @@ export function mutateSetQueryFilterText(context, payload) {
 
 export function setCurrentPage(context, payload) {
     context.state.data.links.pagination.current_page = payload
+    context.dispatch('removeShowClass')
     context.dispatch('load')
 }
 

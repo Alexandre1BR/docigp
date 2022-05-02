@@ -92,10 +92,11 @@ let actions = merge_objects(actionsMixin, {
         const performLoad = !context.state.selected || context.state.selected.id != payload.id
 
         context.dispatch('congressmen/select', payload, { root: true })
+        context.dispatch('removeShowClass')
 
         if (performLoad) {
             context.commit('congressmanBudgets/mutateTableLoading', true, { root: true })
-
+            context.dispatch('removeShowClass')
             context.dispatch('congressmanBudgets/setCurrentPage', 1, {
                 root: true,
             })
