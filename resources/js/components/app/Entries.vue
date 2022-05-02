@@ -50,6 +50,7 @@
                     <i class="fa fa-plus"></i>
                 </button>
             </template>
+
             <div class="d-lg-none">
                 <app-table
                     :pagination="pagination"
@@ -73,7 +74,7 @@
                             <div class="card">
                                 <div class="card-header" id="headingOne">
                                     <button
-                                        class="btn w-100 collapsed"
+                                        class="btn collapsed"
                                         data-toggle="collapse"
                                         :data-target="'#x' + entry.id"
                                         aria-expanded="false"
@@ -82,6 +83,7 @@
                                         <thead>
                                             <tr>
                                                 <th
+                                                    v-if="can('tables:view-ids')"
                                                     class="text-center"
                                                     style="width:300px;"
                                                 >
@@ -173,8 +175,9 @@
                                             {{ entry.value_formatted }}
                                         </p>
                                         <hr />
-                                        <h5 class="card-title">Tipo</h5>
-                                        <p class="card-text">
+
+                                        <h5 v-if="can('entries:show')" class="card-title">Tipo</h5>
+                                        <p v-if="can('entries:show')" class="card-text">
                                             <span
                                                 :class="
                                                     getEntryType(entry).class
@@ -182,11 +185,13 @@
                                             >
                                                 {{ getEntryType(entry).name }}
                                             </span>
+                                            <hr />
                                         </p>
-                                        <hr />
+                                        
+                                        
 
-                                        <h5 class="card-title">Meio</h5>
-                                        <p class="card-text">
+                                        <h5 v-if="can('entries:show')" class="card-title">Meio</h5>
+                                        <p v-if="can('entries:show')" class="card-text">
                                             <span
                                                 class="badge badge-primary text-uppercase"
                                             >
@@ -198,11 +203,13 @@
                                                             : "")
                                                 }}
                                             </span>
+                                              <hr />
                                         </p>
-                                        <hr />
+                                      
 
-                                        <h5 class="card-title">Pendências</h5>
-                                        <p class="card-text">
+
+                                        <h5 v-if="can('congressman-budgets:show')" class="card-title">Pendências</h5>
+                                        <p v-if="can('congressman-budgets:show')" class="card-text">
                                             <app-badge
                                                 v-if="
                                                     entry.pendencies.length ===
@@ -227,13 +234,15 @@
                                                     &bull; {{ pendency }}
                                                 </div>
                                             </app-badge>
+                                             <hr />
                                         </p>
-                                        <hr />
+                                       
 
-                                        <h5 class="card-title">Status</h5>
-                                        <p class="card-text">
+
+                                        <h5 v-if="can('entries:show')" class="card-title">Status</h5>
+                                        <p v-if="can('entries:show')" class="card-text d-flex justify-content-center">
                                             <app-status-badge
-                                                class="text-uppercase"
+                                                class="text-uppercase w-25"
                                                 :rows="[
                                                     {
                                                         value:
@@ -259,8 +268,9 @@
                                                     }
                                                 ]"
                                             ></app-status-badge>
+                                             <hr />
                                         </p>
-                                        <hr />
+                                       
 
                                         <h5 class="card-title">Documentos</h5>
                                         <p class="card-text">
