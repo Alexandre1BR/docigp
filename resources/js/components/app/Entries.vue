@@ -54,13 +54,14 @@
             <!-- Mobile Version -->
 
             <div class="d-lg-none">
+                <div class="accordion" id="accordionExample1">
                 <app-table
                     :pagination="pagination"
                     @goto-page="gotoPage($event)"
                     statusSize="1"
                     actionsSize="2"
                 >
-                    <div
+                    <tr
                         @click="selectEntry(entry)"
                         v-for="entry in entries.data.rows"
                         :class="{
@@ -72,19 +73,22 @@
                         }"
                         :dusk="'entrie'"
                     >
-                        <div class="accordion">
+                       
                             <div class="card">
-                                <div class="card-header" id="headingOne">
+                                <div class="card-header" :id="'headingEntry' + entry.id">
                                     <button
                                         class="btn collapsed"
                                         data-toggle="collapse"
-                                        :data-target="'#x' + entry.id"
+                                        :data-target="'#entry' + entry.id"
                                         aria-expanded="false"
-                                        :aria-controls="'#x' + entry.id"
+                                        :aria-controls="'#entry' + entry.id"
                                     >
                                         <thead>
                                             <tr>
-                                                <th v-if="can('tables:view-ids')"
+                                                <th
+                                                    v-if="
+                                                        can('tables:view-ids')
+                                                    "
                                                     class="text-center"
                                                     style="width:300px;"
                                                 >
@@ -165,10 +169,10 @@
                                     </button>
                                 </div>
                                 <div
-                                    :id="'x' + entry.id"
+                                    :id="'entry' + entry.id"
                                     class="collapse"
-                                    aria-labelledby="headingOne"
-                                    data-parent="#accordion"
+                                    :aria-labelledby="'#headingEntry' + entry.id"
+                                    data-parent="#accordionExample1"
                                 >
                                     <div class="card-body text-center">
                                         <h5 class="card-title">Valor</h5>
@@ -176,102 +180,124 @@
                                             {{ entry.value_formatted }}
                                         </p>
                                         <hr />
+                                        <div v-if="can('entries:show')">
+                                            <h5 class="card-title">Tipo</h5>
 
-                                        <h5 v-if="can('entries:show')" class="card-title">Tipo</h5>
-                                        <p v-if="can('entries:show')" class="card-text">
-                                            <span
-                                                :class="
-                                                    getEntryType(entry).class
-                                                "
-                                            >
-                                                {{ getEntryType(entry).name }}
-                                            </span>
-                                            <hr />
-                                        </p>
-                                        
-                                        
-
-                                        <h5 v-if="can('entries:show')" class="card-title">Meio</h5>
-                                        <p v-if="can('entries:show')" class="card-text">
-                                            <span
-                                                class="badge badge-primary text-uppercase"
-                                            >
-                                                {{
-                                                    entry.entry_type_name +
-                                                        (entry.document_number
-                                                            ? ": " +
-                                                              entry.document_number
-                                                            : "")
-                                                }}
-                                            </span>
-                                              <hr />
-                                        </p>
-                                      
-
-
-                                        <h5 v-if="can('congressman-budgets:show')" class="card-title">Pendências</h5>
-                                        <p v-if="can('congressman-budgets:show')" class="card-text">
-                                            <app-badge
-                                                v-if="
-                                                    entry.pendencies.length ===
-                                                        0
-                                                "
-                                                caption="não"
-                                                color="#38c172,#fff"
-                                                padding="1"
-                                            ></app-badge>
-
-                                            <app-badge
-                                                v-if="
-                                                    entry.pendencies.length > 0
-                                                "
-                                                color="#e3342f,#FFFFFF"
-                                                padding="1"
-                                            >
-                                                <div
-                                                    class="text-uppercase"
-                                                    v-for="pendency in entry.pendencies"
+                                            <p class="card-text">
+                                                <span
+                                                    :class="
+                                                        getEntryType(entry)
+                                                            .class
+                                                    "
                                                 >
-                                                    &bull; {{ pendency }}
-                                                </div>
-                                            </app-badge>
-                                             <hr />
-                                        </p>
-                                       
+                                                    {{
+                                                        getEntryType(entry).name
+                                                    }}
+                                                </span>
+                                            </p>
+                                            <hr />
+                                        </div>
 
+                                        <div v-if="can('entries:show')">
+                                            <h5 class="card-title">Meio</h5>
+                                            <p class="card-text">
+                                                <span
+                                                    class="badge badge-primary text-uppercase"
+                                                >
+                                                    {{
+                                                        entry.entry_type_name +
+                                                            (entry.document_number
+                                                                ? ": " +
+                                                                  entry.document_number
+                                                                : "")
+                                                    }}
+                                                </span>
+                                            </p>
+                                            <hr />
+                                        </div>
 
-                                        <h5 v-if="can('entries:show')" class="card-title">Status</h5>
-                                        <p v-if="can('entries:show')" class="card-text d-flex justify-content-center">
-                                            <app-status-badge
-                                                class="text-uppercase w-25"
-                                                :rows="[
-                                                    {
-                                                        value:
-                                                            entry.verified_at,
-                                                        title: 'Verificado: ',
-                                                        labels: ['sim', 'não']
-                                                    },
-                                                    {
-                                                        value:
-                                                            entry.analysed_at,
-                                                        title: 'Analisado: ',
-                                                        labels: ['sim', 'não']
-                                                    },
-                                                    {
-                                                        value:
-                                                            entry.published_at &&
-                                                            !entry.is_transport_or_credit,
-                                                        title: 'Publicidade: ',
-                                                        labels: [
-                                                            'público',
-                                                            'privado'
-                                                        ]
-                                                    }
-                                                ]"
-                                            ></app-status-badge>
-                                             <hr />
-                                        </p>
-                                       
+                                        <div
+                                            v-if="
+                                                can('congressman-budgets:show')
+                                            "
+                                        >
+                                            <h5 class="card-title">
+                                                Pendências
+                                            </h5>
+                                            <p class="card-text">
+                                                <app-badge
+                                                    v-if="
+                                                        entry.pendencies
+                                                            .length === 0
+                                                    "
+                                                    caption="não"
+                                                    color="#38c172,#fff"
+                                                    padding="1"
+                                                ></app-badge>
+
+                                                <app-badge
+                                                    v-if="
+                                                        entry.pendencies
+                                                            .length > 0
+                                                    "
+                                                    color="#e3342f,#FFFFFF"
+                                                    padding="1"
+                                                >
+                                                    <div
+                                                        class="text-uppercase"
+                                                        v-for="pendency in entry.pendencies"
+                                                    >
+                                                        &bull; {{ pendency }}
+                                                    </div>
+                                                </app-badge>
+                                            </p>
+                                            <hr />
+                                        </div>
+
+                                        <div v-if="can('entries:show')">
+                                            <h5 class="card-title">Status</h5>
+                                            <p
+                                                class="card-text d-flex justify-content-center"
+                                            >
+                                                <app-status-badge
+                                                    class="text-uppercase w-25"
+                                                    :rows="[
+                                                        {
+                                                            value:
+                                                                entry.verified_at,
+                                                            title:
+                                                                'Verificado: ',
+                                                            labels: [
+                                                                'sim',
+                                                                'não'
+                                                            ]
+                                                        },
+                                                        {
+                                                            value:
+                                                                entry.analysed_at,
+                                                            title:
+                                                                'Analisado: ',
+                                                            labels: [
+                                                                'sim',
+                                                                'não'
+                                                            ]
+                                                        },
+                                                        {
+                                                            value:
+                                                                entry.published_at &&
+                                                                !entry.is_transport_or_credit,
+                                                            title:
+                                                                'Publicidade: ',
+                                                            labels: [
+                                                                'público',
+                                                                'privado'
+                                                            ]
+                                                        }
+                                                    ]"
+                                                ></app-status-badge>
+                                            </p>
+                                            <hr />
+                                        </div>
 
                                         <h5 class="card-title">Documentos</h5>
                                         <p class="card-text">
@@ -489,9 +515,10 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
+                       
+                    </tr>
                 </app-table>
+                </div>
             </div>
 
             <div class="d-none d-lg-block">

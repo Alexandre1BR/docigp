@@ -356,6 +356,7 @@
             <!-- Mobile Version -->
 
             <div class="d-lg-none">
+                <div class="accordion" id="accordionExample">
                 <app-table
                     :pagination="pagination"
                     @goto-page="gotoPage($event)"
@@ -374,18 +375,19 @@
                             )
                         }"
                     >
-                        <div id="accordion">
+                        
                             <div class="card">
-                                <div class="card-header" id="headingOne">
+                                <div class="card-header" :id="'headingCongress' + congressmanBudget.id">
                                     <button
-                                        class="btn collapsed"
+                                        class="btn"
                                         data-toggle="collapse"
+                                        type="button"
                                         :data-target="
-                                            '#x' + congressmanBudget.id
+                                            '#congressman' + congressmanBudget.id
                                         "
-                                        aria-expanded="false"
+                                        aria-expanded="true"
                                         :aria-controls="
-                                            '#x' + congressmanBudget.id
+                                            '#congressman' + congressmanBudget.id
                                         "
                                     >
                                         <thead>
@@ -459,10 +461,10 @@
                                 </div>
 
                                 <div
-                                    :id="'x' + congressmanBudget.id"
+                                    :id="'congressman' + congressmanBudget.id"
                                     class="collapse"
-                                    aria-labelledby="headingOne"
-                                    data-parent="#accordion"
+                                    :aria-labelledby="'#headingCongress' + congressmanBudget.id"
+                                    data-parent="#accordionExample"
                                 >
                                     <div class="card-body text-center">
                                         <h5 class="card-title">Lançamentos</h5>
@@ -801,9 +803,10 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        
                     </tr>
                 </app-table>
+                </div>
             </div>
             <!-- Mobile Version -->
         </app-table-panel>
