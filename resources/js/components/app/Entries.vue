@@ -66,7 +66,7 @@
                         v-for="entry in entries.data.rows"
                         :class="{
                             'cursor-pointer': true,
-                            'bg-primary-lighter text-white': isCurrent(
+                            'bg-primary-lighter': isCurrent(
                                 entry,
                                 selected
                             )
