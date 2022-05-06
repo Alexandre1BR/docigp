@@ -356,52 +356,62 @@
             <!-- Mobile Version -->
 
             <div class="d-lg-none">
-                <div class="accordion" id="accordionExample">
-                <app-table
-                    :pagination="pagination"
-                    @goto-page="gotoPage($event)"
-                    statusSize="2"
-                    
-                >
-                    <tr
-                        @click="selectCongressmanBudget(congressmanBudget)"
-                        v-for="congressmanBudget in congressmanBudgets.data
-                            .rows"
-                        :class="{
-                            'cursor-pointer': true,
-                            'bg-primary-lighter ': isCurrent(
-                                congressmanBudget,
-                                selected
-                            )
-                        }"
+                <div class="accordion" role="tablist">
+                    <app-table
+                        :pagination="pagination"
+                        @goto-page="gotoPage($event)"
+                        statusSize="2"
                     >
-                        
-                            <div class="card">
-                                <div class="card-header" :id="'headingCongress' + congressmanBudget.id">
-                                    <button
-                                        class="btn"
-                                        data-toggle="collapse"
-                                        type="button"
-                                        :data-target="
-                                            '#congressman' + congressmanBudget.id
-                                        "
-                                        aria-expanded="true"
-                                        :aria-controls="
-                                            '#congressman' + congressmanBudget.id
-                                        "
+                        <tr
+                            @click="selectCongressmanBudget(congressmanBudget)"
+                            v-for="congressmanBudget in congressmanBudgets.data
+                                .rows"
+                            :class="{
+                                'cursor-pointer': true,
+                                'bg-primary-lighter ': isCurrent(
+                                    congressmanBudget,
+                                    selected
+                                )
+                            }"
+                        >
+                            <b-card no-body class="mb-1">
+                                <b-card-header
+                                    header-tag="header"
+                                    class="p-1"
+                                    role="tab"
+                                >
+                                    <b-button
+                                        block
+                                        v-b-toggle.accordion-1
+                                        variant="info"
                                     >
                                         <thead>
                                             <tr>
-                                                <th v-if="can('tables:view-ids')" class="text-center" style="width:300px;">
+                                                <th
+                                                    v-if="
+                                                        can('tables:view-ids')
+                                                    "
+                                                    class="text-center"
+                                                    style="width:300px;"
+                                                >
                                                     <span>#</span>
                                                 </th>
-                                                <th class="text-center" style="width:300px;">
+                                                <th
+                                                    class="text-center"
+                                                    style="width:300px;"
+                                                >
                                                     <span> Ano / Mês </span>
                                                 </th>
-                                                <th class="text-center" style="width:300px;">
+                                                <th
+                                                    class="text-center"
+                                                    style="width:300px;"
+                                                >
                                                     <span>%</span>
                                                 </th>
-                                                <th class="text-center" style="width:300px;">
+                                                <th
+                                                    class="text-center"
+                                                    style="width:300px;"
+                                                >
                                                     <span>Solicitado</span>
                                                     <span
                                                         ><button
@@ -439,90 +449,105 @@
                                                 {{ congressmanBudget.id }}
                                             </td>
 
-                                            <td class="align-middle text-center">
+                                            <td
+                                                class="align-middle text-center"
+                                            >
                                                 {{
                                                     makeDate(congressmanBudget)
                                                 }}
                                             </td>
 
-                                            <td class="align-middle text-center">
+                                            <td
+                                                class="align-middle text-center"
+                                            >
                                                 {{
                                                     congressmanBudget.percentage_formatted
                                                 }}
                                             </td>
 
-                                            <td class="align-middle text-center">
+                                            <td
+                                                class="align-middle text-center"
+                                            >
                                                 {{
                                                     congressmanBudget.value_formatted
                                                 }}
                                             </td>
                                         </tbody>
-                                    </button>
-                                </div>
-
-                                <div
-                                    :id="'congressman' + congressmanBudget.id"
-                                    class="collapse"
-                                    :aria-labelledby="'#headingCongress' + congressmanBudget.id"
-                                    data-parent="#accordionExample"
+                                    </b-button>
+                                </b-card-header>
+                                <b-collapse
+                                    id="accordion-1"
+                                    visible
+                                    accordion="my-accordion"
+                                    role="tabpanel"
                                 >
-                                    <div class="card-body text-center">
-                                        <h5 class="card-title">Lançamentos</h5>
-                                        <p class="card-text">
-                                            {{
-                                                congressmanBudget.entries_count
-                                            }}
-                                        </p>
-                                        <hr />
-
-                                        <div
-                                            v-if="
-                                                can('congressman-budgets:show')
-                                            "
-                                        >
+                                    <b-card-body>
+                                        <b-card-text>
                                             <h5 class="card-title">
-                                                Pendências
+                                                Lançamentos
                                             </h5>
                                             <p class="card-text">
-                                                <app-badge
-                                                    v-if="
-                                                        congressmanBudget
-                                                            .pendencies
-                                                            .length === 0
-                                                    "
-                                                    caption="não"
-                                                    color="#38c172,#FFFFFF"
-                                                    padding="1"
-                                                ></app-badge>
-
-                                                <app-badge
-                                                    v-if="
-                                                        congressmanBudget
-                                                            .pendencies.length >
-                                                            0
-                                                    "
-                                                    color="#e3342f,#FFFFFF"
-                                                    padding="1"
-                                                >
-                                                    <div
-                                                        class="text-uppercase"
-                                                        v-for="pendency in congressmanBudget.pendencies"
-                                                    >
-                                                        &bull;{{ pendency
-                                                        }}<br />
-                                                    </div>
-                                                </app-badge>
+                                                {{
+                                                    congressmanBudget.entries_count
+                                                }}
                                             </p>
-                                        </div>
-                                        <hr />
-                                        <div
-                                            v-if="
-                                                can('congressman-budgets:show')
-                                            "
-                                        >
-                                            <h5 class="card-title">Status</h5>
-                                            <p class="card-text d-flex justify-content-center">
-                                                
+                                            <hr />
+
+                                            <div
+                                                v-if="
+                                                    can(
+                                                        'congressman-budgets:show'
+                                                    )
+                                                "
+                                            >
+                                                <h5 class="card-title">
+                                                    Pendências
+                                                </h5>
+                                                <p class="card-text">
+                                                    <app-badge
+                                                        v-if="
+                                                            congressmanBudget
+                                                                .pendencies
+                                                                .length === 0
+                                                        "
+                                                        caption="não"
+                                                        color="#38c172,#FFFFFF"
+                                                        padding="1"
+                                                    ></app-badge>
+
+                                                    <app-badge
+                                                        v-if="
+                                                            congressmanBudget
+                                                                .pendencies
+                                                                .length > 0
+                                                        "
+                                                        color="#e3342f,#FFFFFF"
+                                                        padding="1"
+                                                    >
+                                                        <div
+                                                            class="text-uppercase"
+                                                            v-for="pendency in congressmanBudget.pendencies"
+                                                        >
+                                                            &bull;{{ pendency
+                                                            }}<br />
+                                                        </div>
+                                                    </app-badge>
+                                                </p>
+                                            </div>
+                                            <hr />
+                                            <div
+                                                v-if="
+                                                    can(
+                                                        'congressman-budgets:show'
+                                                    )
+                                                "
+                                            >
+                                                <h5 class="card-title">
+                                                    Status
+                                                </h5>
+                                                <p
+                                                    class="card-text d-flex justify-content-center"
+                                                >
                                                     <app-status-badge
                                                         class="text-uppercase w-25"
                                                         :rows="[
@@ -558,254 +583,268 @@
                                                             }
                                                         ]"
                                                     ></app-status-badge>
-                                                
-                                            </p>
-                                        </div>
-                                        <hr />
+                                                </p>
+                                            </div>
+                                            <hr />
 
-                                        <div
-                                            v-if="
-                                                can('congressman-budgets:show')
-                                            "
-                                            class="p-2"
-                                        >
-                                            <app-action-button
+                                            <div
                                                 v-if="
-                                                    getCongressmanBudgetState(
-                                                        congressmanBudget
-                                                    ).buttons.deposit.visible
+                                                    can(
+                                                        'congressman-budgets:show'
+                                                    )
                                                 "
-                                                :disabled="
-                                                    getCongressmanBudgetState(
-                                                        congressmanBudget
-                                                    ).buttons.deposit.disabled
-                                                "
-                                                classes="btn btn-micro btn-success col-sm-4"
-                                                :title="
-                                                    getCongressmanBudgetState(
-                                                        congressmanBudget
-                                                    ).buttons.deposit.title
-                                                "
-                                                :model="congressmanBudget"
-                                                :swal-title="
-                                                    getCongressmanBudgetState(
-                                                        congressmanBudget
-                                                    ).buttons.deposit.title
-                                                "
-                                                label="depositar"
-                                                icon="fa fa-dollar-sign"
-                                                store="congressmanBudgets"
-                                                method="deposit"
-                                                dusk="deeposit_budget_button"
+                                                class="p-2"
                                             >
-                                            </app-action-button>
+                                                <app-action-button
+                                                    v-if="
+                                                        getCongressmanBudgetState(
+                                                            congressmanBudget
+                                                        ).buttons.deposit
+                                                            .visible
+                                                    "
+                                                    :disabled="
+                                                        getCongressmanBudgetState(
+                                                            congressmanBudget
+                                                        ).buttons.deposit
+                                                            .disabled
+                                                    "
+                                                    classes="btn btn-micro btn-success col-sm-4"
+                                                    :title="
+                                                        getCongressmanBudgetState(
+                                                            congressmanBudget
+                                                        ).buttons.deposit.title
+                                                    "
+                                                    :model="congressmanBudget"
+                                                    :swal-title="
+                                                        getCongressmanBudgetState(
+                                                            congressmanBudget
+                                                        ).buttons.deposit.title
+                                                    "
+                                                    label="depositar"
+                                                    icon="fa fa-dollar-sign"
+                                                    store="congressmanBudgets"
+                                                    method="deposit"
+                                                    dusk="deeposit_budget_button"
+                                                >
+                                                </app-action-button>
 
-                                            <app-percentage-button
-                                                v-if="
-                                                    getCongressmanBudgetState(
-                                                        congressmanBudget
-                                                    ).buttons.editPercentage
-                                                        .visible
-                                                "
-                                                :disabled="
-                                                    getCongressmanBudgetState(
-                                                        congressmanBudget
-                                                    ).buttons.editPercentage
-                                                        .disabled
-                                                "
-                                                classes="btn btn-micro btn-primary col-sm-4"
-                                                :title="
-                                                    getCongressmanBudgetState(
-                                                        congressmanBudget
-                                                    ).buttons.editPercentage
-                                                        .title
-                                                "
-                                                :model="congressmanBudget"
-                                                label="percentual"
-                                                icon="fa fa-edit"
-                                                store="congressmanBudgets"
-                                                method="editPercentage"
-                                                dusk="percentageButton"
-                                            >
-                                            </app-percentage-button>
+                                                <app-percentage-button
+                                                    v-if="
+                                                        getCongressmanBudgetState(
+                                                            congressmanBudget
+                                                        ).buttons.editPercentage
+                                                            .visible
+                                                    "
+                                                    :disabled="
+                                                        getCongressmanBudgetState(
+                                                            congressmanBudget
+                                                        ).buttons.editPercentage
+                                                            .disabled
+                                                    "
+                                                    classes="btn btn-micro btn-primary col-sm-4"
+                                                    :title="
+                                                        getCongressmanBudgetState(
+                                                            congressmanBudget
+                                                        ).buttons.editPercentage
+                                                            .title
+                                                    "
+                                                    :model="congressmanBudget"
+                                                    label="percentual"
+                                                    icon="fa fa-edit"
+                                                    store="congressmanBudgets"
+                                                    method="editPercentage"
+                                                    dusk="percentageButton"
+                                                >
+                                                </app-percentage-button>
 
-                                            <app-action-button
-                                                v-if="
-                                                    getCongressmanBudgetState(
-                                                        congressmanBudget
-                                                    ).buttons.close.visible
-                                                "
-                                                :disabled="
-                                                    getCongressmanBudgetState(
-                                                        congressmanBudget
-                                                    ).buttons.close.disabled
-                                                "
-                                                classes="btn btn-micro btn-danger col-sm-4"
-                                                :title="
-                                                    getCongressmanBudgetState(
-                                                        congressmanBudget
-                                                    ).buttons.close.title
-                                                "
-                                                :model="congressmanBudget"
-                                                swal-title="Deseja realmente FECHAR esse Orçamento Mensal?"
-                                                label="fechar"
-                                                icon="fa fa-ban"
-                                                store="congressmanBudgets"
-                                                method="close"
-                                                dusk="close_budget_button"
-                                            >
-                                            </app-action-button>
+                                                <app-action-button
+                                                    v-if="
+                                                        getCongressmanBudgetState(
+                                                            congressmanBudget
+                                                        ).buttons.close.visible
+                                                    "
+                                                    :disabled="
+                                                        getCongressmanBudgetState(
+                                                            congressmanBudget
+                                                        ).buttons.close.disabled
+                                                    "
+                                                    classes="btn btn-micro btn-danger col-sm-4"
+                                                    :title="
+                                                        getCongressmanBudgetState(
+                                                            congressmanBudget
+                                                        ).buttons.close.title
+                                                    "
+                                                    :model="congressmanBudget"
+                                                    swal-title="Deseja realmente FECHAR esse Orçamento Mensal?"
+                                                    label="fechar"
+                                                    icon="fa fa-ban"
+                                                    store="congressmanBudgets"
+                                                    method="close"
+                                                    dusk="close_budget_button"
+                                                >
+                                                </app-action-button>
 
-                                            <app-action-button
-                                                v-if="
-                                                    getCongressmanBudgetState(
-                                                        congressmanBudget
-                                                    ).buttons.reopen.visible
-                                                "
-                                                :disabled="
-                                                    getCongressmanBudgetState(
-                                                        congressmanBudget
-                                                    ).buttons.reopen.disabled
-                                                "
-                                                classes="btn btn-micro btn-danger col-sm-4"
-                                                :title="
-                                                    getCongressmanBudgetState(
-                                                        congressmanBudget
-                                                    ).buttons.reopen.title
-                                                "
-                                                :model="congressmanBudget"
-                                                swal-title="Deseja REABRIR esse Orçamento Mensal?"
-                                                label="reabrir"
-                                                icon="fa fa-check"
-                                                store="congressmanBudgets"
-                                                method="reopen"
-                                            >
-                                            </app-action-button>
+                                                <app-action-button
+                                                    v-if="
+                                                        getCongressmanBudgetState(
+                                                            congressmanBudget
+                                                        ).buttons.reopen.visible
+                                                    "
+                                                    :disabled="
+                                                        getCongressmanBudgetState(
+                                                            congressmanBudget
+                                                        ).buttons.reopen
+                                                            .disabled
+                                                    "
+                                                    classes="btn btn-micro btn-danger col-sm-4"
+                                                    :title="
+                                                        getCongressmanBudgetState(
+                                                            congressmanBudget
+                                                        ).buttons.reopen.title
+                                                    "
+                                                    :model="congressmanBudget"
+                                                    swal-title="Deseja REABRIR esse Orçamento Mensal?"
+                                                    label="reabrir"
+                                                    icon="fa fa-check"
+                                                    store="congressmanBudgets"
+                                                    method="reopen"
+                                                >
+                                                </app-action-button>
 
-                                            <app-action-button
-                                                v-if="
-                                                    getCongressmanBudgetState(
-                                                        congressmanBudget
-                                                    ).buttons.analyse.visible
-                                                "
-                                                :disabled="
-                                                    getCongressmanBudgetState(
-                                                        congressmanBudget
-                                                    ).buttons.analyse.disabled
-                                                "
-                                                classes="btn btn-micro btn-warning col-sm-4"
-                                                :title="
-                                                    getCongressmanBudgetState(
-                                                        congressmanBudget
-                                                    ).buttons.analyse.title
-                                                "
-                                                :model="congressmanBudget"
-                                                swal-title="Esse Orçamento mensal foi ANALISADO?"
-                                                label="analisar"
-                                                icon="fa fa-check"
-                                                store="congressmanBudgets"
-                                                method="analyse"
-                                                :spinner-config="{
-                                                    color: 'black'
-                                                }"
-                                                dusk="analize_budget_button"
-                                            >
-                                            </app-action-button>
+                                                <app-action-button
+                                                    v-if="
+                                                        getCongressmanBudgetState(
+                                                            congressmanBudget
+                                                        ).buttons.analyse
+                                                            .visible
+                                                    "
+                                                    :disabled="
+                                                        getCongressmanBudgetState(
+                                                            congressmanBudget
+                                                        ).buttons.analyse
+                                                            .disabled
+                                                    "
+                                                    classes="btn btn-micro btn-warning col-sm-4"
+                                                    :title="
+                                                        getCongressmanBudgetState(
+                                                            congressmanBudget
+                                                        ).buttons.analyse.title
+                                                    "
+                                                    :model="congressmanBudget"
+                                                    swal-title="Esse Orçamento mensal foi ANALISADO?"
+                                                    label="analisar"
+                                                    icon="fa fa-check"
+                                                    store="congressmanBudgets"
+                                                    method="analyse"
+                                                    :spinner-config="{
+                                                        color: 'black'
+                                                    }"
+                                                    dusk="analize_budget_button"
+                                                >
+                                                </app-action-button>
 
-                                            <app-action-button
-                                                v-if="
-                                                    getCongressmanBudgetState(
-                                                        congressmanBudget
-                                                    ).buttons.unanalyse.visible
-                                                "
-                                                :disabled="
-                                                    getCongressmanBudgetState(
-                                                        congressmanBudget
-                                                    ).buttons.unanalyse.disabled
-                                                "
-                                                classes="btn btn-micro btn-warning col-sm-4"
-                                                :title="
-                                                    getCongressmanBudgetState(
-                                                        congressmanBudget
-                                                    ).buttons.unanalyse.title
-                                                "
-                                                :model="congressmanBudget"
-                                                swal-title="Deseja remover o status ANALISADO deste lançamento?"
-                                                label="analisado"
-                                                icon="fa fa-ban"
-                                                store="congressmanBudgets"
-                                                method="unanalyse"
-                                                :spinner-config="{
-                                                    color: 'black'
-                                                }"
-                                            >
-                                            </app-action-button>
+                                                <app-action-button
+                                                    v-if="
+                                                        getCongressmanBudgetState(
+                                                            congressmanBudget
+                                                        ).buttons.unanalyse
+                                                            .visible
+                                                    "
+                                                    :disabled="
+                                                        getCongressmanBudgetState(
+                                                            congressmanBudget
+                                                        ).buttons.unanalyse
+                                                            .disabled
+                                                    "
+                                                    classes="btn btn-micro btn-warning col-sm-4"
+                                                    :title="
+                                                        getCongressmanBudgetState(
+                                                            congressmanBudget
+                                                        ).buttons.unanalyse
+                                                            .title
+                                                    "
+                                                    :model="congressmanBudget"
+                                                    swal-title="Deseja remover o status ANALISADO deste lançamento?"
+                                                    label="analisado"
+                                                    icon="fa fa-ban"
+                                                    store="congressmanBudgets"
+                                                    method="unanalyse"
+                                                    :spinner-config="{
+                                                        color: 'black'
+                                                    }"
+                                                >
+                                                </app-action-button>
 
-                                            <app-action-button
-                                                v-if="
-                                                    getCongressmanBudgetState(
-                                                        congressmanBudget
-                                                    ).buttons.publish.visible
-                                                "
-                                                :disabled="
-                                                    getCongressmanBudgetState(
-                                                        congressmanBudget
-                                                    ).buttons.publish.disabled
-                                                "
-                                                classes="btn btn-micro btn-danger col-sm-4"
-                                                :title="
-                                                    getCongressmanBudgetState(
-                                                        congressmanBudget
-                                                    ).buttons.publish.title
-                                                "
-                                                :model="congressmanBudget"
-                                                swal-title="Confirma a PUBLICAÇÃO deste Orçamento Mensal?"
-                                                label="publicar"
-                                                icon="fa fa-check"
-                                                store="congressmanBudgets"
-                                                method="publish"
-                                                dusk="publish_budget_button"
-                                            >
-                                            </app-action-button>
+                                                <app-action-button
+                                                    v-if="
+                                                        getCongressmanBudgetState(
+                                                            congressmanBudget
+                                                        ).buttons.publish
+                                                            .visible
+                                                    "
+                                                    :disabled="
+                                                        getCongressmanBudgetState(
+                                                            congressmanBudget
+                                                        ).buttons.publish
+                                                            .disabled
+                                                    "
+                                                    classes="btn btn-micro btn-danger col-sm-4"
+                                                    :title="
+                                                        getCongressmanBudgetState(
+                                                            congressmanBudget
+                                                        ).buttons.publish.title
+                                                    "
+                                                    :model="congressmanBudget"
+                                                    swal-title="Confirma a PUBLICAÇÃO deste Orçamento Mensal?"
+                                                    label="publicar"
+                                                    icon="fa fa-check"
+                                                    store="congressmanBudgets"
+                                                    method="publish"
+                                                    dusk="publish_budget_button"
+                                                >
+                                                </app-action-button>
 
-                                            <app-action-button
-                                                v-if="
-                                                    getCongressmanBudgetState(
-                                                        congressmanBudget
-                                                    ).buttons.unpublish.visible
-                                                "
-                                                :disabled="
-                                                    getCongressmanBudgetState(
-                                                        congressmanBudget
-                                                    ).buttons.unpublish.disabled
-                                                "
-                                                classes="btn btn-micro btn-danger col-sm-4"
-                                                :title="
-                                                    getCongressmanBudgetState(
-                                                        congressmanBudget
-                                                    ).buttons.unpublish.title
-                                                "
-                                                :model="congressmanBudget"
-                                                swal-title="Confirma a DESPUBLICAÇÃO deste Orçamento Mensal?"
-                                                label="despublicar"
-                                                icon="fa fa-ban"
-                                                store="congressmanBudgets"
-                                                method="unpublish"
-                                            >
-                                            </app-action-button>
+                                                <app-action-button
+                                                    v-if="
+                                                        getCongressmanBudgetState(
+                                                            congressmanBudget
+                                                        ).buttons.unpublish
+                                                            .visible
+                                                    "
+                                                    :disabled="
+                                                        getCongressmanBudgetState(
+                                                            congressmanBudget
+                                                        ).buttons.unpublish
+                                                            .disabled
+                                                    "
+                                                    classes="btn btn-micro btn-danger col-sm-4"
+                                                    :title="
+                                                        getCongressmanBudgetState(
+                                                            congressmanBudget
+                                                        ).buttons.unpublish
+                                                            .title
+                                                    "
+                                                    :model="congressmanBudget"
+                                                    swal-title="Confirma a DESPUBLICAÇÃO deste Orçamento Mensal?"
+                                                    label="despublicar"
+                                                    icon="fa fa-ban"
+                                                    store="congressmanBudgets"
+                                                    method="unpublish"
+                                                >
+                                                </app-action-button>
 
-                                            <app-audits-button
-                                                model="congressmanBudgets"
-                                                class="col-sm-4"
-                                                :row="congressmanBudget"
-                                            ></app-audits-button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        
-                    </tr>
-                </app-table>
+                                                <app-audits-button
+                                                    model="congressmanBudgets"
+                                                    class="col-sm-4"
+                                                    :row="congressmanBudget"
+                                                ></app-audits-button>
+                                            </div>
+                                        </b-card-text>
+                                    </b-card-body>
+                                </b-collapse>
+                            </b-card>
+                        </tr>
+                    </app-table>
                 </div>
             </div>
             <!-- Mobile Version -->
