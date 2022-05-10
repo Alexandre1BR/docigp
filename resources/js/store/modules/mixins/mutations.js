@@ -23,6 +23,13 @@ export function mutateSetDataRow(state, payload) {
     })
 }
 
+export function mutateSetVisible(state, payload) {
+    state.data.rows.forEach((row) => {
+        row.visible = false
+    })
+    payload.visible = true
+}
+
 export function mutateSetQuery(state, payload) {
     state.query = payload
 }
@@ -31,8 +38,8 @@ export function mutateDeleteRow(state, payload) {
     state.data.rows = state.data.rows.filter(function (obj) {
         return obj.id !== payload
     })
-    if(state.selected.id === payload){
-        state.selected = {id: null}
+    if (state.selected.id === payload) {
+        state.selected = { id: null }
     }
 }
 
