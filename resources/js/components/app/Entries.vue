@@ -126,7 +126,7 @@
                                 </b-card-header>
                                 <b-collapse
                                     :id="'entry' + entry.id"
-                                    accordion="my-accordion"
+                                    accordion="entries"
                                     role="tabpanel"
                                     v-model="entry.visible"
                                 >
@@ -227,7 +227,7 @@
                                         <p class="card-text">
                                             {{ entry.comments_count }}
                                         </p>
-                                        <hr />
+                                        <div v-if="can('entries:show')"><hr /></div>
 
                                         <div class="form-row justify-content-center pb-2">
                                             <app-action-button

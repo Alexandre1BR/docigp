@@ -326,7 +326,6 @@
                                 <b-card-header header-tag="header" role="tab">
                                     <b-button
                                         v-b-toggle="'congressmanBudget' + congressmanBudget.id"
-                                        block
                                         variant="light"
                                     >
                                         <thead>
@@ -398,7 +397,7 @@
                                 </b-card-header>
                                 <b-collapse
                                     :id="'congressmanBudget' + congressmanBudget.id"
-                                    accordion="my-accordion"
+                                    accordion="congressmanBudget"
                                     role="tabpanel"
                                     v-model="congressmanBudget.visible"
                                 >
@@ -449,7 +448,7 @@
                                                         :rows="[
                                                             {
                                                                 value: congressmanBudget.closed_at,
-                                                                title: 'Verificado: ',
+                                                                title: 'Fechado: ',
                                                                 labels: ['sim', 'não'],
                                                             },
                                                             {
