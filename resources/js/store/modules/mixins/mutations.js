@@ -4,6 +4,7 @@ export function mutateTableLoading(state, payload) {
 
 export function mutateSetData(state, payload) {
     state.data = payload
+
     if (state.selected.id) {
         const found = _.find(state.data.rows, (row) => row.id === state.selected.id)
 
@@ -24,10 +25,21 @@ export function mutateSetDataRow(state, payload) {
 }
 
 export function mutateSetVisible(state, payload) {
-    state.data.rows.forEach((row) => {
-        row.visible = false
-    })
-    payload.visible = true
+    /* state.data.rows.forEach((row) => {
+        if (row.id === payload.id) {
+            dd('primeiro')
+            if (!row.hasOwnProperty('visible')) {
+                dd('segundo')
+                row.visible = true
+            } else {
+                dd('terceiro')
+                row.visible = !row.visible
+            }
+        } else {
+            dd('quarto')
+            row.visible = false
+        }
+    } )*/
 }
 
 export function mutateSetQuery(state, payload) {

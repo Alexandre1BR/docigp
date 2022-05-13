@@ -31,14 +31,6 @@ export function setDataAfterDelete(context, payload) {
     })
 }
 
-export function removeShowClass() {
-    var elements = document.querySelectorAll("[data-parent='#accordion']")
-    console.log(elements)
-    Array.from(elements).forEach((element) => {
-        element.classList.remove('show')
-    })
-}
-
 export function fixCurrentPage(context, payload) {
     if (
         context.state.data.links.pagination.total % context.state.data.links.pagination.per_page ==
@@ -88,7 +80,6 @@ export function mutateSetQueryFilterText(context, payload) {
 
 export function setCurrentPage(context, payload) {
     context.state.data.links.pagination.current_page = payload
-    context.dispatch('removeShowClass')
     context.dispatch('load')
 }
 

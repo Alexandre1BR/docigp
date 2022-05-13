@@ -325,9 +325,7 @@
                             <b-card no-body>
                                 <b-card-header header-tag="header" role="tab">
                                     <b-button
-                                        :class="congressmanBudget.visible ? null : 'collapsed'"
-                                        :aria-expanded="congressmanBudget.visible ? true : false"
-                                        :aria-controls="'congressmanBudget' + congressmanBudget.id"
+                                        v-b-toggle="'congressmanBudget' + congressmanBudget.id"
                                         block
                                         variant="light"
                                     >
@@ -410,7 +408,7 @@
                                             <p class="card-text">
                                                 {{ congressmanBudget.entries_count }}
                                             </p>
-                                            <hr />
+                                            <div v-if="can('congressman-budgets:show')"><hr /></div>
 
                                             <div v-if="can('congressman-budgets:show')">
                                                 <h5 class="card-title">Pendências</h5>
@@ -440,8 +438,9 @@
                                                         </div>
                                                     </app-badge>
                                                 </p>
+                                                <hr />
                                             </div>
-                                            <hr />
+
                                             <div v-if="can('congressman-budgets:show')">
                                                 <h5 class="card-title">Status</h5>
                                                 <p class="card-text d-flex justify-content-center">
@@ -466,8 +465,8 @@
                                                         ]"
                                                     ></app-status-badge>
                                                 </p>
+                                                <hr />
                                             </div>
-                                            <hr />
 
                                             <div v-if="can('congressman-budgets:show')" class="p-2">
                                                 <app-action-button
