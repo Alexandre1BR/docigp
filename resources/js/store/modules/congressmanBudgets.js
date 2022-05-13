@@ -59,9 +59,7 @@ let actions = merge_objects(actionsMixin, {
 
     selectCongressmanBudget(context, payload) {
         const performLoad = !context.state.selected || context.state.selected.id != payload.id
-
         context.dispatch('congressmanBudgets/select', payload, { root: true })
-        //context.commit('congressmanBudgets/mutateSetVisible', payload, { root: true })
 
         if (performLoad) {
             context.commit('entries/mutateTableLoading', true, { root: true })
