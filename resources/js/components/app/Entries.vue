@@ -217,16 +217,36 @@
                                             <hr />
                                         </div>
 
-                                        <h5 class="card-title">Documentos</h5>
-                                        <p class="card-text">
-                                            {{ entry.documents_count }}
-                                        </p>
-                                        <hr />
+                                       <b-card no-body class="mb-1">
+                                        <b-card-header header-tag="header" class="p-1" role="tab">
+                                            <b-button class="pb-2" block v-b-toggle.documents variant="info"><h5 class="mt-2">Documentos
+                                            </h5><p class="mb-1">{{ entry.documents_count }}</p></b-button>
+                                        </b-card-header>
+                                        <b-collapse id="documents" accordion="documents" role="tabpanel">
+                                            <b-card-body>
+                                                <b-card-text>
+                                                    <app-documents v-if="entries.selected.id"></app-documents>
+                                                </b-card-text>
+                                            </b-card-body>
+                                        </b-collapse>
+                                        </b-card>
+                               
+                                        <div v-if="can('entries:show')"><hr /></div>
 
-                                        <h5 class="card-title">Comentários</h5>
-                                        <p class="card-text">
-                                            {{ entry.comments_count }}
-                                        </p>
+                                        <b-card no-body class="mb-1">
+                                        <b-card-header header-tag="header" class="p-1" role="tab">
+                                            <b-button class="pb-2" block v-b-toggle.comments variant="info"><h5 class="mt-2">Comentários
+                                            </h5><p class="mb-1">{{ entry.comments_count }}</p></b-button>
+                                        </b-card-header>
+                                        <b-collapse id="comments" accordion="comments" role="tabpanel">
+                                            <b-card-body>
+                                                <b-card-text>
+                                                    <app-comments v-if="entries.selected.id"></app-comments>
+                                                </b-card-text>
+                                            </b-card-body>
+                                        </b-collapse>
+                                        </b-card>
+
                                         <div v-if="can('entries:show')"><hr /></div>
 
                                         <div class="form-row justify-content-center pb-2">
