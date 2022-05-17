@@ -4,19 +4,17 @@ export function mutateTableLoading(state, payload) {
 
 export function mutateSetData(state, payload) {
     state.data = payload
-
     if (state.selected.id) {
         const found = _.find(state.data.rows, (row) => row.id === state.selected.id)
-
         if (typeof found === 'object') {
             state.selected = found
+            found.visible = true
         }
     }
 }
 
 export function mutateSetDataRow(state, payload) {
     var entry = findById(state.data, payload.id)
-
     _.each(entry, (value, key) => {
         if (payload.hasOwnProperty(key)) {
             entry[key] = payload[key]
@@ -68,6 +66,15 @@ export function mutateSetErrors(state, payload) {
 export function mutateFormData(state, payload) {
     _.each(payload, (value, key) => {
         state.form.fields[key] = value
+    })
+}
+
+export function mutateSetVisible(state, payload) {
+    state.data.rows.forEach((row) => {
+        if (row.id == payload.id) {
+            row.visible = true
+            console.log(row.visible)
+        }
     })
 }
 

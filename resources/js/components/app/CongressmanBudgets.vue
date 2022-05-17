@@ -395,7 +395,7 @@
                                         </tbody>
                                     </b-button>
                                 </b-card-header>
-                                <b-collapse
+                                <b-collapse 
                                     :id="'congressmanBudget' + congressmanBudget.id"
                                     accordion="congressmanBudget"
                                     role="tabpanel"

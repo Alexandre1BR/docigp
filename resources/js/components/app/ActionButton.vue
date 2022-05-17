@@ -14,6 +14,14 @@
 </template>
 
 <script>
+import congressmanBudgets from '../../views/mixins/congressmanBudgets'
+import { mapActions, mapGetters, mapState } from 'vuex'
+const  congressmanBudgetsService= {
+    name: 'congressmanBudgets',
+    uri: 'congressmen/{congressmen.selected.id}/budgets',
+}
+
+
 export default {
     props: [
         'label',
@@ -40,6 +48,8 @@ export default {
     },
 
     computed: {
+        ...mapState(congressmanBudgetsService.name, ['selected']),
+
         spinnerColor: {
             get() {
                 return this?.spinnerConfig?.color ?? 'white'
@@ -56,7 +66,6 @@ export default {
     methods: {
         pressButton(model) {
             const $this = this
-
             $this
                 .$swal({
                     title: $this.swalTitle,
