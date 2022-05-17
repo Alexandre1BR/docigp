@@ -219,7 +219,7 @@
 
                                        <b-card no-body class="mb-1">
                                         <b-card-header header-tag="header" class="p-1" role="tab">
-                                            <b-button class="pb-2" block v-b-toggle.documents variant="info"><h5 class="mt-2">Documentos
+                                            <b-button class="pb-2 selected" block v-b-toggle.documents><h5 class="mt-2">Documentos
                                             </h5><p class="mb-1">{{ entry.documents_count }}</p></b-button>
                                         </b-card-header>
                                         <b-collapse id="documents" accordion="documents" role="tabpanel">
@@ -235,7 +235,7 @@
 
                                         <b-card no-body class="mb-1">
                                         <b-card-header header-tag="header" class="p-1" role="tab">
-                                            <b-button class="pb-2" block v-b-toggle.comments variant="info"><h5 class="mt-2">Comentários
+                                            <b-button class="pb-2 selected" block v-b-toggle.comments><h5 class="mt-2">Comentários
                                             </h5><p class="mb-1">{{ entry.comments_count }}</p></b-button>
                                         </b-card-header>
                                         <b-collapse id="comments" accordion="comments" role="tabpanel">
@@ -407,6 +407,8 @@
                     </app-table>
                 </div>
             </div>
+
+            <!-- End Mobile Version -->
 
             <div class="d-none d-lg-block">
                 <app-table

@@ -17,11 +17,11 @@
                 <app-entries v-if="congressmanBudgets.selected.id"></app-entries>
             </div>
 
-            <div class="col-md-7">
+            <div class="col-md-7 d-none d-lg-block">
                 <app-documents v-if="entries.selected.id"></app-documents>
             </div>
 
-            <div class="col-md-5">
+            <div class="col-md-5 d-none d-lg-block">
                 <app-comments v-if="entries.selected.id"></app-comments>
             </div>
         </div>
