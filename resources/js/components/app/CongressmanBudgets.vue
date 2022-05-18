@@ -45,11 +45,7 @@
                         </td> -->
 
                         <td class="align-middle text-right">
-                            {{ congressmanBudget.percentage_formatted }}
-                        </td>
-
-                        <td class="align-middle text-right">
-                            {{ congressmanBudget.value_formatted }}
+                            {{ congressmanBudget.value_formatted }} - ({{ congressmanBudget.percentage_formatted }})
                         </td>
 
                         <td class="align-middle text-right">
@@ -318,35 +314,33 @@
                         @goto-page="gotoPage($event)"
                         statusSize="2"
                     >
-                        <tr
+                        <div
                             @click="selectCongressmanBudget(congressmanBudget)"
                             v-for="congressmanBudget in congressmanBudgets.data.rows"
                         >
-                            <b-card no-body>
-                                <b-card-header header-tag="header" role="tab">
+                           
+                                <div >
                                     <b-button
                                         v-b-toggle="'congressmanBudget' + congressmanBudget.id"
                                         variant="light"
                                     >
-                                        <thead>
-                                            <tr>
-                                                <th
-                                                    v-if="can('tables:view-ids')"
-                                                    class="text-center"
-                                                    style="width: 300px"
-                                                >
-                                                    <span>#</span>
-                                                </th>
-                                                <th class="text-center" style="width: 300px">
-                                                    <span> Ano / Mês </span>
-                                                </th>
-                                                <th class="text-center" style="width: 300px">
-                                                    <span>%</span>
-                                                </th>
-                                                <th class="text-center" style="width: 300px">
-                                                    <span>Solicitado</span>
-                                                    <span
-                                                        ><button
+                                        
+                                        <b-card class="w-100">
+                                            <div
+                                                v-if="can('tables:view-ids')"
+                                                class="align-middle text-center"
+                                            >
+                                                Id:  {{ congressmanBudget.id }}
+                                            </div>
+                                            <div v-if="can('congressman-budgets:show')"><hr /></div>
+
+                                            <div class="align-middle text-center">
+                                                Data: {{ makeDate(congressmanBudget) }}
+                                            </div>
+                                            <div v-if="can('congressman-budgets:show')"><hr /></div>
+
+                                            <div class="align-middle text-center">
+                                                Solicitado <button
                                                             data-toggle="tooltip"
                                                             data-placement="top"
                                                             title="Valor de referencia R$ 26.819,98"
@@ -368,33 +362,11 @@
                                                                     d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"
                                                                 ></path>
                                                             </svg>
-                                                        </button>
-                                                    </span>
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <td
-                                                v-if="can('tables:view-ids')"
-                                                class="align-middle text-center"
-                                            >
-                                                {{ congressmanBudget.id }}
-                                            </td>
-
-                                            <td class="align-middle text-center">
-                                                {{ makeDate(congressmanBudget) }}
-                                            </td>
-
-                                            <td class="align-middle text-center">
-                                                {{ congressmanBudget.percentage_formatted }}
-                                            </td>
-
-                                            <td class="align-middle text-center">
-                                                {{ congressmanBudget.value_formatted }}
-                                            </td>
-                                        </tbody>
+                                                        </button>: {{ congressmanBudget.value_formatted }} - ({{ congressmanBudget.percentage_formatted }})
+                                            </div>
+                                        </b-card>
                                     </b-button>
-                                </b-card-header>
+                                </div>
                                 <b-collapse 
                                     :id="'congressmanBudget' + congressmanBudget.id"
                                     accordion="congressmanBudget"
@@ -674,8 +646,8 @@
                                         </b-card-text>
                                     </b-card-body>
                                 </b-collapse>
-                            </b-card>
-                        </tr>
+                            
+                        </div>
                     </app-table>
                 </div>
             </div>
@@ -728,11 +700,6 @@ export default {
                 trClass: 'text-right',
             }) */
 
-            columns.push({
-                type: 'label',
-                title: '%',
-                trClass: 'text-right',
-            })
 
             columns.push({
                 type: 'label',
