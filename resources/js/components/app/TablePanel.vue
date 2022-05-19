@@ -103,7 +103,7 @@
                             <div class="col-12" v-if="hasCheckboxes()">
                                 <div
                                     :class="
-                                        'p-2 mb-2 mt-2 bg-gray-light' +
+                                        'p-2 mb-2 bg-gray-light' +
                                             (dontCenterFilters
                                                 ? ''
                                                 : ' text-center')
@@ -114,7 +114,7 @@
                             </div>
 
                             <div class="col-12" v-if="hasSelects()">
-                                <div class="p-12 mb-2 mt-2">
+                                <div class="p-12 mb-2">
                                     <slot name="selects"></slot>
                                 </div>
                             </div>
@@ -124,13 +124,13 @@
             </b-collapse>
         </div>
 
-        <b-collapse  :id="makeRandomId()" v-model="unCollapsed" class="mt-2">
+        <b-collapse  :id="makeRandomId()" v-model="unCollapsed" class="mt-0">
             <div class="row">            
                 <div  class="col-12"><slot></slot></div>
             </div>
         </b-collapse>
 
-        <b-collapse :id="makeRandomId()" v-model="collapsed" class="mt-2">
+        <b-collapse :id="makeRandomId()" v-model="collapsed" class="mt-0">
         
             <div
                 class="row cursor-pointer"

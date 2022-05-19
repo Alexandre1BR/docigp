@@ -28,7 +28,7 @@
                             .rows"
                         :class="{
                             'cursor-pointer': true,
-                            'bg-primary-lighter text-white': isCurrent(
+                            'bg-primary-lighter': isCurrent(
                                 congressmanBudget,
                                 selected
                             )
@@ -365,8 +365,10 @@
                             v-for="congressmanBudget in congressmanBudgets.data
                                 .rows"
                         >
+                        <b-card no-body>
+                        <div class="card-header-custom">
                             <b-button
-                                class="w-100 p-0 mb-2"
+                                class="w-100 p-0 mb-0"
                                 v-b-toggle="
                                     'congressmanBudget' + congressmanBudget.id
                                 "
@@ -378,10 +380,9 @@
                                         class="align-middle text-center"
                                     >
                                         Id: {{ congressmanBudget.id }}
+                                         <hr />
                                     </div>
-                                    <div v-if="can('congressman-budgets:show')">
-                                        <hr />
-                                    </div>
+                                   
 
                                     <div class="align-middle text-center">
                                         Data: {{ makeDate(congressmanBudget) }}
@@ -391,30 +392,7 @@
                                     </div>
 
                                     <div class="align-middle text-center">
-                                        Solicitado
-                                        <button
-                                            data-toggle="tooltip"
-                                            data-placement="top"
-                                            title="Valor de referencia R$ 26.819,98"
-                                            type="button"
-                                            class="btn btn btn-micro btn-secondary"
-                                        >
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                width="12"
-                                                height="12"
-                                                fill="currentColor"
-                                                viewBox="0 0 16 16"
-                                                class="bi bi-info-circle"
-                                            >
-                                                <path
-                                                    d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
-                                                ></path>
-                                                <path
-                                                    d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"
-                                                ></path>
-                                            </svg></button
-                                        >:
+                                        Solicitado:
                                         {{
                                             congressmanBudget.value_formatted
                                         }}
@@ -434,7 +412,87 @@
                                             <div
                                                 class="card-text d-flex justify-content-center"
                                             >
-                                            Status:
+                                            Status: {{congressmanBudget.closed_at && congressmanBudget.analysed_at && congressmanBudget.published_at ? 'Público' : congressmanBudget.closed_at && congressmanBudget.analysed_at ? 'Analisado' : congressmanBudget.closed_at ? 'Fechado' : 'Privado'}}
+                                                
+                                            </div>
+                                        </div>
+                                </b-card>
+                            </b-button>
+                        </div>
+                        </b-card>
+                            <b-collapse
+                                :id="'congressmanBudget' + congressmanBudget.id"
+                                accordion="congressmanBudget"
+                                role="tabpanel"
+                                v-model="congressmanBudget.visible"
+                            >
+                                <b-card-body class="text-center">
+                                    <b-card-text>
+                                        <h5 class="card-title">Lançamentos</h5>
+                                        <p class="card-text">
+                                            {{
+                                                congressmanBudget.entries_count
+                                            }}
+                                        </p>
+                                        <div
+                                            v-if="
+                                                can('congressman-budgets:show')
+                                            "
+                                        >
+                                            <hr />
+                                        </div>
+
+                                        <div
+                                            v-if="
+                                                can('congressman-budgets:show')
+                                            "
+                                        >
+                                            <h5 class="card-title">
+                                                Pendências
+                                            </h5>
+                                            <p class="card-text d-flex justify-content-center">
+                                                <app-badge
+                                                    v-if="
+                                                        congressmanBudget
+                                                            .pendencies
+                                                            .length === 0
+                                                    "
+                                                    caption="não"
+                                                    color="#38c172,#FFFFFF"
+                                                    padding="1"
+                                                ></app-badge>
+
+                                                <app-badge
+                                                    v-if="
+                                                        congressmanBudget
+                                                            .pendencies.length >
+                                                            0
+                                                    "
+                                                    color="#e3342f,#FFFFFF"
+                                                    padding="1"
+                                                >
+                                                    <div
+                                                        class="text-uppercase"
+                                                        v-for="pendency in congressmanBudget.pendencies"
+                                                    >
+                                                        &bull;{{ pendency
+                                                        }}<br />
+                                                    </div>
+                                                </app-badge>
+                                            </p>
+                                            <hr />
+                                        </div>
+
+                                        <div
+                                            v-if="
+                                                can('congressman-budgets:show')
+                                            "
+                                        >
+                                            
+                                            <h5 class="card-title">
+                                                Status
+                                            </h5>
+                                            <p class="card-text d-flex justify-content-center">
                                                 <app-status-badge
                                                     class="text-uppercase w-25"
                                                     :rows="[
@@ -469,73 +527,12 @@
                                                         }
                                                     ]"
                                                 ></app-status-badge>
-                                            </div>
-                                        </div>
-                                </b-card>
-                            </b-button>
-
-                            <b-collapse
-                                :id="'congressmanBudget' + congressmanBudget.id"
-                                accordion="congressmanBudget"
-                                role="tabpanel"
-                                v-model="congressmanBudget.visible"
-                            >
-                                <b-card-body class="text-center">
-                                    <b-card-text>
-                                        <h5 class="card-title">Lançamentos</h5>
-                                        <p class="card-text">
-                                            {{
-                                                congressmanBudget.entries_count
-                                            }}
-                                        </p>
-                                        <div
-                                            v-if="
-                                                can('congressman-budgets:show')
-                                            "
-                                        >
-                                            <hr />
-                                        </div>
-
-                                        <div
-                                            v-if="
-                                                can('congressman-budgets:show')
-                                            "
-                                        >
-                                            <h5 class="card-title">
-                                                Pendências
-                                            </h5>
-                                            <p class="card-text">
-                                                <app-badge
-                                                    v-if="
-                                                        congressmanBudget
-                                                            .pendencies
-                                                            .length === 0
-                                                    "
-                                                    caption="não"
-                                                    color="#38c172,#FFFFFF"
-                                                    padding="1"
-                                                ></app-badge>
-
-                                                <app-badge
-                                                    v-if="
-                                                        congressmanBudget
-                                                            .pendencies.length >
-                                                            0
-                                                    "
-                                                    color="#e3342f,#FFFFFF"
-                                                    padding="1"
-                                                >
-                                                    <div
-                                                        class="text-uppercase"
-                                                        v-for="pendency in congressmanBudget.pendencies"
-                                                    >
-                                                        &bull;{{ pendency
-                                                        }}<br />
-                                                    </div>
-                                                </app-badge>
                                             </p>
-                                            <hr />
                                         </div>
+
+                                        <div v-if="can('congressman-budgets:show')">
+                                        <hr />
+                                    </div>
 
                                         <div
                                             v-if="
