@@ -366,7 +366,7 @@
                                 .rows"
                         >
                             <b-button
-                                class="w-100"
+                                class="w-100 p-0 mb-2"
                                 v-b-toggle="
                                     'congressmanBudget' + congressmanBudget.id
                                 "
@@ -422,6 +422,55 @@
                                             congressmanBudget.percentage_formatted
                                         }})
                                     </div>
+                                    <div v-if="can('congressman-budgets:show')">
+                                        <hr />
+                                    </div>
+
+                                    <div
+                                            v-if="
+                                                can('congressman-budgets:show')
+                                            "
+                                        >
+                                            <div
+                                                class="card-text d-flex justify-content-center"
+                                            >
+                                            Status:
+                                                <app-status-badge
+                                                    class="text-uppercase w-25"
+                                                    :rows="[
+                                                        {
+                                                            value:
+                                                                congressmanBudget.closed_at,
+                                                            title: 'Fechado: ',
+                                                            labels: [
+                                                                'sim',
+                                                                'não'
+                                                            ]
+                                                        },
+                                                        {
+                                                            value:
+                                                                congressmanBudget.analysed_at,
+                                                            title:
+                                                                'Analisado: ',
+                                                            labels: [
+                                                                'sim',
+                                                                'não'
+                                                            ]
+                                                        },
+                                                        {
+                                                            value:
+                                                                congressmanBudget.published_at,
+                                                            title:
+                                                                'Publicidade: ',
+                                                            labels: [
+                                                                'público',
+                                                                'privado'
+                                                            ]
+                                                        }
+                                                    ]"
+                                                ></app-status-badge>
+                                            </div>
+                                        </div>
                                 </b-card>
                             </b-button>
 
@@ -484,53 +533,6 @@
                                                         }}<br />
                                                     </div>
                                                 </app-badge>
-                                            </p>
-                                            <hr />
-                                        </div>
-
-                                        <div
-                                            v-if="
-                                                can('congressman-budgets:show')
-                                            "
-                                        >
-                                            <h5 class="card-title">Status</h5>
-                                            <p
-                                                class="card-text d-flex justify-content-center"
-                                            >
-                                                <app-status-badge
-                                                    class="text-uppercase w-25"
-                                                    :rows="[
-                                                        {
-                                                            value:
-                                                                congressmanBudget.closed_at,
-                                                            title: 'Fechado: ',
-                                                            labels: [
-                                                                'sim',
-                                                                'não'
-                                                            ]
-                                                        },
-                                                        {
-                                                            value:
-                                                                congressmanBudget.analysed_at,
-                                                            title:
-                                                                'Analisado: ',
-                                                            labels: [
-                                                                'sim',
-                                                                'não'
-                                                            ]
-                                                        },
-                                                        {
-                                                            value:
-                                                                congressmanBudget.published_at,
-                                                            title:
-                                                                'Publicidade: ',
-                                                            labels: [
-                                                                'público',
-                                                                'privado'
-                                                            ]
-                                                        }
-                                                    ]"
-                                                ></app-status-badge>
                                             </p>
                                             <hr />
                                         </div>
