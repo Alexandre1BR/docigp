@@ -59,7 +59,6 @@ let actions = merge_objects(actionsMixin, {
 
     selectCongressmanBudget(context, payload) {
         const performLoad = !context.state.selected || context.state.selected.id != payload.id
-
         context.dispatch('congressmanBudgets/select', payload, { root: true })
 
         if (performLoad) {
@@ -74,8 +73,6 @@ let actions = merge_objects(actionsMixin, {
             context.commit('entryComments/mutateSetSelected', { id: null }, { root: true })
 
             context.dispatch('congressmen/markAsRead', payload, { root: true })
-
-            context.dispatch('removeShowClass')
         }
     },
 

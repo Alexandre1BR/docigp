@@ -1,6 +1,6 @@
 <template>
     <div class="card shadow-sm mb-4 mt-4">
-        <div class="align-items-end card-header">
+        <div class="text-left card-header">
             <div class="form-row border-bottom">
                 <div class="col-12">
                     <div class="mb-2">
