@@ -1,7 +1,7 @@
 <template>
-    <div class="card shadow-sm mb-4 mt-4">
-        <div class="text-left card-header">
-            <div class="form-row border-bottom">
+    <div class="mb-4 mt-4">
+        <div class="text-left">
+            <div class="form-row">
                 <div class="col-12">
                     <div class="mb-2">
                         <div class="row">
@@ -43,9 +43,9 @@
                                                 ></i>
                                                 </div>
                                             </div>
-                                            
+
                                             </div>
-                                            
+
                                         </div>
                                     </div>
                                 </div>
@@ -58,7 +58,7 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                         </div>
                     </div>
                 </div>
@@ -66,7 +66,7 @@
 
             <b-collapse :id="makeRandomId()" v-model="unCollapsed">
                 <div v-if="perPage" class="row">
-                    <div class="col-12 card-filters bg-filters py-2">
+                    <div class="col-12 py-2">
                         <div class="row">
                             <div v-if="perPage" class="col-6">
                                 <input
@@ -103,7 +103,7 @@
                             <div class="col-12" v-if="hasCheckboxes()">
                                 <div
                                     :class="
-                                        'p-2 mb-2 bg-gray-light' +
+                                        'p-2 mb-2' +
                                             (dontCenterFilters
                                                 ? ''
                                                 : ' text-center')
@@ -125,13 +125,13 @@
         </div>
 
         <b-collapse  :id="makeRandomId()" v-model="unCollapsed" class="mt-0">
-            <div class="row">            
+            <div class="row">
                 <div  class="col-12"><slot></slot></div>
             </div>
         </b-collapse>
 
         <b-collapse :id="makeRandomId()" v-model="collapsed" class="mt-0">
-        
+
             <div
                 class="row cursor-pointer"
                 :v-b-toggle="unCollapsed"
@@ -193,8 +193,8 @@ export default {
                 : 'nada selecionado'
         },
     },
-    
-    computed: {      
+
+    computed: {
         collapsed: {
             get() {
                 if (!this.collapsedLabel) {

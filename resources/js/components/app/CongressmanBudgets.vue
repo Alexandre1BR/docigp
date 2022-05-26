@@ -354,7 +354,206 @@
             <!-- Mobile Version -->
 
             <div class="d-lg-none">
+
+
+
                 <div class="accordion" role="tablist">
+
+
+
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-8">
+                                    <h5 class="card-title">Data: 2021 / 12 </h5>
+                                </div>
+                                <div class="col-4">
+                                    <span class="badge badge-success">Verificado</span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-8">
+                                    <h5 class="card-title">Data: 2021 / 12 </h5>
+                                    <div class="text-muted">Id: 2391</div>
+                                </div>
+                                <div class="col-4">
+                                    <span class="badge badge-success">Verificado</span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="card mb-5">
+                        <div class="card-body">
+                            <h5 class="card-title">Data: 2021 / 12 </h5>
+                            <div class="text-muted">Id: 2391</div>
+                            <p class="card-text">Solicitado: <strong>R$ 26.819,98 - (100.00%)</strong></p>
+                            <p class="card-text">Lançamentos: <strong>21</strong></p>
+                            <p class="card-text">
+                                Status:<br>
+                                <span class="badge badge-success">Verificado</span>
+                                <span class="badge badge-danger">Analisado</span>
+                                <span class="badge badge-danger">Publico</span>
+                            </p>
+                            <p class="card-text">
+                                Pendências:<br>
+                                <span class="badge badge-danger">Analisar Lançamentos</span>
+                                <span class="badge badge-danger">Analisr Mês</span>
+                                <span class="badge badge-danger">Publicar</span>
+                                <span class="badge badge-danger">Limite Excedido</span>
+                            </p>
+                            <button type="button" class="btn btn-success btn-sm mb-2 mr-2"><i class="fa fa-ban"></i> Analisado </button>
+                            <button type="button" class="btn btn-danger btn-sm mb-2 mr-2"><i class="fa fa-ban"></i> Despublicar </button>
+                            <button type="button" class="btn btn-danger btn-sm mb-2 mr-2"><i class="fa fa-ban"></i> Despublicar </button>
+<!--                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Ações
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="#">Action</a>
+                                    <a class="dropdown-item" href="#">Another action</a>
+                                    <a class="dropdown-item" href="#">Something else here</a>
+                                </div>
+                            </div>-->
+<!--
+                            <a href="#" class="card-link">+ Detalhes</a>
+                            <a href="#" class="card-link">Ações</a>
+                            -->
+                        </div>
+                    </div>
+
+
+
+
+                    <div>
+                        <div class="card">
+                            <!----><!---->
+                            <div class="card-header-custom">
+                                <button type="button" class="btn w-100 p-0 mb-0 btn-light collapsed" aria-expanded="false" aria-controls="congressmanBudget2391" style="overflow-anchor: none;">
+                                    <div class="card border-0">
+                                        <!----><!---->
+                                        <div class="card-body">
+                                            <!----><!---->
+                                            <div class="align-middle text-center">
+                                                Id: 2391
+                                                <hr>
+                                            </div>
+                                            <div class="align-middle text-center">
+                                                Data: 2021 / 12
+                                            </div>
+                                            <div>
+                                                <hr>
+                                            </div>
+                                            <div class="align-middle text-center">
+                                                Solicitado:
+                                                R$ 26.819,98
+                                                - (100.00%)
+                                            </div>
+                                            <div>
+                                                <hr>
+                                            </div>
+                                            <div>
+                                                <div class="card-text d-flex justify-content-center">
+                                                    Status: Privado
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!----><!---->
+                                    </div>
+                                </button>
+                            </div>
+                            <!----><!---->
+                        </div>
+                        <div id="congressmanBudget2391" class="collapse" role="tabpanel" style="display: none;">
+                            <div class="card-body text-center">
+                                <!----><!---->
+                                <p class="card-text">
+                                <h5 class="card-title">Lançamentos</h5>
+                                <p class="card-text">
+                                    1
+                                </p>
+                                <div>
+                                    <hr>
+                                </div>
+                                <div>
+                                    <h5 class="card-title">
+                                        Pendências
+                                    </h5>
+                                    <p class="card-text d-flex justify-content-center">
+                                        <!---->
+                                    <div class="badge  p-1 m-1" style="background-color: rgb(227, 52, 47); color: rgb(255, 255, 255);">
+                                        <div style="text-transform: none;">
+                                            <div class="text-uppercase">
+                                                •verificar lançamentos<br>
+                                            </div>
+                                            <div class="text-uppercase">
+                                                •analisar lançamentos<br>
+                                            </div>
+                                            <div class="text-uppercase">
+                                                •analisar mês<br>
+                                            </div>
+                                            <div class="text-uppercase">
+                                                •saldo positivo<br>
+                                            </div>
+                                            <div class="text-uppercase">
+                                                •publicar<br>
+                                            </div>
+                                        </div>
+                                        <!---->
+                                    </div>
+                                    </p>
+                                    <hr>
+                                </div>
+                                <div>
+                                    <h5 class="card-title">
+                                        Status
+                                    </h5>
+                                    <p class="card-text d-flex justify-content-center">
+                                    <div class="text-uppercase w-25">
+                                        <div class="badge-danger rounded-top" style="font-size: 9.6px; font-weight: 700;">
+                                            •
+                                            Fechado:
+                                            não
+                                        </div>
+                                        <div class="badge-danger rounded-0" style="font-size: 9.6px; font-weight: 700;">
+                                            •
+                                            Analisado:
+                                            não
+                                        </div>
+                                        <div class="badge-danger rounded-bottom" style="font-size: 9.6px; font-weight: 700;">
+                                            •
+                                            Publicidade:
+                                            privado
+                                        </div>
+                                    </div>
+                                    </p>
+                                </div>
+                                <div>
+                                    <hr>
+                                </div>
+                                <div class="p-2">
+                                    <button title="Depositar R$ 26.819,98 na conta de ATILA NUNES" dusk="deeposit_budget_button" class="button btn btn-micro btn-success col-sm-4"><span class="fa fa-dollar-sign"> depositar</span></button> <button title="Alterar percentual solicitado" dusk="percentageButton" class="col-xl-3 button btn btn-micro btn-primary col-sm-4"><span class="fa fa-edit"> percentual</span></button> <button title="Fechar este orçamento para a análise final" dusk="close_budget_button" class="button btn btn-micro btn-danger col-sm-4"><span class="fa fa-ban"> fechar</span></button> <button disabled="disabled" title="Não é possível reabrir o orçamento sem que ele esteja fechado" class="button btn btn-micro btn-danger col-sm-4"><span class="fa fa-check"> reabrir</span></button> <button disabled="disabled" title="Não é possível analisar o orçamento sem que ele esteja fechado" dusk="analize_budget_button" class="button btn btn-micro btn-warning col-sm-4"><span class="fa fa-check"> analisar</span></button> <!----> <button disabled="disabled" title="Não é possível publicar o orçamento sem que ele esteja fechado e analisado" dusk="publish_budget_button" class="button btn btn-micro btn-danger col-sm-4"><span class="fa fa-check"> publicar</span></button> <!---->
+                                    <button title="Logs" type="button" class="btn justify-content-center btn btn-micro btn-primary button col-sm-4 btn-secondary">
+                                        <i class="fas fa-clipboard-list"></i> <!---->
+                                    </button>
+                                </div>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+
+
                     <app-table
                         :pagination="pagination"
                         @goto-page="gotoPage($event)"
@@ -382,7 +581,7 @@
                                         Id: {{ congressmanBudget.id }}
                                          <hr />
                                     </div>
-                                   
+
 
                                     <div class="align-middle text-center">
                                         Data: {{ makeDate(congressmanBudget) }}
@@ -413,7 +612,7 @@
                                                 class="card-text d-flex justify-content-center"
                                             >
                                             Status: {{congressmanBudget.closed_at && congressmanBudget.analysed_at && congressmanBudget.published_at ? 'Público' : congressmanBudget.closed_at && congressmanBudget.analysed_at ? 'Analisado' : congressmanBudget.closed_at ? 'Fechado' : 'Privado'}}
-                                                
+
                                             </div>
                                         </div>
                                 </b-card>
@@ -488,7 +687,7 @@
                                                 can('congressman-budgets:show')
                                             "
                                         >
-                                            
+
                                             <h5 class="card-title">
                                                 Status
                                             </h5>

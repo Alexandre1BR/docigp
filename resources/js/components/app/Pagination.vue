@@ -1,5 +1,5 @@
 <template>
-    <nav class="text-center card-footer" v-if="pagination.last_page > 1">
+    <nav class="text-center" v-if="pagination.last_page > 1">
         <ul class="pagination justify-content-center mb-0">
             <li
                 class="page-item cursor-pointer"

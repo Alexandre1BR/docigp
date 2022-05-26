@@ -1,15 +1,15 @@
 <template>
     <div>
-        <div class="row justify-content-center pt-2">
+        <div class="row justify-content-center pt-2 prestacaodecontas">
             <div class="col-12">
                 <h1 class="text-center">Prestação de Contas</h1>
             </div>
 
-            <div class="col-sm-12 col-xl-4">
+            <div class="col-sm-12">
                 <app-congressmen></app-congressmen>
             </div>
 
-            <div class="col-sm-12 col-xl-8">
+            <div class="col-sm-12">
                 <app-congressman-budgets v-if="congressmen.selected.id"></app-congressman-budgets>
             </div>
 

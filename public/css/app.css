@@ -19483,6 +19483,23 @@ h1,
   margin: 0;
 }
 
+.accordion > .card:not(:last-of-type) {
+  border-bottom: 1;
+}
+
+.prestacaodecontas th {
+  background-color: #e0e9f2;
+  border-top: 1px solid #c8d8e8 !important;
+  color: inherit;
+}
+.prestacaodecontas .table thead th {
+  border-bottom: 1px solid #c8d8e8 !important;
+}
+.prestacaodecontas .table-hover tbody tr:hover {
+  color: #212529 !important;
+  background-color: rgba(0, 0, 0, 0.075) !important;
+}
+
 .logo-alerj {
   max-width: 275px;
   /*float: left;*/
