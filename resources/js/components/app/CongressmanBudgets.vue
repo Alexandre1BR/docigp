@@ -412,10 +412,45 @@
                                 <span class="badge badge-danger">Publicar</span>
                                 <span class="badge badge-danger">Limite Excedido</span>
                             </p>
+
+                            <div class="">
+
+                                <button title="Depositar R$ 26.819,98 na conta de Adriana Balthazar" dusk="deeposit_budget_button" class="button btn btn-success btn-block">
+                                    <span class="fa fa-dollar-sign"> depositar</span>
+                                </button>
+                                <button title="Alterar percentual solicitado" dusk="percentageButton" class="col-xl-3 button btn btn-primary btn-block">
+                                    <span class="fa fa-edit"> percentual</span>
+                                </button>
+                                <button title="Fechar este orçamento para a análise final" dusk="close_budget_button" class="button btn btn-danger btn-block">
+                                    <span class="fa fa-ban"> fechar</span>
+                                </button>
+                                <button disabled="disabled" title="Não é possível reabrir o orçamento sem que ele esteja fechado" class="button btn btn-danger btn-block">
+                                    <span class="fa fa-check"> reabrir</span>
+                                </button>
+                                <button disabled="disabled" title="Não é possível analisar o orçamento sem que ele esteja fechado" dusk="analize_budget_button" class="button btn btn-warning btn-block">
+                                    <span class="fa fa-check"> analisar</span>
+                                </button>
+                                <button disabled="disabled" title="Não é possível publicar o orçamento sem que ele esteja fechado e analisado" dusk="publish_budget_button" class="button btn btn-danger btn-block">
+                                    <span class="fa fa-check"> publicar</span>
+                                </button>
+                                <button title="Logs" type="button" class="btn justify-content-center btn btn-primary button btn-block">
+                                    <i class="fas fa-clipboard-list"></i>
+                                </button>
+                            </div>
+
+<!--
+
                             <button type="button" class="btn btn-success btn-sm mb-2 mr-2"><i class="fa fa-ban"></i> Analisado </button>
                             <button type="button" class="btn btn-danger btn-sm mb-2 mr-2"><i class="fa fa-ban"></i> Despublicar </button>
                             <button type="button" class="btn btn-danger btn-sm mb-2 mr-2"><i class="fa fa-ban"></i> Despublicar </button>
-<!--                            <div class="dropdown">
+
+-->
+
+
+
+
+
+                            <!--                            <div class="dropdown">
                                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Ações
                                 </button>
@@ -542,6 +577,7 @@
                                     <hr>
                                 </div>
                                 <div class="p-2">
+                                    teste
                                     <button title="Depositar R$ 26.819,98 na conta de ATILA NUNES" dusk="deeposit_budget_button" class="button btn btn-micro btn-success col-sm-4"><span class="fa fa-dollar-sign"> depositar</span></button> <button title="Alterar percentual solicitado" dusk="percentageButton" class="col-xl-3 button btn btn-micro btn-primary col-sm-4"><span class="fa fa-edit"> percentual</span></button> <button title="Fechar este orçamento para a análise final" dusk="close_budget_button" class="button btn btn-micro btn-danger col-sm-4"><span class="fa fa-ban"> fechar</span></button> <button disabled="disabled" title="Não é possível reabrir o orçamento sem que ele esteja fechado" class="button btn btn-micro btn-danger col-sm-4"><span class="fa fa-check"> reabrir</span></button> <button disabled="disabled" title="Não é possível analisar o orçamento sem que ele esteja fechado" dusk="analize_budget_button" class="button btn btn-micro btn-warning col-sm-4"><span class="fa fa-check"> analisar</span></button> <!----> <button disabled="disabled" title="Não é possível publicar o orçamento sem que ele esteja fechado e analisado" dusk="publish_budget_button" class="button btn btn-micro btn-danger col-sm-4"><span class="fa fa-check"> publicar</span></button> <!---->
                                     <button title="Logs" type="button" class="btn justify-content-center btn btn-micro btn-primary button col-sm-4 btn-secondary">
                                         <i class="fas fa-clipboard-list"></i> <!---->

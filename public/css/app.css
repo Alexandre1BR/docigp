@@ -19484,7 +19484,9 @@ h1,
 }
 
 .accordion > .card:not(:last-of-type) {
-  border-bottom: 1;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125) !important;
+  border-bottom-right-radius: 5px !important;
+  border-bottom-left-radius: 5px !important;
 }
 
 .prestacaodecontas th {
