@@ -1,7 +1,149 @@
 <template>
     <div>
+
+
+
+
+
+
+        <div class="d-lg-none">
+
+            <div class="card card-parlamentar mb-3">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <h5 class="">
+                                <span class="text-danger"><i class="fa fa-dot-circle"></i></span> Chiquinho da Mangueira</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer border-0">
+                    <div class="row">
+
+                        <div class="col-4 text-center d-flex align-items-center">
+                            <span class="badge text-uppercase badge-success">com mandato</span>
+                        </div>
+                        <div class="col-8 text-center">
+                            <span class="label-flags">Aderiu </span>
+                            <span class="badge text-uppercase badge-success ml-1">sim</span>
+                            <span class="label-flags ml-3">Pendências </span>
+                            <span class="badge text-uppercase badge-success ml-1">não</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+            <div class="card card-parlamentar mb-3">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <h5 class="">
+                                <span class="text-danger"><i class="fa fa-dot-circle"></i></span> Jorge Felippe Neto</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer border-0">
+                    <div class="row">
+
+                        <div class="col-4 text-center d-flex align-items-center">
+                            <span class="badge text-uppercase badge-success">com mandato</span>
+                        </div>
+                        <div class="col-8 text-center">
+                            <span class="label-flags">Aderiu </span>
+                            <span class="badge text-uppercase badge-success ml-1">sim</span>
+                            <span class="label-flags ml-3">Pendências </span>
+                            <span class="badge text-uppercase badge-danger ml-1">sim</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card card-parlamentar mb-3">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <h5 class="">
+                                <span class="text-danger"><i class="fa fa-dot-circle"></i></span> Marcelo Cabeleireiro</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer border-0">
+                    <div class="row">
+
+                        <div class="col-4 text-center d-flex align-items-center">
+                            <span class="badge text-uppercase badge-success">com mandato</span>
+                        </div>
+                        <div class="col-8 text-center">
+                            <span class="label-flags">Aderiu </span>
+                            <span class="badge text-uppercase badge-success ml-1">sim</span>
+                            <span class="label-flags ml-3">Pendências </span>
+                            <span class="badge text-uppercase badge-danger ml-1">sim</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card card-parlamentar mb-3">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <h5 class="">
+                                <span class="text-danger"><i class="fa fa-dot-circle"></i></span> Enfermeira Rejane</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer border-0">
+                    <div class="row">
+
+                        <div class="col-4 text-center d-flex align-items-center">
+                            <span class="badge text-uppercase badge-success">com mandato</span>
+                        </div>
+                        <div class="col-8 text-center">
+                            <span class="label-flags">Aderiu </span>
+                            <span class="badge text-uppercase badge-success ml-1">sim</span>
+                            <span class="label-flags ml-3">Pendências </span>
+                            <span class="badge text-uppercase badge-success ml-1">não</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card card-parlamentar mb-3">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <h5 class="">
+                                <span class="text-danger"><i class="fa fa-dot-circle"></i></span> Delegado Carlos Augusto</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer border-0">
+                    <div class="row">
+
+                        <div class="col-4 text-center d-flex align-items-center">
+                            <span class="badge text-uppercase badge-success">com mandato</span>
+                        </div>
+                        <div class="col-8 text-center">
+                            <span class="label-flags">Aderiu </span>
+                            <span class="badge text-uppercase badge-success ml-1">sim</span>
+                            <span class="label-flags ml-3">Pendências </span>
+                            <span class="badge text-uppercase badge-success ml-1">não</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+
+
         <div class="table-responsive">
             <table class="table table-sm table-hover mb-0">
+
                 <thead>
                     <tr>
                         <slot name="thead"></slot>
