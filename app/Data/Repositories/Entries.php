@@ -2,8 +2,10 @@
 
 namespace App\Data\Repositories;
 
+use App\Models\Audit;
+use App\Support\Constants;
 use Carbon\Carbon;
-use App\Data\Models\Entry;
+use App\Models\Entry;
 use Illuminate\Support\Str;
 use App\Data\Traits\RepositoryActionable;
 
@@ -34,10 +36,7 @@ class Entries extends Repository
                     'congressman_legislatures.id',
                     'congressman_budgets.congressman_legislature_id'
                 )
-                ->where(
-                    'congressman_legislatures.congressman_id',
-                    $congressmanId
-                )
+                ->where('congressman_legislatures.congressman_id', $congressmanId)
                 ->where('congressman_budgets.id', $congressmanBudgetId)
         );
     }
@@ -64,9 +63,9 @@ class Entries extends Repository
     public function transform($data)
     {
         $this->addTransformationPlugin(function ($entry) {
-            $entry['date_formatted'] = Carbon::parse($entry['date'])->format(
-                'd/m/Y'
-            );
+            $entry['date_formatted'] = Carbon::parse($entry['date'])
+                ->setTimezone(now()->timezoneName)
+                ->format('d/m/Y');
 
             $entry['date'] = $entry['date_formatted'];
 
@@ -82,7 +81,7 @@ class Entries extends Repository
 
             $entry['name'] = ($forCongressman = in_array(
                 $entry['cost_center_id'],
-                ['1', '2', '3']
+                Constants::COST_CENTER_CONTROL_ID_ARRAY
             ))
                 ? $entry['to']
                 : $entry['provider_name'];
@@ -91,10 +90,39 @@ class Entries extends Repository
                 ? null
                 : "{$entry['provider_type']}: {$entry['provider_cpf_cnpj']}";
 
+            $entry['pendencies'] = $this->buildPendenciesArray($entry);
+
             return $entry;
         });
 
         return parent::transform($data);
+    }
+
+    private function buildPendenciesArray($entry)
+    {
+        $pendencies = [];
+
+        if ($entry['missing_verification']) {
+            $pendencies[] = 'verificar documentos';
+        }
+
+        if (blank($entry['verified_at'])) {
+            $pendencies[] = 'verificar lançamento';
+        }
+
+        if ($entry['missing_analysis']) {
+            $pendencies[] = 'analisar documentos';
+        }
+
+        if (blank($entry['analysed_at'])) {
+            $pendencies[] = 'analisar lançamento';
+        }
+
+        if (blank($entry['published_at']) && !$entry['is_transport_or_credit']) {
+            $pendencies[] = 'publicar';
+        }
+
+        return $pendencies;
     }
 
     public function store()
@@ -110,6 +138,24 @@ class Entries extends Repository
     }
 
     /**
+     * @param $id
+     * @param $array
+     * @return mixed
+     */
+    public function update($id, $array = null)
+    {
+        $this->data['provider_id'] = $this->firstOrCreateProvider(
+            $this->data['provider_name'],
+            $this->data['provider_cpf_cnpj']
+        )->id;
+
+        $this->fillAndSave($array ?? $this->data, $this->findById($id));
+        
+        return parent::update($id, $array);
+    }
+
+
+    /**
      * @param $callable
      * @return mixed
      */
@@ -122,5 +168,43 @@ class Entries extends Repository
         Entry::enableGlobalScopes();
 
         return $result;
+    }
+
+    public function emptyRefundForm($congressmanBudgetId)
+    {
+        $congressmanBudget = app(CongressmanBudgets::class)->findById($congressmanBudgetId);
+
+        $date = $congressmanBudget->budget->date;
+
+        $date->day = now()->month == $date->month ? now()->day : $date->endOfMonth()->day;
+
+        $provider = app(Providers::class)->getAlerj();
+
+        $form = [
+            'congressman_budget_id' => (int) $congressmanBudgetId,
+            'cost_center_id' => app(CostCenters::class)->findByCode(
+                Constants::COST_CENTER_REFUND_CODE
+            )->id,
+            'provider_cpf_cnpj' => $provider->cpf_cnpj,
+            'date' => $date->format('d/m/Y'),
+            'document_number' => null,
+            'entry_type_id' => app(EntryTypes::class)->getRefundEntryType()->id,
+            'object' => 'Devolução de verba orçamentária',
+            'provider_id' => $provider->id,
+            'provider_name' => $provider->name,
+            'value' => 0,
+            'value_abs' => 0,
+        ];
+
+        return $form;
+    }
+
+    public function audits($entryId)
+    {
+        return Audit::with('user')
+            ->where('auditable_type', 'like', '%\Entry')
+            ->where('auditable_id', $entryId)
+            ->orderBy('created_at', 'desc')
+            ->get();
     }
 }

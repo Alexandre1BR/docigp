@@ -1,0 +1,54 @@
+.logo-alerj {
+    max-width: 275px;
+    /*float: left;*/
+    /*margin-right: 20px;*/
+    /*border-right: solid 1px #0a008a;*/
+    /*padding-right: 15px;*/
+
+    @media (max-width: 374px) {
+        max-width: 215px;
+    }
+}
+
+.logo-alerj:after {
+
+}
+
+.navbar-light {
+    .navbar-nav {
+        .nav-link {
+            color: rgba(0,0,0,.5);
+        }
+
+        .btn-primary {
+            color: rgba(256, 255, 255, 1);
+            font-weight: 600;
+            &:hover {
+                color: rgba(256, 255, 255, 0.8);
+            }
+            &:focus {
+                color: rgba(256, 255, 255, 0.8);
+            }
+        }
+    }
+}
+
+.navbar-collapse {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+
+.navbar-nav {
+    font-family: Poppins;
+    @media (min-width: 992px) {
+        font-size: 14px;
+        font-weight: 700;
+    }
+}
+
+@media (min-width: 768px) {
+    .navbar-collapse {
+        flex-grow: inherit;
+    }
+}

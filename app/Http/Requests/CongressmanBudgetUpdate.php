@@ -2,16 +2,24 @@
 
 namespace App\Http\Requests;
 
+use App\Models\CongressmanBudget;
+use App\Http\Traits\WithRouteParams;
 use Illuminate\Support\Facades\Gate;
 
 class CongressmanBudgetUpdate extends Request
 {
+    use WithRouteParams;
+
     /**
      * @return bool
      */
     public function authorize()
     {
-        return allows('congressman-budgets:update');
+        $congressmanBudget = CongressmanBudget::find($this->all()['congressmanBudgetId']);
+
+        return $congressmanBudget &&
+            Gate::allows('congressman-budgets:update:model', $congressmanBudget) &&
+            (allows('congressman-budgets:update') || allows('congressman-budgets:percentage'));
     }
 
     /**

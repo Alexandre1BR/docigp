@@ -2,9 +2,15 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Data\Repositories\Entries as EntriesRepository;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\EntryDocumentAnalyse;
+use App\Http\Requests\EntryDocumentDelete;
+use App\Http\Requests\EntryDocumentPublish;
 use App\Http\Requests\EntryDocumentStore;
 use App\Data\Repositories\EntryDocuments as EntryDocumentsRepository;
+use App\Http\Requests\EntryDocumentVerify;
+use Illuminate\Http\Request;
 
 class EntryDocuments extends Controller
 {
@@ -46,47 +52,82 @@ class EntryDocuments extends Controller
     }
 
     public function publish(
+        EntryDocumentPublish $request,
         $congressmanId,
         $congressmanBudgetId,
         $entryId,
         $entryDocumentId
     ) {
-        app(EntryDocumentsRepository::class)->publish($entryDocumentId);
+        return app(EntryDocumentsRepository::class)->publish($entryDocumentId);
     }
 
     public function unpublish(
+        EntryDocumentPublish $request,
         $congressmanId,
         $congressmanBudgetId,
         $entryId,
         $entryDocumentId
     ) {
-        app(EntryDocumentsRepository::class)->unpublish($entryDocumentId);
+        return app(EntryDocumentsRepository::class)->unpublish($entryDocumentId);
+    }
+
+    public function verify(
+        EntryDocumentVerify $request,
+        $congressmanId,
+        $congressmanBudgetId,
+        $entryId,
+        $entryDocumentId
+    ) {
+        return app(EntryDocumentsRepository::class)->verify($entryDocumentId);
+    }
+
+    public function audits(
+        Request $request,
+        $congressmanId,
+        $congressmanBudgetId,
+        $entryId,
+        $entryDocumentId
+    ) {
+        return app(EntryDocumentsRepository::class)->audits($entryDocumentId);
+    }
+
+    public function unverify(
+        EntryDocumentVerify $request,
+        $congressmanId,
+        $congressmanBudgetId,
+        $entryId,
+        $entryDocumentId
+    ) {
+        return app(EntryDocumentsRepository::class)->unverify($entryDocumentId);
     }
 
     public function analyse(
+        EntryDocumentAnalyse $request,
         $congressmanId,
         $congressmanBudgetId,
         $entryId,
         $entryDocumentId
     ) {
-        app(EntryDocumentsRepository::class)->analyse($entryDocumentId);
+        return app(EntryDocumentsRepository::class)->analyse($entryDocumentId);
     }
 
     public function unanalyse(
+        EntryDocumentAnalyse $request,
         $congressmanId,
         $congressmanBudgetId,
         $entryId,
         $entryDocumentId
     ) {
-        app(EntryDocumentsRepository::class)->unanalyse($entryDocumentId);
+        return app(EntryDocumentsRepository::class)->unanalyse($entryDocumentId);
     }
 
     public function delete(
+        EntryDocumentDelete $request,
         $congressmanId,
         $congressmanBudgetId,
         $entryId,
         $entryDocumentId
     ) {
-        app(EntryDocumentsRepository::class)->delete($entryDocumentId);
+        return app(EntryDocumentsRepository::class)->delete($entryDocumentId);
     }
 }

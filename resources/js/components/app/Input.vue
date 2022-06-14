@@ -39,8 +39,10 @@
             :value="numericValue"
             @input="onChange($event)"
             v-bind="money"
+            :readonly="readonly"
             dir="rtl"
             ref="money"
+            dusk="dusk_value"
         ></money>
 
         <small

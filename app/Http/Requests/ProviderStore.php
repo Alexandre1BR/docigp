@@ -9,14 +9,23 @@ use App\Rules\ValidCNPJ;
 class ProviderStore extends Request
 {
     /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        return allows('providers:store');
+    }
+
+    /**
      * Get the validation rules that apply to the request.
      *
      * @return array
      */
     public function rules()
     {
-        $cpfOrCnpj =
-            $this->get('type') == 'PF' ? new ValidCPF() : new ValidCNPJ();
+        $cpfOrCnpj = $this->get('type') == 'PF' ? new ValidCPF() : new ValidCNPJ();
         return [
             'cpf_cnpj' => ['required', $cpfOrCnpj, 'unique:providers'],
             'name' => 'required',

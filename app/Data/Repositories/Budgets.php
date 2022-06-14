@@ -3,9 +3,9 @@
 namespace App\Data\Repositories;
 
 use Carbon\Carbon;
-use App\Data\Models\Budget;
-use App\Data\Models\Congressman;
-use App\Data\Models\CongressmanBudget;
+use App\Models\Budget;
+use App\Models\Congressman;
+use App\Models\CongressmanBudget;
 
 class Budgets extends Repository
 {
@@ -20,14 +20,10 @@ class Budgets extends Repository
 
     private function generateCongressmanBudget($congressman, $currentGlobal)
     {
-        $this->withGlobalScopesDisabled(function () use (
-            $congressman,
-            $currentGlobal
-        ) {
+        $this->withGlobalScopesDisabled(function () use ($congressman, $currentGlobal) {
             if (
-                $congressman->congressmanBudgets
-                    ->where('budget_id', $currentGlobal->id)
-                    ->count() > 0
+                $congressman->congressmanBudgets->where('budget_id', $currentGlobal->id)->count() >
+                0
             ) {
                 return;
             }
@@ -35,8 +31,7 @@ class Budgets extends Repository
             $current = $congressman->currentBudget;
 
             $new = CongressmanBudget::create([
-                'congressman_legislature_id' =>
-                    $congressman->currentLegislature->id,
+                'congressman_legislature_id' => $congressman->currentLegislature->id,
                 'budget_id' => $currentGlobal->id,
                 'percentage' => $current->percentage ?? 0,
             ]);
@@ -47,18 +42,19 @@ class Budgets extends Repository
         });
     }
 
-    private function generateCongressmanBudgets($baseDate = null)
+    private function generateCongressmanBudgets($baseDate = null, $congressmanName = null)
     {
         Congressman::disableGlobalScopes();
 
-        Congressman::active()
-            ->get()
-            ->each(function ($congressman) use ($baseDate) {
-                $this->generateCongressmanBudget(
-                    $congressman,
-                    $current = $this->getCurrent($baseDate)
-                );
-            });
+        $query = Congressman::active();
+
+        if ($congressmanName) {
+            $query->where('name', $congressmanName);
+        }
+
+        $query->each(function ($congressman) use ($baseDate) {
+            $this->generateCongressmanBudget($congressman, $current = $this->getCurrent($baseDate));
+        });
 
         Congressman::enableGlobalScopes();
     }
@@ -77,10 +73,8 @@ class Budgets extends Repository
         ) {
             Budget::create([
                 'date' => now()->startOfMonth(),
-                'federal_value' =>
-                    $current->federal_value ?? static::FIRST_BUDGET_VALUE,
-                'percentage' =>
-                    $current->percentage ?? static::FIRST_BUDGET_PERCENTAGE,
+                'federal_value' => $current->federal_value ?? static::FIRST_BUDGET_VALUE,
+                'percentage' => $current->percentage ?? static::FIRST_BUDGET_PERCENTAGE,
                 'created_by_id' => 1,
                 'updated_by_id' => 1,
             ]);
@@ -107,7 +101,7 @@ class Budgets extends Repository
             ->first();
     }
 
-    public function generate($baseDate = null)
+    public function generate($baseDate = null, $congressmanName = null)
     {
         if ($baseDate) {
             \Carbon\Carbon::setTestNow($baseDate);
@@ -115,7 +109,7 @@ class Budgets extends Repository
 
         $this->generateGlobalBudget();
 
-        $this->generateCongressmanBudgets($baseDate);
+        $this->generateCongressmanBudgets($baseDate, $congressmanName);
     }
 
     public function transform($data)
@@ -123,14 +117,9 @@ class Budgets extends Repository
         $this->addTransformationPlugin(function ($budget) {
             $budget['year'] = Carbon::parse($budget['date'])->year;
 
-            $budget['month'] = sprintf(
-                '%02d',
-                Carbon::parse($budget['date'])->month
-            );
+            $budget['month'] = sprintf('%02d', Carbon::parse($budget['date'])->month);
 
-            $budget['federal_value_formatted'] = to_reais(
-                $budget['federal_value']
-            );
+            $budget['federal_value_formatted'] = to_reais($budget['federal_value']);
 
             $budget['value_formatted'] = to_reais($budget['value']);
 
@@ -140,5 +129,10 @@ class Budgets extends Repository
         });
 
         return parent::transform($data);
+    }
+
+    public function getLastBudget(): Budget
+    {
+        return $this->model::orderBy('date', 'desc')->first();
     }
 }

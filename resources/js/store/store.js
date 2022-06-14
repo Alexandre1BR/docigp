@@ -28,6 +28,7 @@ import environment from './modules/environment'
 import congressmen from './modules/congressmen'
 import costCenters from './modules/costCenters'
 import entryDocuments from './modules/entryDocuments'
+import entryComments from './modules/entryComments'
 import congressmanBudgets from './modules/congressmanBudgets'
 
 /**
@@ -53,6 +54,7 @@ let store = new Vuex.Store({
         congressmanBudgets,
         entries,
         entryDocuments,
+        entryComments,
         costCenters,
         gate,
         entryTypes,

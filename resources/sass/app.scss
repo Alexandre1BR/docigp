@@ -4,8 +4,12 @@
 @import '~@fortawesome/fontawesome-free/scss/solid.scss';
 @import '~@fortawesome/fontawesome-free/scss/brands.scss';
 
+//Vue-select
+@import "vue-select/src/scss/vue-select.scss";
+
 // Fonts
 @import url('https://fonts.googleapis.com/css?family=Nunito');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap');
 
 // Variables
 @import 'variables';
@@ -17,48 +21,14 @@
 @import '~bootstrap/scss/bootstrap';
 
 
-// Styles
-.navbar-laravel {
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
-}
+// Select2
+@import '~select2/dist/css/select2.min.css';
+@import '~@ttskch/select2-bootstrap4-theme/dist/select2-bootstrap4';
 
-td:first-child, th:first-child {
-  padding-left: 15px !important;
-}
+// Custom
+@import "custom";
 
-td:last-child, th:last-child {
-  padding-right: 15px !important;
-}
 
-th {
-  background-color: #0a008a;
-  color: white;
-}
-
-.cursor-pointer {
-  cursor: pointer;
-}
-
-.bg-filters {
-  background: $grey-lighter03;
-}
-
-.bg-primary {
-  background: $blue-lighter02;
-}
-
-.bg-cyan {
-  background-color: $cyan-light;
-}
-
-.form-check-input {
-  position: relative;
-  margin-left: 0 !important;
-}
-
-.fa-align-middle {
-  vertical-align: middle;
-}
-
+// Custom2
+@import "navbar";
 

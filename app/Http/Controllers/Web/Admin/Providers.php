@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Web\Admin;
 
-use App\Support\Constants;
 use App\Http\Controllers\Controller;
 use App\Data\Repositories\Providers as ProvidersRepository;
 use App\Http\Requests\ProviderStore as ProviderStoreRequest;
@@ -20,27 +19,13 @@ class Providers extends Controller
         );
     }
 
-    public function create()
-    {
-        formMode(Constants::FORM_MODE_CREATE);
-
-        return $this->view('admin.providers.form')->with([
-            'provider' => app(ProvidersRepository::class)->new(),
-        ]);
-    }
-
     public function store(ProviderStoreRequest $request)
     {
         app(ProvidersRepository::class)->create($request->all());
 
-        return redirect()->route('providers.index');
-    }
+        session()->flash('message', 'Gravado com sucesso');
 
-    public function show($id)
-    {
-        return $this->view('admin.providers.form')->with([
-            'provider' => app(ProvidersRepository::class)->findById($id),
-        ]);
+        return redirect()->route('providers.index');
     }
 
     /**
@@ -51,6 +36,8 @@ class Providers extends Controller
     public function update(ProviderUpdateRequest $request, $id)
     {
         app(ProvidersRepository::class)->update($id, $request->all());
+
+        session()->flash('message', 'Gravado com sucesso');
 
         return redirect()->route('providers.index');
     }

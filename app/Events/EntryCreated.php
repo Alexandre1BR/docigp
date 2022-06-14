@@ -2,11 +2,11 @@
 
 namespace App\Events;
 
-use Illuminate\Broadcasting\Channel;
-
-class EntryCreated extends Broadcastable
+class EntryCreated extends Event
 {
-    public $entry;
+    public $entryId;
+    public $congressmanBudgetId;
+    public $congressmanId;
 
     /**
      * Create a new entry instance.
@@ -15,16 +15,8 @@ class EntryCreated extends Broadcastable
      */
     public function __construct($entry)
     {
-        $this->entry = $entry;
-    }
-
-    /**
-     * Get the channels the entry should broadcast on.
-     *
-     * @return \Illuminate\Broadcasting\Channel|array
-     */
-    public function broadcastOn()
-    {
-        return new Channel('entry.' . $this->entry->id);
+        $this->entryId = $entry->id;
+        $this->congressmanBudgetId = $entry->congressman_budget_id;
+        $this->congressmanId = $entry->congressmanBudget->congressman->id;
     }
 }

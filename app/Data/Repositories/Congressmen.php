@@ -2,13 +2,11 @@
 
 namespace App\Data\Repositories;
 
-use App\Data\Models\Congressman;
-use App\Data\Models\CongressmanLegislature;
-use App\Data\Models\User;
-use App\Data\Scopes\Published as PublishedScope;
+use App\Models\Congressman;
+use App\Models\ChangeUnread;
+use App\Models\CongressmanLegislature;
 use PragmaRX\Coollection\Package\Coollection;
-use App\Data\Repositories\Departaments as DepartamentsRepository;
-use App\Data\Scopes\Congressman as CongressmanScope;
+use App\Data\Repositories\Departments as DepartmentsRepository;
 
 class Congressmen extends Repository
 {
@@ -17,8 +15,22 @@ class Congressmen extends Repository
      */
     protected $model = Congressman::class;
 
-    private function createCongressmanFromRemote($congressman, $departamentId)
+    private function canHaveMandate($congressman)
     {
+        return !collect([
+            'Luis Martins',
+            'Chiquinho da Mangueira',
+            'Marcus Vinicius Neskau',
+            'André Correa',
+            'Marcos Abrahão',
+        ])->contains($congressman->name);
+    }
+
+    private function createCongressmanFromRemote($congressman, $departmentId)
+    {
+        if (is_null($this->findParty($congressman['SiglaPartido']))) {
+            dump('O partido ' . $congressman['SiglaPartido'] . ' não consta no banco de dados');
+        }
         return $this->firstOrCreate(
             [
                 'remote_id' => $congressman['ID'],
@@ -26,15 +38,13 @@ class Congressmen extends Repository
             [
                 'name' => ($name = $this->normalizeName($congressman['Nome'])),
 
-                'nickname' =>
-                    $this->normalizeName($congressman['NomePolitico']) ?? $name,
+                'nickname' => $this->normalizeName($congressman['NomePolitico']) ?? $name,
 
-                'party_id' => $this->findParty($congressman['SiglaPartido'])
-                    ->id,
+                'party_id' => $this->findParty($congressman['SiglaPartido'])->id,
 
                 'photo_url' => $congressman['Foto'],
 
-                'departament_id' => $departamentId,
+                'department_id' => $departmentId,
 
                 'thumbnail_url' => $congressman['FotoPequena'],
             ]
@@ -43,9 +53,7 @@ class Congressmen extends Repository
 
     private function findParty($party)
     {
-        return app(Parties::class)->findByCode(
-            $this->normalizePartyCode($party)
-        );
+        return app(Parties::class)->findByCode($this->normalizePartyCode($party));
     }
 
     /**
@@ -75,22 +83,17 @@ class Congressmen extends Repository
     {
         $this->withGlobalScopesDisabled(function () use ($data) {
             $data->each(function ($congressman) {
-                $departament = app(
-                    DepartamentsRepository::class
-                )->createDepartamentFromCongressman($congressman);
-
-                $congressman = $this->createCongressmanFromRemote(
-                    $congressman,
-                    $departament->id
+                $department = app(DepartmentsRepository::class)->createDepartmentFromCongressman(
+                    $congressman
                 );
 
-                if ($congressman->wasRecentlyCreated) {
+                $congressman = $this->createCongressmanFromRemote($congressman, $department->id);
+
+                if ($congressman->wasRecentlyCreated && $this->canHaveMandate($congressman)) {
                     $legislature = CongressmanLegislature::firstOrCreate(
                         [
                             'congressman_id' => $congressman->id,
-                            'legislature_id' => app(
-                                Legislatures::class
-                            )->getCurrent()->id,
+                            'legislature_id' => app(Legislatures::class)->getCurrent()->id,
                         ],
                         ['started_at' => now()]
                     );
@@ -127,6 +130,24 @@ class Congressmen extends Repository
         if (isset($filter['withoutPendency'])) {
             $query->withoutPendency();
         }
+
+        if (isset($filter['unread'])) {
+            $query->unread();
+        }
+
+        // Vagner Victer mandou mostrar apenas os que aderiram
+        // Na visão do cidadão
+        if (!auth()->user()) {
+            $query->joined();
+        }
+
+        if (isset($filter['joined'])) {
+            $query->joined();
+        }
+
+        if (isset($filter['notJoined'])) {
+            $query->notJoined();
+        }
     }
 
     public function searchFromRequest($search = null)
@@ -144,11 +165,7 @@ class Congressmen extends Repository
         $search->each(function ($item) use ($columns, $query) {
             $columns->each(function ($type, $column) use ($query, $item) {
                 if ($type === 'string') {
-                    $query->orWhere(
-                        DB::raw("lower({$column})"),
-                        'like',
-                        '%' . $item . '%'
-                    );
+                    $query->orWhere(DB::raw("lower({$column})"), 'like', '%' . $item . '%');
                 } else {
                     if ($this->isDate($item)) {
                         $query->orWhere($column, '=', $item);
@@ -162,9 +179,19 @@ class Congressmen extends Repository
 
     public function associateWithUser($request)
     {
-        return app(Users::class)->associateCongressmanWithUser(
-            $request['id'],
-            $request
-        );
+        return app(Users::class)->associateCongressmanWithUser($request['id'], $request);
+    }
+
+    public function markAsRead($id)
+    {
+        if (auth()->user()) {
+            if (
+                ChangeUnread::where('congressman_id', $id)
+                    ->where('user_id', auth()->user()->id)
+                    ->delete()
+            ) {
+                $this->fireEvents(Congressman::find($id), 'Updated');
+            }
+        }
     }
 }

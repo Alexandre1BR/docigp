@@ -272,15 +272,27 @@ window.downloadPDF = fileUrl => {
 }
 
 window.publicChannel = channel => {
-    return Echo.channel(channel)
+    return window.Echo.channel(channel)
 }
 
 window.privateChannel = channel => {
-    return Echo.private(channel)
+    return window.Echo.private(channel)
 }
 
-window.subscribePublicChannel = (model, className, callable) => {
-    publicChannel(model).listen(className, callable)
+window.subscribePublicChannel = (channelName, eventClassName, callable) => {
+    // console.log(
+    //     'Subscribing into ' +
+    //         channelName +
+    //         ' channel ' +
+    //         ' for event ' +
+    //         eventClassName,
+    // )
+
+    publicChannel(channelName).listen(eventClassName, callable)
+}
+
+window.leavePublicChannel = channelName => {
+    window.Echo.leave(channelName)
 }
 
 window.basename = str => {
@@ -392,61 +404,6 @@ window.scroll_to_first_error = () => {
             )
         }
     }, 500)
-}
-
-window.show_message = (title, vue, icon = 'info') => {
-    return vue.$swal({
-        icon: icon,
-        title: title,
-        dangerMode: true,
-    })
-}
-
-window.confirm = (title, vue) => {
-    return vue.$swal({
-        icon: 'warning',
-        title: title,
-        dangerMode: false,
-        buttons: {
-            confirm: {
-                text: 'sim',
-                value: true,
-                visible: true,
-                className: 'btn-success',
-                closeModal: true,
-            },
-            cancel: {
-                text: 'não',
-                value: false,
-                visible: true,
-                className: 'btn-outline-secondary',
-                closeModal: true,
-            },
-        },
-    })
-}
-
-window.input = (title, vue) => {
-    return vue.$swal({
-        icon: 'warning',
-        title: title,
-        content: 'input',
-        buttonsStyling: false,
-        dangerMode: false,
-        buttons: {
-            confirm: {
-                text: 'confirmar',
-                visible: true,
-                closeModal: true,
-            },
-            cancel: {
-                text: 'cancelar',
-                value: false,
-                visible: true,
-                closeModal: true,
-            },
-        },
-    })
 }
 
 window.is_number = number => {

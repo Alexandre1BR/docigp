@@ -9,9 +9,8 @@ class Users extends Controller
 {
     public function perPage($size)
     {
-        return app(UsersRepository::class)->updatePerPage(
-            auth()->user(),
-            $size
-        );
+        return auth()->user()
+            ? app(UsersRepository::class)->updatePerPage(auth()->user(), $size)
+            : null;
     }
 }

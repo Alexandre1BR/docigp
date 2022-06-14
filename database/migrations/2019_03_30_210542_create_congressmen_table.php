@@ -24,7 +24,7 @@ class CreateCongressmenTable extends Migration
             $table->string('thumbnail_url')->nullable();
 
             $table
-                ->bigInteger('departament_id')
+                ->bigInteger('department_id')
                 ->unsigned()
                 ->nullable();
 

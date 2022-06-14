@@ -1,25 +1,29 @@
 <template>
-    <div class="row justify-content-center">
-        <div class="col-12">
-            <h1 class="text-center">Prestação de Contas</h1>
-        </div>
+    <div>
+        <div class="row justify-content-center pt-2 prestacaodecontas">
+            <div class="col-12">
+                <h1 class="text-center">Prestação de Contas</h1>
+            </div>
 
-        <div class="col-sm-12 col-md-3">
-            <app-congressmen></app-congressmen>
-        </div>
+            <div class="col-sm-12">
+                <app-congressmen></app-congressmen>
+            </div>
 
-        <div class="col-sm-12 col-md-9">
-            <app-congressman-budgets
-                v-if="congressmen.selected.id"
-            ></app-congressman-budgets>
-        </div>
+            <div class="col-sm-12">
+                <app-congressman-budgets v-if="congressmen.selected.id"></app-congressman-budgets>
+            </div>
 
-        <div class="col-sm-12">
-            <app-entries v-if="congressmanBudgets.selected.id"></app-entries>
-        </div>
+            <div class="col-12">
+                <app-entries v-if="congressmanBudgets.selected.id"></app-entries>
+            </div>
 
-        <div class="col-sm-12">
-            <app-documents v-if="entries.selected.id"></app-documents>
+            <div class="col-md-7 d-none d-lg-block">
+                <app-documents v-if="entries.selected.id"></app-documents>
+            </div>
+
+            <div class="col-md-5 d-none d-lg-block">
+                <app-comments v-if="entries.selected.id"></app-comments>
+            </div>
         </div>
     </div>
 </template>

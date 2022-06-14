@@ -7,6 +7,11 @@ use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+function only_letters_and_space($string)
+{
+    return preg_replace('/([^a-zA-Z\s])/', '', $string);
+}
+
 function startTimer()
 {
     Timer::$starttime = microtime(true);
@@ -28,7 +33,7 @@ if (!function_exists('studly')) {
      */
     function studly($value)
     {
-        $value = ucwords(str_replace(array('-', '_'), ' ', $value));
+        $value = ucwords(str_replace(['-', '_'], ' ', $value));
 
         return str_replace(' ', '', $value);
     }
@@ -36,10 +41,7 @@ if (!function_exists('studly')) {
 
 function toBoolean($boolean)
 {
-    return $boolean === 'true' ||
-        $boolean === '1' ||
-        $boolean === 1 ||
-        $boolean === true;
+    return $boolean === 'true' || $boolean === '1' || $boolean === 1 || $boolean === true;
 }
 
 function extract_credentials(Request $request)
@@ -62,7 +64,16 @@ function is_administrator()
         return false;
     }
 
-    return $user->is_administrator;
+    return $user->isA(Constants::ROLE_ADMINISTRATOR);
+}
+
+function is_aci()
+{
+    if (!($user = Auth::user())) {
+        return false;
+    }
+
+    return $user->isA(Constants::ROLE_ACI) || $user->isA(Constants::ROLE_ACI_COORDINATOR);
 }
 
 function only_numbers($string)
@@ -91,17 +102,17 @@ function make_pdf_filename($baseName)
     return Str::slug($baseName . ' ' . now()->format('Y m d H i')) . '.pdf';
 }
 
+function make_filename($baseName, $extension)
+{
+    return Str::slug($baseName . ' ' . now()->format('Y m d H i')) . '.' . $extension;
+}
+
 function extract_info_from_mailgun_webhook($data)
 {
     return [
-        'timestamp' => Carbon::createFromTimestamp(
-            Arr::get($data, 'signature.timestamp')
-        ),
+        'timestamp' => Carbon::createFromTimestamp(Arr::get($data, 'signature.timestamp')),
 
-        'message_id' => array_get(
-            $data,
-            'event-data.message.headers.message-id'
-        ),
+        'message_id' => array_get($data, 'event-data.message.headers.message-id'),
     ];
 }
 
@@ -112,7 +123,7 @@ function current_user()
 
 function unnacent($string)
 {
-    $table = array(
+    $table = [
         'Š' => 'S',
         'š' => 's',
         'Đ' => 'Dj',
@@ -185,7 +196,7 @@ function unnacent($string)
         'ÿ' => 'y',
         'Ŕ' => 'R',
         'ŕ' => 'r',
-    );
+    ];
 
     return strtr($string, $table);
 }
@@ -201,9 +212,7 @@ function capitalizeBrazilian($name)
 
     $string = trim(preg_replace('/\s\s+/', ' ', $string));
 
-    coollect(['de', 'da', 'do', 'das', 'dos', 'e'])->each(function (
-        $exception
-    ) use (&$string) {
+    coollect(['de', 'da', 'do', 'das', 'dos', 'e'])->each(function ($exception) use (&$string) {
         $exception = mb_convert_case($exception, MB_CASE_TITLE);
 
         $newCase = mb_convert_case($exception, MB_CASE_LOWER);
@@ -216,11 +225,7 @@ function capitalizeBrazilian($name)
             coollect($matched[0])->each(function ($match) use (&$string) {
                 $newCase = mb_convert_case($match, MB_CASE_UPPER);
 
-                $string = str_replace(
-                    substr($match, 1),
-                    substr($newCase, 1),
-                    $string
-                );
+                $string = str_replace(substr($match, 1), substr($newCase, 1), $string);
             });
         }
     });
@@ -240,11 +245,19 @@ function to_reais($number)
     return 'R$ ' . number_format($number, 2, ',', '.');
 }
 
-function get_current_departament_id()
+function without_reais($number)
 {
-    return auth()->user() && auth()->user()->departament
-        ? auth()->user()->departament->id
-        : null;
+    return str_replace(',', '.', str_replace('.', '', str_replace('R$ ', '', $number)));
+}
+
+function trunc_value_with_two_digits($number)
+{
+    return intval($number * 100) / 100;
+}
+
+function get_current_department_id()
+{
+    return auth()->user() && auth()->user()->department ? auth()->user()->department->id : null;
 }
 
 function db_listen($dump = false)
@@ -290,7 +303,7 @@ function allows($ability)
                 'User [%s, %s] is not permitted to do %s',
                 auth()->user()->name,
                 auth()->user()->email,
-                $ability
+                collect($ability)->implode(', ')
             )
         );
     }
@@ -303,8 +316,7 @@ function make_deep_path($nameHash, $length = 4)
     $deepPath = '';
 
     for ($i = 1; $i <= $length; $i++) {
-        $deepPath =
-            $deepPath . substr($nameHash, $i - 1, 1) . DIRECTORY_SEPARATOR;
+        $deepPath = $deepPath . substr($nameHash, $i - 1, 1) . DIRECTORY_SEPARATOR;
     }
 
     return $deepPath;
@@ -315,6 +327,45 @@ function formMode($mode = null)
     return $mode
         ? session()->flash(Constants::SESSION_FORM_MODE, $mode)
         : session(Constants::SESSION_FORM_MODE, Constants::FORM_MODE_SHOW);
+}
+
+function is_at_least_verbose($command)
+{
+    return $command->getOutput()->getVerbosity() >=
+        \Symfony\Component\Console\Output\OutputInterface::VERBOSITY_VERBOSE;
+}
+
+function is_br_date($date)
+{
+    try {
+        $date = Carbon::createFromFormat('d/m/Y', $date);
+    } catch (\InvalidArgumentException $e) {
+        //Not a date
+        return false;
+    }
+    return true;
+}
+
+function mask_zipcode($zipcode)
+{
+    return preg_replace('/(\d\d\d\d\d)(\d\d\d)/', '$1-$2', $zipcode);
+}
+
+function login_as_system()
+{
+    return app(\App\Data\Repositories\Users::class)->loginAsSystem();
+}
+
+function to_sql_with_bindings($query)
+{
+    return vsprintf(
+        str_replace('?', '%s', $query->toSql()),
+        collect($query->getBindings())
+            ->map(function ($binding) {
+                return is_numeric($binding) ? $binding : "'{$binding}'";
+            })
+            ->toArray()
+    );
 }
 
 class Timer

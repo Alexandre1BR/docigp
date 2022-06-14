@@ -2,8 +2,10 @@
 
 namespace App\Listeners;
 
-use App\Events\EntryDeleted;
+use App\Events\CongressmanBudgetsChanged;
+use App\Events\CongressmenChanged;
 use App\Events\EntriesChanged;
+use App\Events\EntryDeleted;
 
 class OnEntryDeleted extends Listener
 {
@@ -15,6 +17,8 @@ class OnEntryDeleted extends Listener
      */
     public function handle(EntryDeleted $event)
     {
-        event(new EntriesChanged());
+        event(new EntriesChanged($event->congressmanBudgetId));
+        event(new CongressmanBudgetsChanged($event->congressmanId));
+        event(new CongressmenChanged());
     }
 }

@@ -33,7 +33,7 @@ class CostCenters extends Controller
     {
         app(CostCentersRepository::class)->create($request->all());
 
-        return redirect()->route('costCenters.index');
+        return redirect()->route('cost-centers.index');
     }
 
     public function show($id)
@@ -52,6 +52,6 @@ class CostCenters extends Controller
     {
         app(CostCentersRepository::class)->update($id, $request->all());
 
-        return redirect()->route('costCenters.index');
+        return redirect()->route('cost-centers.index');
     }
 }

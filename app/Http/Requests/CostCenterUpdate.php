@@ -14,13 +14,8 @@ class CostCenterUpdate extends CostCenterStore
     public function rules()
     {
         return [
-            'code' => [
-                'required',
-                Rule::unique('cost_centers')->ignore($this->get('id')),
-            ],
+            'code' => ['required', Rule::unique('cost_centers')->ignore($this->get('id'))],
             'name' => 'required',
-            'frequency' => 'required',
-            'limit' => 'required',
             'can_accumulate' => 'required',
         ];
     }

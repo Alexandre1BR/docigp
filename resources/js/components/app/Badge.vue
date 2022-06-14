@@ -1,34 +1,34 @@
 <template>
-    <span
+    <div
         class="badge"
-        :class="' p-' + getPadding()"
+        :class="' p-' + getPadding() + ' m-' + getMargin()"
         :style="{
             'background-color': background,
             color: foreground,
         }"
     >
-        <span
+        <div
             :style="{
                 'text-transform': uppercase ? 'uppercase' : 'none',
                 'font-size': fontSize,
             }"
         >
             {{ caption }}
-        </span>
 
-        <span v-if="complement">
-            <span
+            <slot></slot>
+        </div>
+
+        <div v-if="complement">
+            <div
                 style="{'font-size': complementFontSize ? complementFontSize : '0.7em'}"
                 class="mt-2"
             >
-                <br />
-                <span v-for="part in breakString(complement)">
-                    <br />
+                <div v-for="part in breakString(complement)">
                     {{ part }}
-                </span>
-            </span>
-        </span>
-    </span>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -39,6 +39,7 @@ export default {
         'complement',
         'uppercase',
         'padding',
+        'margin',
         'fontSize',
         'complementFontSize',
     ],
@@ -54,6 +55,10 @@ export default {
     },
 
     methods: {
+        getMargin() {
+            return this.margin ? this.margin : 1
+        },
+
         getPadding() {
             return this.padding ? this.padding : 2
         },

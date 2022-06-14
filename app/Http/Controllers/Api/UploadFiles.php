@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Data\Models\CongressmanBudget;
+use App\Models\CongressmanBudget;
 use App\Data\Repositories\Files as FilesRepository;
 use App\Http\Requests\UploadFile as UploadFileRequest;
 
@@ -29,10 +29,7 @@ class UploadFiles extends Controller
 
     public function store(UploadFileRequest $request)
     {
-        app(FilesRepository::class)->uploadFile(
-            $request->all(),
-            CongressmanBudget::class
-        );
+        app(FilesRepository::class)->uploadFile($request->all(), CongressmanBudget::class);
 
         return redirect()
             ->route('upload-files.index')

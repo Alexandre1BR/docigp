@@ -2,9 +2,9 @@
 
 namespace App\Data\Repositories;
 
-use App\Data\Models\AttachedFile;
-use App\Data\Models\File as FileModel;
-use App\Data\Models\File;
+use App\Models\AttachedFile;
+use App\Models\File as FileModel;
+use App\Models\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -16,7 +16,7 @@ class Files extends Repository
      * @param $model
      * @param $file
      * @param $originalName
-     * @return \App\Data\Models\AttachedFile
+     * @return \App\Models\AttachedFile
      */
     public function createAttachment($model, $file, $originalName): AttachedFile
     {
@@ -92,10 +92,7 @@ class Files extends Repository
      */
     public function storePhysicalFile($uploadedFile): File
     {
-        $this->storeFile(
-            $file = $this->findOrCreateFile($uploadedFile),
-            $uploadedFile
-        );
+        $this->storeFile($file = $this->findOrCreateFile($uploadedFile), $uploadedFile);
 
         return $file;
     }
@@ -112,9 +109,7 @@ class Files extends Repository
      */
     private function makeFileName($hash, $uploadedFile): string
     {
-        return $hash .
-            '.' .
-            Str::lower($uploadedFile->getClientOriginalExtension());
+        return $hash . '.' . Str::lower($uploadedFile->getClientOriginalExtension());
     }
 
     /**

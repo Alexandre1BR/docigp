@@ -10,7 +10,8 @@
     </div>
 @endif
 
-<table id="congressmanLegislatures" class="table table-striped table-bordered" cellspacing="0" width="100%">
+<div class="table-responsive">
+<table id="congressmanLegislatures" class="table table-striped table-bordered" cellspacing="0">
     <thead>
         <tr>
             <th>#</th>
@@ -18,6 +19,7 @@
             <th>Legislatura</th>
             <th>Data início</th>
             <th>Data Fim</th>
+            <th>Ações</th>
 
         </tr>
     </thead>
@@ -45,12 +47,20 @@
                 <td>
                     {{ $congressmanLegislature->ended_at ? date('d/m/Y', strtotime($congressmanLegislature->ended_at)) : ''}}
                 </td>
+                <td>
+                    <a id="button-novo-contato" href="#" data-toggle="modal" data-target="#editCongressmanFromLegislatures_{{$congressmanLegislature->id}}"
+                       class="btn btn-success btn-sm pull-right">
+                        <i class="fas fa-edit"></i> Editar
+                    </a>
+                    @include('admin.congressman_legislatures.partials.form-modal',[$congressmanLegislature,$congressman])
+                </td>
             </tr>
         @empty
             <p>Nenhum Deputado encontrado</p>
         @endforelse
     </tbody>
 </table>
+</div>
 {{$congressmanLegislatures->links()}}
 
 

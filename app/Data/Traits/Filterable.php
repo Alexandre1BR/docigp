@@ -6,8 +6,6 @@ trait Filterable
 {
     public function getFilterableColumns()
     {
-        return coollect(
-            isset($this->filterableColumns) ? $this->filterableColumns : []
-        );
+        return coollect(isset($this->filterableColumns) ? $this->filterableColumns : []);
     }
 }

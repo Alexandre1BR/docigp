@@ -6,36 +6,46 @@ trait RepositoryActionable
 {
     public function publish($modelId)
     {
-        $this->findById($modelId)->publish();
+        return $this->transformSingleRow($this->findById($modelId)->publish());
     }
 
     public function unpublish($modelId)
     {
-        $this->findById($modelId)->unpublish();
+        return $this->transformSingleRow($this->findById($modelId)->unpublish());
+    }
+
+    public function close($modelId)
+    {
+        return $this->transformSingleRow($this->findById($modelId)->close());
+    }
+
+    public function reopen($modelId)
+    {
+        return $this->transformSingleRow($this->findById($modelId)->reopen());
     }
 
     public function analyse($modelId)
     {
-        $this->findById($modelId)->analyse();
+        return $this->transformSingleRow($this->findById($modelId)->analyse());
     }
 
     public function unanalyse($modelId)
     {
-        $this->findById($modelId)->unanalyse();
+        return $this->transformSingleRow($this->findById($modelId)->unanalyse());
     }
 
     public function verify($entryId)
     {
-        $this->findById($entryId)->verify();
+        return $this->transformSingleRow($this->findById($entryId)->verify());
     }
 
     public function unverify($entryId)
     {
-        $this->findById($entryId)->unverify();
+        return $this->transformSingleRow($this->findById($entryId)->unverify());
     }
 
     public function delete($entryId)
     {
-        $this->findById($entryId)->delete();
+        return $this->findById($entryId)->delete();
     }
 }

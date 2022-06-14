@@ -2,29 +2,26 @@
 
 namespace App\Events;
 
-use Illuminate\Broadcasting\Channel;
+use App\Models\CongressmanBudget;
 
-class EntryDocumentCreated extends Broadcastable
+class EntryDocumentCreated extends Event
 {
-    public $entry;
+    public $entryDocumentId;
+    public $entryId;
+    public $congressmanBudgetId;
+    public $congressmanId;
 
     /**
-     * Create a new entry instance.
+     * Create a new entry document instance.
      *
-     * @param $entry
+     * @param $entryDocument
      */
-    public function __construct($entry)
+    public function __construct($entryDocument)
     {
-        $this->entry = $entry;
-    }
-
-    /**
-     * Get the channels the entry should broadcast on.
-     *
-     * @return \Illuminate\Broadcasting\Channel|array
-     */
-    public function broadcastOn()
-    {
-        return new Channel('entry.' . $this->entry->id);
+        $this->entryDocumentId = $entryDocument->id;
+        $this->entryId = $entryDocument->entry_id;
+        $entry = $entryDocument->entry;
+        $this->congressmanBudgetId = $entry->congressman_budget_id;
+        $this->congressmanId = CongressmanBudget::find($this->congressmanBudgetId)->congressman->id;
     }
 }

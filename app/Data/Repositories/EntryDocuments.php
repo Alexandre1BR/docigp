@@ -4,7 +4,8 @@ namespace App\Data\Repositories;
 
 use App\Data\Traits\RepositoryActionable;
 use App\Data\Repositories\Files as FilesRepository;
-use App\Data\Models\EntryDocument as EntryDocument;
+use App\Models\Audit;
+use App\Models\EntryDocument as EntryDocument;
 
 class EntryDocuments extends Repository
 {
@@ -35,28 +36,22 @@ class EntryDocuments extends Repository
                     'congressman_legislatures.id',
                     'congressman_budgets.congressman_legislature_id'
                 )
-                ->where(
-                    'congressman_legislatures.congressman_id',
-                    $congressmanId
-                )
+                ->where('congressman_legislatures.congressman_id', $congressmanId)
                 ->where('congressman_budgets.id', $congressmanBudgetId)
                 ->where('entry_documents.entry_id', $entryId)
         );
     }
 
     /**
-     * @param \App\Data\Models\File $physicalFile
+     * @param \App\Models\File $physicalFile
      * @return bool
      */
-    private function documentWasAlreadyUploaded(
-        \App\Data\Models\File $physicalFile
-    ): bool {
-        return $this->getEntry()->documents->reduce(function (
-            $carry,
-            $document
-        ) use ($physicalFile) {
-            return $carry ||
-                $document->attachedFile->file->id == $physicalFile->id;
+    private function documentWasAlreadyUploaded(\App\Models\File $physicalFile): bool
+    {
+        return $this->getEntry()->documents->reduce(function ($carry, $document) use (
+            $physicalFile
+        ) {
+            return $carry || $document->attachedFile->file->id == $physicalFile->id;
         },
         false);
     }
@@ -97,5 +92,14 @@ class EntryDocuments extends Repository
             $physicalFile,
             $uploadedFile->getClientOriginalName()
         );
+    }
+
+    public function audits($id)
+    {
+        return Audit::with('user')
+            ->where('auditable_type', 'like', '%\EntryDocument')
+            ->where('auditable_id', $id)
+            ->orderBy('created_at', 'desc')
+            ->get();
     }
 }

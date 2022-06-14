@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Web\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Legislature;
 use Illuminate\Http\Request;
 use App\Http\Requests\Congressman as CongressmanRequest;
 
 use App\Data\Repositories\Congressmen as CongressmenRepository;
+use App\Data\Repositories\Legislatures as LegislaturesRepository;
 use App\Data\Repositories\CongressmanLegislatures as CongressmanLegislaturesRepository;
 
 class Congressmen extends Controller
@@ -59,12 +61,15 @@ class Congressmen extends Controller
             CongressmanLegislaturesRepository::class
         )->isInCurrentLegislature($id);
 
+        $legislatures = Legislature::orderBy('number', 'desc')->get();
+
         //TODO selecionar as roles possíveis
         return $this->view('admin.congressmen.form')
             ->with('congressman', $congressman)
             ->with('congressmanLegislatures', $congressmanLegislatures)
             ->with('formDisabled', true)
-            ->with('isInCurrentLegislature', $isInCurrentLegislature);
+            ->with('isInCurrentLegislature', $isInCurrentLegislature)
+            ->with('legislatures', $legislatures);
     }
 
     public function associateWithUser(CongressmanRequest $request)

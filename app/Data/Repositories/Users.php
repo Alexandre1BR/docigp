@@ -2,7 +2,7 @@
 
 namespace App\Data\Repositories;
 
-use App\Data\Models\User;
+use App\Models\User;
 use App\Support\Constants;
 use App\Data\Repositories\Congressmen as CongressmenRepository;
 use Illuminate\Support\Facades\Hash;
@@ -94,12 +94,11 @@ class Users extends Repository
     public function associateCongressmanWithUser($congressman_id, $request)
     {
         $this->model = $this->findUserByEmail($request['email']);
-        $congressman = app(CongressmenRepository::class)->findById(
-            $congressman_id
-        );
+
+        $congressman = app(CongressmenRepository::class)->findById($congressman_id);
 
         $this->model['congressman_id'] = $congressman_id;
-        $this->model['departament_id'] = $congressman->departament->id;
+        $this->model['department_id'] = $congressman->department->id ?? null;
 
         $this->model->save();
 
@@ -127,11 +126,7 @@ class Users extends Repository
         $search->each(function ($item) use ($columns, $query) {
             $columns->each(function ($type, $column) use ($query, $item) {
                 if ($type === 'string') {
-                    $query->orWhere(
-                        DB::raw("lower({$column})"),
-                        'like',
-                        '%' . $item . '%'
-                    );
+                    $query->orWhere(DB::raw("lower({$column})"), 'like', '%' . $item . '%');
                 } else {
                     if ($this->isDate($item)) {
                         $query->orWhere($column, '=', $item);
@@ -141,5 +136,19 @@ class Users extends Repository
         });
 
         return $this->makeResultForSelect($query->orderBy('name')->get());
+    }
+
+    public function getSystemModel()
+    {
+        return \Cache::remember('getSystemModel', 15, function () {
+            return User::where('email', 'system@docigp.alerj.rj.gov.br')->first();
+        });
+    }
+
+    public function loginAsSystem()
+    {
+        if ($systemUser = $this->getSystemModel()) {
+            auth()->login($systemUser);
+        }
     }
 }

@@ -34,7 +34,7 @@ class EntryTypes extends Controller
     {
         app(EntryTypesRepository::class)->create($request->all());
 
-        return redirect()->route('entryTypes.index');
+        return redirect()->route('entry-types.index');
     }
 
     public function show($id)
@@ -53,6 +53,6 @@ class EntryTypes extends Controller
     {
         app(EntryTypesRepository::class)->update($id, $request->all());
 
-        return redirect()->route('entryTypes.index');
+        return redirect()->route('entry-types.index');
     }
 }

@@ -64,40 +64,27 @@ class ResetPasswordNotification extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         if (static::$toMailCallback) {
-            return call_user_func(
-                static::$toMailCallback,
-                $notifiable,
-                $this->token
-            );
+            return call_user_func(static::$toMailCallback, $notifiable, $this->token);
         }
 
         return (new MailMessage())
-            ->subject(Lang::getFromJson('Notificação de troca de senha'))
+            ->subject(Lang::get('Notificação de troca de senha'))
             ->line(
-                Lang::getFromJson(
+                Lang::get(
                     'Você está recebendo esta mensagem porque foi solicitada a troca de senha da sua conta.'
                 )
             )
             ->action(
-                Lang::getFromJson('Trocar Senha'),
-                url(
-                    config('app.url') .
-                        route(
-                            'password.reset',
-                            ['token' => $this->token],
-                            false
-                        )
-                )
+                Lang::get('Trocar Senha'),
+                url(config('app.url') . route('password.reset', ['token' => $this->token], false))
             )
             ->line(
-                Lang::getFromJson('Este link irá expirar em :count minutos.', [
+                Lang::get('Este link irá expirar em :count minutos.', [
                     'count' => config('auth.passwords.users.expire'),
                 ])
             )
             ->line(
-                Lang::getFromJson(
-                    'Se você não solicitou a troca da senha, por favor ignore esta mensagem.'
-                )
+                Lang::get('Se você não solicitou a troca da senha, por favor ignore esta mensagem.')
             );
     }
 

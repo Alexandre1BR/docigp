@@ -8,7 +8,7 @@
             :name="name"
             :required="required"
             :options="makeOptions(options)"
-            :disabled="disabled()"
+            :disabled="readonly || disabled()"
             :placeholder="placeholder()"
         >
         </vue-select>
@@ -29,6 +29,7 @@ export default {
         'required',
         'form',
         'options',
+        'readonly',
         'labelAttribute',
     ],
 

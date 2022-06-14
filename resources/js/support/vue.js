@@ -1,18 +1,42 @@
+import Vue from 'vue';
+import 'livewire-vue';
+
 /**
  * Vue & Vuex
  */
-window.Vue = require('vue')
-window.Vuex = require('vuex')
+window.Vue = Vue;
+window.Vuex = require('vuex');
 
-/**
- * Vue The Mask
- */
-Vue.use(() => import('vue-the-mask'))
+// ClipLoader
+Vue.component('clip-loader', require('vue-spinner/src/ClipLoader.vue').default);
 
+// PulseLoader
+Vue.component('pulse-loader', require('vue-spinner/src/PulseLoader.vue').default);
+
+// BounceLoader
+Vue.component('bounce-loader', require('vue-spinner/src/BounceLoader.vue').default);
 /**
  * SweetAlert
  */
-Vue.use(() => import('vue-swal'))
+import VueSweetalert2 from 'vue-sweetalert2';
+
+// If you don't need the styles, do not connect
+import 'sweetalert2/dist/sweetalert2.min.css';
+
+const options = {
+    cancelButtonColor: '#E3352E',
+    confirmButtonColor: '#38c172',
+    confirmButtonText: 'confirmar',
+    cancelButtonText: 'cancelar',
+    showCancelButton: true,
+};
+
+Vue.use(VueSweetalert2, options);
+// Loading ClipLoader
+Vue.component('clip-loader', require('vue-spinner/src/ClipLoader.vue').default);
+
+// Loading PulseLoader
+Vue.component('pulse-loader', require('vue-spinner/src/PulseLoader.vue').default);
 
 /**
  * Vue Bootstrap
@@ -30,27 +54,37 @@ Vue.use(() => import('vue-swal'))
 // Vue.use(FormGroup)
 // Vue.use(FormInput)
 
-import BootstrapVue from 'bootstrap-vue'
-Vue.use(BootstrapVue)
+import BootstrapVue from 'bootstrap-vue';
+Vue.use(BootstrapVue);
 
 /**
  * Autoload Vue components
  */
-const file = require.context('../components/app/', true, /\.vue$/i)
-file.keys().map(file => {
-    const name = 'App' + _.last(file.split('/')).split('.')[0]
+const file = require.context('../components/app/', true, /\.vue$/i);
+file.keys().map((file) => {
+    const name = 'App' + _.last(file.split('/')).split('.')[0];
 
-    return Vue.component(name, () =>
-        import('../components/app/' + basename(file)),
-    )
-})
+    return Vue.component(name, () => import('../components/app/' + basename(file)));
+});
 
 /**
  * VueSelect
  */
-Vue.component('vue-select', () => import('vue-select'))
+Vue.component('vue-select', () => import('vue-select'));
+Vue.use(Vue.component('vue-select', () => import('vue-select')));
 
 /**
  * Vue The Mask
  */
-Vue.use(() => import('vue-the-mask'))
+import VueTheMask from 'vue-the-mask';
+Vue.use(VueTheMask);
+
+require('../pages/basic');
+
+import VueTranslate from 'vue-translate-plugin';
+import PtBrTranslation from '../../lang/pt-BR';
+Vue.use(VueTranslate);
+
+Vue.locales({
+    pt_BR: PtBrTranslation,
+});

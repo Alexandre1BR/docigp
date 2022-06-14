@@ -19,8 +19,6 @@ class CostCenterStore extends Request
         return [
             'code' => 'required | unique:cost_centers',
             'name' => 'required',
-            'frequency' => 'required',
-            'limit' => 'required',
             'can_accumulate' => 'required',
         ];
     }

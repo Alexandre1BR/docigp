@@ -2,7 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\CheckCpforCnpj;
 use App\Rules\WithinBudgetDate;
+use App\Rules\NotRevokedCostCenter;
+use App\Support\Constants;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Gate;
 
@@ -20,9 +23,7 @@ class EntryStore extends Request
 
     private function getQueryValue(string $string)
     {
-        return request()->segment(
-            collect(request()->segments())->search($string) + 2
-        );
+        return request()->segment(collect(request()->segments())->search($string) + 2);
     }
 
     /**
@@ -34,14 +35,19 @@ class EntryStore extends Request
     {
         return [
             'date' => [
+                'bail',
+                'date',
                 'required',
                 new WithinBudgetDate($this->getQueryValue('budgets')),
             ],
             'value_abs' => 'required',
             'object' => 'required',
             'to' => 'required',
-            'cost_center_id' => 'required',
-            'provider_cpf_cnpj' => 'required',
+            'cost_center_id' => ['bail', 'required', new NotRevokedCostCenter($this->get('date'))],
+            'provider_cpf_cnpj' => [
+                'required',
+                new CheckCpforCnpj($this->get('provider_cpf_cnpj')),
+            ],
             'entry_type_id' => 'required',
         ];
     }
@@ -52,11 +58,16 @@ class EntryStore extends Request
      */
     public function sanitize(array $all)
     {
-        if (isset($all['date']) && is_string($all['date'])) {
+        if (isset($all['date']) && is_br_date($all['date'])) {
             $all['date'] = Carbon::createFromFormat('d/m/Y', $all['date']);
         }
 
-        if (!isset($all['value']) && isset($all['value_abs'])) {
+        if (
+            isset($all['cost_center_id']) &&
+            in_array($all['cost_center_id'], Constants::COST_CENTER_CREDIT_ID_ARRAY)
+        ) {
+            $all['value'] = $all['value_abs'];
+        } else {
             $all['value'] = -$all['value_abs'];
         }
 

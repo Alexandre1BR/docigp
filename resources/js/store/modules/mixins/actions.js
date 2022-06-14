@@ -10,7 +10,8 @@ export function load(context) {
             debouncedByUrl[urlHash] = _.debounce((targetUrl, targetContext) => {
                 get(targetUrl, {
                     params: { query: targetContext.getters.getQueryFilter },
-                }).then(response => {
+                }).then((response) => {
+                    context.commit('mutateTableLoading', false)
                     context.dispatch('setDataAfterLoad', response.data)
                 })
             }, 450)
@@ -20,9 +21,30 @@ export function load(context) {
     }
 }
 
+export function deleteRow(context, payload) {
+    context.commit('mutateDeleteRow', payload)
+}
+
+export function setDataAfterDelete(context, payload) {
+    context.dispatch('deleteRow', payload).then(function () {
+        context.dispatch('fixCurrentPage')
+    })
+}
+
+export function fixCurrentPage(context, payload) {
+    if (
+        context.state.data.links.pagination.total % context.state.data.links.pagination.per_page ==
+            1 &&
+        context.state.data.links.pagination.current_page > 1
+    ) {
+        context.dispatch('setCurrentPage', context.state.data.links.pagination.current_page - 1)
+    } else {
+        loadDebounced(context)
+    }
+}
+
 export function setDataAfterLoad(context, payload) {
     payload.filter.text = context.state.data.filter.text
-
     context.commit('mutateSetData', payload)
 }
 
@@ -57,17 +79,14 @@ export function mutateSetQueryFilterText(context, payload) {
 }
 
 export function setCurrentPage(context, payload) {
-    let data = context.state.data
-
-    data.links.pagination.current_page = payload
-
-    context.commit('mutateSetData', data)
-
-    loadDebounced(context)
+    context.state.data.links.pagination.current_page = payload
+    context.dispatch('load')
 }
 
 export function setPerPage(context, payload) {
     context.commit('mutateSetPerPage', payload)
+
+    context.state.data.links.pagination.current_page = 1
 
     context.dispatch('load')
 
@@ -98,31 +117,9 @@ export function mutateFilterSelect(context, payload) {
     loadDebounced(context)
 }
 
-export function subscribeToModelEvents(context, payload) {
-    if (context.state.model) {
-        subscribePublicChannel(
-            context.state.model.name + '.' + payload.id,
-            '.App\\Events\\' + context.state.model.class.singular + 'Updated',
-            () => {
-                loadDebounced(context)
-            },
-        )
-    }
-
-    context.dispatch('subscribeExtraChannels', payload)
-}
-
-export function subscribeToTableEvents(context) {
-    if (context.state.model) {
-        subscribePublicChannel(
-            context.state.model.table,
-            '.App\\Events\\' + context.state.model.class.plural + 'Changed',
-            () => {
-                loadDebounced(context)
-            },
-        )
-
-        context.dispatch('subscribeExtraChannels')
+export function leaveModelChannel(context, payload) {
+    if (context.state.selected.id) {
+        leavePublicChannel(context.state.model.table + '.' + context.state.selected.id)
     }
 }
 

@@ -27,7 +27,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('docigp:sync:parties')->daily();
         $schedule->command('docigp:sync:congressmen')->hourly();
         $schedule->command('docigp:budget:generate')->hourly();
-        $schedule->command('docigp:sync:departaments')->hourly();
+        $schedule->command('docigp:sync:departments')->hourly();
     }
 
     /**

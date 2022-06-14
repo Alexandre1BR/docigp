@@ -33,9 +33,11 @@ trait Eventable
     {
         $type = $this->inferEventType($model, $type);
 
-        $this->fireEventForModel($model, $type);
+        if (static::$modelEventsEnabled) {
+            $this->fireEventForModel($model, $type);
 
-        $this->fireEventForTable($model, 'Changed', true);
+            //$this->fireEventForTable($model, 'Changed', true);
+        }
 
         if (method_exists($this, 'fireEventsForRelationships')) {
             $this->fireEventsForRelationships($model, $type);
@@ -44,38 +46,40 @@ trait Eventable
 
     protected function fireEventForModel($model, $eventType)
     {
-        $reflect = new ReflectionClass($model);
-
-        $className = $reflect->getShortName();
-
-        $eventClass = "App\\Events\\{$className}{$eventType}";
-
-        if (class_exists($eventClass)) {
-            event(
-                new $eventClass($eventType == 'Deleted' ? $model->id : $model)
-            );
-        }
-    }
-
-    protected function fireEventForTable($model, $eventType, $plural = false)
-    {
-        $tableName = Str::studly($model->getTable());
-
-        $tableName = $plural ? Str::plural($tableName) : $tableName;
-
-        $eventClass = "App\\Events\\{$tableName}{$eventType}";
+        $eventClass = $this->getModelEventClass($model, $eventType);
 
         if (class_exists($eventClass)) {
             event(new $eventClass($model));
         }
     }
 
+    protected function getModelEventClass($model, $eventType)
+    {
+        $reflect = new ReflectionClass($model);
+
+        $className = $reflect->getShortName();
+
+        return "App\\Events\\{$className}{$eventType}";
+    }
+
+    protected function getTableEventClass($model, $eventType)
+    {
+        $tableName = Str::studly($model->getTable());
+
+        return "App\\Events\\{$tableName}{$eventType}";
+    }
+
+    protected function fireEventForTable($model, $eventType, $plural = false)
+    {
+        $eventClass = $this->getTableEventClass($model, $eventType);
+
+        if (class_exists($eventClass)) {
+            event(new $eventClass($model->id));
+        }
+    }
+
     protected function inferEventType($model, $type)
     {
-        return filled($type)
-            ? $type
-            : ($model->wasRecentlyCreated
-                ? 'Created'
-                : 'Updated');
+        return filled($type) ? $type : ($model->wasRecentlyCreated ? 'Created' : 'Updated');
     }
 }

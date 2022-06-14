@@ -15,6 +15,7 @@ class UserStore extends Request
     {
         return [
             'email' => ['required', 'email', 'unique:users', new AlerjEmail()],
+            'name' => ['required'],
         ];
     }
 

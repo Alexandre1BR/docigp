@@ -26,4 +26,9 @@ class Congressmen extends Controller
     {
         return app(CongressmenRepository::class)->getAvailableCongressmen();
     }
+
+    public function markAsRead($id)
+    {
+        return app(CongressmenRepository::class)->markAsRead($id);
+    }
 }

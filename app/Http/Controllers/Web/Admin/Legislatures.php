@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Web\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\legislature as LegislatureRequest;
+use App\Http\Requests\Legislature as LegislatureRequest;
 use App\Data\Repositories\Legislatures as LegislaturesRepository;
 use App\Data\Repositories\CongressmanLegislatures as CongressmanLegislaturesRepository;
 use App\Support\Constants;
@@ -37,9 +37,7 @@ class Legislatures extends Controller
     {
         return $this->view('admin.legislatures.form')
             ->with([
-                'legislature' => app(LegislaturesRepository::class)->findById(
-                    $id
-                ),
+                'legislature' => app(LegislaturesRepository::class)->findById($id),
             ])
             ->with([
                 'congressmanLegislatures' => app(

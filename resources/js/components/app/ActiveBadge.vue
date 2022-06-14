@@ -1,14 +1,16 @@
 <template>
-    <div>
-        <span class="badge" :class="getColor()">
+    <div class="p-1">
+        <span class="badge text-uppercase" :class="getColor()">
+            {{title}} 
             {{ labels[!value ? 1 : 0] }}
         </span>
+        
     </div>
 </template>
 
 <script>
 export default {
-    props: ['value', 'labels', 'color'],
+    props: ['value', 'labels', 'color', 'title'],
 
     methods: {
         getColor() {

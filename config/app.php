@@ -18,6 +18,12 @@ return [
 
     'long_name' => env('APP_NAME_LONG'),
 
+    'year_round_change' => env('YEAR_ROUND_CHANGE'),
+
+    'month_round_change' => env('MONTH_ROUND_CHANGE'),
+
+    'default_joined_checkbox' => env('DEFAULT_JOINED_CHECKBOX', true),
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment
@@ -70,7 +76,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'America/Sao_Paulo',
 
     /*
     |--------------------------------------------------------------------------
@@ -104,7 +110,7 @@ return [
     |--------------------------------------------------------------------------
     |
     | This locale will be used by the Faker PHP library when generating fake
-    | data for your database seeds. For example, this will be used to get
+    | data for your database seeders. For example, this will be used to get
     | localized telephone numbers, street address information and more.
     |
     */
@@ -125,6 +131,22 @@ return [
     'key' => env('APP_KEY'),
 
     'cipher' => 'AES-256-CBC',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Throttle
+    |--------------------------------------------------------------------------
+    |
+    | Defining the parameters for throttling events
+    |
+    */
+
+    'events' => [
+        'throttle' => [
+            'allow' => env('EVENTS_THROTTLE_ALLOW', 1),
+            'every' => env('EVENTS_THROTTLE_EVERY', 15),
+        ],
+    ],
 
     /**
      * Remote requests
@@ -175,6 +197,9 @@ return [
         /*
          * Package Service Providers...
          */
+
+        Bugsnag\BugsnagLaravel\BugsnagServiceProvider::class,
+
         /*
          * Application Service Providers...
          */
@@ -185,6 +210,8 @@ return [
         App\Providers\HorizonServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\ViewComposerServiceProvider::class,
+        Barryvdh\DomPDF\ServiceProvider::class,
+       // Chumper\Zipper\ZipperServiceProvider::class,
     ],
 
     /*
@@ -234,5 +261,6 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+        'Zipper' => Chumper\Zipper\Zipper::class,
     ],
 ];

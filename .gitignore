@@ -1,4 +1,4 @@
-
+.env.dusk.local
 /node_modules
 /public/hot
 /public/storage
@@ -16,4 +16,4 @@ storage/debugbar/*
 Vagrantfile
 .vagrantfile/*
 .vagrant/machines/default/virtualbox/*
-storage/documents/*
+/storage/documents/*

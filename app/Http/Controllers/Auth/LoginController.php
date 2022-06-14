@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use Auth;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -90,10 +91,7 @@ class LoginController extends Controller
      */
     protected function attemptLoginAlerj(Request $request)
     {
-        return $this->authentication->attempt(
-            $request,
-            $request->filled('remember')
-        );
+        return $this->authentication->attempt($request, $request->filled('remember'));
     }
 
     private function sendDisabledResponse()
@@ -101,5 +99,11 @@ class LoginController extends Controller
         Auth::logout();
 
         return redirect()->route('errors.user-disabled');
+    }
+
+    function authenticated(Request $request, $user)
+    {
+        $user->last_login_at = Carbon::now();
+        $user->save();
     }
 }

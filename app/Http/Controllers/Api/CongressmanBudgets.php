@@ -6,6 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CongressmanStore;
 use App\Http\Requests\CongressmanBudgetUpdate;
 use App\Data\Repositories\CongressmanBudgets as CongressmanBudgetsRepository;
+use App\Http\Requests\CongressmanBudgetClose;
+use App\Http\Requests\CongressmanBudgetReopen;
+use App\Http\Requests\CongressmanBudgetPublish;
+use App\Http\Requests\CongressmanBudgetAnalyse;
+use App\Http\Requests\CongressmanBudgetDeposit;
+use Illuminate\Http\Request;
 
 class CongressmanBudgets extends Controller
 {
@@ -28,9 +34,7 @@ class CongressmanBudgets extends Controller
      */
     public function store(CongressmanStore $request)
     {
-        return app(CongressmanBudgetsRepository::class)->storeFromArray(
-            $request->all()
-        );
+        return app(CongressmanBudgetsRepository::class)->storeFromArray($request->all());
     }
 
     /**
@@ -38,15 +42,9 @@ class CongressmanBudgets extends Controller
      * @param $id
      * @return mixed
      */
-    public function update(
-        CongressmanBudgetUpdate $request,
-        $congressmanId,
-        $budgetId
-    ) {
-        return app(CongressmanBudgetsRepository::class)->update(
-            $budgetId,
-            $request->all()
-        );
+    public function update(CongressmanBudgetUpdate $request, $congressmanId, $budgetId)
+    {
+        return app(CongressmanBudgetsRepository::class)->transformSingleRow(app(CongressmanBudgetsRepository::class)->update($budgetId, $request->all()));
     }
 
     /**
@@ -56,37 +54,52 @@ class CongressmanBudgets extends Controller
      */
     public function availableCongressmanBudgets()
     {
-        return app(
-            CongressmanBudgetsRepository::class
-        )->getAvailableCongressmanBudgets();
+        return app(CongressmanBudgetsRepository::class)->getAvailableCongressmanBudgets();
     }
 
-    public function analyse($congressmanId, $congressmanBudgetId)
+    public function close(CongressmanBudgetClose $request, $congressmanId, $congressmanBudgetId)
     {
-        app(CongressmanBudgetsRepository::class)->analyse($congressmanBudgetId);
+        return app(CongressmanBudgetsRepository::class)->close($congressmanBudgetId);
     }
 
-    public function unanalyse($congressmanId, $congressmanBudgetId)
+    public function reopen(CongressmanBudgetReopen $request, $congressmanId, $congressmanBudgetId)
     {
-        app(CongressmanBudgetsRepository::class)->unanalyse(
-            $congressmanBudgetId
-        );
+        return app(CongressmanBudgetsRepository::class)->reopen($congressmanBudgetId);
     }
 
-    public function publish($congressmanId, $congressmanBudgetId)
+    public function analyse(CongressmanBudgetAnalyse $request, $congressmanId, $congressmanBudgetId)
     {
-        app(CongressmanBudgetsRepository::class)->publish($congressmanBudgetId);
+        return app(CongressmanBudgetsRepository::class)->analyse($congressmanBudgetId);
     }
 
-    public function unpublish($congressmanId, $congressmanBudgetId)
-    {
-        app(CongressmanBudgetsRepository::class)->unpublish(
-            $congressmanBudgetId
-        );
+    public function unanalyse(
+        CongressmanBudgetAnalyse $request,
+        $congressmanId,
+        $congressmanBudgetId
+    ) {
+        return app(CongressmanBudgetsRepository::class)->unanalyse($congressmanBudgetId);
     }
 
-    public function deposit($congressmanId, $congressmanBudgetId)
+    public function publish(CongressmanBudgetPublish $request, $congressmanId, $congressmanBudgetId)
     {
-        app(CongressmanBudgetsRepository::class)->deposit($congressmanBudgetId);
+        return app(CongressmanBudgetsRepository::class)->publish($congressmanBudgetId);
+    }
+
+    public function unpublish(
+        CongressmanBudgetPublish $request,
+        $congressmanId,
+        $congressmanBudgetId
+    ) {
+        return app(CongressmanBudgetsRepository::class)->unpublish($congressmanBudgetId);
+    }
+
+    public function deposit(CongressmanBudgetDeposit $request, $congressmanId, $congressmanBudgetId)
+    {
+        return app(CongressmanBudgetsRepository::class)->deposit($congressmanBudgetId);
+    }
+
+    public function audits(Request $request, $congressmanId, $congressmanBudgetId)
+    {
+        return app(CongressmanBudgetsRepository::class)->audits($congressmanBudgetId);
     }
 }

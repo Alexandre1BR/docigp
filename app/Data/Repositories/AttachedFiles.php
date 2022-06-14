@@ -1,7 +1,7 @@
 <?php
 namespace App\Data\Repositories;
 
-use App\Data\Models\AttachedFile as AttachedFileModel;
+use App\Models\AttachedFile as AttachedFileModel;
 
 class AttachedFiles extends Repository
 {

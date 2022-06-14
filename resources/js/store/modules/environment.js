@@ -39,7 +39,7 @@ let getters = merge_objects(gettersMixin, {
 
 const actions = {
     load(context) {
-        return get('/api/v1/environment').then(response => {
+        return get('/api/v1/environment').then((response) => {
             context.commit('mutateSetData', response.data)
         })
     },
@@ -47,7 +47,7 @@ const actions = {
     loadContactTypes(context) {
         return get('/api/v1/contact-types', {
             params: { query: context.getters.getFullQueryFilter },
-        }).then(response => {
+        }).then((response) => {
             context.commit('mutateSetContactTypes', response.data)
         })
     },
@@ -65,13 +65,28 @@ const actions = {
     },
 
     subscribeToChannels(context) {
-        // subscribePublicChannel(
-        //     'addresses',
-        //     '.App\\Events\\AddressesChanged',
-        //     () => {
-        //         context.dispatch('loadAvailableAddresses')
-        //     },
-        // )
+        const $this = this
+
+        if (context.state.user != null) {
+            subscribePublicChannel(
+                'token.'+context.state.token,
+                '.App\\Events\\SessionExpired',
+                (event) => {
+                    Swal.fire({
+                        title: 'Sessão expirada',
+                        text: "Por conta da inatividade, é necessário realizar login novamente para voltar a usar o sistema.",
+                        icon: 'warning',
+                        showCancelButton: false,
+                        confirmButtonColor: '#38c172',
+                        confirmButtonText: 'OK',
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href='/login'
+                        }
+                    })
+                },
+            )
+        }
     },
 }
 

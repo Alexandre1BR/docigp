@@ -2,13 +2,30 @@
 
 use App\Support\Constants;
 
+/*
+Este arquivo guarda os perfis e as permissões. Quando executado o sync:roles, todas as permissões são apagadas e renovadas para as que têm neste arquivo.
+
+grants -> perfis e permissões
+    group -> nome do perfil
+    abilities -> todas as habilidades que o perfil tem
+
+    OBS: Quando o grant é administrador, ele possui todas as habilidades e, nesse caso, as possíveis habilidades são criadas a partir dessa lista.
+
+roles -> guarda todas os possíveis perfis
+*/
+
 return [
     'grants' => [
         [
-            'group' => 'administrator',
+            'group' => Constants::ROLE_ADMINISTRATOR,
 
             'abilities' => [
+                //Tem que conter todas as habilidades
                 '*' => 'PODE FAZER TUDO',
+
+                'tables:view-ids' => 'Visualizar IDs das tabelas',
+
+                'annual-reports:view' => 'Gerar relatório',
 
                 'assign:chief' => 'Atribuir perfil de Chefe',
                 'assign:manager' => 'Atribuir perfil de Gestor',
@@ -17,42 +34,64 @@ return [
                 'assign:congressman' => 'Atribuir perfil de Deputado',
                 'assign:verifier' => 'Atribuir perfil de Verificador',
 
+                'audits:buttons-show' => 'Visualizar log de atividades a partir dos botões',
+                'audits:all-show' => 'Visualizar log de atividades',
+
+                'congressman:buttons' => 'Deputados: mostra todos os botões',
                 'congressman:show' => 'Deputados: ver',
                 'congressman:update' => 'Deputados: alterar',
+                'congressman:see-unread' => 'Deputados: ver statis de não-lido',
 
+                'congressman-budgets:buttons' => 'Orçamento de Deputado: mostra todos os botões',
                 'congressman-budgets:show' => 'Orçamento de Deputado: ver',
                 'congressman-budgets:store' => 'Orçamento de Deputado: criar',
-                'congressman-budgets:update' =>
-                    'Orçamento de Deputado: alterar',
-                'congressman-budgets:percentage' =>
-                    'Orçamento de Deputado: percentual',
+                'congressman-budgets:update' => 'Orçamento de Deputado: alterar',
+                'congressman-budgets:percentage' => 'Orçamento de Deputado: percentual',
 
+                'entries:buttons' => 'Lançamentos: mostra todos os botões',
                 'entries:show' => 'Lançamentos: ver',
                 'entries:verify' => 'Lançamentos: verificar',
                 'entries:store' => 'Lançamentos: criar',
                 'entries:update' => 'Lançamentos: alterar',
                 'entries:publish' => 'Lançamentos: publicar',
                 'entries:delete' => 'Lançamentos: deletar',
+                'entries:delete-transport' => 'Lançamentos: deletar lançamento de transporte',
+                'entries:control-update' => 'Lançamentos: alterar lançamento de controle',
+                'entries:analyse' => 'Lançamentos: analisar',
 
+                'entry-documents:buttons' => 'Documentos: mostra todos os botões',
                 'entry-documents:show' => 'Documentos: ver',
                 'entry-documents:store' => 'Documentos: criar',
                 'entry-documents:publish' => 'Documentos: publicar',
+                'entry-documents:verify' => 'Documentos: verificar',
+                'entry-documents:analyse' => 'Documentos: analisar',
+                'entry-documents:delete' => 'Documentos: deletar',
+
+                'entry-comments:store' => 'Comentários: criar',
+                'entry-comments:show' => 'Comentários: ver',
+                'entry-comments:update' => 'Comentários: alterar',
+                'entry-comments:delete' => 'Documentos: deletar',
+                'entry-comments:update:congressman' =>
+                    'Comentários: alterar : criados por deputado',
+                'entry-comments:delete:congressman' => 'Documentos: deletar : criados por deputado',
+                'entry-comments:update:not-congressman' =>
+                    'Comentários: alterar : não criados por deputado',
+                'entry-comments:delete:not-congressman' =>
+                    'Documentos: deletar : não criados por deputado',
+
                 'assign:assistant' => 'Atribuir perfil de Assistente',
                 'assign:employee' => 'Atribuir perfil de Funcionário',
                 'assign:publisher' => 'Atribuir perfil de Publicador',
                 'assign:viewer' => 'Atribuir perfil de Visualizador',
 
-                'congressman-budgets:publish' =>
-                    'Orçamento de Deputado: publicar',
-                'congressman-budgets:deposit' =>
-                    'Orçamento de Deputado: depositar',
-                'congressman-budgets:analyse' =>
-                    'Orçamento de Deputado: analisar',
+                'congressman-budgets:publish' => 'Orçamento de Deputado: publicar',
+                'congressman-budgets:deposit' => 'Orçamento de Deputado: depositar',
+                'congressman-budgets:refund' => 'Orçamento de Deputado: devolver',
+                'congressman-budgets:analyse' => 'Orçamento de Deputado: analisar',
+                'congressman-budgets:close' => 'Orçamento de Deputado: fechar',
+                'congressman-budgets:reopen' => 'Orçamento de Deputado: reabrir',
 
-                'entries:analyse' => 'Lançamentos: analisar',
-
-                'entry-documents:analyse' => 'Documentos: analisar',
-                'assign:financier' => 'Atribuir perfil de Financeiro',
+                'assign:financial' => 'Atribuir perfil de Financeiro',
 
                 'users:show' => 'Usuários: ver',
                 'users:store' => 'Usuários: criar',
@@ -65,9 +104,14 @@ return [
                 'cost-centers:show' => 'Centros de custo: ver',
                 'cost-centers:store' => 'Centros de custo: criar',
                 'cost-centers:update' => 'Centros de custo: alterar',
+
+                'annual-reports:generate' => 'Criação de relatório anual',
             ],
         ],
-
+        [
+            'group' => 'buttons-auditor',
+            'abilities' => ['audits:buttons-show'],
+        ],
         [
             'group' => Constants::ROLE_CONGRESSMAN,
 
@@ -81,55 +125,144 @@ return [
 
                 'congressman:show',
                 'congressman-budgets:show',
-                'congressman-budgets:store',
-                'congressman-budgets:update',
                 'congressman-budgets:percentage',
+                'congressman-budgets:deposit',
+                'congressman-budgets:refund',
+                'congressman-budgets:close',
 
                 'entries:show',
                 'entries:verify',
                 'entries:store',
                 'entries:update',
-                'entries:publish',
                 'entries:delete',
 
                 'entry-documents:show',
                 'entry-documents:store',
                 'entry-documents:publish',
+                'entry-documents:delete',
+                'entry-documents:verify',
+
+                'entry-comments:store',
+                'entry-comments:show',
+                'entry-comments:delete',
+                'entry-comments:update',
+                'entry-comments:update:congressman',
+                'entry-comments:delete:congressman',
             ],
         ],
 
         [
-            'group' => 'director',
+            'group' => Constants::ROLE_ACI_COORDINATOR,
 
             'abilities' => [
+                'annual-reports:view',
+
                 'assign:assistant',
                 'assign:manager',
                 'assign:employee',
                 'assign:publisher',
                 'assign:viewer',
+
                 'congressman:show',
+                'congressman:buttons',
+                'congressman:see-unread',
+
+                'congressman-budgets:buttons',
                 'congressman-budgets:show',
-                'congressman-budgets:store',
-                'congressman-budgets:update',
-                'congressman-budgets:publish',
-                'congressman-budgets:deposit',
+                'congressman-budgets:reopen',
                 'congressman-budgets:analyse',
+                'congressman-budgets:publish',
+
+                'entries:buttons',
                 'entries:show',
                 'entries:analyse',
+                'entries:publish',
+
+                'providers:show',
+                'providers:store',
+                'providers:update',
+
+                'entry-documents:buttons',
                 'entry-documents:show',
                 'entry-documents:analyse',
+
+                'entry-comments:store',
+                'entry-comments:show',
+                'entry-comments:delete',
+                'entry-comments:update',
+                'entry-comments:update:not-congressman',
+                'entry-comments:delete:not-congressman',
+
+                'cost-centers:show',
+                'cost-centers:store',
+                'cost-centers:update',
+
+                'annual-reports:generate',
+
+                'audits:buttons-show',
+                'audits:all-show',
             ],
         ],
+
         [
-            'group' => 'financial',
+            'group' => Constants::ROLE_ACI,
 
             'abilities' => [
-                'assign:financier',
+                'annual-reports:view',
+
+                'assign:assistant',
+                'assign:manager',
+                'assign:employee',
+                'assign:publisher',
+                'assign:viewer',
+
+                'congressman:show',
+                'congressman:buttons',
+                'congressman:see-unread',
+
+                'congressman-budgets:buttons',
+                'congressman-budgets:show',
+                'congressman-budgets:reopen',
+                'congressman-budgets:analyse',
+                'congressman-budgets:publish',
+
+                'entries:buttons',
+                'entries:show',
+                'entries:analyse',
+                'entries:publish',
+
+                'providers:show',
+                'providers:store',
+                'providers:update',
+
+                'entry-documents:buttons',
+                'entry-documents:show',
+                'entry-documents:analyse',
+
+                'entry-comments:store',
+                'entry-comments:show',
+                'entry-comments:delete',
+                'entry-comments:update',
+                'entry-comments:update:not-congressman',
+                'entry-comments:delete:not-congressman',
+
+                'cost-centers:show',
+                'cost-centers:store',
+                'cost-centers:update',
+
+                'annual-reports:generate',
+            ],
+        ],
+
+        [
+            'group' => Constants::ROLE_FINANCIAL,
+
+            'abilities' => [
+                'assign:financial',
 
                 'congressman:show',
 
                 'congressman-budgets:show',
-                'congressman-budgets:deposit',
 
                 'entries:show',
 
@@ -141,11 +274,11 @@ return [
     'roles' => [
         [
             'title' => 'Administrador',
-            'name' => 'administrator',
+            'name' => Constants::ROLE_ADMINISTRATOR,
         ],
         [
             'title' => 'Deputado',
-            'name' => 'congressman',
+            'name' => Constants::ROLE_CONGRESSMAN,
         ],
         [
             'title' => 'Chefe',
@@ -168,8 +301,12 @@ return [
             'name' => 'verifier',
         ],
         [
-            'title' => 'Diretor',
-            'name' => 'director',
+            'title' => 'Coordenador ACI',
+            'name' => Constants::ROLE_ACI_COORDINATOR,
+        ],
+        [
+            'title' => 'ACI',
+            'name' => Constants::ROLE_ACI,
         ],
         [
             'title' => 'Assistente',
@@ -192,8 +329,12 @@ return [
             'name' => 'viewer',
         ],
         [
+            'title' => 'Auditor da prestação de contas',
+            'name' => 'buttons-auditor',
+        ],
+        [
             'title' => 'Financeiro',
-            'name' => 'financier',
+            'name' => 'financial',
         ],
     ],
 ];

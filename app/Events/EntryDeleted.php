@@ -2,29 +2,26 @@
 
 namespace App\Events;
 
-use Illuminate\Broadcasting\Channel;
+use App\Models\CongressmanBudget;
 
-class EntryDeleted extends Broadcastable
+class EntryDeleted extends Event
 {
     public $entryId;
+    public $congressmanBudgetId;
+    public $congressmanId;
 
     /**
      * Create a new entry instance.
      *
-     * @param $entryId
+     * @param $entry
      */
-    public function __construct($entryId)
+    public function __construct($entry)
     {
-        $this->entryId = $entryId;
-    }
+        $entry = (object) $entry->toArray();
 
-    /**
-     * Get the channels the entryId should broadcast on.
-     *
-     * @return \Illuminate\Broadcasting\Channel|array
-     */
-    public function broadcastOn()
-    {
-        return new Channel('entry.' . $this->entryId);
+        $this->entryId = $entry->id;
+        $this->congressmanBudgetId = $entry->congressman_budget_id;
+
+        $this->congressmanId = CongressmanBudget::find($this->congressmanBudgetId)->congressman->id;
     }
 }

@@ -31,3 +31,15 @@ export function getUpdateUrl(state, getters, rootState) {
         return buildApiUrl(state.service.uri, rootState)
     }
 }
+
+export function getSelected(state, getters) {
+    if (state.selected) {
+        return state.selected
+    }
+}
+
+export function activityLog(state, getters, rootState) {
+    return function (entity) {
+        return get(buildApiUrl(state.service.uri, rootState) + '/' + entity.id + '/audits')
+    }
+}

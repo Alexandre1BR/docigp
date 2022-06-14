@@ -1,6 +1,6 @@
 <template>
     <div>
-        <b-modal v-model="show" :title="formTitle" @shown="onShow()">
+        <b-modal v-model="showModal" :title="formTitle" @shown="onShow()">
             <b-form>
                 <div class="row">
                     <div class="col-6">
@@ -8,19 +8,23 @@
                             name="date"
                             label="Data"
                             v-model="form.fields.date"
+                            :readonly="!can('entries:update') || isRefund()"
                             :required="true"
                             :form="form"
                             v-mask="'##/##/####'"
                             :focus="true"
+                            dusk="date"
                         ></app-input>
                     </div>
 
-                    <div class="col-6">
+                    <div class="col-6" >
                         <app-input
                             name="value"
                             type="money"
                             label="Valor pago"
+
                             v-model="form.fields.value_abs"
+                            :readonly="!can('entries:update')"
                             :required="true"
                             :form="form"
                         ></app-input>
@@ -33,6 +37,7 @@
                             name="entry_type_id"
                             label="Meio"
                             v-model="form.fields.entry_type_id"
+                            :readonly="!can('entries:update') || isRefund()"
                             :required="true"
                             :form="form"
                             :options="getEntryTypeRows()"
@@ -44,6 +49,7 @@
                             name="document_number"
                             label="Documento"
                             v-model="form.fields.document_number"
+                            :readonly="!can('entries:update')"
                             :form="form"
                         ></app-input>
                     </div>
@@ -53,6 +59,7 @@
                     name="object"
                     label="Objeto"
                     v-model="form.fields.object"
+                    :readonly="!can('entries:update') || isRefund()"
                     :required="true"
                     :form="form"
                 ></app-input>
@@ -61,6 +68,7 @@
                     name="provider_cpf_cnpj"
                     label="CPF / CNPJ"
                     v-model="form.fields.provider_cpf_cnpj"
+                    :readonly="!can('entries:update') || isRefund()"
                     :required="true"
                     :form="form"
                     v-mask="['###.###.###-##', '##.###.###/####-##']"
@@ -70,27 +78,30 @@
                 ></app-input>
 
                 <app-input
-                    v-if="form.fields.provider_name"
+                    v-if="!isCreating"
                     name="provider_name"
                     label="Nome da pessoa ou razão social"
                     v-model="form.fields.provider_name"
                     :form="form"
-                    :readonly="true"
+                    :required="true"
+                    :readonly="!newCpfCnpj || !can('entries:update') || isRefund()"
                 ></app-input>
 
                 <app-input
-                    v-if="!form.fields.provider_name"
+                    v-if="isCreating"
                     name="to"
                     label="Nome da pessoa ou razão social"
                     v-model="form.fields.to"
                     :required="true"
                     :form="form"
+                    :readonly="!newCpfCnpj || !can('entries:update') || isRefund()"
                 ></app-input>
 
                 <app-select
                     name="cost_center_id"
                     label="Centro de custo"
                     v-model="form.fields.cost_center_id"
+                    :readonly="!can('entries:update') || isRefund()"
                     :required="true"
                     :form="form"
                     :options="getCostCenterRows()"
@@ -100,16 +111,17 @@
             <template slot="modal-footer">
                 <button
                     @click="saveAndClose()"
-                    class="btn btn-outline-gray btn-sm"
+                    class="btn btn-success btn-sm"
+                    dusk="record"
+                    v-if="can('entries:update')"
+                    onclick="this.disabled = true;"
                 >
                     <i v-if="busy" class="fas fa-compact-disc fa-spin"></i>
 
                     Gravar
                 </button>
 
-                <button @click="close()" class="btn btn-success btn-sm">
-                    Cancelar
-                </button>
+                <button dusk='cancel' @click="close()" class="btn btn-outline-danger btn-sm">Cancelar</button>
             </template>
         </b-modal>
     </div>
@@ -119,12 +131,12 @@
 import { mapActions } from 'vuex'
 import crud from '../../views/mixins/crud'
 import entries from '../../views/mixins/entries'
+import permissions from '../../views/mixins/permissions'
 
 const service = {
     name: 'entries',
 
-    uri:
-        'congressmen/{congressmen.selected.id}/budgets/{congressmanBudgets.selected.id}/entries',
+    uri: 'congressmen/{congressmen.selected.id}/budgets/{congressmanBudgets.selected.id}/entries',
 }
 
 const __cpfCnpj = {
@@ -136,9 +148,9 @@ const __cpfCnpj = {
 }
 
 export default {
-    mixins: [crud, entries],
+    mixins: [crud, entries, permissions],
 
-    props: ['show'],
+    props: ['show', 'refund','dusk'],
 
     data() {
         return {
@@ -150,7 +162,7 @@ export default {
 
             service: service,
 
-            checkCpfCnpj: _.debounce(cpfCnpj => {
+            checkCpfCnpj: _.debounce((cpfCnpj) => {
                 this.checkCpfCnpjChecker(cpfCnpj)
             }, 650),
 
@@ -197,7 +209,7 @@ export default {
         checkCpfCnpjChecker(cpfCnpj) {
             post('/api/v1/cpf-cnpj/check', {
                 cpf_cnpj: cpfCnpj,
-            }).then(response => {
+            }).then((response) => {
                 this.cpfCnpj = response.data
             })
         },
@@ -221,11 +233,23 @@ export default {
 
             this.checkCpfCnpjChecker(this.form.fields.provider_cpf_cnpj)
         },
+
+        isRefund() {
+            return this.refund === true
+        },
     },
 
     computed: {
+        newCpfCnpj() {
+            return !this.cpfCnpj.person
+        },
+
+        isCreating() {
+            return !this.form.fields.id
+        },
+
         formTitle() {
-            return (this.form.fields.id ? 'Editar' : 'Novo') + ' lançamento'
+            return (!this.isCreating ? 'Editar' : 'Novo') + ' lançamento'
         },
 
         showModal: {
@@ -247,15 +271,26 @@ export default {
                 return 'Número inválido'
             }
 
-            if (this.cpfCnpj.person && blank(this.form.fields.to)) {
-                this.$store.commit('entries/mutateSetFormField', {
-                    field: 'to',
-                    value: this.cpfCnpj.person.name,
-                })
+            if (!this.isCreating) {
+                //Editando
+                if (!this.newCpfCnpj) {
+                    this.$store.commit('entries/mutateSetFormField', {
+                        field: 'provider_name',
+                        value: this.cpfCnpj.person.name,
+                    })
+                }
+            } else {
+                //Criando
+                if (!this.newCpfCnpj && blank(this.form.fields.to)) {
+                    this.$store.commit('entries/mutateSetFormField', {
+                        field: 'to',
+                        value: this.cpfCnpj.person.name,
+                    })
+                }
             }
 
             return (
-                (this.cpfCnpj.person ? this.cpfCnpj.person.name + ' - ' : '') +
+                (!this.newCpfCnpj ? this.cpfCnpj.person.name + ' - ' : '') +
                 this.cpfCnpj.type.toLowerCase() +
                 ': ' +
                 this.cpfCnpj.formatted

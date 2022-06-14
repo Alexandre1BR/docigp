@@ -1,4 +1,6 @@
 export const common = {
+    tableLoading: true,
+
     service: { performLoad: true },
 
     data: {

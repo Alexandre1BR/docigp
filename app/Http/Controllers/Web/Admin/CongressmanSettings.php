@@ -20,9 +20,8 @@ class CongressmanSettings extends Controller
      *
      * @param CongressmanSettingsRepository $congressmenRepository
      */
-    public function __construct(
-        CongressmanSettingsRepository $congressmenRepository
-    ) {
+    public function __construct(CongressmanSettingsRepository $congressmenRepository)
+    {
         $this->congressmenRepository = $congressmenRepository;
     }
 

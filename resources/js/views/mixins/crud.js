@@ -6,215 +6,211 @@ export default {
 
                 table: false,
             },
-        }
+        };
     },
 
     computed: {
         filterText: {
             get() {
-                return this.$store.state[this.service.name].data.filter.text
+                return this.$store.state[this.service.name].data.filter.text;
             },
 
             set(payload) {
+                this.$store.commit(this.service.name + '/mutateTableLoading', true);
                 return this.$store.dispatch(
                     this.service.name + '/mutateSetQueryFilterText',
                     payload,
-                )
+                );
             },
         },
 
         emptyForm() {
-            return this.$store.state[this.service.name].emptyForm
+            return this.$store.state[this.service.name].emptyForm;
         },
 
         form() {
-            return this.$store.state[this.service.name].form
+            return this.$store.state[this.service.name].form;
         },
 
         selected() {
-            return this.$store.state[this.service.name].selected
+            return this.$store.state[this.service.name].selected;
         },
 
         environment() {
-            return this.$store.state['environment']
+            return this.$store.state['environment'];
         },
 
         pagination() {
             return this.$store.state[this.service.name].data.links
                 ? this.$store.state[this.service.name].data.links.pagination
-                : {}
+                : {};
         },
 
         perPage: {
             get() {
-                return this.pagination.per_page
+                return this.pagination.per_page;
             },
 
             set(value) {
-                this.$store.dispatch(this.service.name + '/setPerPage', value)
+                this.$store.commit(this.service.name + '/mutateTableLoading', true);
+                this.$store.dispatch(this.service.name + '/setPerPage', value);
             },
         },
     },
 
     methods: {
         getPerPage() {
-            return this.environment.user ? this.environment.user.per_page : 10
+            return this.environment.user ? this.environment.user.per_page : 10;
         },
 
         load() {
-            this.$store.commit(
-                this.service.name + '/mutateSetPerPage',
-                this.getPerPage(),
-            )
+            this.$store.commit(this.service.name + '/mutateSetPerPage', this.getPerPage());
 
-            return this.$store.dispatch(this.service.name + '/load')
+            return this.$store.dispatch(this.service.name + '/load');
         },
 
         select(model) {
-            return this.$store.dispatch(this.service.name + '/select', model)
+            return this.$store.dispatch(this.service.name + '/select', model);
         },
 
         save(mode) {
-            return this.$store.dispatch(this.service.name + '/save', mode)
+            return this.$store.dispatch(this.service.name + '/save', mode);
         },
 
         mutateSetErrors(errors) {
-            this.$store.commit(this.service.name + '/mutateSetErrors', errors)
+            this.$store.commit(this.service.name + '/mutateSetErrors', errors);
         },
 
         mutateFormData(data) {
-            this.$store.commit(this.service.name + '/mutateFormData', data)
+            this.$store.commit(this.service.name + '/mutateFormData', data);
         },
 
         mutateSetFormField(data) {
-            this.$store.commit(this.service.name + '/mutateSetFormField', data)
+            this.$store.commit(this.service.name + '/mutateSetFormField', data);
         },
 
         mutateSetService(data) {
-            this.$store.commit(this.service.name + '/mutateSetService', data)
+            this.$store.commit(this.service.name + '/mutateSetService', data);
         },
 
         isLoading() {
-            return this.loading.environment || this.loading.table
+            return this.loading.environment || this.loading.table;
         },
 
         boot() {
-            this.mutateSetService(this.service)
+            this.mutateSetService(this.service);
 
-            if (
-                !this.service.hasOwnProperty('performLoad') ||
-                this.service.performLoad
-            ) {
+            if (!this.service.hasOwnProperty('performLoad') || this.service.performLoad) {
                 this.load().then(() => {
-                    this.fillFormWhenEditing()
-                })
+                    this.fillFormWhenEditing();
+                });
             } else {
-                this.fillFormWhenEditing()
+                this.fillFormWhenEditing();
             }
 
-            this.$store.dispatch(this.service.name + '/subscribeToTableEvents')
+            //this.$store.dispatch(this.service.name + '/subscribeToTableEvents')
 
             if (this.onBoot) {
-                this.onBoot()
+                this.onBoot();
             }
         },
 
         fillFormWhenEditing() {
-            const model =
-                this.mode === 'update'
-                    ? _.find(this.rows, model => {
-                          return model.id === this.$route.params.id
-                      })
-                    : this.form
-                    ? clone(this.emptyForm)
-                    : {}
+            if (this.mode === 'update' || this.mode === 'create') {
+                const model =
+                    this.mode === 'update'
+                        ? _.find(this.rows, (model) => {
+                              return model.id === this.$route.params.id;
+                          })
+                        : this.form
+                        ? clone(this.emptyForm)
+                        : {};
 
-            this.mutateFormData(model)
+                this.mutateFormData(model);
 
-            this.mutateSetErrors({})
+                this.mutateSetErrors({});
 
-            this.fillAdditionalFormFields()
+                this.fillAdditionalFormFields();
+            }
         },
 
         fillAdditionalFormFields() {},
 
         back() {
-            this.$router.back()
+            this.$router.back();
         },
 
         saveModel(onResolved = null) {
-            this.clearErrors()
+            this.clearErrors();
 
             return this.save(
-                this.mode
-                    ? this.mode
-                    : this.form.fields.id === null
-                    ? 'create'
-                    : 'update',
+                this.mode ? this.mode : this.form.fields.id === null ? 'create' : 'update',
             )
                 .then(() => {
                     // this.back()
 
-                    this.clearForm()
-                    this.clearErrors()
+                    this.clearForm();
+                    this.clearErrors();
 
-                    onResolved && onResolved()
+                    onResolved && onResolved();
                 })
-                .catch(response => {
-                    dd('catch response', response)
-                })
+                .catch((response) => {
+                    dd('catch response', response);
+                });
         },
 
         gotoPage(page, namespace = null, pagination = null) {
-            pagination = pagination ? pagination : this.pagination
+            pagination = pagination ? pagination : this.pagination;
 
             if (pagination.current_page === page) {
-                return
+                return;
             }
 
             if (page < 1) {
-                return
+                return;
             }
 
             if (page > pagination.last_page) {
-                return
+                return;
             }
+
+            this.$store.commit(this.service.name + '/mutateTableLoading', true);
 
             this.$store.dispatch(
                 (namespace ? namespace : this.service.name) + '/setCurrentPage',
                 page,
-            )
+            );
         },
 
         isCurrent(model, selected) {
-            return model.id === selected.id
+            return model.id === selected.id;
         },
 
         setPerPage() {
             this.$store.commit(
                 this.service.name + '/mutateSetPerPage',
                 this.environment.user.per_page,
-            )
+            );
         },
 
         getDataUrl() {
-            return buildApiUrl(this.service.uri, this.$store.state)
+            return buildApiUrl(this.service.uri, this.$store.state);
         },
 
         getStoreUrl() {
-            return buildApiUrl(this.service.uri, this.$store.state)
+            return buildApiUrl(this.service.uri, this.$store.state);
         },
 
         getUpdateStoreUrl() {
-            return buildApiUrl(this.service.uri, this.$store.state)
+            return buildApiUrl(this.service.uri, this.$store.state);
         },
 
         getColor(color, position) {
-            return get_color(color, position)
+            return get_color(color, position);
         },
     },
 
     mounted() {
-        this.boot()
+        this.boot();
     },
-}
+};

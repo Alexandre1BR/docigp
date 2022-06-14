@@ -2,6 +2,8 @@
 
 namespace App\Data\Traits;
 
+use App\Models\EntryDocument;
+
 trait ModelActionable
 {
     public function verify()
@@ -10,16 +12,24 @@ trait ModelActionable
             'verified_at' => now(),
             'verified_by_id' => auth()->user()->id,
         ]);
+        return $this;
     }
 
     public function unverify()
     {
-        $this->update([
-            'verified_at' => null,
-            'verified_by_id' => auth()->user()->id,
-        ]);
+        $this->verified_at = null;
+        $this->verified_by_id = auth()->user()->id;
 
-        $this->unanalyse();
+        $this->unanalyse(false);
+
+        $this->save();
+        return $this;
+    }
+
+    public function isAnalysable()
+    {
+        return (!blank($this->verified_at) || !blank($this->closed_at)) &&
+            blank($this->published_at);
     }
 
     public function analyse()
@@ -28,16 +38,29 @@ trait ModelActionable
             'analysed_at' => now(),
             'analysed_by_id' => auth()->user()->id,
         ]);
+        return $this;
     }
 
-    public function unanalyse()
+    public function unanalyse($save = true)
     {
-        $this->update([
-            'analysed_at' => null,
-            'analysed_by_id' => auth()->user()->id,
-        ]);
+        $this->analysed_at = null;
+        $this->analysed_by_id = auth()->user()->id;
 
-        $this->unpublish();
+        if (!$this instanceof EntryDocument) {
+            $this->unpublish(false);
+        }
+
+        if ($save) {
+            $this->save();
+        }
+
+        return $this;
+    }
+
+    public function isPublishable()
+    {
+        return !blank($this->analysed_at) &&
+            (!blank($this->verified_at) || !blank($this->closed_at));
     }
 
     public function publish()
@@ -46,13 +69,36 @@ trait ModelActionable
             'published_at' => now(),
             'published_by_id' => auth()->user()->id,
         ]);
+
+        return $this;
     }
 
-    public function unpublish()
+    public function unpublish($save = true)
+    {
+        $this->published_at = null;
+        $this->published_by_id = auth()->user()->id;
+
+        if ($save) {
+            $this->save();
+        }
+        return $this;
+    }
+
+    public function close()
     {
         $this->update([
-            'published_at' => null,
-            'published_by_id' => auth()->user()->id,
+            'closed_at' => now(),
+            'closed_by_id' => auth()->user()->id,
         ]);
+        return $this;
+    }
+
+    public function reopen()
+    {
+        $this->update([
+            'closed_at' => null,
+            'closed_by_id' => auth()->user()->id,
+        ]);
+        return $this;
     }
 }

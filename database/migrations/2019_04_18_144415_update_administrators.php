@@ -11,7 +11,7 @@ class UpdateAdministrators extends Migration
         'afaria@alerj.rj.gov.br',
         'ovalenca@alerj.rj.gov.br',
         'afdsilva@alerj.rj.gov.br',
-        'blainier@alerj.rj.gov.br',
+        'blaignier@alerj.rj.gov.br',
     ];
 
     /**

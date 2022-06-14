@@ -26,10 +26,13 @@ let state = merge_objects(
                 text: null,
 
                 checkboxes: {
-                    withMandate: true,
+                    withMandate: false,
                     withoutMandate: false,
                     withPendency: false,
                     withoutPendency: false,
+                    unread: false,
+                    joined: laravel.env.default_joined_checkbox,
+                    notJoined: false,
                 },
 
                 selects: {
@@ -61,30 +64,58 @@ let state = merge_objects(
 )
 
 let actions = merge_objects(actionsMixin, {
+    subscribeToModelEvents(context, payload) {
+        context.dispatch('leaveModelChannel', payload)
+
+        context.dispatch('entries/leaveModelChannel', payload, {
+            root: true,
+        })
+
+        context.dispatch('congressmanBudgets/leaveModelChannel', payload, {
+            root: true,
+        })
+
+        if (context.state.model) {
+            subscribePublicChannel(
+                'congressmen.' + payload.id,
+                '.App\\Events\\' + 'CongressmanBudgetsChanged',
+                (event) => {
+                    context.dispatch('congressmanBudgets/load', payload, {
+                        root: true,
+                    })
+                },
+            )
+        }
+    },
+
     selectCongressman(context, payload) {
+        const performLoad = !context.state.selected || context.state.selected.id != payload.id
         context.dispatch('congressmen/select', payload, { root: true })
 
-        context.dispatch('congressmanBudgets/load', payload, { root: true })
+        if (performLoad) {
+            context.commit('congressmanBudgets/mutateTableLoading', true, { root: true })
+            context.dispatch('congressmanBudgets/setCurrentPage', 1, {
+                root: true,
+            })
 
-        context.dispatch('congressmanBudgets/setCurrentPage', 1, { root: true })
+            context.commit('congressmanBudgets/mutateSetSelected', { id: null }, { root: true })
 
-        context.commit(
-            'congressmanBudgets/mutateSetSelected',
-            { id: null },
-            { root: true },
-        )
+            context.commit('entries/mutateSetSelected', { id: null }, { root: true })
 
-        context.commit(
-            'entries/mutateSetSelected',
-            { id: null },
-            { root: true },
-        )
+            context.commit('entryDocuments/mutateSetSelected', { id: null }, { root: true })
 
-        context.commit(
-            'entryDocuments/mutateSetSelected',
-            { id: null },
-            { root: true },
-        )
+            context.commit('entryComments/mutateSetSelected', { id: null }, { root: true })
+        }
+    },
+
+    markAsRead(context) {
+        if (!!Store.state.environment.user) {
+            post(
+                '/api/v1/congressmen/' +
+                    context.rootState.congressmen.selected.id +
+                    '/mark-as-read',
+            )
+        }
     },
 })
 
