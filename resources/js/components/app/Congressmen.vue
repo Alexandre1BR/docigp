@@ -153,7 +153,7 @@
                     :labels="['com mandato', 'sem mandato ']"
                   ></app-active-badge>
                 </div>
-                <div class="col-8 justify-content-center d-inline-flex">
+                <div class="col-8 justify-content-end d-inline-flex">
                   <span class="label-flags">Aderiu </span>
                   <span class="ml-1">
                     <app-active-badge
@@ -162,16 +162,6 @@
                       :labels="['sim', 'não']"
                     ></app-active-badge>
                   </span>
-                  <div class="row ml-2" v-if="can('congressman:show')">
-                    <span class="label-flags ml-3">Pendências </span>
-                    <span class="ml-1">
-                      <app-active-badge
-                        :classes="p - 0"
-                        :value="!congressman.has_pendency"
-                        :labels="['não', 'sim']"
-                      ></app-active-badge>
-                    </span>
-                  </div>
                 </div>
               </div>
             </div>
