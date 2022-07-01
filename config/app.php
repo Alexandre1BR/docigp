@@ -24,6 +24,10 @@ return [
 
     'default_joined_checkbox' => env('DEFAULT_JOINED_CHECKBOX', true),
 
+    'env' => env('APP_ENV', 'production'),
+
+    'shared' => ['url' => env('APP_SHARED_URL')],
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment

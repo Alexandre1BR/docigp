@@ -254,7 +254,7 @@
                   <b-card class="border-0">
                     <div class="row">
                       <div class="col-8 text-left">
-                        <h5 class="card-title">Data: {{ makeDate(congressmanBudget) }}</h5>
+                        <h5 class="card-title">{{ makeDate(congressmanBudget) }}</h5>
                         <div v-if="can('tables:view-ids')" class="text-muted">
                           Id: {{ congressmanBudget.id }}
                         </div>
@@ -281,532 +281,224 @@
               </div>
             </b-card>
 
-            <b-collapse :id="'congressmanBudget' + congressmanBudget.id"
-              accordion="congressmanBudget"
-              role="tabpanel"
-              v-model="congressmanBudget.visible" class="card mb-5">
-              <b-card-body>
-                <h5 class="card-title">Data: {{ makeDate(congressmanBudget) }}</h5>
-                <div v-if="can('tables:view-ids')" class="text-muted">Id: {{ congressmanBudget.id }}</div>
-                <p class="card-text">Solicitado: <strong>R$ 26.819,98 - (100.00%)</strong></p>
-                <p class="card-text">Lançamentos: <strong>{{ congressmanBudget.entries_count }}</strong></p>
-
-                <p v-if="can('congressman-budgets:show')" class="card-text">
-                  Status:<br />
-                  <span class="card-text" v-if="congressmanBudget.closed_at">
-                      <app-badge
-                        class="text-uppercase w-25"
-                        color="#38c172,#FFFFFF"
-                        padding="1"
-                        
-                      >Fechado</app-badge>
-                    </span>
-
-                    <span class="card-text" v-if="!congressmanBudget.closed_at">
-                      <app-badge
-                        class="text-uppercase w-25"
-                        color="#e3342f,#FFFFFF"
-                        padding="1"
-                        
-                      >Fechado</app-badge>
-                    </span>
-
-                    <span class="card-text" v-if="congressmanBudget.analysed_at">
-                      <app-badge
-                        class="text-uppercase w-25"
-                        color="#38c172,#FFFFFF"
-                        padding="1"
-                        
-                      >Analisado</app-badge>
-                    </span>
-
-                    <span class="card-text" v-if="!congressmanBudget.analysed_at">
-                      <app-badge
-                        class="text-uppercase w-25"
-                        color="#e3342f,#FFFFFF"
-                        padding="1"
-                        
-                      >Analisado</app-badge>
-                    </span>
-
-                    <span class="card-text" v-if="congressmanBudget.published_at">
-                      <app-badge
-                        class="text-uppercase w-25"
-                        color="#38c172,#FFFFFF"
-                        padding="1"
-                        
-                      >Público</app-badge>
-                    </span>
-
-                    <span class="card-text" v-if="!congressmanBudget.published_at">
-                      <app-badge
-                        class="text-uppercase w-25"
-                        color="#e3342f,#FFFFFF"
-                        padding="1"
-                        
-                      >Privado</app-badge>
-                    </span>
-                </p>
-                
-                <p v-if="can('congressman-budgets:show')" class="card-text">
-                  Pendências:<br />
-                  <p class="card-text">
-                      <app-badge
-                        v-if="congressmanBudget.pendencies.length === 0"
-                        caption="não"
-                        color="#38c172,#FFFFFF"
-                        padding="1"
-                      ></app-badge>
-
-                      
-                        <span v-if="congressmanBudget.pendencies.length > 0"
-                          class="text-uppercase mr-1"
-                          v-for="pendency in congressmanBudget.pendencies"
-                        ><app-badge
-                        
-                        color="#e3342f,#FFFFFF"
-                        padding="1"
-                      >
-                          {{ pendency }}<br /></app-badge>
-                        </span>
-                      
-                    </p>
-                </p>
-
-                <div v-if="can('congressman-budgets:show')">
-                    <app-action-button
-                      v-if="getCongressmanBudgetState(congressmanBudget).buttons.deposit.visible"
-                      :disabled="
-                        getCongressmanBudgetState(congressmanBudget).buttons.deposit.disabled
-                      "
-                      classes="btn btn-micro btn-success col-sm-4"
-                      :title="getCongressmanBudgetState(congressmanBudget).buttons.deposit.title"
-                      :model="congressmanBudget"
-                      :swal-title="
-                        getCongressmanBudgetState(congressmanBudget).buttons.deposit.title
-                      "
-                      label="depositar"
-                      icon="fa fa-dollar-sign"
-                      store="congressmanBudgets"
-                      method="deposit"
-                      dusk="deeposit_budget_button"
-                    >
-                    </app-action-button>
-
-                    <app-percentage-button
-                      v-if="
-                        getCongressmanBudgetState(congressmanBudget).buttons.editPercentage.visible
-                      "
-                      :disabled="
-                        getCongressmanBudgetState(congressmanBudget).buttons.editPercentage.disabled
-                      "
-                      classes="btn btn-micro btn-primary col-sm-4"
-                      :title="
-                        getCongressmanBudgetState(congressmanBudget).buttons.editPercentage.title
-                      "
-                      :model="congressmanBudget"
-                      label="percentual"
-                      icon="fa fa-edit"
-                      store="congressmanBudgets"
-                      method="editPercentage"
-                      dusk="percentageButton"
-                    >
-                    </app-percentage-button>
-
-                    <app-action-button
-                      v-if="getCongressmanBudgetState(congressmanBudget).buttons.close.visible"
-                      :disabled="
-                        getCongressmanBudgetState(congressmanBudget).buttons.close.disabled
-                      "
-                      classes="btn btn-micro btn-danger col-sm-4"
-                      :title="getCongressmanBudgetState(congressmanBudget).buttons.close.title"
-                      :model="congressmanBudget"
-                      swal-title="Deseja realmente FECHAR esse Orçamento Mensal?"
-                      label="fechar"
-                      icon="fa fa-ban"
-                      store="congressmanBudgets"
-                      method="close"
-                      dusk="close_budget_button"
-                    >
-                    </app-action-button>
-
-                    <app-action-button
-                      v-if="getCongressmanBudgetState(congressmanBudget).buttons.reopen.visible"
-                      :disabled="
-                        getCongressmanBudgetState(congressmanBudget).buttons.reopen.disabled
-                      "
-                      classes="btn btn-micro btn-danger col-sm-4"
-                      :title="getCongressmanBudgetState(congressmanBudget).buttons.reopen.title"
-                      :model="congressmanBudget"
-                      swal-title="Deseja REABRIR esse Orçamento Mensal?"
-                      label="reabrir"
-                      icon="fa fa-check"
-                      store="congressmanBudgets"
-                      method="reopen"
-                    >
-                    </app-action-button>
-
-                    <app-action-button
-                      v-if="getCongressmanBudgetState(congressmanBudget).buttons.analyse.visible"
-                      :disabled="
-                        getCongressmanBudgetState(congressmanBudget).buttons.analyse.disabled
-                      "
-                      classes="btn btn-micro btn-warning col-sm-4"
-                      :title="getCongressmanBudgetState(congressmanBudget).buttons.analyse.title"
-                      :model="congressmanBudget"
-                      swal-title="Esse Orçamento mensal foi ANALISADO?"
-                      label="analisar"
-                      icon="fa fa-check"
-                      store="congressmanBudgets"
-                      method="analyse"
-                      :spinner-config="{
-                        color: 'black',
-                      }"
-                      dusk="analize_budget_button"
-                    >
-                    </app-action-button>
-
-                    <app-action-button
-                      v-if="getCongressmanBudgetState(congressmanBudget).buttons.unanalyse.visible"
-                      :disabled="
-                        getCongressmanBudgetState(congressmanBudget).buttons.unanalyse.disabled
-                      "
-                      classes="btn btn-micro btn-warning col-sm-4"
-                      :title="getCongressmanBudgetState(congressmanBudget).buttons.unanalyse.title"
-                      :model="congressmanBudget"
-                      swal-title="Deseja remover o status ANALISADO deste lançamento?"
-                      label="analisado"
-                      icon="fa fa-ban"
-                      store="congressmanBudgets"
-                      method="unanalyse"
-                      :spinner-config="{
-                        color: 'black',
-                      }"
-                    >
-                    </app-action-button>
-
-                    <app-action-button
-                      v-if="getCongressmanBudgetState(congressmanBudget).buttons.publish.visible"
-                      :disabled="
-                        getCongressmanBudgetState(congressmanBudget).buttons.publish.disabled
-                      "
-                      classes="btn btn-micro btn-danger col-sm-4"
-                      :title="getCongressmanBudgetState(congressmanBudget).buttons.publish.title"
-                      :model="congressmanBudget"
-                      swal-title="Confirma a PUBLICAÇÃO deste Orçamento Mensal?"
-                      label="publicar"
-                      icon="fa fa-check"
-                      store="congressmanBudgets"
-                      method="publish"
-                      dusk="publish_budget_button"
-                    >
-                    </app-action-button>
-
-                    <app-action-button
-                      v-if="getCongressmanBudgetState(congressmanBudget).buttons.unpublish.visible"
-                      :disabled="
-                        getCongressmanBudgetState(congressmanBudget).buttons.unpublish.disabled
-                      "
-                      classes="btn btn-micro btn-danger col-sm-4"
-                      :title="getCongressmanBudgetState(congressmanBudget).buttons.unpublish.title"
-                      :model="congressmanBudget"
-                      swal-title="Confirma a DESPUBLICAÇÃO deste Orçamento Mensal?"
-                      label="despublicar"
-                      icon="fa fa-ban"
-                      store="congressmanBudgets"
-                      method="unpublish"
-                    >
-                    </app-action-button>
-
-                    <app-audits-button
-                      model="congressmanBudgets"
-                      class="col-sm-4"
-                      :row="congressmanBudget"
-                    ></app-audits-button>
-                  </div>
-              </b-card-body>
-            </b-collapse>
-          </div>
-        </app-table>
-
-        <app-table :pagination="pagination" @goto-page="gotoPage($event)" statusSize="2">
-          <div
-            @click="selectCongressmanBudget(congressmanBudget)"
-            v-for="congressmanBudget in congressmanBudgets.data.rows"
-          >
-            <b-card no-body>
-              <div class="card-header-custom">
-                <b-button
-                  class="w-100 p-0 mb-0"
-                  v-b-toggle="'congressmanBudget' + congressmanBudget.id"
-                  variant="light"
-                >
-                  <b-card class="border-0">
-                    <div v-if="can('tables:view-ids')" class="align-middle text-center">
-                      Id: {{ congressmanBudget.id }}
-                      <hr />
-                    </div>
-
-                    <div class="align-middle text-center">
-                      Data: {{ makeDate(congressmanBudget) }}
-                    </div>
-                    <div v-if="can('congressman-budgets:show')">
-                      <hr />
-                    </div>
-
-                    <div class="align-middle text-center">
-                      Solicitado:
-                      {{ congressmanBudget.value_formatted }}
-                      - ({{ congressmanBudget.percentage_formatted }})
-                    </div>
-                    <div v-if="can('congressman-budgets:show')">
-                      <hr />
-                    </div>
-
-                    <div v-if="can('congressman-budgets:show')">
-                      <div class="card-text d-flex justify-content-center">
-                        Status:
-                        {{
-                          congressmanBudget.closed_at &&
-                          congressmanBudget.analysed_at &&
-                          congressmanBudget.published_at
-                            ? 'Público'
-                            : congressmanBudget.closed_at && congressmanBudget.analysed_at
-                            ? 'Analisado'
-                            : congressmanBudget.closed_at
-                            ? 'Fechado'
-                            : 'Privado'
-                        }}
-                      </div>
-                    </div>
-                  </b-card>
-                </b-button>
-              </div>
-            </b-card>
             <b-collapse
               :id="'congressmanBudget' + congressmanBudget.id"
               accordion="congressmanBudget"
               role="tabpanel"
               v-model="congressmanBudget.visible"
+              class="card mb-1"
             >
-              <b-card-body class="text-center">
-                <b-card-text>
-                  <h5 class="card-title">Lançamentos</h5>
-                  <p class="card-text">
-                    {{ congressmanBudget.entries_count }}
-                  </p>
-                  <div v-if="can('congressman-budgets:show')">
-                    <hr />
+              <b-card-body>
+                <p class="card-text">Solicitado: <strong>R$ 26.819,98 - (100.00%)</strong></p>
+                <p class="card-text">
+                  Lançamentos: <strong>{{ congressmanBudget.entries_count }}</strong>
+                </p>
+
+                <p v-if="can('congressman-budgets:show')" class="card-text">
+                  Status:<br />
+                  <span class="card-text" v-if="congressmanBudget.closed_at">
+                    <app-badge class="text-uppercase w-25" color="#38c172,#FFFFFF" padding="1"
+                      >Fechado</app-badge
+                    >
+                  </span>
+
+                  <span class="card-text" v-if="!congressmanBudget.closed_at">
+                    <app-badge class="text-uppercase w-25" color="#e3342f,#FFFFFF" padding="1"
+                      >Fechado</app-badge
+                    >
+                  </span>
+
+                  <span class="card-text" v-if="congressmanBudget.analysed_at">
+                    <app-badge class="text-uppercase w-25" color="#38c172,#FFFFFF" padding="1"
+                      >Analisado</app-badge
+                    >
+                  </span>
+
+                  <span class="card-text" v-if="!congressmanBudget.analysed_at">
+                    <app-badge class="text-uppercase w-25" color="#e3342f,#FFFFFF" padding="1"
+                      >Analisado</app-badge
+                    >
+                  </span>
+
+                  <span class="card-text" v-if="congressmanBudget.published_at">
+                    <app-badge class="text-uppercase w-25" color="#38c172,#FFFFFF" padding="1"
+                      >Público</app-badge
+                    >
+                  </span>
+
+                  <span class="card-text" v-if="!congressmanBudget.published_at">
+                    <app-badge class="text-uppercase w-25" color="#e3342f,#FFFFFF" padding="1"
+                      >Privado</app-badge
+                    >
+                  </span>
+                </p>
+
+                <div v-if="can('congressman-budgets:show')" class="card-text">
+                  Pendências:<br />
+                  <div class="card-text pb-3">
+                    <app-badge
+                      v-if="congressmanBudget.pendencies.length === 0"
+                      caption="não"
+                      color="#38c172,#FFFFFF"
+                      padding="1"
+                    ></app-badge>
+
+                    <span
+                      v-if="congressmanBudget.pendencies.length > 0"
+                      class="text-uppercase mr-1"
+                      v-for="pendency in congressmanBudget.pendencies"
+                      ><app-badge color="#e3342f,#FFFFFF" padding="1">
+                        {{ pendency }}<br
+                      /></app-badge>
+                    </span>
                   </div>
+                </div>
 
-                  <div v-if="can('congressman-budgets:show')">
-                    <h5 class="card-title">Pendências</h5>
-                    <p class="card-text d-flex justify-content-center">
-                      <app-badge
-                        v-if="congressmanBudget.pendencies.length === 0"
-                        caption="não"
-                        color="#38c172,#FFFFFF"
-                        padding="1"
-                      ></app-badge>
+                <div v-if="can('congressman-budgets:show')">
+                  <app-action-button
+                    v-if="getCongressmanBudgetState(congressmanBudget).buttons.deposit.visible"
+                    :disabled="
+                      getCongressmanBudgetState(congressmanBudget).buttons.deposit.disabled
+                    "
+                    classes="btn btn-micro btn-success col-sm-4"
+                    :title="getCongressmanBudgetState(congressmanBudget).buttons.deposit.title"
+                    :model="congressmanBudget"
+                    :swal-title="getCongressmanBudgetState(congressmanBudget).buttons.deposit.title"
+                    label="depositar"
+                    icon="fa fa-dollar-sign"
+                    store="congressmanBudgets"
+                    method="deposit"
+                    dusk="deeposit_budget_button"
+                  >
+                  </app-action-button>
 
-                      <app-badge
-                        v-if="congressmanBudget.pendencies.length > 0"
-                        color="#e3342f,#FFFFFF"
-                        padding="1"
-                      >
-                        <div
-                          class="text-uppercase"
-                          v-for="pendency in congressmanBudget.pendencies"
-                        >
-                          &bull;{{ pendency }}<br />
-                        </div>
-                      </app-badge>
-                    </p>
-                    <hr />
-                  </div>
+                  <app-percentage-button
+                    v-if="
+                      getCongressmanBudgetState(congressmanBudget).buttons.editPercentage.visible
+                    "
+                    :disabled="
+                      getCongressmanBudgetState(congressmanBudget).buttons.editPercentage.disabled
+                    "
+                    classes="btn btn-micro btn-primary col-sm-4"
+                    :title="
+                      getCongressmanBudgetState(congressmanBudget).buttons.editPercentage.title
+                    "
+                    :model="congressmanBudget"
+                    label="percentual"
+                    icon="fa fa-edit"
+                    store="congressmanBudgets"
+                    method="editPercentage"
+                    dusk="percentageButton"
+                  >
+                  </app-percentage-button>
 
-                  <div v-if="can('congressman-budgets:show')">
-                    <h5 class="card-title">Status</h5>
-                    <p class="card-text d-flex justify-content-center">
-                      <app-status-badge
-                        class="text-uppercase w-25"
-                        :rows="[
-                          {
-                            value: congressmanBudget.closed_at,
-                            title: 'Fechado: ',
-                            labels: ['sim', 'não'],
-                          },
-                          {
-                            value: congressmanBudget.analysed_at,
-                            title: 'Analisado: ',
-                            labels: ['sim', 'não'],
-                          },
-                          {
-                            value: congressmanBudget.published_at,
-                            title: 'Publicidade: ',
-                            labels: ['público', 'privado'],
-                          },
-                        ]"
-                      ></app-status-badge>
-                    </p>
-                  </div>
+                  <app-action-button
+                    v-if="getCongressmanBudgetState(congressmanBudget).buttons.close.visible"
+                    :disabled="getCongressmanBudgetState(congressmanBudget).buttons.close.disabled"
+                    classes="btn btn-micro btn-danger col-sm-4"
+                    :title="getCongressmanBudgetState(congressmanBudget).buttons.close.title"
+                    :model="congressmanBudget"
+                    swal-title="Deseja realmente FECHAR esse Orçamento Mensal?"
+                    label="fechar"
+                    icon="fa fa-ban"
+                    store="congressmanBudgets"
+                    method="close"
+                    dusk="close_budget_button"
+                  >
+                  </app-action-button>
 
-                  <div v-if="can('congressman-budgets:show')">
-                    <hr />
-                  </div>
+                  <app-action-button
+                    v-if="getCongressmanBudgetState(congressmanBudget).buttons.reopen.visible"
+                    :disabled="getCongressmanBudgetState(congressmanBudget).buttons.reopen.disabled"
+                    classes="btn btn-micro btn-danger col-sm-4"
+                    :title="getCongressmanBudgetState(congressmanBudget).buttons.reopen.title"
+                    :model="congressmanBudget"
+                    swal-title="Deseja REABRIR esse Orçamento Mensal?"
+                    label="reabrir"
+                    icon="fa fa-check"
+                    store="congressmanBudgets"
+                    method="reopen"
+                  >
+                  </app-action-button>
 
-                  <div v-if="can('congressman-budgets:show')" class="p-2">
-                    <app-action-button
-                      v-if="getCongressmanBudgetState(congressmanBudget).buttons.deposit.visible"
-                      :disabled="
-                        getCongressmanBudgetState(congressmanBudget).buttons.deposit.disabled
-                      "
-                      classes="btn btn-micro btn-success col-sm-4"
-                      :title="getCongressmanBudgetState(congressmanBudget).buttons.deposit.title"
-                      :model="congressmanBudget"
-                      :swal-title="
-                        getCongressmanBudgetState(congressmanBudget).buttons.deposit.title
-                      "
-                      label="depositar"
-                      icon="fa fa-dollar-sign"
-                      store="congressmanBudgets"
-                      method="deposit"
-                      dusk="deeposit_budget_button"
-                    >
-                    </app-action-button>
+                  <app-action-button
+                    v-if="getCongressmanBudgetState(congressmanBudget).buttons.analyse.visible"
+                    :disabled="
+                      getCongressmanBudgetState(congressmanBudget).buttons.analyse.disabled
+                    "
+                    classes="btn btn-micro btn-warning col-sm-4"
+                    :title="getCongressmanBudgetState(congressmanBudget).buttons.analyse.title"
+                    :model="congressmanBudget"
+                    swal-title="Esse Orçamento mensal foi ANALISADO?"
+                    label="analisar"
+                    icon="fa fa-check"
+                    store="congressmanBudgets"
+                    method="analyse"
+                    :spinner-config="{
+                      color: 'black',
+                    }"
+                    dusk="analize_budget_button"
+                  >
+                  </app-action-button>
 
-                    <app-percentage-button
-                      v-if="
-                        getCongressmanBudgetState(congressmanBudget).buttons.editPercentage.visible
-                      "
-                      :disabled="
-                        getCongressmanBudgetState(congressmanBudget).buttons.editPercentage.disabled
-                      "
-                      classes="btn btn-micro btn-primary col-sm-4"
-                      :title="
-                        getCongressmanBudgetState(congressmanBudget).buttons.editPercentage.title
-                      "
-                      :model="congressmanBudget"
-                      label="percentual"
-                      icon="fa fa-edit"
-                      store="congressmanBudgets"
-                      method="editPercentage"
-                      dusk="percentageButton"
-                    >
-                    </app-percentage-button>
+                  <app-action-button
+                    v-if="getCongressmanBudgetState(congressmanBudget).buttons.unanalyse.visible"
+                    :disabled="
+                      getCongressmanBudgetState(congressmanBudget).buttons.unanalyse.disabled
+                    "
+                    classes="btn btn-micro btn-warning col-sm-4"
+                    :title="getCongressmanBudgetState(congressmanBudget).buttons.unanalyse.title"
+                    :model="congressmanBudget"
+                    swal-title="Deseja remover o status ANALISADO deste lançamento?"
+                    label="analisado"
+                    icon="fa fa-ban"
+                    store="congressmanBudgets"
+                    method="unanalyse"
+                    :spinner-config="{
+                      color: 'black',
+                    }"
+                  >
+                  </app-action-button>
 
-                    <app-action-button
-                      v-if="getCongressmanBudgetState(congressmanBudget).buttons.close.visible"
-                      :disabled="
-                        getCongressmanBudgetState(congressmanBudget).buttons.close.disabled
-                      "
-                      classes="btn btn-micro btn-danger col-sm-4"
-                      :title="getCongressmanBudgetState(congressmanBudget).buttons.close.title"
-                      :model="congressmanBudget"
-                      swal-title="Deseja realmente FECHAR esse Orçamento Mensal?"
-                      label="fechar"
-                      icon="fa fa-ban"
-                      store="congressmanBudgets"
-                      method="close"
-                      dusk="close_budget_button"
-                    >
-                    </app-action-button>
+                  <app-action-button
+                    v-if="getCongressmanBudgetState(congressmanBudget).buttons.publish.visible"
+                    :disabled="
+                      getCongressmanBudgetState(congressmanBudget).buttons.publish.disabled
+                    "
+                    classes="btn btn-micro btn-danger col-sm-4"
+                    :title="getCongressmanBudgetState(congressmanBudget).buttons.publish.title"
+                    :model="congressmanBudget"
+                    swal-title="Confirma a PUBLICAÇÃO deste Orçamento Mensal?"
+                    label="publicar"
+                    icon="fa fa-check"
+                    store="congressmanBudgets"
+                    method="publish"
+                    dusk="publish_budget_button"
+                  >
+                  </app-action-button>
 
-                    <app-action-button
-                      v-if="getCongressmanBudgetState(congressmanBudget).buttons.reopen.visible"
-                      :disabled="
-                        getCongressmanBudgetState(congressmanBudget).buttons.reopen.disabled
-                      "
-                      classes="btn btn-micro btn-danger col-sm-4"
-                      :title="getCongressmanBudgetState(congressmanBudget).buttons.reopen.title"
-                      :model="congressmanBudget"
-                      swal-title="Deseja REABRIR esse Orçamento Mensal?"
-                      label="reabrir"
-                      icon="fa fa-check"
-                      store="congressmanBudgets"
-                      method="reopen"
-                    >
-                    </app-action-button>
+                  <app-action-button
+                    v-if="getCongressmanBudgetState(congressmanBudget).buttons.unpublish.visible"
+                    :disabled="
+                      getCongressmanBudgetState(congressmanBudget).buttons.unpublish.disabled
+                    "
+                    classes="btn btn-micro btn-danger col-sm-4"
+                    :title="getCongressmanBudgetState(congressmanBudget).buttons.unpublish.title"
+                    :model="congressmanBudget"
+                    swal-title="Confirma a DESPUBLICAÇÃO deste Orçamento Mensal?"
+                    label="despublicar"
+                    icon="fa fa-ban"
+                    store="congressmanBudgets"
+                    method="unpublish"
+                  >
+                  </app-action-button>
 
-                    <app-action-button
-                      v-if="getCongressmanBudgetState(congressmanBudget).buttons.analyse.visible"
-                      :disabled="
-                        getCongressmanBudgetState(congressmanBudget).buttons.analyse.disabled
-                      "
-                      classes="btn btn-micro btn-warning col-sm-4"
-                      :title="getCongressmanBudgetState(congressmanBudget).buttons.analyse.title"
-                      :model="congressmanBudget"
-                      swal-title="Esse Orçamento mensal foi ANALISADO?"
-                      label="analisar"
-                      icon="fa fa-check"
-                      store="congressmanBudgets"
-                      method="analyse"
-                      :spinner-config="{
-                        color: 'black',
-                      }"
-                      dusk="analize_budget_button"
-                    >
-                    </app-action-button>
-
-                    <app-action-button
-                      v-if="getCongressmanBudgetState(congressmanBudget).buttons.unanalyse.visible"
-                      :disabled="
-                        getCongressmanBudgetState(congressmanBudget).buttons.unanalyse.disabled
-                      "
-                      classes="btn btn-micro btn-warning col-sm-4"
-                      :title="getCongressmanBudgetState(congressmanBudget).buttons.unanalyse.title"
-                      :model="congressmanBudget"
-                      swal-title="Deseja remover o status ANALISADO deste lançamento?"
-                      label="analisado"
-                      icon="fa fa-ban"
-                      store="congressmanBudgets"
-                      method="unanalyse"
-                      :spinner-config="{
-                        color: 'black',
-                      }"
-                    >
-                    </app-action-button>
-
-                    <app-action-button
-                      v-if="getCongressmanBudgetState(congressmanBudget).buttons.publish.visible"
-                      :disabled="
-                        getCongressmanBudgetState(congressmanBudget).buttons.publish.disabled
-                      "
-                      classes="btn btn-micro btn-danger col-sm-4"
-                      :title="getCongressmanBudgetState(congressmanBudget).buttons.publish.title"
-                      :model="congressmanBudget"
-                      swal-title="Confirma a PUBLICAÇÃO deste Orçamento Mensal?"
-                      label="publicar"
-                      icon="fa fa-check"
-                      store="congressmanBudgets"
-                      method="publish"
-                      dusk="publish_budget_button"
-                    >
-                    </app-action-button>
-
-                    <app-action-button
-                      v-if="getCongressmanBudgetState(congressmanBudget).buttons.unpublish.visible"
-                      :disabled="
-                        getCongressmanBudgetState(congressmanBudget).buttons.unpublish.disabled
-                      "
-                      classes="btn btn-micro btn-danger col-sm-4"
-                      :title="getCongressmanBudgetState(congressmanBudget).buttons.unpublish.title"
-                      :model="congressmanBudget"
-                      swal-title="Confirma a DESPUBLICAÇÃO deste Orçamento Mensal?"
-                      label="despublicar"
-                      icon="fa fa-ban"
-                      store="congressmanBudgets"
-                      method="unpublish"
-                    >
-                    </app-action-button>
-
-                    <app-audits-button
-                      model="congressmanBudgets"
-                      class="col-sm-4"
-                      :row="congressmanBudget"
-                    ></app-audits-button>
-                  </div>
-                </b-card-text>
+                  <app-audits-button
+                    model="congressmanBudgets"
+                    class="col-sm-4"
+                    :row="congressmanBudget"
+                  ></app-audits-button>
+                </div>
               </b-card-body>
             </b-collapse>
           </div>

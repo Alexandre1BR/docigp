@@ -142,12 +142,9 @@
                 </div>
               </div>
             </div>
-            <div class="card-footer border-0 col-12">
+            <div v-if="can('congressman:show')" class="card-footer border-0 col-12">
               <div class="row">
-                <div
-                  v-if="can('congressman:show')"
-                  class="col-4 text-center d-flex align-items-center"
-                >
+                <div class="col-4 text-center d-flex align-items-center">
                   <app-active-badge
                     :value="congressman.has_mandate"
                     :labels="['com mandato', 'sem mandato ']"
