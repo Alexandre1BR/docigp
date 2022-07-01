@@ -109,7 +109,7 @@
       <div class="d-lg-none">
         <app-table :pagination="pagination" @goto-page="gotoPage($event)">
           <div
-            class="card card-parlamentar mb-3"
+            class="card card-parlamentar mb-1"
             @click="selectCongressman(congressman)"
             v-for="congressman in congressmen.data.rows"
             :class="{

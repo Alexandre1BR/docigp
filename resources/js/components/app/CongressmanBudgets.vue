@@ -242,11 +242,12 @@
           <div
             @click="selectCongressmanBudget(congressmanBudget)"
             v-for="congressmanBudget in congressmanBudgets.data.rows"
+            class="mb-1"
           >
             <b-card no-body>
               <div class="card-header-custom">
                 <b-button
-                  class="w-100 p-0 mb-0"
+                  class="w-100 p-0"
                   v-b-toggle="'congressmanBudget' + congressmanBudget.id"
                   variant="light"
                 >
@@ -270,7 +271,7 @@
                               ? 'Analisado'
                               : congressmanBudget.closed_at
                               ? 'Fechado'
-                              : 'Privado'
+                              : 'Aberto'
                           }}
                         </span>
                       </div>
@@ -292,28 +293,59 @@
 
                 <p v-if="can('congressman-budgets:show')" class="card-text">
                   Status:<br />
-                  <p class="card-text d-flex justify-content-center">
-                      <app-status-badge
+                  <span class="card-text" v-if="congressmanBudget.closed_at">
+                      <app-badge
                         class="text-uppercase w-25"
-                        :rows="[
-                          {
-                            value: congressmanBudget.closed_at,
-                            title: 'Fechado: ',
-                            labels: ['sim', 'não'],
-                          },
-                          {
-                            value: congressmanBudget.analysed_at,
-                            title: 'Analisado: ',
-                            labels: ['sim', 'não'],
-                          },
-                          {
-                            value: congressmanBudget.published_at,
-                            title: 'Publicidade: ',
-                            labels: ['público', 'privado'],
-                          },
-                        ]"
-                      ></app-status-badge>
-                    </p>
+                        color="#38c172,#FFFFFF"
+                        padding="1"
+                        
+                      >Fechado</app-badge>
+                    </span>
+
+                    <span class="card-text" v-if="!congressmanBudget.closed_at">
+                      <app-badge
+                        class="text-uppercase w-25"
+                        color="#e3342f,#FFFFFF"
+                        padding="1"
+                        
+                      >Fechado</app-badge>
+                    </span>
+
+                    <span class="card-text" v-if="congressmanBudget.analysed_at">
+                      <app-badge
+                        class="text-uppercase w-25"
+                        color="#38c172,#FFFFFF"
+                        padding="1"
+                        
+                      >Analisado</app-badge>
+                    </span>
+
+                    <span class="card-text" v-if="!congressmanBudget.analysed_at">
+                      <app-badge
+                        class="text-uppercase w-25"
+                        color="#e3342f,#FFFFFF"
+                        padding="1"
+                        
+                      >Analisado</app-badge>
+                    </span>
+
+                    <span class="card-text" v-if="congressmanBudget.published_at">
+                      <app-badge
+                        class="text-uppercase w-25"
+                        color="#38c172,#FFFFFF"
+                        padding="1"
+                        
+                      >Público</app-badge>
+                    </span>
+
+                    <span class="card-text" v-if="!congressmanBudget.published_at">
+                      <app-badge
+                        class="text-uppercase w-25"
+                        color="#e3342f,#FFFFFF"
+                        padding="1"
+                        
+                      >Privado</app-badge>
+                    </span>
                 </p>
                 
                 <p v-if="can('congressman-budgets:show')" class="card-text">
