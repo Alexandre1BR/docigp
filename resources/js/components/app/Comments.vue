@@ -14,6 +14,48 @@
                 v-if="environment.user != null"
                 :isLoading="tableLoading"
             >
+
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-11">
+                                <div class="row">
+                                    <div class="col-4">
+                                        <p class="font-weight-bold mb-3">
+                                            Keila Abrantes
+                                        </p>
+
+                                    </div>
+                                    <div class="col-4">
+                                        <p class="font-weight-bold mb-3">
+                                            16/11/2021
+                                        </p>
+                                    </div>
+
+                                    <div class="col-4">
+                                        <p class="font-weight-bold mb-3">
+                                            # 2478
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        R$ 55,00 - Nota fiscal n.º 00161650 emitida em 12/11 e lançada em 19/08/2021. ( Verificar duplicidade de lançamento)
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-1">
+                                <button title="Editar comentário" dusk="editComment" class="btn btn-micro btn-primary"><i class="fa fa-edit"></i></button> <button title="Deletar Comentário" class="button btn btn-micro btn-danger"><span class="fa fa-trash"> </span></button>
+                                <button title="Logs" type="button" class="btn justify-content-center btn btn-micro btn-primary button btn-secondary">
+                                    <i class="fas fa-clipboard-list"></i> <!---->
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
                 <template slot="buttons">
                     <button
                         v-if="can('entry-comments:store')"

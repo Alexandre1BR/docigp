@@ -63,50 +63,50 @@
                                 <b-card-header header-tag="header" role="tab">
                                     <b-button v-b-toggle="'entry' + entry.id" block variant="light">
                                         <thead>
-                                            <tr>
-                                                <th
-                                                    v-if="can('tables:view-ids')"
-                                                    class="text-center"
-                                                    style="width: 300px"
-                                                >
-                                                    <span>#</span>
-                                                </th>
-                                                <th class="text-center" style="width: 300px">
-                                                    <span> Data </span>
-                                                </th>
-                                                <th class="text-center" style="width: 300px">
-                                                    <span> Objeto </span>
-                                                </th>
-                                                <th class="text-center" style="width: 300px">
-                                                    <span> Favorecido </span>
-                                                </th>
-                                            </tr>
+                                        <tr>
+                                            <th
+                                                v-if="can('tables:view-ids')"
+                                                class="text-center"
+                                                style="width: 300px"
+                                            >
+                                                <span>#</span>
+                                            </th>
+                                            <th class="text-center" style="width: 300px">
+                                                <span> Data </span>
+                                            </th>
+                                            <th class="text-center" style="width: 300px">
+                                                <span> Objeto </span>
+                                            </th>
+                                            <th class="text-center" style="width: 300px">
+                                                <span> Favorecido </span>
+                                            </th>
+                                        </tr>
                                         </thead>
                                         <tbody>
-                                            <td
-                                                v-if="can('tables:view-ids')"
-                                                class="align-middle text-center"
-                                            >
-                                                {{ entry.id }}
-                                            </td>
-                                            <td class="align-middle text-center">
-                                                {{ entry.date_formatted }}
-                                            </td>
+                                        <td
+                                            v-if="can('tables:view-ids')"
+                                            class="align-middle text-center"
+                                        >
+                                            {{ entry.id }}
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            {{ entry.date_formatted }}
+                                        </td>
 
-                                            <td class="align-middle text-center">
-                                                {{ entry.object }}<br />
-                                                <span>
+                                        <td class="align-middle text-center">
+                                            {{ entry.object }}<br />
+                                            <span>
                                                     <small class="text-primary">
                                                         {{ entry.cost_center_code }}
                                                         -
                                                         {{ entry.cost_center_name_formatted }}
                                                     </small>
                                                 </span>
-                                            </td>
+                                        </td>
 
-                                            <td class="align-middle text-center">
-                                                {{ entry.name }}
-                                                <span v-if="entry.cpf_cnpj">
+                                        <td class="align-middle text-center">
+                                            {{ entry.name }}
+                                            <span v-if="entry.cpf_cnpj">
                                                     <br />
                                                     <small class="text-primary">
                                                         {{ entry.cpf_cnpj }}
@@ -120,7 +120,7 @@
                                                         </b>
                                                     </small>
                                                 </span>
-                                            </td>
+                                        </td>
                                         </tbody>
                                     </b-button>
                                 </b-card-header>
@@ -177,13 +177,13 @@
                                                     color="#e3342f,#FFFFFF"
                                                     padding="1"
                                                 >
-                                                    <div
-                                                        class="text-uppercase"
-                                                        v-for="pendency in entry.pendencies"
-                                                    >
-                                                        &bull; {{ pendency }}
-                                                    </div>
-                                                </app-badge>
+                                            <div
+                                                class="text-uppercase"
+                                                v-for="pendency in entry.pendencies"
+                                            >
+                                                &bull; {{ pendency }}
+                                            </div>
+                                            </app-badge>
                                             </p>
                                             <hr />
                                         </div>
@@ -217,34 +217,34 @@
                                             <hr />
                                         </div>
 
-                                       <b-card no-body class="mb-1">
-                                        <b-card-header header-tag="header" class="p-1" role="tab">
-                                            <b-button class="pb-2 selected" block v-b-toggle.documents><h5 class="mt-2">Documentos
-                                            </h5><p class="mb-1">{{ entry.documents_count }}</p></b-button>
-                                        </b-card-header>
-                                        <b-collapse id="documents" accordion="documents" role="tabpanel">
-                                            <b-card-body>
-                                                <b-card-text>
-                                                    <app-documents v-if="entries.selected.id"></app-documents>
-                                                </b-card-text>
-                                            </b-card-body>
-                                        </b-collapse>
+                                        <b-card no-body class="mb-1">
+                                            <b-card-header header-tag="header" class="p-1" role="tab">
+                                                <b-button class="pb-2 selected" block v-b-toggle.documents><h5 class="mt-2">Documentos
+                                                </h5><p class="mb-1">{{ entry.documents_count }}</p></b-button>
+                                            </b-card-header>
+                                            <b-collapse id="documents" accordion="documents" role="tabpanel">
+                                                <b-card-body>
+                                                    <b-card-text>
+                                                        <app-documents v-if="entries.selected.id"></app-documents>
+                                                    </b-card-text>
+                                                </b-card-body>
+                                            </b-collapse>
                                         </b-card>
-                               
+
                                         <div v-if="can('entries:show')"><hr /></div>
 
                                         <b-card no-body class="mb-1">
-                                        <b-card-header header-tag="header" class="p-1" role="tab">
-                                            <b-button class="pb-2 selected" block v-b-toggle.comments><h5 class="mt-2">Comentários
-                                            </h5><p class="mb-1">{{ entry.comments_count }}</p></b-button>
-                                        </b-card-header>
-                                        <b-collapse id="comments" accordion="comments" role="tabpanel">
-                                            <b-card-body>
-                                                <b-card-text>
-                                                    <app-comments v-if="entries.selected.id"></app-comments>
-                                                </b-card-text>
-                                            </b-card-body>
-                                        </b-collapse>
+                                            <b-card-header header-tag="header" class="p-1" role="tab">
+                                                <b-button class="pb-2 selected" block v-b-toggle.comments><h5 class="mt-2">Comentários
+                                                </h5><p class="mb-1">{{ entry.comments_count }}</p></b-button>
+                                            </b-card-header>
+                                            <b-collapse id="comments" accordion="comments" role="tabpanel">
+                                                <b-card-body>
+                                                    <b-card-text>
+                                                        <app-comments v-if="entries.selected.id"></app-comments>
+                                                    </b-card-text>
+                                                </b-card-body>
+                                            </b-collapse>
                                         </b-card>
 
                                         <div v-if="can('entries:show')"><hr /></div>
@@ -410,7 +410,127 @@
 
             <!-- End Mobile Version -->
 
+
+            <!-- Start Desktop Version -->
             <div class="d-none d-lg-block">
+
+
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-2">
+                                # 17017
+                            </div>
+                            <div class="col-2">
+                                Data: 31/03/2021
+                            </div>
+                            <div class="col-2">
+                                Valor: R$ -25.055,00
+                            </div>
+                            <div class="col-2">
+                                Pendências:
+                                <div class="badge  p-1 m-1" style="text-transform: none; background-color: rgb(56, 193, 114); color: rgb(255, 255, 255);">
+                                    não
+                                </div>
+                            </div>
+
+                            <div class="col-2">
+                                Tipo:
+                                <span class="badge badge-success">
+                            transporte
+                          </span>
+                            </div>
+                            <div class="col-2">
+                                Meio:
+                                <span class="badge badge-success">
+                            transporte
+                          </span>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="card-body">
+
+                        <div class="row">
+
+                            <div class="col-3">
+<!--                                <p class="font-weight-bold mb-3">
+                                    Objeto:
+                                </p>-->
+                                Transporte de saldo para o próximo período<br>
+                                <span>
+                          <small class="text-primary">
+                              2 - Transporte de saldo acumulado para o próximo período
+                          </small>
+                      </span>
+                            </div>
+
+                            <div class="col-3">
+<!--                                <p class="font-weight-bold mb-3">
+                                    Favorecido:
+                                </p>-->
+
+                                VELOZ TRANSRIO TRANSPORTE LTDA.
+                                <span><br> <small class="text-primary">
+                                CNPJ: 00.530.512/0001-60
+                                <b class="text-danger">
+
+                                </b></small></span>
+                            </div>
+
+                            <div class="col-3">
+<!--                                <p class="font-weight-bold mb-3">
+                                    Status:
+                                </p>-->
+                                <div class="text-uppercase"  style="font-size: 9.6px; font-weight: 700;">
+
+                                    <div class="mb-3">
+                                        Verificado:
+                                        <span class="badge-success rounded-top p-1">
+                                            sim
+                                        </span>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        Analisado:
+                                        <span class="badge-success rounded-0 p-1">
+                                            sim
+                                        </span>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        Publicidade:
+                                        <span class="badge-danger rounded-bottom p-1">
+                                            privado
+                                        </span>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-3">
+<!--                                <p class="font-weight-bold mb-3">
+                                    Açôes:
+                                </p>-->
+                                <div class="form-row justify-content-center">
+                                    <!----> <button disabled="disabled" title="O orçamento mensal está fechado" class="button col-xl-3 col-lg-5 btn btn-micro btn-warning"><span class="fa fa-ban"> verificado</span></button> <!----> <button title="Cancelar marcação de 'analisado'" class="button col-xl-3 col-lg-5 btn btn-micro btn-danger"><span class="fa fa-ban"> analisado</span></button> <!----> <button title="Remover do Portal da Transparência" class="button col-xl-3 col-lg-5 btn btn-micro btn-danger"><span class="fa fa-ban"> despublicar</span></button>
+                                    <div class="col-md-12 text-center">
+                                        <button disabled="disabled" title="O orçamento mensal está fechado" class="button btn btn-micro  btn-danger smallButton"><span class="fa fa-trash"> </span></button> <button title="O orçamento mensal está fechado" class="btn btn-micro btn-primary button smallButton"><i class="fa fa-edit"></i></button>
+                                        <button title="Logs" type="button" class="btn justify-content-center btn btn-micro btn-primary button smallButton btn-secondary">
+                                            <i class="fas fa-clipboard-list"></i> <!---->
+                                        </button>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+
+
                 <app-table
                     :pagination="pagination"
                     @goto-page="gotoPage($event)"
@@ -418,6 +538,9 @@
                     statusSize="1"
                     actionsSize="2"
                 >
+
+
+
                     <tr
                         @click="selectEntry(entry)"
                         v-for="entry in entries.data.rows"

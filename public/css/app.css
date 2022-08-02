@@ -16357,6 +16357,7 @@ button.bg-gray-darkest:focus {
 }
 
 .position-sticky {
+  position: -webkit-sticky !important;
   position: sticky !important;
 }
 
@@ -16376,8 +16377,9 @@ button.bg-gray-darkest:focus {
   z-index: 1030;
 }
 
-@supports (position: sticky) {
+@supports ((position: -webkit-sticky) or (position: sticky)) {
   .sticky-top {
+    position: -webkit-sticky;
     position: sticky;
     top: 0;
     z-index: 1020;
@@ -19507,6 +19509,99 @@ h1,
 .prestacaodecontas .table-hover tbody tr:hover {
   color: #212529 !important;
   background-color: rgba(0, 0, 0, 0.075) !important;
+}
+
+.card {
+  z-index: -1000;
+}
+
+/*form styles*/
+#msform {
+  width: 100%;
+  margin: auto;
+  text-align: center;
+  position: relative;
+}
+
+/*progressbar*/
+#progressbar {
+  overflow: hidden;
+  /*CSS counters to number the steps*/
+  counter-reset: step;
+  margin-bottom: 0 !important;
+  -webkit-padding-start: 0;
+          padding-inline-start: 0;
+}
+
+#progressbar li {
+  list-style-type: none;
+  /*color: #2f5071;*/
+  text-transform: uppercase;
+  font-size: 12px;
+  font-weight: bolder;
+  width: 33.33%;
+  float: left;
+  position: relative;
+}
+
+#progressbar li:before {
+  content: "X";
+  /*counter-increment: step;*/
+  width: 30px;
+  line-height: 30px;
+  display: block;
+  font-size: 14px;
+  color: #fff;
+  background: #6894c0;
+  border-radius: 30px;
+  margin: 0 auto 5px auto;
+}
+
+/*
+
+li:before {
+    content: counter(step);
+    counter-increment: step;
+    width: 40px;
+    line-height: 40px;
+    display: block;
+    font-size: 20px;
+    color: #fff;
+    background: #6894c0;
+    border-radius: 30px;
+    margin: 0 auto 5px auto;
+}
+
+*/
+/*progressbar connectors*/
+#progressbar li:after {
+  content: "";
+  width: 100%;
+  height: 4px;
+  background: #3e6a95;
+  position: absolute;
+  left: -50%;
+  top: 14px;
+  z-index: -1;
+  /*put it behind the numbers*/
+}
+
+#progressbar li:first-child:after {
+  /*connector not needed before the first step*/
+  content: none;
+}
+
+/*marking active/completed steps green*/
+/*The number of the step and the connector before it = green*/
+#progressbar li.active:before {
+  content: "✓";
+  background: #27AE60;
+  color: white;
+}
+
+#progressbar li.active:after {
+  background: #27AE60;
+  color: white;
 }
 
 .logo-alerj {
