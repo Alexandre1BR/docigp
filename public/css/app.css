@@ -19515,6 +19515,20 @@ h1,
   z-index: -1000;
 }
 
+.id-onlyadmin {
+  position: relative;
+  top: -45px;
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-bottom: none;
+  border-radius: 5px 5px 0 0;
+  padding-top: 8px;
+  padding-bottom: 0;
+}
+.id-onlyadmin .id-number {
+  margin-bottom: 0px !important;
+}
+
 /*form styles*/
 #msform {
   width: 100%;

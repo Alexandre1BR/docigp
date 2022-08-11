@@ -22,10 +22,10 @@
             <div class="card mb-3">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-12 col-lg-2 text-center">
-                            <p class="font-weight-bold mb-3">
+                        <div class="id-onlyadmin offset-4 col-4 col-lg-2 text-center">
+                            <div class="font-weight-bold mb-3 id-number">
                                 # 66822
-                            </p>
+                            </div>
                         </div>
 
                         <div class="col-6 col-lg-2 text-center">
