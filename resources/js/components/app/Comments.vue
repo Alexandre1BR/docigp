@@ -17,24 +17,23 @@
 
                 <div class="card mb-3">
                     <div class="card-body">
+                        <div class="row row-visible-onlyadmin">
+                            <div class="id-onlyadmin offset-4 col-4  text-center">
+                                # 17017
+                            </div>
+                        </div>
+
                         <div class="row">
                             <div class="col-11">
                                 <div class="row">
-                                    <div class="col-4">
+                                    <div class="col-6">
                                         <p class="font-weight-bold mb-3">
                                             Keila Abrantes
                                         </p>
-
                                     </div>
-                                    <div class="col-4">
+                                    <div class="col-6">
                                         <p class="font-weight-bold mb-3">
                                             16/11/2021
-                                        </p>
-                                    </div>
-
-                                    <div class="col-4">
-                                        <p class="font-weight-bold mb-3">
-                                            # 2478
                                         </p>
                                     </div>
                                 </div>

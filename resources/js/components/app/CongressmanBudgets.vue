@@ -22,13 +22,16 @@
             <div class="card mb-3">
                 <div class="card-body">
                     <div class="row">
-                        <div class="id-onlyadmin offset-4 col-4 col-lg-2 text-center">
+                        <div class="id-onlyadmin offset-4 col-4 offset-lg-5 col-lg-2 text-center">
                             <div class="font-weight-bold mb-3 id-number">
                                 # 66822
                             </div>
                         </div>
+                    </div>
 
-                        <div class="col-6 col-lg-2 text-center">
+
+                    <div class="row">
+                        <div class="col-6 col-lg-3 text-center">
                             <p class="font-weight-bold mb-3">
                                 2021 / 12
                             </p>
@@ -40,7 +43,7 @@
                             </p>
                         </div>
 
-                        <div class="col-6 col-lg-2 text-center">
+                        <div class="col-6 col-lg-3 text-center">
                             <p class="font-weight-bold mb-3">
                             Pendências:
                             <span class="badge  p-1 m-1" style="text-transform: none; background-color: rgb(56, 193, 114); color: rgb(255, 255, 255);">
@@ -49,7 +52,7 @@
                             </p>
                         </div>
 
-                        <div class="col-6 col-lg-2 text-center">
+                        <div class="col-6 col-lg-3 text-center">
                             <p class="font-weight-bold mb-3">
                                 Lançamentos: 1
                             </p>

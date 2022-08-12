@@ -27,48 +27,44 @@
 
             <div class="card mb-3">
                 <div class="card-body">
-                    <div class="row">
-                        <div class="col-2">
-                            <p class="font-weight-bold mb-3">
-                                Número:
-                            </p>
-                           66822
+
+                    <div class="row row-visible-onlyadmin">
+                        <div class="id-onlyadmin offset-4 col-4 offset-lg-5 col-lg-2 text-center">
+                            # 17017
                         </div>
-                        <div class="col-3">
-                            <p class="font-weight-bold mb-3">
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-4">
+<!--                            <p class="font-weight-bold mb-3">
                                 Documento:
-                            </p>
+                            </p>-->
                             papelex 302.40 .pdf
                         </div>
-                        <div class="col-3">
-                            <p class="font-weight-bold mb-3">
+                        <div class="col-4">
+<!--                            <p class="font-weight-bold mb-3">
                                 Status:
-                            </p>
+                            </p>-->
                             <div class="text-uppercase" style="font-size: 9.6px; font-weight: 700;">
                                 <div class="mb-3">
                                     Verificado:
-                                    <span class="badge-success rounded-top p-1">
-                  sim
-                  </span>
+                                    <span class="badge-success rounded-top p-1">sim</span>
                                 </div>
                                 <div class="mb-3">
                                     Analisado:
-                                    <span class="badge-success rounded-0 p-1">
-                  sim
-                  </span>
+                                    <span class="badge-success rounded-0 p-1">sim</span>
                                 </div>
                                 <div class="mb-3">
                                     Publicidade:
-                                    <span class="badge-danger rounded-bottom p-1">
-                  privado
-                  </span>
+                                    <span class="badge-danger rounded-bottom p-1">privado</span>
                                 </div>
                             </div>
                         </div>
                         <div class="col-4">
-                            <p class="font-weight-bold mb-3">
+<!--                            <p class="font-weight-bold mb-3">
                                 Açôes:
-                            </p>
+                            </p>-->
                             <div class="form-row justify-content-center">
                                 <button disabled="disabled" title="O orçamento mensal está fechado" class="button col-xl-3 col-lg-5 btn btn-micro btn-warning"><span class="fa fa-ban"> verificado</span></button> <button title="Cancelar marcação de 'analisado'" class="button col-xl-3 col-lg-5 btn btn-micro btn-danger"><span class="fa fa-ban"> analisado</span></button> <button title="Remover do Portal da Transparência" class="button col-xl-3 col-lg-5 btn btn-micro btn-danger"><span class="fa fa-ban"> despublicar</span></button>
                                 <div class="col-md-12 text-center"><button disabled="disabled" title="O orçamento mensal está fechado" class="button btn btn-micro  btn-danger smallButton"><span class="fa fa-trash"></span></button> <button title="O orçamento mensal está fechado" class="btn btn-micro btn-primary button smallButton"><i class="fa fa-edit"></i></button> <button title="Logs" type="button" class="btn justify-content-center btn btn-micro btn-primary button smallButton btn-secondary"><i class="fas fa-clipboard-list"></i></button></div>

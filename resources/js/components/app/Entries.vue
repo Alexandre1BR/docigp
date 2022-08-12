@@ -411,123 +411,124 @@
             <!-- End Mobile Version -->
 
 
-            <!-- Start Desktop Version -->
-            <div class="d-none d-lg-block">
+            Teste 4
+            <div class="card mb-3">
 
+                <div class="card-body">
 
-                <div class="card mb-3">
-                    <div class="card-header">
-                        <div class="row">
-                            <div class="col-2">
-                                # 17017
-                            </div>
-                            <div class="col-2">
-                                Data: 31/03/2021
-                            </div>
-                            <div class="col-2">
-                                Valor: R$ -25.055,00
-                            </div>
-                            <div class="col-2">
-                                Pendências:
-                                <div class="badge  p-1 m-1" style="text-transform: none; background-color: rgb(56, 193, 114); color: rgb(255, 255, 255);">
-                                    não
-                                </div>
-                            </div>
-
-                            <div class="col-2">
-                                Tipo:
-                                <span class="badge badge-success">
-                            transporte
-                          </span>
-                            </div>
-                            <div class="col-2">
-                                Meio:
-                                <span class="badge badge-success">
-                            transporte
-                          </span>
-                            </div>
-
+                    <div class="row row-visible-onlyadmin">
+                        <div class="id-onlyadmin offset-4 col-4 offset-lg-5 col-lg-2 text-center">
+                            # 17017
                         </div>
                     </div>
-                    <div class="card-body">
 
-                        <div class="row">
+                    <div class="row mb-3">
 
-                            <div class="col-3">
-<!--                                <p class="font-weight-bold mb-3">
-                                    Objeto:
-                                </p>-->
-                                Transporte de saldo para o próximo período<br>
-                                <span>
+                        <div class="col-2">
+                            Data: 31/03/2021
+                        </div>
+                        <div class="col-2">
+                            Valor: R$ -25.055,00
+                        </div>
+                        <div class="col-2">
+                            Pendências:
+                            <div class="badge  p-1 m-1" style="text-transform: none; background-color: rgb(56, 193, 114); color: rgb(255, 255, 255);">
+                                não
+                            </div>
+                        </div>
+
+                        <div class="col-2">
+                            Tipo:
+                            <span class="badge badge-success">
+                            transporte
+                          </span>
+                        </div>
+                        <div class="col-2">
+                            Meio:
+                            <span class="badge badge-success">
+                            transporte
+                          </span>
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-3">
+                            Transporte de saldo para o próximo período<br>
+                            <span>
                           <small class="text-primary">
                               2 - Transporte de saldo acumulado para o próximo período
                           </small>
                       </span>
-                            </div>
+                        </div>
 
-                            <div class="col-3">
-<!--                                <p class="font-weight-bold mb-3">
-                                    Favorecido:
-                                </p>-->
+                        <div class="col-3">
+                            <!--                                <p class="font-weight-bold mb-3">
+                                                                Favorecido:
+                                                            </p>-->
 
-                                VELOZ TRANSRIO TRANSPORTE LTDA.
-                                <span><br> <small class="text-primary">
+                            VELOZ TRANSRIO TRANSPORTE LTDA.
+                            <span><br> <small class="text-primary">
                                 CNPJ: 00.530.512/0001-60
                                 <b class="text-danger">
 
                                 </b></small></span>
-                            </div>
+                        </div>
 
-                            <div class="col-3">
-<!--                                <p class="font-weight-bold mb-3">
-                                    Status:
-                                </p>-->
-                                <div class="text-uppercase"  style="font-size: 9.6px; font-weight: 700;">
+                        <div class="col-3">
+                            <!--                                <p class="font-weight-bold mb-3">
+                                                                Status:
+                                                            </p>-->
+                            <div class="text-uppercase"  style="font-size: 9.6px; font-weight: 700;">
 
-                                    <div class="mb-3">
-                                        Verificado:
-                                        <span class="badge-success rounded-top p-1">
+                                <div class="mb-3">
+                                    Verificado:
+                                    <span class="badge-success rounded-top p-1">
                                             sim
                                         </span>
-                                    </div>
+                                </div>
 
-                                    <div class="mb-3">
-                                        Analisado:
-                                        <span class="badge-success rounded-0 p-1">
+                                <div class="mb-3">
+                                    Analisado:
+                                    <span class="badge-success rounded-0 p-1">
                                             sim
                                         </span>
-                                    </div>
+                                </div>
 
-                                    <div class="mb-3">
-                                        Publicidade:
-                                        <span class="badge-danger rounded-bottom p-1">
+                                <div class="mb-3">
+                                    Publicidade:
+                                    <span class="badge-danger rounded-bottom p-1">
                                             privado
                                         </span>
-                                    </div>
-
                                 </div>
+
                             </div>
+                        </div>
 
-                            <div class="col-3">
-<!--                                <p class="font-weight-bold mb-3">
-                                    Açôes:
-                                </p>-->
-                                <div class="form-row justify-content-center">
-                                    <!----> <button disabled="disabled" title="O orçamento mensal está fechado" class="button col-xl-3 col-lg-5 btn btn-micro btn-warning"><span class="fa fa-ban"> verificado</span></button> <!----> <button title="Cancelar marcação de 'analisado'" class="button col-xl-3 col-lg-5 btn btn-micro btn-danger"><span class="fa fa-ban"> analisado</span></button> <!----> <button title="Remover do Portal da Transparência" class="button col-xl-3 col-lg-5 btn btn-micro btn-danger"><span class="fa fa-ban"> despublicar</span></button>
-                                    <div class="col-md-12 text-center">
-                                        <button disabled="disabled" title="O orçamento mensal está fechado" class="button btn btn-micro  btn-danger smallButton"><span class="fa fa-trash"> </span></button> <button title="O orçamento mensal está fechado" class="btn btn-micro btn-primary button smallButton"><i class="fa fa-edit"></i></button>
-                                        <button title="Logs" type="button" class="btn justify-content-center btn btn-micro btn-primary button smallButton btn-secondary">
-                                            <i class="fas fa-clipboard-list"></i> <!---->
-                                        </button>
-                                    </div>
+                        <div class="col-3">
+                            <!--                                <p class="font-weight-bold mb-3">
+                                                                Açôes:
+                                                            </p>-->
+                            <div class="form-row justify-content-center">
+                                <!----> <button disabled="disabled" title="O orçamento mensal está fechado" class="button col-xl-3 col-lg-5 btn btn-micro btn-warning"><span class="fa fa-ban"> verificado</span></button> <!----> <button title="Cancelar marcação de 'analisado'" class="button col-xl-3 col-lg-5 btn btn-micro btn-danger"><span class="fa fa-ban"> analisado</span></button> <!----> <button title="Remover do Portal da Transparência" class="button col-xl-3 col-lg-5 btn btn-micro btn-danger"><span class="fa fa-ban"> despublicar</span></button>
+                                <div class="col-md-12 text-center">
+                                    <button disabled="disabled" title="O orçamento mensal está fechado" class="button btn btn-micro  btn-danger smallButton"><span class="fa fa-trash"> </span></button> <button title="O orçamento mensal está fechado" class="btn btn-micro btn-primary button smallButton"><i class="fa fa-edit"></i></button>
+                                    <button title="Logs" type="button" class="btn justify-content-center btn btn-micro btn-primary button smallButton btn-secondary">
+                                        <i class="fas fa-clipboard-list"></i> <!---->
+                                    </button>
                                 </div>
-
                             </div>
 
                         </div>
-
                     </div>
                 </div>
+            </div>
+
+            <!-- Start Desktop Version -->
+            <div class="d-none d-lg-block">
+
 
 
 
