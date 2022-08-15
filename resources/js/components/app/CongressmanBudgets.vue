@@ -21,7 +21,7 @@
 
             <div class="card mb-3">
                 <div class="card-body">
-                    <div class="row">
+                    <div class="row row-visible-onlyadmin">
                         <div class="id-onlyadmin offset-4 col-4 offset-lg-5 col-lg-2 text-center">
                             <div class="font-weight-bold mb-3 id-number">
                                 # 66822

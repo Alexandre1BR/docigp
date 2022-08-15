@@ -130,10 +130,12 @@ h1,
 }
 
 
-
-.id-onlyadmin {
+.row-visible-onlyadmin {
     position: relative;
     top: -45px;
+}
+
+.id-onlyadmin {
     background: #ffffff;
     border: 1px solid rgba(0, 0, 0, 0.125);
     border-bottom: none;
